@@ -1,0 +1,86 @@
+---
+import MainLayout from '../../../layouts/MainLayout.astro';
+import BlogCard from '../../../components/BlogCard.astro';
+import CategoryFilter from '../../../components/CategoryFilter.astro';
+
+export function getStaticPaths() {
+  const categories = ['naturopathie', 'bien-etre', 'animaux', 'nutrition'];
+  return categories.map(category => ({ params: { category } }));
+}
+
+const { category } = Astro.params;
+const categories = ['Naturopathie', 'Bien-être', 'Animaux', 'Nutrition'];
+
+const allArticles = [
+  {
+    title: 'Les bienfaits de la phytothérapie au quotidien',
+    excerpt: 'Découvrez comment les plantes médicinales peuvent améliorer votre santé et votre bien-être quotidien.',
+    image: '/images/blog/phytotherapie.jpg',
+    category: 'Naturopathie',
+    date: '15 avril 2024',
+    slug: 'bienfaits-phytotherapie-quotidien'
+  },
+  {
+    title: 'Alimentation naturelle pour votre animal',
+    excerpt: 'Guide complet pour une alimentation saine et équilibrée adaptée aux besoins de votre compagnon.',
+    image: '/images/blog/alimentation-animale.jpg',
+    category: 'Animaux',
+    date: '10 avril 2024',
+    slug: 'alimentation-naturelle-animaux'
+  },
+  {
+    title: 'Gérer son stress naturellement',
+    excerpt: 'Techniques et conseils naturels pour mieux gérer le stress et retrouver la sérénité.',
+    image: '/images/blog/gestion-stress.jpg',
+    category: 'Bien-être',
+    date: '5 avril 2024',
+    slug: 'gerer-stress-naturellement'
+  },
+  {
+    title: 'Les bases d\'une nutrition équilibrée en naturopathie',
+    excerpt: 'Découvrez les principes fondamentaux d\'une alimentation saine selon la naturopathie.',
+    image: '/images/blog/nutrition.jpg',
+    category: 'Nutrition',
+    date: '1 avril 2024',
+    slug: 'nutrition-equilibree-naturopathie'
+  }
+];
+
+const articles = allArticles.filter(article => 
+  article.category.toLowerCase().replace('-', '') === category.replace('-', '')
+);
+---
+
+<MainLayout
+  title={`Blog - ${category}`}
+  description={`Articles sur ${category} - Conseils et actualités en naturopathie`}
+>
+  <div class="pt-24">
+    <section class="py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12" data-aos="fade-up">
+            <h1 class="text-5xl font-medium mb-6">
+              Articles sur {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+            </h1>
+            <div class="w-20 h-1 bg-primary mx-auto mb-8"></div>
+          </div>
+
+          <CategoryFilter categories={categories} activeCategory={category} />
+
+          <div class="grid md:grid-cols-2 gap-8">
+            {articles.map(article => (
+              <BlogCard {...article} />
+            ))}
+          </div>
+
+          {articles.length === 0 && (
+            <div class="text-center text-gray-600 py-12">
+              Aucun article dans cette catégorie pour le moment.
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  </div>
+</MainLayout>

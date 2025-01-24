@@ -1,0 +1,70 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  pdf_path?: string;
+  category: string;
+  created_at: string;
+}
+
+const { id, title, description, price, category, created_at } = Astro.props;
+const defaultImage = '/images/default-pdf-cover.jpg';
+---
+
+<article 
+  class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+  data-aos="fade-up"
+>
+  <div class="aspect-w-4 aspect-h-3 relative bg-sage/5">
+    <div class="absolute inset-0 flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-sage/20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+      </svg>
+    </div>
+  </div>
+  <div class="p-6">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="text-sm bg-sage/10 text-sage px-2 py-1 rounded-full">
+        {category}
+      </span>
+    </div>
+    <h3 class="text-xl font-heading mb-2">{title}</h3>
+    <p class="text-ebony/70 mb-4 line-clamp-2">{description}</p>
+    <div class="flex items-center justify-between">
+      <span class="text-xl font-heading text-gold">{price.toFixed(2)}€</span>
+      <button
+        class="bg-sage text-white px-4 py-2 rounded-full hover:bg-sage/90 transition-colors"
+        data-add-to-cart
+        data-product={JSON.stringify({ id, title, price })}
+      >
+        Ajouter au panier
+      </button>
+    </div>
+  </div>
+</article>
+
+<script>
+  // Gestion de l'ajout au panier avec feedback
+  document.querySelectorAll('[data-add-to-cart]').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const btn = e.currentTarget as HTMLButtonElement;
+      const product = JSON.parse(btn.dataset.product || '{}');
+      
+      // Animation de feedback
+      btn.classList.add('bg-gold');
+      btn.textContent = 'Ajouté !';
+      
+      setTimeout(() => {
+        btn.classList.remove('bg-gold');
+        btn.textContent = 'Ajouter au panier';
+      }, 1500);
+      
+      // Dispatch de l'événement d'ajout au panier
+      window.dispatchEvent(new CustomEvent('add-to-cart', {
+        detail: product
+      }));
+    });
+  });
+</script>

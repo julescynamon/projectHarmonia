@@ -1,0 +1,97 @@
+---
+
+import LoadingSpinner from '../components/LoadingSpinner.astro';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<LoadingSpinner />
+		<slot />
+		
+		<style is:global>
+			:root {
+				--accent: 136, 58, 234;
+				--accent-light: 224, 204, 250;
+				--accent-dark: 49, 10, 101;
+				--accent-gradient: linear-gradient(
+					45deg,
+					rgb(var(--accent)),
+					rgb(var(--accent-light)) 30%,
+					white 60%
+				);
+			}
+			html {
+				font-family: system-ui, sans-serif;
+				background: #13151a;
+			}
+			code {
+				font-family:
+					Menlo,
+					Monaco,
+					Lucida Console,
+					Liberation Mono,
+					DejaVu Sans Mono,
+					Bitstream Vera Sans Mono,
+					Courier New,
+					monospace;
+			}
+		</style>
+
+		<script is:inline>
+			// Événements de navigation Astro
+			document.addEventListener('astro:before-preparation', () => {
+				console.log('Navigation started');
+			});
+
+			document.addEventListener('astro:after-preparation', () => {
+				console.log('Navigation completed');
+			});
+
+			// Événements de chargement de page
+			document.addEventListener('astro:page-load', () => {
+				console.log('Page loaded');
+			});
+
+			// Gestion des requêtes AJAX
+			const originalFetch = window.fetch;
+			let activeRequests = 0;
+			let loadingTimer = null;
+
+			window.fetch = async function(...args) {
+				activeRequests++;
+				
+				if (activeRequests === 1) {
+					loadingTimer = setTimeout(() => {
+						// Montrer le spinner après 500ms de chargement
+					}, 500);
+				}
+
+				try {
+					const response = await originalFetch.apply(this, args);
+					return response;
+				} finally {
+					activeRequests--;
+					
+					if (activeRequests === 0) {
+						clearTimeout(loadingTimer);
+					}
+				}
+			};
+		</script>
+	</body>
+</html>

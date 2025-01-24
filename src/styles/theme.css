@@ -1,0 +1,173 @@
+@import './fonts.css';
+
+:root {
+  /* Couleurs */
+  --color-sage: #A8B5A3;
+  --color-cream: #F4F1ED;
+  --color-gold: #D4A373;
+  --color-ebony: #1C1C1C;
+  --color-eucalyptus: #748C69;
+
+  /* Typographie */
+  --font-heading: 'Playfair Display', serif;
+  --font-slogan: 'Raleway', sans-serif;
+  --font-body: 'Lora', serif;
+
+  /* Espacements */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+
+  /* Transitions */
+  --transition-default: all 0.3s ease-in-out;
+}
+
+/* Styles globaux */
+body {
+  font-family: var(--font-body);
+  color: var(--color-ebony);
+  background-color: var(--color-cream);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+
+.slogan {
+  font-family: var(--font-slogan);
+  font-weight: 300;
+  letter-spacing: 0.03em;
+}
+
+/* Boutons */
+.btn {
+  background-color: var(--color-sage);
+  color: white;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 30px;
+  transition: var(--transition-default);
+  border: 2px solid transparent;
+  font-family: var(--font-slogan);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.9rem;
+}
+
+.btn:hover {
+  background-color: var(--color-gold);
+  color: var(--color-ebony);
+  transform: translateY(-2px);
+}
+
+/* Liens */
+a {
+  color: var(--color-eucalyptus);
+  text-decoration: none;
+  transition: var(--transition-default);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Cartes et conteneurs */
+.card {
+  background-color: white;
+  border-radius: 15px;
+  padding: var(--spacing-md);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: var(--transition-default);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Éléments décoratifs */
+.geometric-accent {
+  position: relative;
+}
+
+.geometric-accent::before {
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border: 2px solid var(--color-gold);
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.geometric-accent.circle::before {
+  border-radius: 50%;
+}
+
+.geometric-accent.hexagon::before {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+/* Formulaires */
+input, textarea, select {
+  background-color: white;
+  border: 1px solid var(--color-sage);
+  border-radius: 8px;
+  padding: var(--spacing-sm);
+  font-family: var(--font-body);
+  transition: var(--transition-default);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--color-eucalyptus);
+  box-shadow: 0 0 0 3px rgba(116, 140, 105, 0.2);
+}
+
+/* Utilitaires */
+.bg-sage { background-color: var(--color-sage); }
+.bg-cream { background-color: var(--color-cream); }
+.bg-gold { background-color: var(--color-gold); }
+.bg-eucalyptus { background-color: var(--color-eucalyptus); }
+
+.text-sage { color: var(--color-sage); }
+.text-gold { color: var(--color-gold); }
+.text-ebony { color: var(--color-ebony); }
+.text-eucalyptus { color: var(--color-eucalyptus); }
+
+/* Styles du spinner */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.loading-overlay.visible {
+  display: flex !important;
+}
+
+.spinner {
+  width: 200px;
+  height: 200px;
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

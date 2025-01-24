@@ -1,0 +1,317 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { pageSEO } from '../lib/seo';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+
+const seo = pageSEO.contact;
+
+const contactInfo = {
+  address: '123 Avenue de la Santé, 75000 Paris',
+  email: 'contact@naimatyzra.fr',
+  phone: '01 23 45 67 89',
+  hours: [
+    { days: 'Lundi - Vendredi', time: '9h00 - 19h00' },
+    { days: 'Samedi', time: '9h00 - 13h00' },
+    { days: 'Dimanche', time: 'Fermé' }
+  ],
+  social: [
+    { platform: 'Facebook', url: 'https://facebook.com/naimatyzra', icon: 'facebook' },
+    { platform: 'Instagram', url: 'https://instagram.com/naimatyzra', icon: 'instagram' },
+    { platform: 'LinkedIn', url: 'https://linkedin.com/in/naimatyzra', icon: 'linkedin' }
+  ]
+};
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <div class="pt-24">
+    <!-- Hero Section -->
+    <section class="py-20 bg-sage/5 relative overflow-hidden">
+      <!-- Motifs de fond -->
+      <div class="absolute inset-0 bg-geometric-pattern opacity-5"></div>
+      <div class="absolute inset-0 bg-nature-pattern opacity-5"></div>
+
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
+          <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+            Contactez-moi
+          </h1>
+          <p class="font-slogan text-lg md:text-xl text-eucalyptus">
+            Je serai ravie de répondre à vos questions et de vous accompagner dans votre démarche de bien-être.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-20">
+      <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12">
+          <!-- Formulaire -->
+          <div data-aos="fade-right">
+            <Card variant="hover" class="h-full">
+              <form class="p-8 space-y-6" id="contactForm" data-csrf-token={import.meta.env.PUBLIC_CSRF_TOKEN}>
+                <!-- Honeypot field -->
+                <div class="hidden">
+                  <input type="text" name="website" tabindex="-1" autocomplete="off" />
+                </div>
+                <div class="space-y-4">
+                  <label class="block">
+                    <span class="text-ebony mb-1 block">Nom complet</span>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      minlength="2"
+                      maxlength="100"
+                      pattern="[A-Za-zÀ-ÿ\s-]+"
+                      class="w-full px-4 py-2 rounded-lg border border-sage/20 focus:border-eucalyptus focus:ring-1 focus:ring-eucalyptus outline-none transition-colors"
+                      placeholder="Votre nom"
+                    />
+                  </label>
+
+                  <label class="block">
+                    <span class="text-ebony mb-1 block">Email</span>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                      maxlength="254"
+                      class="w-full px-4 py-2 rounded-lg border border-sage/20 focus:border-eucalyptus focus:ring-1 focus:ring-eucalyptus outline-none transition-colors"
+                      placeholder="votre@email.com"
+                    />
+                  </label>
+
+                  <label class="block">
+                    <span class="text-ebony mb-1 block">Sujet</span>
+                    <select
+                      name="subject"
+                      required
+                      class="w-full px-4 py-2 rounded-lg border border-sage/20 focus:border-eucalyptus focus:ring-1 focus:ring-eucalyptus outline-none transition-colors"
+                    >
+                      <option value="">Sélectionnez un sujet</option>
+                      <option value="consultation">Consultation</option>
+                      <option value="question">Question générale</option>
+                      <option value="partnership">Partenariat</option>
+                      <option value="other">Autre</option>
+                    </select>
+                  </label>
+
+                  <label class="block">
+                    <span class="text-ebony mb-1 block">Message</span>
+                    <textarea
+                      name="message"
+                      required
+                      minlength="10"
+                      maxlength="1000"
+                      rows="5"
+                      class="w-full px-4 py-2 rounded-lg border border-sage/20 focus:border-eucalyptus focus:ring-1 focus:ring-eucalyptus outline-none transition-colors resize-none"
+                      placeholder="Votre message..."
+                    ></textarea>
+                  </label>
+                </div>
+
+                <div class="text-sm text-red-500 hidden" id="errorMessage"></div>
+
+                <Button type="submit" variant="primary" class="w-full">
+                  Envoyer le message
+                </Button>
+              </form>
+            </Card>
+          </div>
+
+          <!-- Informations de contact -->
+          <div class="space-y-8" data-aos="fade-left">
+            <!-- Carte -->
+            <Card variant="feature">
+              <div class="p-8">
+                <h2 class="font-heading text-2xl text-ebony mb-6">
+                  Informations de Contact
+                </h2>
+
+                <div class="space-y-4">
+                  <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center shrink-0">
+                      <span class="material-icons text-eucalyptus">location_on</span>
+                    </div>
+                    <div>
+                      <h3 class="font-heading text-lg text-ebony mb-1">Adresse</h3>
+                      <p class="text-eucalyptus">{contactInfo.address}</p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center shrink-0">
+                      <span class="material-icons text-eucalyptus">email</span>
+                    </div>
+                    <div>
+                      <h3 class="font-heading text-lg text-ebony mb-1">Email</h3>
+                      <a href={`mailto:${contactInfo.email}`} class="text-eucalyptus hover:text-gold transition-colors">
+                        {contactInfo.email}
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-sage/10 flex items-center justify-center shrink-0">
+                      <span class="material-icons text-eucalyptus">phone</span>
+                    </div>
+                    <div>
+                      <h3 class="font-heading text-lg text-ebony mb-1">Téléphone</h3>
+                      <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} class="text-eucalyptus hover:text-gold transition-colors">
+                        {contactInfo.phone}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <!-- Horaires -->
+            <Card variant="feature">
+              <div class="p-8">
+                <h2 class="font-heading text-2xl text-ebony mb-6">
+                  Horaires d'Ouverture
+                </h2>
+
+                <div class="space-y-4">
+                  {contactInfo.hours.map(({ days, time }) => (
+                    <div class="flex justify-between items-center">
+                      <span class="text-eucalyptus">{days}</span>
+                      <span class="font-heading text-ebony">{time}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Card>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</MainLayout>
+
+<script>
+  import emailjs from '@emailjs/browser';
+
+  // Initialisation d'EmailJS
+  emailjs.init(import.meta.env.PUBLIC_EMAILJS_KEY);
+
+  const form = document.querySelector('form') as HTMLFormElement;
+  const submitButton = document.querySelector('button[type="submit"]') as HTMLButtonElement;
+  const errorMessage = document.getElementById('errorMessage');
+
+  // Rate limiting
+  const RATE_LIMIT_MS = 60000; // 1 minute
+  const lastSubmitTime = new Map();
+
+  // Fonction de validation
+  function validateForm(formData: FormData): boolean {
+    // Vérification du honeypot
+    if (formData.get('website')) {
+      return false;
+    }
+
+    const email = formData.get('email') as string;
+    const message = formData.get('message') as string;
+    const name = formData.get('name') as string;
+
+    // Validation supplémentaire côté client
+    if (!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+      showError('Format d\'email invalide');
+      return false;
+    }
+
+    if (name.length < 2 || !name.match(/^[A-Za-zÀ-ÿ\s-]+$/)) {
+      showError('Le nom doit contenir au moins 2 caractères et ne contenir que des lettres');
+      return false;
+    }
+
+    if (message.length < 10) {
+      showError('Le message doit contenir au moins 10 caractères');
+      return false;
+    }
+
+    return true;
+  }
+
+  function showError(message: string) {
+    if (errorMessage) {
+      errorMessage.textContent = message;
+      errorMessage.classList.remove('hidden');
+    }
+  }
+
+  function hideError() {
+    if (errorMessage) {
+      errorMessage.classList.add('hidden');
+    }
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    hideError();
+
+    // Vérification du rate limiting
+    const userEmail = new FormData(form).get('email') as string;
+    const now = Date.now();
+    if (lastSubmitTime.has(userEmail)) {
+      const timeSinceLastSubmit = now - lastSubmitTime.get(userEmail);
+      if (timeSinceLastSubmit < RATE_LIMIT_MS) {
+        showError(`Veuillez attendre ${Math.ceil((RATE_LIMIT_MS - timeSinceLastSubmit) / 1000)} secondes avant de renvoyer un message`);
+        return;
+      }
+    }
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Envoi en cours...';
+    }
+
+    try {
+      const formData = new FormData(form);
+      
+      // Validation du formulaire
+      if (!validateForm(formData)) {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = 'Envoyer';
+        }
+        return;
+      }
+
+      // Préparation des données pour EmailJS
+      const templateParams = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        subject: formData.get('subject'),
+        message: formData.get('message'),
+        csrf_token: form.dataset.csrfToken
+      };
+
+      const response = await emailjs.send(
+        import.meta.env.PUBLIC_EMAILJS_SERVICE_ID,
+        import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID,
+        templateParams
+      );
+
+      if (response.status === 200) {
+        lastSubmitTime.set(userEmail, now);
+        alert('Votre message a été envoyé avec succès !');
+        form.reset();
+      } else {
+        throw new Error('Une erreur est survenue lors de l\'envoi du message');
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      showError('Une erreur est survenue lors de l\'envoi du message. Veuillez réessayer plus tard.');
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Envoyer';
+      }
+    }
+  });
+</script>

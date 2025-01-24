@@ -1,0 +1,138 @@
+---
+const currentYear = new Date().getFullYear();
+
+const links = {
+  services: [
+    { href: '/services#consultation', label: 'Consultation Naturopathie' },
+    { href: '/services#nutrition', label: 'Suivi Nutritionnel' },
+    { href: '/services#phyto', label: 'Phytothérapie' },
+    { href: '/services#massage', label: 'Massages Bien-être' }
+  ],
+  information: [
+    { href: '/a-propos', label: 'À Propos' },
+    { href: '/blog', label: 'Blog' },
+    { href: '/boutique', label: 'Boutique' },
+    { href: '/contact', label: 'Contact' }
+  ],
+  legal: [
+    { href: '/mentions-legales', label: 'Mentions Légales' },
+    { href: '/confidentialite', label: 'Politique de Confidentialité' },
+    { href: '/cgv', label: 'CGV' }
+  ]
+};
+
+const contact = {
+  address: '123 Avenue de la Santé, 75000 Paris',
+  email: 'contact@naimatyzra.fr',
+  phone: '01 23 45 67 89',
+  social: [
+    { icon: 'facebook', href: 'https://facebook.com/naimatyzra' },
+    { icon: 'instagram', href: 'https://instagram.com/naimatyzra' },
+    { icon: 'linkedin', href: 'https://linkedin.com/in/naimatyzra' }
+  ]
+};
+---
+
+<footer class="bg-sage/10 relative mt-0">
+  <!-- Motif de fond -->
+  <div class="absolute inset-0 bg-geometric-pattern opacity-5"></div>
+  
+  <div class="container mx-auto px-4">
+    <!-- Section principale -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 pt-8 pb-12">
+      <!-- À propos -->
+      <div>
+        <div class="mb-4">
+          <img src="/images/logo.svg" alt="Naima Tyzra" class="h-12 w-auto" />
+        </div>
+        <p class="text-eucalyptus mb-4">
+          Naturopathe certifiée, je vous accompagne vers un meilleur équilibre de vie grâce à des méthodes naturelles et personnalisées.
+        </p>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h3 class="font-heading text-xl text-ebony mb-4">Services</h3>
+        <ul class="space-y-2">
+          {links.services.map(({ href, label }) => (
+            <li>
+              <a href={href} class="text-eucalyptus hover:text-gold transition-colors">
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Information -->
+      <div>
+        <h3 class="font-heading text-xl text-ebony mb-4">Information</h3>
+        <ul class="space-y-2">
+          {links.information.map(({ href, label }) => (
+            <li>
+              <a href={href} class="text-eucalyptus hover:text-gold transition-colors">
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h3 class="font-heading text-xl text-ebony mb-4">Contact</h3>
+        <ul class="space-y-3">
+          <li class="flex gap-3 text-eucalyptus">
+            <span class="material-icons">location_on</span>
+            <span>{contact.address}</span>
+          </li>
+          <li>
+            <a href={`mailto:${contact.email}`} class="flex gap-3 text-eucalyptus hover:text-gold transition-colors">
+              <span class="material-icons">email</span>
+              <span>{contact.email}</span>
+            </a>
+          </li>
+          <li>
+            <a href={`tel:${contact.phone.replace(/\s/g, '')}`} class="flex gap-3 text-eucalyptus hover:text-gold transition-colors">
+              <span class="material-icons">phone</span>
+              <span>{contact.phone}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Séparateur -->
+    <div class="border-t border-sage/20 py-4 mt-4"></div>
+
+    <!-- Section bas de page -->
+    <div class="py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-eucalyptus text-sm">
+        &copy; {currentYear} Naima Tyzra. Tous droits réservés.
+      </p>
+      <ul class="flex flex-wrap gap-6 text-sm">
+        {links.legal.map(({ href, label }) => (
+          <li>
+            <a href={href} class="text-eucalyptus hover:text-gold transition-colors">
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Vague décorative -->
+  <div class="absolute top-0 left-0 w-full rotate-180">
+    <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#F4F1ED"/>
+    </svg>
+  </div>
+</footer>
+
+<style>
+  /* Suppression du soulignement pour les icônes sociales */
+  .flex.gap-4 a {
+    text-decoration: none !important;
+  }
+</style>

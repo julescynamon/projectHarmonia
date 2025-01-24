@@ -1,0 +1,171 @@
+---
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import MainSpinner from '../components/MainSpinner.astro';
+import '../styles/theme.css';
+
+// Polices
+import '@fontsource/playfair-display/400.css';
+import '@fontsource/playfair-display/700.css';
+import '@fontsource/raleway/300.css';
+import '@fontsource/raleway/400.css';
+import '@fontsource/lora/400.css';
+import '@fontsource/lora/500.css';
+import 'aos/dist/aos.css';
+
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const { 
+  title, 
+  description, 
+  image = '/images/social-share.jpg'
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="fr" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:site_name" content="Naima Tyzra - Naturopathe" />
+    <meta property="og:locale" content="fr_FR" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.site)} />
+    <meta property="twitter:site" content="@NaimaTyzra" />
+    <meta property="twitter:creator" content="@NaimaTyzra" />
+
+    <!-- Other meta tags -->
+    <meta name="author" content="Naima Tyzra" />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="naturopathie, santé naturelle, bien-être" />
+    <meta name="theme-color" content="#4A6741" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/PlayfairDisplay-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/Raleway-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body class="min-h-screen flex flex-col bg-cream text-ebony overflow-x-hidden">
+    <MainSpinner />
+    <Navigation />
+    <main class="w-full overflow-x-hidden">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import AOS from 'aos';
+      
+      // Fonction pour ajuster l'offset en fonction de la taille de l'écran
+      const getResponsiveOffset = () => {
+        const width = window.innerWidth;
+        if (width < 768) return 20; // Mobile
+        if (width < 1024) return 40; // Tablette
+        return 60; // Desktop
+      };
+
+      document.addEventListener('DOMContentLoaded', () => {
+        AOS.init({
+          duration: 400, // Animation plus rapide
+          once: true,
+          offset: getResponsiveOffset(), // Offset dynamique
+          disable: false, // Activer sur tous les écrans
+          startEvent: 'load',
+          disableMutationObserver: true,
+          mirror: false,
+          anchorPlacement: 'top-center', // Déclencher quand l'élément est à 50% de la vue
+          easing: 'ease-out-cubic', // Animation plus naturelle
+        });
+
+        // Ajuster l'offset lors du redimensionnement
+        window.addEventListener('resize', () => {
+          AOS.refresh();
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --color-primary: #4A6741;
+    --color-secondary: #D4C9B9;
+    --color-text: #2C3B2A;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Raleway', sans-serif;
+    color: var(--color-text);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .logo-font {
+    font-family: 'Great Vibes', cursive;
+  }
+
+  /* Amélioration de l'accessibilité */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* Responsive text sizes */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2.5rem !important;
+    }
+    h2 {
+      font-size: 2rem !important;
+    }
+    h3 {
+      font-size: 1.75rem !important;
+    }
+    .text-lg {
+      font-size: 1rem !important;
+    }
+    .container {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+</style>

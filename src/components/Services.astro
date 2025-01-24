@@ -1,0 +1,105 @@
+---
+import Card from './ui/Card.astro';
+import Button from './ui/Button.astro';
+
+const services = [
+  {
+    title: 'Consultation Naturopathie',
+    description: 'Bilan de vitalité complet et conseils personnalisés pour retrouver votre équilibre naturel.',
+    icon: 'leaf',
+    link: '/services#consultation'
+  },
+  {
+    title: 'Suivi Nutritionnel',
+    description: 'Accompagnement sur-mesure pour une alimentation saine et adaptée à vos besoins.',
+    icon: 'apple',
+    link: '/services#nutrition'
+  },
+  {
+    title: 'Phytothérapie',
+    description: 'Utilisation des plantes médicinales pour soutenir votre santé de manière naturelle.',
+    icon: 'herb',
+    link: '/services#phyto'
+  },
+  {
+    title: 'Massages Bien-être',
+    description: 'Techniques de massage holistiques pour détendre corps et esprit.',
+    icon: 'hands',
+    link: '/services#massage'
+  }
+];
+---
+
+<section class="py-12 sm:py-20 bg-cream relative overflow-hidden">
+  <!-- Motifs de fond -->
+  <div class="absolute inset-0 bg-nature-pattern opacity-5"></div>
+  
+  <div class="container mx-auto px-4">
+    <!-- En-tête -->
+    <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16" data-aos="fade-up" data-aos-offset="40" data-aos-duration="500">
+      <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl text-ebony mb-4 sm:mb-6">
+        Mes Services
+      </h2>
+      <p class="font-slogan text-base sm:text-lg text-eucalyptus">
+        Une approche holistique et personnalisée pour votre bien-être, combinant sagesse ancestrale et méthodes modernes.
+      </p>
+    </div>
+
+    <!-- Grille de services -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative">
+      {services.map((service, index) => (
+        <div data-aos="fade-up" 
+             data-aos-delay={index * 50} 
+             data-aos-offset="15"
+             data-aos-duration="600"
+             class="relative">
+          <Card variant="hover" class="h-full backdrop-blur-sm bg-white/80">
+            <div class="flex flex-col items-center text-center h-full p-4 sm:p-6">
+              <!-- Icône -->
+              <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-sage/10 flex items-center justify-center mb-5 sm:mb-6 transform transition-transform group-hover:rotate-6">
+                <span class={`icon-${service.icon} text-2xl sm:text-3xl text-eucalyptus`}></span>
+              </div>
+              
+              <!-- Contenu -->
+              <h3 class="font-heading text-lg sm:text-xl text-ebony mb-3 sm:mb-4">
+                {service.title}
+              </h3>
+              <p class="text-sm sm:text-base text-eucalyptus/90 mb-6 sm:mb-8 flex-grow">
+                {service.description}
+              </p>
+              
+              <!-- Lien -->
+              <Button href={service.link} variant="outline" size="sm" class="w-full sm:w-auto">
+                En savoir plus
+              </Button>
+            </div>
+          </Card>
+        </div>
+      ))}
+    </div>
+
+    <!-- Call to action -->
+    <div class="text-center mt-12 sm:mt-16" data-aos="fade-up" data-aos-offset="15" data-aos-duration="400">
+      <Button href="/services" size="lg" class="w-full sm:w-auto">
+        Voir tous mes services
+      </Button>
+    </div>
+  </div>
+
+  <!-- Éléments décoratifs -->
+  <div class="absolute bottom-0 right-0 w-48 sm:w-64 h-48 sm:h-64 bg-geometric-pattern opacity-10 transform rotate-45"></div>
+  <div class="absolute top-0 left-0 w-32 sm:w-40 h-32 sm:h-40 bg-nature-pattern opacity-5 transform -rotate-12"></div>
+</section>
+
+<style>
+  /* Styles pour les icônes (à remplacer par votre bibliothèque d'icônes) */
+  [class^="icon-"] {
+    font-family: 'Material Icons';
+    font-style: normal;
+    display: inline-block;
+  }
+  .icon-leaf:before { content: "eco" }
+  .icon-apple:before { content: "restaurant" }
+  .icon-herb:before { content: "spa" }
+  .icon-hands:before { content: "volunteer_activism" }
+</style>

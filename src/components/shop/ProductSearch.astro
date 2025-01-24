@@ -1,0 +1,113 @@
+---
+interface Props {
+  query?: string;
+}
+
+const { query = '' } = Astro.props;
+---
+
+<div class="mb-6" data-aos="fade-up">
+  <div class="relative">
+    <input
+      type="search"
+      id="product-search"
+      placeholder="Rechercher un produit..."
+      value={query}
+      class="w-full px-4 py-3 pl-10 bg-white border border-sage/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage/20 transition-shadow"
+      autocomplete="off"
+    />
+    <svg
+      class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sage/40"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+      ></path>
+    </svg>
+
+    <!-- Indicateur de chargement -->
+    <div id="search-loading" class="absolute right-3 top-1/2 -translate-y-1/2 hidden">
+      <svg class="animate-spin h-5 w-5 text-sage/40" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initSearch() {
+    const searchInput = document.getElementById('product-search') as HTMLInputElement;
+    const loadingIndicator = document.getElementById('search-loading');
+    let searchTimeout: ReturnType<typeof setTimeout>;
+    let currentSearch = '';
+
+    if (!searchInput) return;
+
+    // Fonction pour mettre à jour la recherche
+    function updateSearch(value: string) {
+      if (value === currentSearch) return;
+      currentSearch = value;
+      
+      // Afficher l'indicateur de chargement
+      loadingIndicator?.classList.remove('hidden');
+      
+      // Émettre l'événement de recherche
+      window.dispatchEvent(new CustomEvent('search-changed', {
+        detail: value
+      }));
+
+      // Cacher l'indicateur de chargement après un court délai
+      setTimeout(() => {
+        loadingIndicator?.classList.add('hidden');
+      }, 300);
+    }
+
+    // Gestionnaire d'événement pour la saisie
+    searchInput.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement;
+      clearTimeout(searchTimeout);
+      
+      // Délai de debounce court pour une expérience fluide
+      searchTimeout = setTimeout(() => {
+        updateSearch(target.value.trim());
+      }, 150);
+    });
+
+    // Gestionnaire pour la touche Echap
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        updateSearch('');
+      }
+    });
+
+    // Initialiser la recherche si une valeur existe déjà
+    if (searchInput.value) {
+      updateSearch(searchInput.value.trim());
+    }
+
+    // Écouter les changements de filtre pour mettre à jour l'input si nécessaire
+    window.addEventListener('filters-changed', ((e: CustomEvent) => {
+      if (e.detail.search !== undefined && e.detail.search !== currentSearch) {
+        searchInput.value = e.detail.search || '';
+        currentSearch = e.detail.search || '';
+      }
+    }) as EventListener);
+  }
+
+  // Initialiser la recherche au chargement de la page
+  document.addEventListener('DOMContentLoaded', initSearch);
+
+  // S'assurer que la recherche est initialisée même si le DOM est déjà chargé
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSearch);
+  } else {
+    initSearch();
+  }
+</script>

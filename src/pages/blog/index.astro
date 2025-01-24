@@ -1,0 +1,253 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { pageSEO } from '../../lib/seo';
+import Button from '../../components/ui/Button.astro';
+import Card from '../../components/ui/Card.astro';
+
+const seo = pageSEO.blog;
+
+// Simuler des articles de blog
+const posts = [
+  {
+    title: 'Les bienfaits de la phytothérapie au quotidien',
+    excerpt: 'Découvrez comment intégrer les plantes médicinales dans votre routine quotidienne pour améliorer votre bien-être.',
+    image: '/images/blog/phytotherapie.jpg',
+    category: 'Phytothérapie',
+    date: '2025-01-15',
+    slug: 'bienfaits-phytotherapie-quotidien'
+  },
+  {
+    title: 'Nutrition : les clés d\'une alimentation équilibrée',
+    excerpt: 'Apprenez les principes fondamentaux d\'une alimentation saine et équilibrée pour maintenir votre vitalité.',
+    image: '/images/blog/nutrition.jpg',
+    category: 'Nutrition',
+    date: '2025-01-10',
+    slug: 'nutrition-cles-alimentation-equilibree'
+  },
+  {
+    title: 'Gérer son stress naturellement',
+    excerpt: 'Des solutions naturelles et efficaces pour mieux gérer votre stress et retrouver votre sérénité.',
+    image: '/images/blog/stress.jpg',
+    category: 'Bien-être',
+    date: '2025-01-05',
+    slug: 'gerer-stress-naturellement'
+  },
+  {
+    title: 'Le pouvoir des huiles essentielles',
+    excerpt: 'Guide complet sur l\'utilisation des huiles essentielles pour votre santé et votre bien-être.',
+    image: '/images/blog/huiles-essentielles.jpg',
+    category: 'Aromathérapie',
+    date: '2024-12-28',
+    slug: 'pouvoir-huiles-essentielles'
+  },
+  {
+    title: 'Sommeil : les secrets d\'une bonne nuit',
+    excerpt: 'Conseils et astuces naturels pour améliorer la qualité de votre sommeil et vous réveiller en pleine forme.',
+    image: '/images/blog/sommeil.jpg',
+    category: 'Santé',
+    date: '2024-12-20',
+    slug: 'secrets-bonne-nuit-sommeil'
+  },
+  {
+    title: 'Les plantes adaptogènes',
+    excerpt: 'Tout savoir sur ces plantes extraordinaires qui aident l\'organisme à s\'adapter au stress.',
+    image: '/images/blog/adaptogenes.jpg',
+    category: 'Phytothérapie',
+    date: '2024-12-15',
+    slug: 'plantes-adaptogenes'
+  }
+];
+
+// Catégories uniques pour le filtre
+const categories = [...new Set(posts.map(post => post.category))];
+
+// Formater la date
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('fr-FR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <div class="pt-24">
+    <!-- Hero Section -->
+    <section class="py-20 bg-sage/5 relative overflow-hidden">
+      <!-- Motifs de fond -->
+      <div class="absolute inset-0 bg-geometric-pattern opacity-5"></div>
+      <div class="absolute inset-0 bg-nature-pattern opacity-5"></div>
+
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
+          <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+            Blog & Actualités
+          </h1>
+          <p class="font-slogan text-lg md:text-xl text-eucalyptus">
+            Découvrez mes articles sur la naturopathie, le bien-être et la santé naturelle.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filtres -->
+    <section class="py-12 bg-cream">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-wrap gap-4 justify-center" data-aos="fade-up">
+          <Button 
+            type="button"
+            variant="primary" 
+            class="filter-btn active" 
+            data-category="all"
+          >
+            Tous les articles
+          </Button>
+          {categories.map(category => (
+            <Button 
+              type="button"
+              variant="primary"
+              class="filter-btn" 
+              data-category={category.toLowerCase()}
+            >
+              {category}
+            </Button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Articles -->
+    <section class="py-20">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="posts-grid">
+          {posts.map((post, index) => (
+            <div 
+              data-aos="fade-up" 
+              data-aos-delay={index * 100}
+              class="post-card"
+              data-category={post.category.toLowerCase()}
+            >
+              <Card variant="hover" class="h-full">
+                <article class="flex flex-col h-full">
+                  <!-- Image -->
+                  <div class="relative aspect-[16/9] rounded-t-lg overflow-hidden">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      class="w-full h-full object-cover"
+                    />
+                    <div class="absolute top-4 left-4">
+                      <span class="bg-sage/90 backdrop-blur-sm text-cream px-3 py-1 rounded-full text-sm">
+                        {post.category}
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Contenu -->
+                  <div class="p-6 flex flex-col flex-grow">
+                    <div class="mb-4">
+                      <time datetime={post.date} class="text-sm text-eucalyptus">
+                        {formatDate(post.date)}
+                      </time>
+                    </div>
+                    
+                    <h2 class="font-heading text-xl text-ebony mb-3">
+                      <a href={`/blog/${post.slug}`} class="hover:text-gold transition-colors">
+                        {post.title}
+                      </a>
+                    </h2>
+                    
+                    <p class="text-eucalyptus mb-6 flex-grow">
+                      {post.excerpt}
+                    </p>
+
+                    <Button href={`/blog/${post.slug}`} variant="outline" class="self-start">
+                      Lire la suite
+                    </Button>
+                  </div>
+                </article>
+              </Card>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-20 bg-sage/5 relative overflow-hidden">
+      <!-- Motifs de fond -->
+      <div class="absolute inset-0 bg-geometric-pattern opacity-5 rotate-180"></div>
+
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <div data-aos="fade-up">
+            <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-6">
+              Restez informé
+            </h2>
+            <p class="text-eucalyptus mb-8">
+              Inscrivez-vous à ma newsletter pour recevoir mes derniers articles et conseils bien-être.
+            </p>
+
+            <Card variant="feature">
+              <form class="p-8 flex flex-col sm:flex-row gap-4">
+                <input
+                  type="email"
+                  placeholder="Votre adresse email"
+                  class="flex-grow px-4 py-2 rounded-lg border border-sage/20 focus:border-eucalyptus focus:ring-1 focus:ring-eucalyptus outline-none transition-colors"
+                  required
+                />
+                <Button type="submit" variant="primary">
+                  S'inscrire
+                </Button>
+              </form>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</MainLayout>
+
+<style>
+  .filter-btn {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  
+  .filter-btn.active {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  // Attendre que le DOM soit chargé
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const posts = document.querySelectorAll<HTMLElement>('.post-card');
+    
+    // Fonction pour filtrer les articles
+    function filterPosts(category) {
+      posts.forEach(post => {
+        if (category === 'all' || post.dataset.category === category) {
+          post.style.display = 'block';
+        } else {
+          post.style.display = 'none';
+        }
+      });
+    }
+    
+    // Ajouter les écouteurs d'événements aux boutons
+    filterButtons.forEach((button: HTMLElement) => {
+      button.addEventListener('click', () => {
+        // Mettre à jour les classes active
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        
+        // Filtrer les articles
+        const category = button.dataset.category;
+        filterPosts(category);
+      });
+    });
+  });
+</script>

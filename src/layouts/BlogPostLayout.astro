@@ -1,0 +1,42 @@
+---
+import MainLayout from './MainLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image: string;
+  category: string;
+  date: string;
+}
+
+const { title, description, image, category, date } = Astro.props;
+---
+
+<MainLayout title={title} description={description}>
+  <article class="pt-24">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto">
+        <div class="mb-8" data-aos="fade-up">
+          <img
+            src={image}
+            alt={title}
+            class="w-full h-[400px] object-cover rounded-lg shadow-lg"
+          />
+        </div>
+        
+        <div class="prose prose-lg mx-auto">
+          <div class="flex items-center gap-4 mb-6" data-aos="fade-up">
+            <span class="text-primary font-medium">{category}</span>
+            <span class="text-gray-500">{date}</span>
+          </div>
+          
+          <h1 class="font-serif mb-8" data-aos="fade-up">{title}</h1>
+          
+          <div data-aos="fade-up" data-aos-delay="100">
+            <slot />
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</MainLayout>

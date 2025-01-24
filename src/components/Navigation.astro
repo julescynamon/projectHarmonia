@@ -1,0 +1,157 @@
+---
+import Button from "./ui/Button.astro";
+
+// Data for navigation links
+const navLinks = [
+  { href: "/", text: "Accueil" },
+  { href: "/services", text: "Services" },
+  { href: "/boutique", text: "Boutique" },
+  { href: "/a-propos", text: "À propos" },
+  { href: "/blog", text: "Blog" },
+  { href: "/contact", text: "Contact" }
+];
+---
+<nav class="fixed w-full z-50 transition-all duration-300" id="mainNav">
+  <div class="container mx-auto px-4 py-2">
+    <div class="md:bg-white/10 md:backdrop-blur-md md:rounded-full md:shadow-sm md:px-6 md:max-w-5xl md:mx-auto">
+      <div class="flex items-center justify-between h-16 md:h-20">
+        <!-- Logo -->
+        <a href="/" class="flex-shrink-0">
+          <img src="/images/logo.svg" alt="Naima Tyzra" class="h-12 w-auto" />
+        </a>
+
+        <!-- Navigation Desktop -->
+        <div class="mobileDispare md:flex items-center justify-center space-x-4 lg:space-x-6" id="desktopMenu">
+          {navLinks.map(link => (
+            <a
+              href={link.href}
+              class="font-slogan text-sm tracking-wide text-ebony hover:text-gold transition-colors duration-200 whitespace-nowrap"
+            >
+              {link.text}
+            </a>
+          ))}
+          <Button href="/rendez-vous" variant="primary" size="sm" class="whitespace-nowrap">
+            Prendre rendez-vous
+          </Button>
+        </div>
+
+        <!-- Menu Mobile Button -->
+        <input type="checkbox" id="menuToggle" class="hidden" />
+        <label
+          for="menuToggle"
+          class="md:hidden p-2 text-ebony hover:text-gold transition-colors duration-200 cursor-pointer"
+          aria-label="Menu"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </label>
+
+        <!-- Menu Mobile Overlay -->
+        <div
+          class="fixed inset-0 bg-cream/95 backdrop-blur-sm transition-all duration-300 mobile-menu"
+        >
+          <div class="container mx-auto px-4 py-8">
+            <div class="flex justify-end">
+              <label
+                for="menuToggle"
+                class="p-2 text-ebony hover:text-gold transition-colors duration-200 cursor-pointer"
+                aria-label="Fermer le menu"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="w-6 h-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </label>
+            </div>
+            <div class="flex flex-col items-center space-y-6 mt-8">
+              {navLinks.map(link => (
+                <a
+                  href={link.href}
+                  class="font-slogan text-lg text-ebony hover:text-gold transition-colors duration-200"
+                >
+                  {link.text}
+                </a>
+              ))}
+              <Button href="/rendez-vous" variant="primary" size="lg" class="w-full">
+                Prendre rendez-vous
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+
+  //fonction pour rajouter une classe pour faire disparaitre les boutons desktop en dessous de 768px
+function toggleDesktopMenuVisibility() {
+  const desktopMenu = document.querySelector('#desktopMenu') as HTMLElement; // Remplacez par l'ID ou la classe de votre menu desktop
+  const viewportWidth = window.innerWidth;
+
+  if (viewportWidth < 768) {
+    desktopMenu.style.display = 'none';
+  } else {
+    desktopMenu.style.display = 'flex'; // Assurez-vous que 'flex' est la bonne valeur pour afficher le menu
+  }
+}
+
+// Ajoute un écouteur pour vérifier la largeur de la fenêtre au redimensionnement
+window.addEventListener('resize', toggleDesktopMenuVisibility);
+
+// Vérifie la largeur de la fenêtre au chargement de la page
+document.addEventListener('DOMContentLoaded', toggleDesktopMenuVisibility);
+
+
+</script>
+
+<style>
+
+  .mobile-menu {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  #menuToggle:checked ~ .mobile-menu {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  /* Desktop-specific rules */
+  @media (min-width: 768px) {
+    .mobile-menu {
+      display: none !important;
+    }
+
+    #menuToggle {
+      display: none !important;
+    }
+  }
+</style>

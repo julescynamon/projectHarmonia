@@ -1,0 +1,44 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  price: number;
+  pdfUrl?: string;
+  coverImage?: string;
+}
+
+const { title, description, price, pdfUrl, coverImage } = Astro.props;
+
+// Image par défaut si aucune image n'est fournie
+const defaultImage = '/images/default-pdf-cover.jpg';
+---
+
+<div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg">
+  <div class="aspect-[3/4] relative overflow-hidden">
+    <img
+      src={coverImage || defaultImage}
+      alt={`Couverture de ${title}`}
+      class="w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+  </div>
+  
+  <div class="p-6">
+    <h3 class="font-heading text-xl text-ebony mb-2">{title}</h3>
+    <p class="text-ebony/70 text-sm mb-4 line-clamp-2">{description}</p>
+    
+    <div class="flex items-center justify-between">
+      <span class="font-heading text-lg text-gold">{price}€</span>
+      {pdfUrl ? (
+        <a
+          href={pdfUrl}
+          class="inline-flex items-center px-4 py-2 bg-sage text-white rounded-full text-sm font-medium hover:bg-sage/90 transition-colors duration-200"
+        >
+          Acheter
+        </a>
+      ) : (
+        <span class="text-sm text-ebony/50 italic">Bientôt disponible</span>
+      )}
+    </div>
+  </div>
+</div>

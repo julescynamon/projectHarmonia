@@ -1,0 +1,89 @@
+---
+import Button from './ui/Button.astro';
+---
+
+<section class="py-20 relative overflow-hidden">
+  <!-- Motif de fond -->
+  <div class="absolute inset-0 bg-geometric-pattern opacity-5"></div>
+
+  <div class="container mx-auto px-4">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Image -->
+      <div class="relative" data-aos="fade-right" data-aos-offset="40" data-aos-duration="600">
+        <div class="aspect-[4/5] rounded-2xl overflow-hidden">
+          <img
+            src="/images/about-bg.jpg"
+            alt="Naima Tyzra dans son cabinet"
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <!-- Éléments décoratifs -->
+        <div class="absolute -top-4 -left-4 w-32 h-32 bg-sage opacity-10 rounded-full"></div>
+        <div class="absolute -bottom-4 -right-4 w-48 h-48 bg-gold opacity-10 rounded-full"></div>
+      </div>
+
+      <!-- Contenu -->
+      <div data-aos="fade-left" data-aos-offset="40" data-aos-duration="600">
+        <h2 class="font-heading text-4xl md:text-5xl text-ebony mb-6">
+          Une approche naturelle et holistique
+        </h2>
+        <div class="space-y-4 text-eucalyptus mb-8">
+          <p>
+            Passionnée par la naturopathie depuis plus de 10 ans, j'accompagne mes clients vers un mieux-être global en utilisant des méthodes naturelles et personnalisées.
+          </p>
+          <p>
+            Ma pratique combine des approches traditionnelles éprouvées et des techniques modernes, adaptées aux besoins spécifiques de chaque personne.
+          </p>
+        </div>
+
+        <!-- Points clés -->
+        <div class="grid sm:grid-cols-2 gap-6 mb-8">
+          {[
+            {
+              title: 'Approche Personnalisée',
+              description: 'Chaque consultation est unique et adaptée à vos besoins'
+            },
+            {
+              title: 'Méthodes Naturelles',
+              description: 'Utilisation exclusive de techniques et produits naturels'
+            },
+            {
+              title: 'Suivi Régulier',
+              description: 'Accompagnement continu pour atteindre vos objectifs'
+            },
+            {
+              title: 'Formation Continue',
+              description: 'Mise à jour régulière des connaissances et pratiques'
+            }
+          ].map((point, index) => (
+            <div class="flex gap-4" 
+                 data-aos="fade-up" 
+                 data-aos-delay={index * 100} 
+                 data-aos-offset="30"
+                 data-aos-duration="400">
+              <div class="w-12 h-12 shrink-0 rounded-full bg-sage/10 flex items-center justify-center">
+                <span class="material-icons text-eucalyptus">check_circle</span>
+              </div>
+              <div>
+                <h3 class="font-heading text-lg text-ebony mb-1">{point.title}</h3>
+                <p class="text-sm text-eucalyptus">{point.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <Button href="/a-propos" size="lg">
+            En savoir plus
+          </Button>
+          <Button href="/contact" variant="outline" size="lg">
+            Me contacter
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Élément décoratif -->
+  <div class="absolute top-0 right-0 w-64 h-64 bg-nature-pattern opacity-10 transform -rotate-45"></div>
+</section>

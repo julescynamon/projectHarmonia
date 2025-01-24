@@ -1,0 +1,188 @@
+---
+interface Props {
+  categories: string[];
+  activeCategory?: string | null;
+  minPrice?: string | null;
+  maxPrice?: string | null;
+}
+
+const { categories, activeCategory = '', minPrice, maxPrice } = Astro.props;
+---
+
+<div class="space-y-6 bg-white p-6 rounded-lg shadow-sm" data-aos="fade-up">
+  <div>
+    <h3 class="font-medium mb-3">Catégories</h3>
+    <div class="space-y-2">
+      <button
+        type="button"
+        data-filter="category"
+        data-value=""
+        class={`block w-full px-3 py-2 rounded-lg transition-colors text-left ${
+          !activeCategory 
+            ? 'bg-sage text-white' 
+            : 'text-ebony hover:bg-sage/10'
+        }`}
+      >
+        Tous les produits
+      </button>
+      {categories.map(category => (
+        <button
+          type="button"
+          data-filter="category"
+          data-value={category}
+          class={`block w-full px-3 py-2 rounded-lg transition-colors text-left ${
+            activeCategory === category
+              ? 'bg-sage text-white'
+              : 'text-ebony hover:bg-sage/10'
+          }`}
+        >
+          {category}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div>
+    <h3 class="font-medium mb-3">Prix</h3>
+    <div class="space-y-3">
+      <div>
+        <label class="text-sm text-ebony/70">Prix minimum</label>
+        <input
+          type="number"
+          data-filter="minPrice"
+          min="0"
+          step="1"
+          value={minPrice}
+          class="w-full mt-1 px-3 py-2 bg-white border border-sage/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage/20"
+        />
+      </div>
+      <div>
+        <label class="text-sm text-ebony/70">Prix maximum</label>
+        <input
+          type="number"
+          data-filter="maxPrice"
+          min="0"
+          step="1"
+          value={maxPrice}
+          class="w-full mt-1 px-3 py-2 bg-white border border-sage/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage/20"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentFilters = {
+    category: '',
+    minPrice: null,
+    maxPrice: null,
+    search: '',
+    sort: 'newest'
+  };
+
+  // Initialiser les filtres depuis l'URL
+  function initializeFilters() {
+    const urlParams = new URLSearchParams(window.location.search);
+    currentFilters = {
+      category: urlParams.get('category') || '',
+      minPrice: urlParams.get('minPrice') ? parseFloat(urlParams.get('minPrice')!) : null,
+      maxPrice: urlParams.get('maxPrice') ? parseFloat(urlParams.get('maxPrice')!) : null,
+      search: urlParams.get('q') || '',
+      sort: urlParams.get('sort') || 'newest'
+    };
+
+    // Mettre à jour l'interface utilisateur
+    updateFilterUI();
+  }
+
+  // Mettre à jour l'apparence des filtres
+  function updateFilterUI() {
+    // Mise à jour des boutons de catégorie
+    document.querySelectorAll('[data-filter="category"]').forEach(button => {
+      const btn = button as HTMLButtonElement;
+      if (btn.dataset.value === currentFilters.category) {
+        btn.classList.add('bg-sage', 'text-white');
+        btn.classList.remove('text-ebony', 'hover:bg-sage/10');
+      } else {
+        btn.classList.remove('bg-sage', 'text-white');
+        btn.classList.add('text-ebony', 'hover:bg-sage/10');
+      }
+    });
+
+    // Mise à jour des champs de prix
+    const minPriceInput = document.querySelector('[data-filter="minPrice"]') as HTMLInputElement;
+    const maxPriceInput = document.querySelector('[data-filter="maxPrice"]') as HTMLInputElement;
+    
+    if (currentFilters.minPrice !== null) {
+      minPriceInput.value = currentFilters.minPrice.toString();
+    }
+    if (currentFilters.maxPrice !== null) {
+      maxPriceInput.value = currentFilters.maxPrice.toString();
+    }
+  }
+
+  // Gestionnaire des filtres de catégorie
+  document.querySelectorAll('[data-filter="category"]').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const clickedButton = e.currentTarget as HTMLButtonElement;
+      currentFilters.category = clickedButton.dataset.value || '';
+      
+      // Mettre à jour l'URL et l'interface
+      applyFilters();
+      updateFilterUI();
+    });
+  });
+
+  // Gestionnaire du filtre de prix
+  document.querySelectorAll('[data-filter="minPrice"], [data-filter="maxPrice"]').forEach(input => {
+    input.addEventListener('input', (e) => {
+      const input = e.currentTarget as HTMLInputElement;
+      const value = input.value ? parseFloat(input.value) : null;
+      
+      if (input.dataset.filter === 'minPrice') {
+        currentFilters.minPrice = value;
+      } else {
+        currentFilters.maxPrice = value;
+      }
+      
+      applyFilters();
+    });
+  });
+
+  // Fonction pour appliquer les filtres
+  function applyFilters() {
+    const searchParams = new URLSearchParams(window.location.search);
+    
+    // Mettre à jour les paramètres d'URL
+    Object.entries(currentFilters).forEach(([key, value]) => {
+      if (value && value !== '') {
+        searchParams.set(key === 'search' ? 'q' : key, value.toString());
+      } else {
+        searchParams.delete(key === 'search' ? 'q' : key);
+      }
+    });
+
+    // Mettre à jour l'URL sans recharger la page
+    const newUrl = `${window.location.pathname}?${searchParams.toString()}`;
+    window.history.pushState({}, '', newUrl);
+
+    // Émettre un événement pour mettre à jour la liste des produits
+    window.dispatchEvent(new CustomEvent('filters-changed', {
+      detail: currentFilters
+    }));
+  }
+
+  // Écouter les événements de mise à jour des autres filtres
+  document.addEventListener('search-changed', (e: CustomEvent) => {
+    currentFilters.search = e.detail;
+    applyFilters();
+  });
+
+  document.addEventListener('sort-changed', (e: CustomEvent) => {
+    currentFilters.sort = e.detail;
+    applyFilters();
+  });
+
+  // Initialiser les filtres au chargement de la page
+  window.addEventListener('load', initializeFilters);
+</script>

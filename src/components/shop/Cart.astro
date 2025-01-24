@@ -1,0 +1,142 @@
+---
+---
+
+<div
+  id="cart"
+  class="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50"
+>
+  <div class="h-full flex flex-col">
+    <div class="p-6 border-b">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-medium">Panier</h2>
+        <button
+          id="closeCart"
+          class="text-gray-400 hover:text-gray-500"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-6">
+      <div id="cartItems" class="space-y-6">
+        <!-- Les articles du panier seront injectés ici via JavaScript -->
+      </div>
+    </div>
+
+    <div class="p-6 border-t">
+      <div class="flex items-center justify-between mb-4">
+        <span class="text-lg font-medium">Total</span>
+        <span id="cartTotal" class="text-2xl font-semibold">0,00 €</span>
+      </div>
+      <button
+        id="checkout"
+        class="w-full bg-primary text-white px-6 py-3 rounded-full hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled
+      >
+        Valider la commande
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Gestion du panier
+  const cart = document.getElementById('cart');
+  const closeCart = document.getElementById('closeCart');
+  const cartItems = document.getElementById('cartItems');
+  const cartTotal = document.getElementById('cartTotal');
+  const checkout = document.getElementById('checkout');
+
+  // Ouvrir/fermer le panier
+  document.addEventListener('click', (e) => {
+    if (e.target.matches('[data-open-cart]')) {
+      cart.classList.remove('translate-x-full');
+    }
+  });
+
+  closeCart.addEventListener('click', () => {
+    cart.classList.add('translate-x-full');
+  });
+
+  // Mise à jour du panier
+  function updateCart() {
+    const items = JSON.parse(localStorage.getItem('cart') || '[]');
+    cartItems.innerHTML = items.map((item, index) => `
+      <div class="flex items-center gap-4">
+        <img src="${item.image}" alt="${item.title}" loading="lazy" class="w-20 h-20 object-cover rounded-lg">
+        <div class="flex-1">
+          <h3 class="font-medium">${item.title}</h3>
+          <p class="text-gray-600">${item.price.toFixed(2)} €</p>
+        </div>
+        <button
+          class="text-red-500 hover:text-red-600"
+          onclick="removeFromCart(${index})"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+        </button>
+      </div>
+    `).join('');
+
+    const total = items.reduce((sum, item) => sum + item.price, 0);
+    cartTotal.textContent = `${total.toFixed(2)} €`;
+    checkout.disabled = items.length === 0;
+  }
+
+  // Supprimer un article du panier
+  window.removeFromCart = function(index) {
+    const items = JSON.parse(localStorage.getItem('cart') || '[]');
+    items.splice(index, 1); // Supprime l'élément à l'index spécifié
+    localStorage.setItem('cart', JSON.stringify(items));
+    updateCart();
+  };
+
+  // Initialisation
+  updateCart();
+
+  // Écouter les mises à jour du panier
+  document.addEventListener('cartUpdated', updateCart);
+
+  // Gestion du checkout avec Stripe
+  checkout.addEventListener('click', async () => {
+    try {
+      const items = JSON.parse(localStorage.getItem('cart') || '[]');
+      
+      // Désactiver le bouton pendant le traitement
+      checkout.disabled = true;
+      checkout.textContent = 'Traitement en cours...';
+
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ items }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de la création de la session de paiement');
+      }
+
+      const { url } = await response.json();
+      
+      if (url) {
+        // Rediriger vers la page de paiement Stripe
+        window.location.href = url;
+      } else {
+        throw new Error('URL de paiement non reçue');
+      }
+    } catch (error) {
+      console.error('Erreur de paiement:', error);
+      alert('Une erreur est survenue lors du paiement. Veuillez réessayer.');
+      
+      // Réactiver le bouton en cas d'erreur
+      checkout.disabled = false;
+      checkout.textContent = 'Valider la commande';
+    }
+  });
+</script>

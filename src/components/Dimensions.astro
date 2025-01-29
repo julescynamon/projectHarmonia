@@ -1,0 +1,72 @@
+---
+interface Dimension {
+  title: string;
+  description: string;
+  icon: string;
+  buttonText: string;
+  buttonLink: string;
+}
+
+const dimensions: Dimension[] = [
+  {
+    title: "Santé naturelle",
+    description: "Accompagner le corps et l'esprit vers l'équilibre avec la naturopathie humaine et animale.",
+    icon: "🌿",
+    buttonText: "En savoir plus",
+    buttonLink: "/sante-naturelle"
+  },
+  {
+    title: "Rituels et énergie",
+    description: "Renforcer les liens sacrés et équilibrer les énergies des humains et des animaux.",
+    icon: "🐾",
+    buttonText: "Découvrez nos rituels",
+    buttonLink: "/rituels-energie"
+  },
+  {
+    title: "Développement spirituel",
+    description: "Guidance et rituels pour révéler votre lumière intérieure.",
+    icon: "✨",
+    buttonText: "Explorez nos outils spirituels",
+    buttonLink: "/developpement-spirituel"
+  }
+];
+---
+
+<section class="py-16 bg-cream relative overflow-hidden">
+  <div class="container mx-auto px-4">
+    <div class="text-center max-w-3xl mx-auto mb-12" data-aos="fade-up">
+      <h2 class="font-heading text-3xl sm:text-4xl text-ebony mb-6">
+        Une approche holistique pour vous et vos animaux
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 relative">
+      {dimensions.map((dimension) => (
+        <div 
+          class="bg-sage/5 rounded-lg p-8 flex flex-col items-center text-center transition-transform hover:transform hover:-translate-y-1 hover:shadow-lg"
+          data-aos="fade-up"
+          data-aos-delay={dimensions.indexOf(dimension) * 100}
+        >
+          <span class="text-4xl mb-4" role="img" aria-label={dimension.title}>
+            {dimension.icon}
+          </span>
+          
+          <h3 class="font-heading text-xl text-ebony mb-3">
+            {dimension.title}
+          </h3>
+          
+          <p class="text-gray-600 mb-6">
+            {dimension.description}
+          </p>
+          
+          <a
+            href={dimension.buttonLink}
+            class="inline-block px-6 py-2 bg-sage text-white rounded-full hover:bg-eucalyptus transition-colors duration-300 text-sm"
+          >
+            {dimension.buttonText}
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

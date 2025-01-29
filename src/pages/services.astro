@@ -69,10 +69,8 @@ const services = [
 <MainLayout title={seo.title} description={seo.description}>
   <div class="pt-24">
     <!-- Hero Section -->
-    <section class="py-20 bg-sage/5 relative overflow-hidden">
+    <section class="py-20 bg-transition relative overflow-hidden">
       <!-- Motifs de fond -->
-      <div class="absolute inset-0 bg-geometric-pattern opacity-5"></div>
-      <div class="absolute inset-0 bg-nature-pattern opacity-5"></div>
 
       <div class="container mx-auto px-4">
         <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
@@ -90,7 +88,7 @@ const services = [
     </section>
 
     <!-- Services Section -->
-    <section class="py-20">
+    <section class="py-20 bg-transition">
       <div class="container mx-auto px-4">
         <div class="grid md:grid-cols-2 gap-12">
           {services.map((service, index) => (
@@ -99,7 +97,7 @@ const services = [
                 <div class="p-8">
                   <!-- En-tête -->
                   <div class="flex items-start gap-6 mb-6">
-                    <div class="w-16 h-16 rounded-full bg-sage/10 flex items-center justify-center shrink-0">
+                    <div class="w-16 h-16 rounded-full bg-transition flex items-center justify-center shrink-0">
                       <span class="material-icons text-3xl text-eucalyptus">{service.icon}</span>
                     </div>
                     <div>
@@ -143,7 +141,7 @@ const services = [
     </section>
 
     <!-- FAQ Section -->
-    <section class="py-20 bg-sage/5 relative overflow-hidden">
+    <section class="py-20 bg-transition relative overflow-hidden">
       <!-- Motifs de fond -->
       <div class="absolute inset-0 bg-geometric-pattern opacity-5 rotate-180"></div>
 

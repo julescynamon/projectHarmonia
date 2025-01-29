@@ -1,6 +1,8 @@
 ---
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 
+export const prerender = true;
+
 export function getStaticPaths() {
   return [
     {
@@ -173,5 +175,5 @@ const { title, description, image, category, date, content } = Astro.props;
   category={category}
   date={date}
 >
-  <div class="prose prose-lg mx-auto" set:html={content} />
+  <Fragment set:html={content} />
 </BlogPostLayout>

@@ -77,15 +77,12 @@ function formatDate(dateStr: string) {
     <section class="py-20 bg-sage/5 relative overflow-hidden">
       <!-- Motifs de fond -->
       <div class="absolute inset-0 bg-geometric-pattern opacity-5"></div>
-      <div class="absolute inset-0 bg-nature-pattern opacity-5"></div>
-
+      
       <div class="container mx-auto px-4">
-        <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
-          <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
-            Blog & Actualités
-          </h1>
-          <p class="font-slogan text-lg md:text-xl text-eucalyptus">
-            Découvrez mes articles sur la naturopathie, le bien-être et la santé naturelle.
+        <div class="max-w-3xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">Blog & Actualités</h1>
+          <p class="text-xl text-gray-600 mb-8">
+            Découvrez nos articles sur la naturopathie, le bien-être et la santé naturelle
           </p>
         </div>
       </div>
@@ -94,11 +91,11 @@ function formatDate(dateStr: string) {
     <!-- Filtres -->
     <section class="py-12 bg-cream">
       <div class="container mx-auto px-4">
-        <div class="flex flex-wrap gap-4 justify-center" data-aos="fade-up">
+        <div class="flex flex-wrap justify-center gap-4" id="category-filters">
           <Button 
             type="button"
-            variant="primary" 
-            class="filter-btn active" 
+            variant="primary"
+            class="filter-btn active"
             data-category="all"
           >
             Tous les articles
@@ -107,7 +104,7 @@ function formatDate(dateStr: string) {
             <Button 
               type="button"
               variant="primary"
-              class="filter-btn" 
+              class="filter-btn"
               data-category={category.toLowerCase()}
             >
               {category}
@@ -173,36 +170,27 @@ function formatDate(dateStr: string) {
         </div>
       </div>
     </section>
-
-    <!-- Newsletter -->
-    <section class="py-20 bg-sage/5 relative overflow-hidden">
-      <!-- Motifs de fond -->
-      <div class="absolute inset-0 bg-geometric-pattern opacity-5 rotate-180"></div>
-
+        <!-- Newsletter Section -->
+    <section class="py-16 bg-sage/5">
       <div class="container mx-auto px-4">
-        <div class="max-w-3xl mx-auto text-center">
-          <div data-aos="fade-up">
-            <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-6">
-              Restez informé
-            </h2>
-            <p class="text-eucalyptus mb-8">
-              Inscrivez-vous à ma newsletter pour recevoir mes derniers articles et conseils bien-être.
-            </p>
-
-            <Card variant="feature">
-              <form class="p-8 flex flex-col sm:flex-row gap-4">
-                <input
-                  type="email"
-                  placeholder="Votre adresse email"
-                  class="flex-grow px-4 py-2 rounded-lg border border-sage/20 focus:border-eucalyptus focus:ring-1 focus:ring-eucalyptus outline-none transition-colors"
-                  required
-                />
-                <Button type="submit" variant="primary">
-                  S'inscrire
-                </Button>
-              </form>
-            </Card>
-          </div>
+        <div class="max-w-2xl mx-auto text-center" data-aos="fade-up">
+          <h2 class="text-3xl font-serif mb-4">Restez informé des dernières actualités bien-être</h2>
+          <p class="text-gray-600 mb-8">Recevez nos conseils experts en naturopathie, nos recettes bien-être et nos actualités directement dans votre boîte mail.</p>
+          <form class="flex flex-col sm:flex-row gap-4 justify-center">
+            <input
+              type="email"
+              placeholder="Votre adresse email"
+              class="px-4 py-3 rounded-lg border border-gray-200 focus:border-eucalyptus focus:ring-2 focus:ring-eucalyptus/20 outline-none flex-1 max-w-md"
+              required
+            />
+            <button
+              type="submit"
+              class="bg-eucalyptus hover:bg-eucalyptus/90 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+            >
+              S'abonner
+            </button>
+          </form>
+          <p class="text-sm text-gray-500 mt-4">En vous inscrivant, vous acceptez de recevoir nos newsletters. Vous pourrez vous désinscrire à tout moment.</p>
         </div>
       </div>
     </section>
@@ -212,42 +200,10 @@ function formatDate(dateStr: string) {
 <style>
   .filter-btn {
     opacity: 0.7;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.2s;
   }
-  
+  .filter-btn:hover,
   .filter-btn.active {
     opacity: 1;
   }
 </style>
-
-<script>
-  // Attendre que le DOM soit chargé
-  document.addEventListener('DOMContentLoaded', () => {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const posts = document.querySelectorAll<HTMLElement>('.post-card');
-    
-    // Fonction pour filtrer les articles
-    function filterPosts(category) {
-      posts.forEach(post => {
-        if (category === 'all' || post.dataset.category === category) {
-          post.style.display = 'block';
-        } else {
-          post.style.display = 'none';
-        }
-      });
-    }
-    
-    // Ajouter les écouteurs d'événements aux boutons
-    filterButtons.forEach((button: HTMLElement) => {
-      button.addEventListener('click', () => {
-        // Mettre à jour les classes active
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        
-        // Filtrer les articles
-        const category = button.dataset.category;
-        filterPosts(category);
-      });
-    });
-  });
-</script>

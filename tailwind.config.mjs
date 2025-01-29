@@ -10,6 +10,12 @@ export default {
         ebony: "#1C1C1C",
         eucalyptus: "#748C69",
         transition: "#FAF7F2",
+        primary: {
+          300: "#94A88B",  // Lighter shade
+          400: "#849C7A",  // Light shade
+          500: "#748C69",  // Base color (eucalyptus)
+          600: "#647A59",  // Darker shade
+        },
       },
       fontFamily: {
         heading: ["Playfair Display", "serif"],

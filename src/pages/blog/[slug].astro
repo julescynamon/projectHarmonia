@@ -1,179 +1,27 @@
 ---
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
+import { getCollection } from 'astro:content';
 
 export const prerender = true;
 
-export function getStaticPaths() {
-  return [
-    {
-      params: { slug: 'bienfaits-phytotherapie-quotidien' },
-      props: {
-        title: 'Les bienfaits de la phytothérapie au quotidien',
-        description: 'Découvrez comment les plantes médicinales peuvent améliorer votre santé et votre bien-être quotidien.',
-        image: '/images/blog/phytotherapie.jpg',
-        category: 'Naturopathie',
-        date: '15 avril 2024',
-        content: `
-          <h2>La phytothérapie : une approche millénaire</h2>
-          
-          <p>La phytothérapie, l'utilisation des plantes médicinales pour maintenir ou améliorer la santé, est une pratique ancestrale qui connaît un regain d'intérêt dans notre société moderne. Cette approche naturelle offre de nombreux bienfaits pour notre santé quotidienne.</p>
-          
-          <h3>Les principaux bienfaits</h3>
-          <ul>
-            <li>Renforcement du système immunitaire</li>
-            <li>Amélioration du sommeil</li>
-            <li>Réduction du stress</li>
-            <li>Soutien digestif</li>
-          </ul>
-
-          <h3>Comment intégrer la phytothérapie</h3>
-          <ol>
-            <li>Commencez doucement avec des tisanes</li>
-            <li>Choisissez des plantes adaptées à vos besoins</li>
-            <li>Respectez les dosages recommandés</li>
-            <li>Privilégiez la qualité des plantes</li>
-          </ol>
-
-          <h3>Les plantes essentielles</h3>
-          <p>Certaines plantes sont particulièrement intéressantes pour débuter en phytothérapie :</p>
-          <ul>
-            <li>La camomille : apaisante et digestive</li>
-            <li>Le thym : antiseptique et immunostimulant</li>
-            <li>La mélisse : anti-stress et sommeil</li>
-            <li>Le romarin : tonique et hépatoprotecteur</li>
-          </ul>
-        `
-      }
-    },
-    {
-      params: { slug: 'alimentation-naturelle-animaux' },
-      props: {
-        title: 'Alimentation naturelle pour votre animal',
-        description: 'Guide complet pour une alimentation saine et équilibrée adaptée aux besoins de votre compagnon.',
-        image: '/images/blog/alimentation-animale.jpg',
-        category: 'Animaux',
-        date: '10 avril 2024',
-        content: `
-          <h2>Une alimentation adaptée pour votre animal</h2>
-
-          <p>L'alimentation joue un rôle crucial dans la santé de nos animaux de compagnie. Une approche naturelle peut grandement améliorer leur qualité de vie et prévenir de nombreux problèmes de santé.</p>
-
-          <h3>Principes fondamentaux</h3>
-          <ul>
-            <li>Respecter les besoins naturels de l'espèce</li>
-            <li>Privilégier les aliments frais et non transformés</li>
-            <li>Adapter les portions à l'activité physique</li>
-            <li>Varier les sources de protéines</li>
-          </ul>
-
-          <h3>Aliments bénéfiques pour les chiens</h3>
-          <ul>
-            <li>Viandes maigres</li>
-            <li>Légumes cuits</li>
-            <li>Huiles de qualité (poisson, olive)</li>
-            <li>Fruits en petite quantité</li>
-          </ul>
-
-          <h3>Aliments bénéfiques pour les chats</h3>
-          <ul>
-            <li>Protéines animales de qualité</li>
-            <li>Acides gras essentiels</li>
-            <li>Taurine</li>
-            <li>Eau fraîche en permanence</li>
-          </ul>
-        `
-      }
-    },
-    {
-      params: { slug: 'gerer-stress-naturellement' },
-      props: {
-        title: 'Gérer son stress naturellement',
-        description: 'Techniques et conseils naturels pour mieux gérer le stress et retrouver la sérénité.',
-        image: '/images/blog/gestion-stress.jpg',
-        category: 'Bien-être',
-        date: '5 avril 2024',
-        content: `
-          <h2>Comprendre et gérer son stress naturellement</h2>
-
-          <p>Le stress fait partie intégrante de notre vie moderne, mais il existe de nombreuses approches naturelles pour le gérer efficacement et retrouver un équilibre intérieur.</p>
-
-          <h3>Les symptômes du stress</h3>
-          <ul>
-            <li>Tensions musculaires</li>
-            <li>Troubles du sommeil</li>
-            <li>Anxiété</li>
-            <li>Fatigue chronique</li>
-          </ul>
-
-          <h3>Solutions naturelles</h3>
-          <ol>
-            <li>La respiration consciente</li>
-            <li>La méditation quotidienne</li>
-            <li>L'activité physique régulière</li>
-            <li>Une alimentation équilibrée</li>
-          </ol>
-
-          <h3>Plantes anti-stress</h3>
-          <ul>
-            <li>La lavande : apaisante et relaxante</li>
-            <li>La passiflore : favorise le sommeil</li>
-            <li>Le tilleul : calmant naturel</li>
-            <li>La valériane : anti-anxiété</li>
-          </ul>
-        `
-      }
-    },
-    {
-      params: { slug: 'nutrition-equilibree-naturopathie' },
-      props: {
-        title: 'Les bases d\'une nutrition équilibrée en naturopathie',
-        description: 'Découvrez les principes fondamentaux d\'une alimentation saine selon la naturopathie.',
-        image: '/images/blog/nutrition.jpg',
-        category: 'Nutrition',
-        date: '1 avril 2024',
-        content: `
-          <h2>L'alimentation selon la naturopathie</h2>
-
-          <p>La naturopathie considère l'alimentation comme un pilier fondamental de la santé. Une nutrition équilibrée permet de maintenir notre vitalité et de prévenir de nombreux déséquilibres.</p>
-
-          <h3>Principes fondamentaux</h3>
-          <ul>
-            <li>Privilégier les aliments complets</li>
-            <li>Respecter la saisonnalité</li>
-            <li>Écouter ses besoins</li>
-            <li>Manger consciemment</li>
-          </ul>
-
-          <h3>Les groupes d'aliments essentiels</h3>
-          <ul>
-            <li>Fruits et légumes de saison</li>
-            <li>Protéines de qualité</li>
-            <li>Bonnes graisses</li>
-            <li>Céréales complètes</li>
-          </ul>
-
-          <h3>Conseils pratiques</h3>
-          <ol>
-            <li>Prendre le temps de manger</li>
-            <li>Bien mastiquer</li>
-            <li>Éviter les produits transformés</li>
-            <li>Boire suffisamment d'eau</li>
-          </ol>
-        `
-      }
-    }
-  ];
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
 }
 
-const { title, description, image, category, date, content } = Astro.props;
+const { post } = Astro.props;
+const { Content } = await post.render();
 ---
 
-<BlogPostLayout
-  title={title}
-  description={description}
-  image={image}
-  category={category}
-  date={date}
+<BlogPostLayout 
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.image}
+  category={post.data.category}
+  date={post.data.date}
 >
-  <Fragment set:html={content} />
+  <Content />
 </BlogPostLayout>

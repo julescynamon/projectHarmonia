@@ -3,6 +3,12 @@ import { createServerClient } from "../lib/supabase";
 
 export const onRequest = defineMiddleware(
   async ({ request, redirect, locals }, next) => {
+    // Ignorer l'authentification pour les pages de blog
+    const url = new URL(request.url);
+    if (url.pathname.startsWith('/blog')) {
+      return next();
+    }
+
     // Créer une nouvelle instance du client serveur pour chaque requête
     const supabase = createServerClient();
     locals.supabase = supabase;

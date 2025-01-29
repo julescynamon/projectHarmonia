@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/BlogPostLayout.astro';
+---
+
+<Layout 
+  title="Inscription confirmée"
+  description="Confirmation de votre inscription à la newsletter"
+  image="/images/default-newsletter.jpg"
+  category="Newsletter"
+  date={new Date().toISOString()}
+>
+  <div class="max-w-2xl mx-auto px-4 py-16 text-center">
+    <h1 class="text-3xl font-bold mb-6">
+      Inscription confirmée !
+    </h1>
+    <p class="text-lg mb-8">
+      Merci d'avoir confirmé votre inscription à notre newsletter. 
+      Vous recevrez désormais nos actualités directement dans votre boîte mail.
+    </p>
+    <a 
+      href="/" 
+      class="inline-block px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-500 transition-colors"
+    >
+      Retour à l'accueil
+    </a>
+  </div>
+</Layout>

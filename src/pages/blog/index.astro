@@ -3,63 +3,24 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import { pageSEO } from '../../lib/seo';
 import Button from '../../components/ui/Button.astro';
 import Card from '../../components/ui/Card.astro';
+import { getCollection } from 'astro:content';
+import NewsletterForm from '../../components/NewsletterForm.astro';
 
 const seo = pageSEO.blog;
 
-// Simuler des articles de blog
-const posts = [
-  {
-    title: 'Les bienfaits de la phytothérapie au quotidien',
-    excerpt: 'Découvrez comment intégrer les plantes médicinales dans votre routine quotidienne pour améliorer votre bien-être.',
-    image: '/images/blog/phytotherapie.jpg',
-    category: 'Phytothérapie',
-    date: '2025-01-15',
-    slug: 'bienfaits-phytotherapie-quotidien'
-  },
-  {
-    title: 'Nutrition : les clés d\'une alimentation équilibrée',
-    excerpt: 'Apprenez les principes fondamentaux d\'une alimentation saine et équilibrée pour maintenir votre vitalité.',
-    image: '/images/blog/nutrition.jpg',
-    category: 'Nutrition',
-    date: '2025-01-10',
-    slug: 'nutrition-cles-alimentation-equilibree'
-  },
-  {
-    title: 'Gérer son stress naturellement',
-    excerpt: 'Des solutions naturelles et efficaces pour mieux gérer votre stress et retrouver votre sérénité.',
-    image: '/images/blog/stress.jpg',
-    category: 'Bien-être',
-    date: '2025-01-05',
-    slug: 'gerer-stress-naturellement'
-  },
-  {
-    title: 'Le pouvoir des huiles essentielles',
-    excerpt: 'Guide complet sur l\'utilisation des huiles essentielles pour votre santé et votre bien-être.',
-    image: '/images/blog/huiles-essentielles.jpg',
-    category: 'Aromathérapie',
-    date: '2024-12-28',
-    slug: 'pouvoir-huiles-essentielles'
-  },
-  {
-    title: 'Sommeil : les secrets d\'une bonne nuit',
-    excerpt: 'Conseils et astuces naturels pour améliorer la qualité de votre sommeil et vous réveiller en pleine forme.',
-    image: '/images/blog/sommeil.jpg',
-    category: 'Santé',
-    date: '2024-12-20',
-    slug: 'secrets-bonne-nuit-sommeil'
-  },
-  {
-    title: 'Les plantes adaptogènes',
-    excerpt: 'Tout savoir sur ces plantes extraordinaires qui aident l\'organisme à s\'adapter au stress.',
-    image: '/images/blog/adaptogenes.jpg',
-    category: 'Phytothérapie',
-    date: '2024-12-15',
-    slug: 'plantes-adaptogenes'
-  }
-];
+// Récupérer tous les articles de blog
+const posts = await getCollection('blog');
+
+// Trier les articles par date (du plus récent au plus ancien)
+const sortedPosts = posts.sort((a, b) => 
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
 
 // Catégories uniques pour le filtre
-const categories = [...new Set(posts.map(post => post.category))];
+const categories = [...new Set(sortedPosts.map(post => post.data.category.toLowerCase()))].sort();
+
+// Debug: Afficher toutes les catégories dans la console
+console.log('Categories disponibles:', categories);
 
 // Formater la date
 function formatDate(dateStr: string) {
@@ -100,16 +61,19 @@ function formatDate(dateStr: string) {
           >
             Tous les articles
           </Button>
-          {categories.map(category => (
-            <Button 
-              type="button"
-              variant="primary"
-              class="filter-btn"
-              data-category={category.toLowerCase()}
-            >
-              {category}
-            </Button>
-          ))}
+          {categories.map(category => {
+            const displayCategory = category.charAt(0).toUpperCase() + category.slice(1);
+            return (
+              <Button 
+                type="button"
+                variant="primary"
+                class="filter-btn"
+                data-category={category}
+              >
+                {displayCategory}
+              </Button>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -117,26 +81,27 @@ function formatDate(dateStr: string) {
     <!-- Articles -->
     <section class="py-20">
       <div class="container mx-auto px-4">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="posts-grid">
-          {posts.map((post, index) => (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 relative" id="posts-grid">
+          {sortedPosts.map((post, index) => (
             <div 
               data-aos="fade-up" 
               data-aos-delay={index * 100}
               class="post-card"
-              data-category={post.category.toLowerCase()}
+              data-category={post.data.category.toLowerCase()}
+              style="position: relative;"
             >
               <Card variant="hover" class="h-full">
                 <article class="flex flex-col h-full">
                   <!-- Image -->
                   <div class="relative aspect-[16/9] rounded-t-lg overflow-hidden">
                     <img
-                      src={post.image}
-                      alt={post.title}
+                      src={post.data.image}
+                      alt={post.data.title}
                       class="w-full h-full object-cover"
                     />
                     <div class="absolute top-4 left-4">
                       <span class="bg-sage/90 backdrop-blur-sm text-cream px-3 py-1 rounded-full text-sm">
-                        {post.category}
+                        {post.data.category}
                       </span>
                     </div>
                   </div>
@@ -144,19 +109,19 @@ function formatDate(dateStr: string) {
                   <!-- Contenu -->
                   <div class="p-6 flex flex-col flex-grow">
                     <div class="mb-4">
-                      <time datetime={post.date} class="text-sm text-eucalyptus">
-                        {formatDate(post.date)}
+                      <time datetime={post.data.date} class="text-sm text-eucalyptus">
+                        {formatDate(post.data.date)}
                       </time>
                     </div>
                     
                     <h2 class="font-heading text-xl text-ebony mb-3">
                       <a href={`/blog/${post.slug}`} class="hover:text-gold transition-colors">
-                        {post.title}
+                        {post.data.title}
                       </a>
                     </h2>
                     
                     <p class="text-eucalyptus mb-6 flex-grow">
-                      {post.excerpt}
+                      {post.data.description}
                     </p>
 
                     <Button href={`/blog/${post.slug}`} variant="outline" class="self-start">
@@ -176,20 +141,7 @@ function formatDate(dateStr: string) {
         <div class="max-w-2xl mx-auto text-center" data-aos="fade-up">
           <h2 class="text-3xl font-serif mb-4">Restez informé des dernières actualités bien-être</h2>
           <p class="text-gray-600 mb-8">Recevez nos conseils experts en naturopathie, nos recettes bien-être et nos actualités directement dans votre boîte mail.</p>
-          <form class="flex flex-col sm:flex-row gap-4 justify-center">
-            <input
-              type="email"
-              placeholder="Votre adresse email"
-              class="px-4 py-3 rounded-lg border border-gray-200 focus:border-eucalyptus focus:ring-2 focus:ring-eucalyptus/20 outline-none flex-1 max-w-md"
-              required
-            />
-            <button
-              type="submit"
-              class="bg-eucalyptus hover:bg-eucalyptus/90 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
-            >
-              S'abonner
-            </button>
-          </form>
+          <NewsletterForm />
           <p class="text-sm text-gray-500 mt-4">En vous inscrivant, vous acceptez de recevoir nos newsletters. Vous pourrez vous désinscrire à tout moment.</p>
         </div>
       </div>
@@ -202,8 +154,71 @@ function formatDate(dateStr: string) {
     opacity: 0.7;
     transition: opacity 0.2s;
   }
-  .filter-btn:hover,
+
   .filter-btn.active {
     opacity: 1;
   }
+
+  .filter-btn:hover {
+    opacity: 1;
+  }
+
+  .post-card {
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+    grid-row-start: auto;
+  }
+
+  .post-card.filtered {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    transform: scale(0.95);
+  }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const postCards = document.querySelectorAll('.post-card');
+    const postsGrid = document.getElementById('posts-grid');
+
+    function updateFilters(selectedCategory) {
+      postCards.forEach((card: HTMLElement) => {
+        const cardCategory = card.getAttribute('data-category');
+        if (selectedCategory === 'all' || cardCategory === selectedCategory) {
+          requestAnimationFrame(() => {
+            card.classList.remove('filtered');
+            card.style.position = 'relative';
+          });
+        } else {
+          requestAnimationFrame(() => {
+            card.classList.add('filtered');
+            setTimeout(() => {
+              if (card.classList.contains('filtered')) {
+                card.style.position = 'absolute';
+              }
+            }, 300);
+          });
+        }
+      });
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Mettre à jour les classes active
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        
+        // Appliquer le filtre
+        const selectedCategory = button.getAttribute('data-category').toLowerCase();
+        updateFilters(selectedCategory);
+      });
+    });
+
+    // Initialiser avec "Tous les articles"
+    updateFilters('all');
+  });
+</script>

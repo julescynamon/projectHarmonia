@@ -1,177 +1,181 @@
 import type { APIRoute } from 'astro';
-import { getCollection } from 'astro:content';
 import { Resend } from 'resend';
-import { createClient } from '@supabase/supabase-js';
+import fs from 'fs/promises';
+import path from 'path';
+import matter from 'gray-matter';
 
 const resend = new Resend(import.meta.env.RESEND_API_KEY);
-const fromEmail = import.meta.env.FROM_EMAIL || 'onboarding@resend.dev';
-const websiteUrl = import.meta.env.WEBSITE_URL || 'http://localhost:4321';
-const websiteName = import.meta.env.WEBSITE_NAME || 'Harmonia';
-
-// Configuration Supabase
-const supabase = createClient(
-  import.meta.env.PUBLIC_SUPABASE_URL!,
-  import.meta.env.SUPABASE_SERVICE_KEY!
-);
+const fromEmail = 'onboarding@resend.dev';
+const websiteUrl = 'http://localhost:4321';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const body = await request.json().catch(() => ({}));
-    const { slug } = body;
+    console.log('Début de la requête de notification');
+    console.log('Clé API Resend:', import.meta.env.RESEND_API_KEY ? 'Présente' : 'Manquante');
+    
+    const { slug } = await request.json();
+    console.log('Slug reçu:', slug);
 
     if (!slug) {
+      console.log('Erreur: Slug manquant');
       return new Response(JSON.stringify({ error: 'Slug manquant dans la requête' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    // Récupérer l'article
-    let allPosts;
-    try {
-      allPosts = await getCollection('blog');
-    } catch (error) {
-      console.error('Erreur lors de la récupération des articles:', error);
-      return new Response(JSON.stringify({ error: 'Erreur lors de la récupération des articles' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
+    // Lire directement le fichier pour avoir les données les plus récentes
+    const filePath = path.join(process.cwd(), 'src', 'content', 'blog', `${slug}.md`);
+    const fileContent = await fs.readFile(filePath, 'utf-8');
+    const { data: frontmatter } = matter(fileContent);
 
-    const post = allPosts.find(post => post.slug === slug);
-    
-    if (!post) {
-      return new Response(JSON.stringify({ error: 'Article non trouvé' }), {
-        status: 404,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
+    console.log('Article trouvé:', {
+      title: frontmatter.title,
+      status: frontmatter.status,
+      notificationSent: frontmatter.notificationSent
+    });
 
     // Vérifier si l'article est publié
-    if (post.data.status !== 'published') {
+    if (frontmatter.status !== 'published') {
+      console.log('Erreur: Article non publié');
       return new Response(JSON.stringify({ error: 'Article non publié' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    // Récupérer les abonnés confirmés
-    let subscribers;
-    try {
-      const { data: subscribersData, error: queryError } = await supabase
-        .from('newsletter_subscribers')
-        .select('email')
-        .eq('confirmed', true)
-        .eq('unsubscribed', false);
-
-      if (queryError) throw queryError;
-      subscribers = subscribersData;
-    } catch (error) {
-      console.error('Erreur lors de la récupération des abonnés:', error);
-      return new Response(JSON.stringify({ error: 'Erreur lors de la récupération des abonnés' }), {
-        status: 500,
+    // Vérifier si l'article a déjà été notifié
+    if (frontmatter.notificationSent) {
+      console.log('Erreur: Article déjà notifié');
+      return new Response(JSON.stringify({ error: 'Notification déjà envoyée pour cet article' }), {
+        status: 400,
         headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    if (!subscribers || subscribers.length === 0) {
-      return new Response(JSON.stringify({ message: 'Aucun abonné à notifier' }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-
-    // En développement, n'envoyer qu'à l'email de test
-    const isDev = import.meta.env.DEV;
+    // En développement, envoyer uniquement à l'email de test
     const testEmail = 'tyzranaima@gmail.com';
-    
-    const emailsToNotify = isDev
-      ? subscribers.filter(s => s.email === testEmail)
-      : subscribers;
 
-    // Construire l'URL complète de l'article
-    const articleUrl = new URL(`/blog/${post.slug}`, websiteUrl).toString();
-    const imageUrl = post.data.image ? new URL(post.data.image, websiteUrl).toString() : null;
+    try {
+      console.log('Configuration de l\'email:', {
+        from: fromEmail,
+        to: testEmail,
+        subject: `Nouvel article : ${frontmatter.title}`
+      });
 
-    // Envoyer les notifications par lots
-    const batchSize = 50;
-    let successCount = 0;
-    let errorCount = 0;
-
-    for (let i = 0; i < emailsToNotify.length; i += batchSize) {
-      const batch = emailsToNotify.slice(i, i + batchSize);
-      
-      const results = await Promise.allSettled(
-        batch.map(({ email }) =>
-          resend.emails.send({
-            from: fromEmail,
-            to: email,
-            subject: `Nouvel article sur ${websiteName} : ${post.data.title}`,
-            html: `
-              <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-                <h1>Nouveau sur ${websiteName}</h1>
-                ${imageUrl ? `
-                  <img src="${imageUrl}" 
-                       alt="Image de couverture pour ${post.data.title}"
-                       style="max-width: 100%; height: auto; margin: 20px 0;"
+      const result = await resend.emails.send({
+        from: fromEmail,
+        to: testEmail,
+        subject: `Nouvel article : ${frontmatter.title}`,
+        html: `
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            </head>
+            <body style="margin: 0; padding: 0; background-color: #f9fafb;">
+              <div style="font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; overflow: hidden; margin-top: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+                <!-- En-tête avec logo -->
+                <div style="text-align: center; padding: 20px; background-color: #f8f9fa; border-bottom: 1px solid #e5e7eb;">
+                  <img src="${websiteUrl}/images/logo.svg" 
+                       alt="Harmonia"
+                       style="height: 40px; margin: 0 auto;"
                   />
-                ` : ''}
-                <h2>${post.data.title}</h2>
-                <p>${post.data.description}</p>
-                <p>
-                  <a href="${articleUrl}" 
-                     style="display: inline-block; padding: 10px 20px; background-color: #4F46E5; color: white; text-decoration: none; border-radius: 5px;">
-                    Lire l'article
-                  </a>
-                </p>
-                <p style="margin-top: 20px; font-size: 0.8em; color: #666;">
-                  <a href="${new URL(`/api/newsletter/unsubscribe?email=${encodeURIComponent(email)}`, websiteUrl)}" 
-                     style="color: #666;">
+                </div>
+
+                <!-- Image de couverture -->
+                ${frontmatter.image
+                  ? `
+                  <div style="position: relative;">
+                    <img src="${websiteUrl}${frontmatter.image}" 
+                         alt="Image de couverture pour ${frontmatter.title}"
+                         style="width: 100%; height: auto; object-fit: cover;"
+                    />
+                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 100%);"></div>
+                  </div>
+                  `
+                  : ''
+                }
+
+                <!-- Contenu -->
+                <div style="padding: 32px;">
+                  <h1 style="margin: 0 0 16px 0; color: #111827; font-size: 24px; font-weight: 600;">
+                    ${frontmatter.title}
+                  </h1>
+                  
+                  <p style="margin: 0 0 24px 0; color: #4b5563; font-size: 16px; line-height: 1.625;">
+                    ${frontmatter.description}
+                  </p>
+
+                  <div style="text-align: center; margin-top: 32px;">
+                    <a href="${websiteUrl}/blog/${slug}" 
+                       style="display: inline-block; padding: 12px 24px; background-color: #65815E; color: white; text-decoration: none; border-radius: 6px; font-weight: 500; transition: background-color 0.2s ease-in-out;"
+                    >
+                      Lire l'article
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Pied de page -->
+                <div style="padding: 24px; background-color: #f8f9fa; border-top: 1px solid #e5e7eb; text-align: center;">
+                  <p style="margin: 0 0 16px 0; color: #6b7280; font-size: 14px;">
+                    Vous recevez cet email car vous êtes abonné(e) à la newsletter d'Harmonia.
+                  </p>
+                  <a href="${websiteUrl}/api/newsletter/unsubscribe?email=${encodeURIComponent(testEmail)}" 
+                     style="color: #6b7280; text-decoration: underline; font-size: 14px;"
+                  >
                     Se désinscrire
                   </a>
-                </p>
+                </div>
               </div>
-            `,
-          }).catch(error => {
-            console.error(`Erreur d'envoi à ${email}:`, error);
-            throw error;
-          })
-        )
-      );
+            </body>
+          </html>
+        `,
+      });
 
-      results.forEach((result, index) => {
-        if (result.status === 'fulfilled') {
-          successCount++;
-          console.log(`✓ Email envoyé à ${batch[index].email}`);
-        } else {
-          errorCount++;
-          console.error(`× Erreur d'envoi à ${batch[index].email}:`, result.reason);
-        }
+      console.log('Résultat de l\'envoi:', result);
+
+      // Si l'email est envoyé avec succès, marquer l'article comme notifié
+      console.log('Mise à jour du statut de notification...');
+      const updatedFileContent = matter.stringify(matter(fileContent).content, {
+        ...frontmatter,
+        notificationSent: true
+      });
+      await fs.writeFile(filePath, updatedFileContent);
+      console.log('Statut de notification mis à jour');
+
+      return new Response(JSON.stringify({ 
+        success: true,
+        message: 'Notification envoyée avec succès',
+        emailResult: result
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+    } catch (error) {
+      console.error('Erreur détaillée lors de l\'envoi de l\'email:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+        error
+      });
+      
+      return new Response(JSON.stringify({ 
+        error: 'Erreur lors de l\'envoi de l\'email',
+        details: error instanceof Error ? error.message : 'Erreur inconnue'
+      }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
       });
     }
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: `Notifications envoyées avec succès. Succès: ${successCount}, Erreurs: ${errorCount}`
-      }),
-      {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      }
-    );
-
   } catch (error) {
-    console.error('Erreur lors de l\'envoi des notifications:', error);
-    return new Response(
-      JSON.stringify({ 
-        error: 'Erreur lors de l\'envoi des notifications',
-        details: error instanceof Error ? error.message : 'Erreur inconnue'
-      }),
-      {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      }
-    );
+    console.error('Erreur générale:', error);
+    return new Response(JSON.stringify({ error: 'Erreur lors du traitement de la requête' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
 };

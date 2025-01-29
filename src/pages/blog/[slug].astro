@@ -1,7 +1,6 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
-import BlogNotifier from '../../components/BlogNotifier.astro';
 
 // Désactiver le prerendering pour permettre l'envoi de notifications
 export const prerender = false;
@@ -52,6 +51,5 @@ try {
   date={post.data.date}
   readingTime={post.data.readingTime}
 >
-  <BlogNotifier slot="notifier" post={post} />
   <Content />
 </BlogPostLayout>

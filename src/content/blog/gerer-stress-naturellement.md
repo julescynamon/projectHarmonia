@@ -5,7 +5,7 @@ author: "Harmonia"
 image: "/images/blog/stress.jpg"
 category: "Bien-être"
 description: "Des solutions naturelles et efficaces pour mieux gérer votre stress et retrouver votre sérénité."
-status: "published"  # ou "draft"
+status: "published" # ou "draft"
 ---
 
 # Gérer son stress naturellement
@@ -15,6 +15,7 @@ Le stress fait partie intégrante de notre vie moderne, mais il existe de nombre
 ## Les impacts du stress
 
 Le stress chronique peut avoir des répercussions importantes sur :
+
 - La qualité du sommeil
 - La digestion
 - Le système immunitaire
@@ -24,17 +25,20 @@ Le stress chronique peut avoir des répercussions importantes sur :
 ## Solutions naturelles
 
 ### 1. La respiration consciente
+
 - Pratiquer la cohérence cardiaque
 - Respiration abdominale
 - Exercices de pranayama
 
 ### 2. Les plantes adaptogènes
+
 - Rhodiola
 - Ashwagandha
 - Ginseng
 - Eleuthérocoque
 
 ### 3. Les huiles essentielles
+
 - Lavande vraie
 - Petit grain bigarade
 - Marjolaine

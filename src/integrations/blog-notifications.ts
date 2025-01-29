@@ -16,10 +16,125 @@ interface BlogPost {
     description: string;
     image?: string;
     status: "draft" | "published";
+    category?: string;
   };
 }
 
 let lastNotifiedPosts = new Set<string>();
+
+const colors = {
+  sage: '#748C69',
+  darkSage: '#65815E',
+  lightGray: '#f8f9fa',
+  borderGray: '#e5e7eb',
+  textDark: '#111827',
+  textMedium: '#4b5563',
+  textLight: '#6b7280'
+};
+
+async function getNewArticleEmailTemplate({
+  article,
+  websiteUrl,
+  unsubscribeUrl,
+}: {
+  article: {
+    title: string;
+    description: string;
+    url: string;
+    image?: string;
+    category?: string;
+  };
+  websiteUrl: string;
+  unsubscribeUrl: string;
+}) {
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+      </head>
+      <body style="margin: 0; padding: 0; background-color: ${colors.lightGray}; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="min-width: 100%; background-color: ${colors.lightGray};">
+          <tr>
+            <td align="center" style="padding: 20px 0;">
+              <table width="600" border="0" cellspacing="0" cellpadding="0" style="width: 100%; max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
+                <!-- En-tête avec logo -->
+                <tr>
+                  <td align="center" style="padding: 32px 40px; background-color: ${colors.lightGray}; border-bottom: 1px solid ${colors.borderGray};">
+                    <img src="https://via.placeholder.com/200x50/748C69/FFFFFF?text=Harmonia" 
+                         alt="Harmonia"
+                         style="height: 40px; width: auto;"
+                    />
+                  </td>
+                </tr>
+
+                <!-- Image de couverture -->
+                <tr>
+                  <td style="position: relative;">
+                    <img src="${article.image || 'https://via.placeholder.com/600x300/748C69/FFFFFF?text=Image+Article'}" 
+                         alt="Image de couverture"
+                         width="600"
+                         style="width: 100%; height: auto; display: block; border: 0;"
+                    />
+                  </td>
+                </tr>
+
+                <!-- Contenu -->
+                <tr>
+                  <td style="padding: 40px;">
+                    <h1 style="margin: 0 0 16px 0; color: ${colors.textDark}; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 24px; line-height: 32px; font-weight: 600;">
+                      ${article.title}
+                    </h1>
+                    
+                    <p style="margin: 0 0 24px 0; color: ${colors.textMedium}; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; line-height: 24px;">
+                      ${article.description}
+                    </p>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td align="center">
+                          <table border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td align="center" style="border-radius: 6px; background-color: ${colors.sage};">
+                                <a href="${article.url}" 
+                                   style="display: inline-block; padding: 14px 32px; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 16px; color: white; text-decoration: none; border-radius: 6px; font-weight: 500; background-color: ${colors.sage};"
+                                >
+                                  Lire l'article
+                                </a>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+
+                <!-- Pied de page -->
+                <tr>
+                  <td style="padding: 32px 40px; background-color: ${colors.lightGray}; border-top: 1px solid ${colors.borderGray};">
+                    <p style="margin: 0 0 16px 0; color: ${colors.textLight}; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; line-height: 20px; text-align: center;">
+                      Vous recevez cet email car vous êtes abonné(e) à la newsletter d'Harmonia.
+                    </p>
+                    <p style="margin: 0; text-align: center;">
+                      <a href="${unsubscribeUrl}" 
+                         style="color: ${colors.textLight}; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; text-decoration: underline;"
+                      >
+                        Se désinscrire
+                      </a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </body>
+    </html>
+  `;
+}
 
 export default function blogNotifications(): AstroIntegration {
   let resend: Resend;
@@ -96,42 +211,22 @@ export default function blogNotifications(): AstroIntegration {
             for (let i = 0; i < emailsToNotify.length; i += batchSize) {
               const batch = emailsToNotify.slice(i, i + batchSize);
               await Promise.all(
-                batch.map((subscriber: { email: string }) =>
+                batch.map(async (subscriber: { email: string }) =>
                   resend.emails.send({
                     from: fromEmail,
                     to: subscriber.email,
                     subject: `Nouvel article sur ${websiteName} : ${post.data.title}`,
-                    html: `
-                    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-                      <h1>Nouveau sur ${websiteName}</h1>
-                      ${
-                        post.data.image
-                          ? `
-                        <img src="${websiteUrl}${post.data.image}" 
-                             alt="Image de couverture pour ${post.data.title}"
-                             style="max-width: 100%; height: auto; margin: 20px 0;"
-                        />
-                      `
-                          : ""
-                      }
-                      <h2>${post.data.title}</h2>
-                      <p>${post.data.description}</p>
-                      <p>
-                        <a href="${websiteUrl}/blog/${post.slug}" 
-                           style="display: inline-block; padding: 10px 20px; background-color: #4F46E5; color: white; text-decoration: none; border-radius: 5px;">
-                          Lire l'article
-                        </a>
-                      </p>
-                      <p style="margin-top: 20px; font-size: 0.8em; color: #666;">
-                        <a href="${websiteUrl}/api/newsletter/unsubscribe?email=${encodeURIComponent(
-                      subscriber.email
-                    )}" 
-                           style="color: #666;">
-                          Se désinscrire
-                        </a>
-                      </p>
-                    </div>
-                  `,
+                    html: await getNewArticleEmailTemplate({
+                      article: {
+                        title: post.data.title,
+                        description: post.data.description,
+                        url: `${websiteUrl}/blog/${post.slug}`,
+                        image: post.data.image,
+                        category: post.data.category
+                      },
+                      websiteUrl: websiteUrl,
+                      unsubscribeUrl: `${websiteUrl}/api/newsletter/unsubscribe?email=${encodeURIComponent(subscriber.email)}`
+                    })
                   })
                 )
               );

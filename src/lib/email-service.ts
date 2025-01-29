@@ -1,4 +1,5 @@
 import { Resend } from 'resend';
+import { getNewArticleEmailTemplate } from './emails/new-article-template';
 
 const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
 const FROM_EMAIL = import.meta.env.FROM_EMAIL || 'onboarding@resend.dev';
@@ -91,6 +92,7 @@ export async function sendNewArticleNotification(
     description: string;
     slug: string;
     coverImage?: string;
+    category?: string;
   }
 ) {
   console.log(`Sending article notification to ${subscribers.length} subscribers`);
@@ -115,36 +117,22 @@ export async function sendNewArticleNotification(
 
     for (let i = 0; i < subscribers.length; i += batchSize) {
       const batch = subscribers.slice(i, i + batchSize);
-      const batchPromises = batch.map(({ email }) => 
+      const batchPromises = batch.map(async ({ email }) => 
         resend.emails.send({
           from: FROM_EMAIL,
           to: email,
           subject: `Nouvel article sur ${WEBSITE_NAME} : ${article.title}`,
-          html: `
-            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-              <h1>Nouveau sur ${WEBSITE_NAME}</h1>
-              ${article.coverImage ? `
-                <img src="${article.coverImage}" 
-                     alt="Image de couverture pour ${article.title}"
-                     style="max-width: 100%; height: auto; margin: 20px 0;"
-                />
-              ` : ''}
-              <h2>${article.title}</h2>
-              <p>${article.description}</p>
-              <p>
-                <a href="${articleUrl}" 
-                   style="display: inline-block; padding: 10px 20px; background-color: #4F46E5; color: white; text-decoration: none; border-radius: 5px;">
-                  Lire l'article
-                </a>
-              </p>
-              <p style="margin-top: 20px; font-size: 0.8em; color: #666;">
-                <a href="${WEBSITE_URL}/api/newsletter/unsubscribe?email=${encodeURIComponent(email)}" 
-                   style="color: #666;">
-                  Se désinscrire
-                </a>
-              </p>
-            </div>
-          `,
+          html: await getNewArticleEmailTemplate({
+            article: {
+              title: article.title,
+              description: article.description,
+              url: articleUrl,
+              image: article.coverImage,
+              category: article.category || 'blog'
+            },
+            websiteUrl: WEBSITE_URL,
+            unsubscribeUrl: `${WEBSITE_URL}/api/newsletter/unsubscribe?email=${encodeURIComponent(email)}`
+          })
         })
       );
 

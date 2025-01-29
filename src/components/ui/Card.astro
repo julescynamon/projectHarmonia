@@ -33,11 +33,11 @@ const classes = `${baseClasses} ${variants[variant]} ${className}`;
 
 <div class={classes}>
   {image && (
-    <div class="relative aspect-[16/9] overflow-hidden">
+    <a href={url} class="block relative aspect-[16/9] overflow-hidden group">
       <img
         src={image}
         alt={title}
-        class="w-full h-full object-cover"
+        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
       />
       {category && (
         <div class="absolute top-4 left-4">
@@ -46,7 +46,7 @@ const classes = `${baseClasses} ${variants[variant]} ${className}`;
           </span>
         </div>
       )}
-    </div>
+    </a>
   )}
   
   <div class="p-6">
@@ -60,13 +60,9 @@ const classes = `${baseClasses} ${variants[variant]} ${className}`;
     
     {title && (
       <h3 class="text-xl font-semibold mb-2">
-        {url ? (
-          <a href={url} class="hover:text-sage transition-colors">
-            {title}
-          </a>
-        ) : (
-          title
-        )}
+        <a href={url} class="hover:text-sage transition-colors">
+          {title}
+        </a>
       </h3>
     )}
     
@@ -76,10 +72,18 @@ const classes = `${baseClasses} ${variants[variant]} ${className}`;
       </p>
     )}
     
-    {url && !title && (
-      <a href={url} class="text-sage hover:text-sage-dark transition-colors">
-        En savoir plus →
-      </a>
+    {url && (
+      <div class="mt-4">
+        <a 
+          href={url} 
+          class="inline-flex items-center px-4 py-2 border border-sage text-sage hover:bg-sage hover:text-white transition-colors duration-200 ease-in-out rounded-lg text-sm font-medium"
+        >
+          Lire l'article
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
     )}
     
     <slot />

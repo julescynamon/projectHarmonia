@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouvel Article sur Harmonia et Vita</title>
+    <style>
+        /* Reset styles for email clients */
+        body, p, div, h1, h2, h3, h4, h5, h6 {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333333;
+            background-color: #FDFBF7;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #FFFFFF;
+        }
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #8A9A5B; /* Sauge */
+        }
+        .header img {
+            max-width: 200px;
+            height: auto;
+        }
+        .content {
+            padding: 40px 20px;
+            background-color: #FFFFFF;
+        }
+        .article-title {
+            color: #8A9A5B; /* Sauge */
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-family: 'Palatino', serif;
+        }
+        .article-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            margin: 20px 0;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #CFB53B; /* Or */
+            color: #FFFFFF !important;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 30px 0;
+            font-family: 'Georgia', serif;
+            font-size: 16px;
+        }
+        .footer {
+            background-color: #F5F5DC; /* Beige naturel */
+            padding: 30px 20px;
+            text-align: center;
+            color: #666666;
+            font-size: 14px;
+        }
+        .category {
+            display: inline-block;
+            padding: 4px 12px;
+            background-color: #8A9A5B;
+            color: white;
+            border-radius: 15px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        @media screen and (max-width: 600px) {
+            .container {
+                width: 100% !important;
+            }
+            .content {
+                padding: 20px 15px;
+            }
+            .article-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="{{websiteUrl}}/images/logo.png" alt="Harmonia et Vita" width="200" style="display: block; margin: 0 auto;">
+        </div>
+        
+        <div class="content">
+            <span class="category">{{article.category}}</span>
+            <h1 class="article-title">{{article.title}}</h1>
+            
+            {{#if article.image}}
+            <img src="{{websiteUrl}}{{article.image}}" alt="{{article.title}}" class="article-image">
+            {{/if}}
+            
+            <p style="margin-bottom: 20px;">
+                {{article.description}}
+            </p>
+            
+            <div style="text-align: center;">
+                <a href="{{article.url}}" class="cta-button">Lire l'article</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p style="margin-bottom: 20px;">
+                Harmonia et Vita - Votre guide vers l'éveil et la conscience
+            </p>
+            
+            <p style="margin-bottom: 10px; font-size: 12px;">
+                Vous recevez cet email car vous êtes inscrit(e) à notre newsletter.
+            </p>
+            
+            <a href="{{unsubscribe_url}}" style="color: #666666; text-decoration: underline; font-size: 12px;">
+                Se désinscrire de la newsletter
+            </a>
+        </div>
+    </div>
+</body>
+</html>

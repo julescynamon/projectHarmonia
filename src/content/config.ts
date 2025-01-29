@@ -9,6 +9,8 @@ const blogCollection = defineCollection({
     image: z.string().optional(),
     description: z.string(),
     category: z.string(),
+    status: z.enum(['draft', 'published']).default('draft'),
+    notificationSent: z.boolean().optional().default(false),
   }),
 });
 

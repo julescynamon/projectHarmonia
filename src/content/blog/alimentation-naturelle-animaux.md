@@ -5,6 +5,7 @@ author: "Jules Cynamon"
 image: "/images/blog/alimentation-animaux.jpg"
 description: "Guide complet sur l'alimentation naturelle et saine pour vos animaux de compagnie."
 category: "Animaux"
+status: "published"  # ou "draft"
 ---
 
 # Alimentation naturelle pour votre animal

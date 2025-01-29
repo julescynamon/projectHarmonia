@@ -8,10 +8,38 @@ const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 const supabaseKey = import.meta.env.SUPABASE_SERVICE_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Les variables d\'environnement Supabase ne sont pas configurées.');
+  console.error('Variables d\'environnement manquantes:', { 
+    hasUrl: !!supabaseUrl, 
+    hasKey: !!supabaseKey 
+  });
+  throw new Error('Configuration Supabase incomplète');
 }
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+// Type pour la table newsletter_subscribers
+type NewsletterSubscriber = {
+  id: string;
+  email: string;
+  confirmed: boolean;
+  confirmation_token: string | null;
+  token_expires_at: string | null;
+  confirmed_at: string | null;
+  unsubscribed: boolean;
+  unsubscribed_at: string | null;
+  consent_timestamp: string;
+  created_at: string;
+  updated_at: string;
+};
+
+const supabase = createClient<{ newsletter_subscribers: NewsletterSubscriber }>(
+  supabaseUrl,
+  supabaseKey,
+  {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  }
+);
 
 const subscribeSchema = z.object({
   email: z.string().email("L'adresse email n'est pas valide"),
@@ -22,78 +50,92 @@ const subscribeSchema = z.object({
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    // Validation du corps de la requête
     const body = await request.json();
     const { email, consent } = subscribeSchema.parse(body);
 
-    // Vérifier si l'email existe déjà
-    const { data: existingSubscriber } = await supabase
+    // Vérification de l'existence de l'email
+    const { data: existingSubscriber, error: queryError } = await supabase
       .from('newsletter_subscribers')
       .select('id, confirmed')
-      .eq('email', email)
-      .single();
+      .eq('email', email.toLowerCase());
 
-    if (existingSubscriber) {
-      if (existingSubscriber.confirmed) {
-        return new Response(
-          JSON.stringify({
-            success: false,
-            message: 'Cette adresse email est déjà inscrite à la newsletter.'
-          }),
-          { status: 400 }
-        );
-      } else {
-        // Renvoyer l'email de confirmation si non confirmé
-        const token = crypto.randomUUID();
-        await sendConfirmationEmail(email, token);
-        return new Response(
-          JSON.stringify({
-            success: true,
-            message: 'Un nouvel email de confirmation vous a été envoyé.'
-          })
-        );
-      }
+    // On ignore l'erreur PGRST116 car elle signifie simplement qu'aucun enregistrement n'a été trouvé
+    if (queryError && queryError.code !== 'PGRST116') {
+      console.error('Erreur de requête Supabase:', queryError);
+      throw new Error('Erreur lors de la vérification de l\'email');
     }
 
-    // Générer un token de confirmation unique
+    // Si l'email existe déjà et est confirmé
+    if (existingSubscriber && existingSubscriber.length > 0 && existingSubscriber[0].confirmed) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: 'Cette adresse email est déjà inscrite à la newsletter.'
+        }),
+        { 
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+    }
+
+    // Génération du token
     const confirmationToken = crypto.randomUUID();
     const expiresAt = new Date();
-    expiresAt.setHours(expiresAt.getHours() + 24); // Le token expire après 24h
+    expiresAt.setHours(expiresAt.getHours() + 24);
 
-    // Insérer le nouvel abonné
-    const { error } = await supabase
+    // Insertion ou mise à jour
+    const { error: upsertError } = await supabase
       .from('newsletter_subscribers')
-      .insert([
+      .upsert(
         {
-          email,
+          email: email.toLowerCase(),
           confirmation_token: confirmationToken,
           token_expires_at: expiresAt.toISOString(),
           confirmed: false,
           consent_timestamp: new Date().toISOString(),
+          unsubscribed: false,
+          unsubscribed_at: null
+        },
+        {
+          onConflict: 'email',
+          ignoreDuplicates: false
         }
-      ]);
+      );
 
-    if (error) throw error;
+    if (upsertError) {
+      console.error('Erreur d\'insertion Supabase:', upsertError);
+      throw new Error('Erreur lors de l\'enregistrement de l\'inscription');
+    }
 
-    // Envoyer l'email de confirmation
+    // Envoi de l'email
     await sendConfirmationEmail(email, confirmationToken);
 
     return new Response(
       JSON.stringify({
         success: true,
         message: 'Merci ! Veuillez confirmer votre inscription en cliquant sur le lien envoyé par email.'
-      })
+      }),
+      { 
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      }
     );
 
   } catch (error) {
-    console.error('Newsletter subscription error:', error);
-    
+    console.error('Erreur complète:', error);
+
     if (error instanceof z.ZodError) {
       return new Response(
         JSON.stringify({
           success: false,
           message: error.errors[0].message
         }),
-        { status: 400 }
+        { 
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
     }
 
@@ -102,7 +144,10 @@ export const POST: APIRoute = async ({ request }) => {
         success: false,
         message: 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.'
       }),
-      { status: 500 }
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
     );
   }
 };

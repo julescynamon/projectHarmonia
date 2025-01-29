@@ -5,6 +5,7 @@ author: "Harmonia"
 image: "/images/blog/stress.jpg"
 category: "Bien-être"
 description: "Des solutions naturelles et efficaces pour mieux gérer votre stress et retrouver votre sérénité."
+status: "published"  # ou "draft"
 ---
 
 # Gérer son stress naturellement

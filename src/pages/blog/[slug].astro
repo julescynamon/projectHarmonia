@@ -1,19 +1,47 @@
 ---
+import { getCollection, getEntry } from 'astro:content';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
-import { getCollection } from 'astro:content';
+import BlogNotifier from '../../components/BlogNotifier.astro';
 
-export const prerender = true;
+// Désactiver le prerendering pour permettre l'envoi de notifications
+export const prerender = false;
 
+// Cette fonction est utilisée pour générer les routes statiques
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+  try {
+    const posts = await getCollection('blog');
+    return posts.map(post => ({
+      params: { slug: post.slug },
+    }));
+  } catch (error) {
+    console.error('Erreur lors de la génération des chemins:', error);
+    return [];
+  }
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+// Récupérer le post en fonction du slug
+const { slug } = Astro.params;
+let post = null;
+
+try {
+  post = await getEntry('blog', slug);
+} catch (error) {
+  console.error(`Erreur lors de la récupération de l'article ${slug}:`, error);
+}
+
+// Rediriger vers la page 404 si l'article n'existe pas ou s'il y a eu une erreur
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+let Content;
+try {
+  const rendered = await post.render();
+  Content = rendered.Content;
+} catch (error) {
+  console.error(`Erreur lors du rendu de l'article ${slug}:`, error);
+  return Astro.redirect('/404');
+}
 ---
 
 <BlogPostLayout 
@@ -22,6 +50,8 @@ const { Content } = await post.render();
   image={post.data.image}
   category={post.data.category}
   date={post.data.date}
+  readingTime={post.data.readingTime}
 >
+  <BlogNotifier slot="notifier" post={post} />
   <Content />
 </BlogPostLayout>

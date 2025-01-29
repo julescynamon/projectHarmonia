@@ -5,6 +5,7 @@ author: "Jules Cynamon"
 image: "/images/blog/nutrition.jpg"
 description: "Principes fondamentaux d'une nutrition équilibrée selon l'approche naturopathique."
 category: "Nutrition"
+status: "published" # ou "draft"
 ---
 
 # Les bases d'une nutrition équilibrée en naturopathie
@@ -14,16 +15,19 @@ La nutrition est l'un des piliers fondamentaux de la naturopathie. Une alimentat
 ## Les principes fondamentaux
 
 ### 1. Manger vivant
+
 - Privilégier les aliments frais et de saison
 - Limiter les aliments transformés
 - Favoriser les cuissons douces
 
 ### 2. Respecter son corps
+
 - Écouter ses sensations de faim et de satiété
 - Manger dans le calme
 - Bien mastiquer
 
 ### 3. Équilibrer son assiette
+
 - Légumes de saison (50% de l'assiette)
 - Protéines de qualité
 - Bonnes graisses

@@ -3,9 +3,10 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import compress from 'astro-compress';
 import node from '@astrojs/node';
+import blogNotifications from './src/integrations/blog-notifications';
 
 export default defineConfig({
-  site: 'http://localhost:4321',
+  site: 'https://harmonia.jules.com',
   output: 'server',
   adapter: node({
     mode: 'standalone'
@@ -24,6 +25,7 @@ export default defineConfig({
       img: true,
       svg: true,
     }),
+    blogNotifications()
   ],
   compressHTML: true,
   build: {

@@ -6,10 +6,19 @@ import Card from '../../components/ui/Card.astro';
 import { getCollection } from 'astro:content';
 import NewsletterForm from '../../components/NewsletterForm.astro';
 
+// Désactiver le prerendering pour une mise à jour dynamique
+export const prerender = false;
+
 const seo = pageSEO.blog;
 
-// Récupérer tous les articles de blog
-const posts = await getCollection('blog');
+// Récupérer tous les articles de blog avec gestion d'erreurs
+let posts = [];
+try {
+  posts = await getCollection('blog');
+  console.log('Articles trouvés:', posts.length);
+} catch (error) {
+  console.error('Erreur lors de la récupération des articles:', error);
+}
 
 // Trier les articles par date (du plus récent au plus ancien)
 const sortedPosts = posts.sort((a, b) => 
@@ -17,10 +26,7 @@ const sortedPosts = posts.sort((a, b) =>
 );
 
 // Catégories uniques pour le filtre
-const categories = [...new Set(sortedPosts.map(post => post.data.category.toLowerCase()))].sort();
-
-// Debug: Afficher toutes les catégories dans la console
-console.log('Categories disponibles:', categories);
+const categories = [...new Set(sortedPosts.map(post => post.data.category?.toLowerCase() || 'non-categorise'))].sort();
 
 // Formater la date
 function formatDate(dateStr: string) {
@@ -37,11 +43,15 @@ function formatDate(dateStr: string) {
     <!-- Hero Section -->
     <section class="py-20 bg-sage/5 relative overflow-hidden">
       <!-- Motifs de fond -->
-      <div class="absolute inset-0 bg-geometric-pattern opacity-5"></div>
+      <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-br from-sage/10 to-transparent"></div>
+      </div>
       
-      <div class="container mx-auto px-4">
+      <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-3xl mx-auto text-center">
-          <h1 class="text-4xl md:text-5xl font-bold mb-6">Blog & Actualités</h1>
+          <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+            Blog Harmonia
+          </h1>
           <p class="text-xl text-gray-600 mb-8">
             Découvrez nos articles sur la naturopathie, le bien-être et la santé naturelle
           </p>
@@ -49,176 +59,117 @@ function formatDate(dateStr: string) {
       </div>
     </section>
 
-    <!-- Filtres -->
-    <section class="py-12 bg-cream">
+    <!-- Section Articles -->
+    <section class="py-16">
       <div class="container mx-auto px-4">
-        <div class="flex flex-wrap justify-center gap-4" id="category-filters">
+        <!-- Filtres -->
+        <div class="mb-12 flex flex-wrap justify-center gap-4" id="category-filters">
           <Button 
-            type="button"
-            variant="primary"
+            variant="outline"
+            size="sm"
             class="filter-btn active"
             data-category="all"
           >
-            Tous les articles
+            Tous
           </Button>
-          {categories.map(category => {
-            const displayCategory = category.charAt(0).toUpperCase() + category.slice(1);
-            return (
-              <Button 
-                type="button"
-                variant="primary"
-                class="filter-btn"
-                data-category={category}
-              >
-                {displayCategory}
-              </Button>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-
-    <!-- Articles -->
-    <section class="py-20">
-      <div class="container mx-auto px-4">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 relative" id="posts-grid">
-          {sortedPosts.map((post, index) => (
-            <div 
-              data-aos="fade-up" 
-              data-aos-delay={index * 100}
-              class="post-card"
-              data-category={post.data.category.toLowerCase()}
-              style="position: relative;"
+          {categories.map(category => (
+            <Button
+              variant="outline"
+              size="sm"
+              class="filter-btn"
+              data-category={category}
             >
-              <Card variant="hover" class="h-full">
-                <article class="flex flex-col h-full">
-                  <!-- Image -->
-                  <div class="relative aspect-[16/9] rounded-t-lg overflow-hidden">
-                    <img
-                      src={post.data.image}
-                      alt={post.data.title}
-                      class="w-full h-full object-cover"
-                    />
-                    <div class="absolute top-4 left-4">
-                      <span class="bg-sage/90 backdrop-blur-sm text-cream px-3 py-1 rounded-full text-sm">
-                        {post.data.category}
-                      </span>
-                    </div>
-                  </div>
-
-                  <!-- Contenu -->
-                  <div class="p-6 flex flex-col flex-grow">
-                    <div class="mb-4">
-                      <time datetime={post.data.date} class="text-sm text-eucalyptus">
-                        {formatDate(post.data.date)}
-                      </time>
-                    </div>
-                    
-                    <h2 class="font-heading text-xl text-ebony mb-3">
-                      <a href={`/blog/${post.slug}`} class="hover:text-gold transition-colors">
-                        {post.data.title}
-                      </a>
-                    </h2>
-                    
-                    <p class="text-eucalyptus mb-6 flex-grow">
-                      {post.data.description}
-                    </p>
-
-                    <Button href={`/blog/${post.slug}`} variant="outline" class="self-start">
-                      Lire la suite
-                    </Button>
-                  </div>
-                </article>
-              </Card>
-            </div>
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </Button>
           ))}
         </div>
+
+        <!-- Grille d'articles -->
+        {sortedPosts.length > 0 ? (
+          <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {sortedPosts.map(post => (
+              <div class="post-card" data-category={post.data.category?.toLowerCase() || 'non-categorise'}>
+                <Card
+                  variant="hover"
+                  title={post.data.title}
+                  description={post.data.description}
+                  image={post.data.image}
+                  date={formatDate(post.data.date)}
+                  category={post.data.category}
+                  url={`/blog/${post.slug}`}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="text-center py-12">
+            <p class="text-xl text-gray-600">Aucun article disponible pour le moment.</p>
+          </div>
+        )}
       </div>
     </section>
-        <!-- Newsletter Section -->
+
+    <!-- Section Newsletter -->
     <section class="py-16 bg-sage/5">
-      <div class="container mx-auto px-4">
-        <div class="max-w-2xl mx-auto text-center" data-aos="fade-up">
-          <h2 class="text-3xl font-serif mb-4">Restez informé des dernières actualités bien-être</h2>
-          <p class="text-gray-600 mb-8">Recevez nos conseils experts en naturopathie, nos recettes bien-être et nos actualités directement dans votre boîte mail.</p>
+      
+        <div class="max-w-2xl mx-auto">
           <NewsletterForm />
-          <p class="text-sm text-gray-500 mt-4">En vous inscrivant, vous acceptez de recevoir nos newsletters. Vous pourrez vous désinscrire à tout moment.</p>
         </div>
-      </div>
     </section>
   </div>
 </MainLayout>
 
-<style>
-  .filter-btn {
-    opacity: 0.7;
-    transition: opacity 0.2s;
-  }
-
-  .filter-btn.active {
-    opacity: 1;
-  }
-
-  .filter-btn:hover {
-    opacity: 1;
-  }
-
-  .post-card {
-    transition: all 0.3s ease-in-out;
-    opacity: 1;
-    grid-row-start: auto;
-  }
-
-  .post-card.filtered {
-    opacity: 0;
-    pointer-events: none;
-    position: absolute;
-    transform: scale(0.95);
-  }
-</style>
-
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const filterButtons = document.querySelectorAll('.filter-btn');
+  // Fonction pour mettre à jour la visibilité des articles
+  function updateVisibility(category: string) {
     const postCards = document.querySelectorAll('.post-card');
     const postsGrid = document.getElementById('posts-grid');
+    let visibleCount = 0;
 
-    function updateFilters(selectedCategory) {
-      postCards.forEach((card: HTMLElement) => {
-        const cardCategory = card.getAttribute('data-category');
-        if (selectedCategory === 'all' || cardCategory === selectedCategory) {
-          requestAnimationFrame(() => {
-            card.classList.remove('filtered');
-            card.style.position = 'relative';
-          });
-        } else {
-          requestAnimationFrame(() => {
-            card.classList.add('filtered');
-            setTimeout(() => {
-              if (card.classList.contains('filtered')) {
-                card.style.position = 'absolute';
-              }
-            }, 300);
-          });
-        }
-      });
+    // Supprimer l'ancien message s'il existe
+    const oldMessage = postsGrid?.querySelector('.col-span-full');
+    if (oldMessage) {
+      oldMessage.remove();
     }
+
+    postCards.forEach(card => {
+      if (category === 'all' || (card as HTMLElement).dataset.category === category) {
+        (card as HTMLElement).style.display = 'block';
+        visibleCount++;
+      } else {
+        (card as HTMLElement).style.display = 'none';
+      }
+    });
+
+    // Afficher un message si aucun article n'est visible
+    if (visibleCount === 0 && postsGrid) {
+      const noPostsMessage = document.createElement('div');
+      noPostsMessage.className = 'text-center py-12 col-span-full';
+      noPostsMessage.innerHTML = '<p class="text-xl text-gray-600">Aucun article disponible dans cette catégorie.</p>';
+      postsGrid.appendChild(noPostsMessage);
+    }
+  }
+
+  // Gestionnaire d'événements pour les filtres
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn');
 
     filterButtons.forEach(button => {
       button.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        // Mettre à jour les classes active
+        // Mettre à jour les classes actives
         filterButtons.forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
-        
-        // Appliquer le filtre
-        const selectedCategory = button.getAttribute('data-category').toLowerCase();
-        updateFilters(selectedCategory);
+
+        // Mettre à jour la visibilité des articles
+        const category = (button as HTMLElement).dataset.category || 'all';
+        updateVisibility(category);
       });
     });
-
-    // Initialiser avec "Tous les articles"
-    updateFilters('all');
   });
 </script>
+
+<style>
+  .filter-btn.active {
+    @apply bg-sage text-white border-sage;
+  }
+</style>

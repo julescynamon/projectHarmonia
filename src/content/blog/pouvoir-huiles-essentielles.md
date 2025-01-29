@@ -5,6 +5,7 @@ author: "Harmonia"
 image: "/images/blog/huiles-essentielles.jpg"
 category: "Aromathérapie"
 description: "Guide complet sur l'utilisation des huiles essentielles pour votre santé et votre bien-être."
+status: "published" # ou "draft"
 ---
 
 # Le pouvoir des huiles essentielles
@@ -18,16 +19,19 @@ Une huile essentielle est un extrait concentré des principes actifs d'une plant
 ## Les principales voies d'utilisation
 
 ### 1. Voie olfactive
+
 - Diffusion atmosphérique
 - Inhalation sèche
 - Inhalation humide
 
 ### 2. Voie cutanée
+
 - Toujours diluer dans une huile végétale
 - Massage
 - Application locale
 
 ### 3. Voie orale
+
 - Uniquement sur conseil d'un professionnel
 - Toujours diluer
 - Respecter les dosages

@@ -110,12 +110,14 @@ if (form && messageEl) {
     
     const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
     submitButton.disabled = true;
+    messageEl.textContent = "Envoi en cours...";
+    messageEl.className = 'message';
     
-    const formData = new FormData(form);
-    const email = formData.get('email') as string;
-    const consent = formData.get('consent') as string;
-
     try {
+      const formData = new FormData(form);
+      const email = formData.get('email') as string;
+      const consent = formData.get('consent') as string;
+
       const response = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: {
@@ -124,16 +126,21 @@ if (form && messageEl) {
         body: JSON.stringify({ email, consent: !!consent }),
       });
 
-      const data: SubscribeResponse = await response.json();
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || `Erreur ${response.status}: Une erreur est survenue`);
+      }
 
       messageEl.textContent = data.message;
-      messageEl.className = `message ${data.success ? 'success' : 'error'}`;
+      messageEl.className = 'message success';
 
       if (data.success) {
         form.reset();
       }
     } catch (error) {
-      messageEl.textContent = "Une erreur est survenue. Veuillez réessayer.";
+      console.error('Erreur lors de l\'inscription:', error);
+      messageEl.textContent = error.message || "Une erreur est survenue. Veuillez réessayer.";
       messageEl.className = 'message error';
     } finally {
       submitButton.disabled = false;

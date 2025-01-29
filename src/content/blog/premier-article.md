@@ -5,6 +5,7 @@ author: "Jules Cynamon"
 image: "/images/blog/article-1.jpg"
 description: "Ceci est un exemple d'article pour montrer la structure du blog."
 category: "Général"
+status: "published" # ou "draft"
 ---
 
 # Mon Premier Article
@@ -17,7 +18,7 @@ Le contenu de l'article peut être formaté en utilisant la syntaxe Markdown, ce
 
 - Des listes à puces
 - Des **textes en gras**
-- Des *italiques*
+- Des _italiques_
 - Des [liens](https://example.com)
 - Et bien plus encore !
 

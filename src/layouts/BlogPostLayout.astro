@@ -9,10 +9,12 @@ interface Props {
   category: string;
   date: string;
   readingTime?: string;
+  author: string;
 }
 
-const { title, description, image, category, date, readingTime } = Astro.props;
+const { title, description, image, category = 'Non catégorisé', date, readingTime, author } = Astro.props;
 const formattedDate = formatDate(date);
+const categorySlug = category?.toLowerCase() || 'non-categorise';
 ---
 
 <MainLayout title={title} description={description}>
@@ -22,7 +24,7 @@ const formattedDate = formatDate(date);
         <!-- En-tête de l'article -->
         <header class="article-header mb-12">
           <div class="article-meta flex items-center gap-4 mb-6 text-sm" data-aos="fade-up">
-            <a href={`/categories/${category.toLowerCase()}`} class="category-tag">
+            <a href={`/categories/${categorySlug}`} class="category-tag">
               {category}
             </a>
             <time datetime={date} itemprop="datePublished" class="text-gray-600">
@@ -36,6 +38,9 @@ const formattedDate = formatDate(date);
                 {readingTime}
               </span>
             }
+            <span class="text-gray-600">
+              Écrit par {author}
+            </span>
           </div>
 
           <h1 itemprop="headline" class="article-title" data-aos="fade-up">

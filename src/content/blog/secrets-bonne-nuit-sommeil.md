@@ -5,6 +5,7 @@ author: "Harmonia"
 image: "/images/blog/sommeil.jpg"
 category: "Santé"
 description: "Conseils et astuces naturels pour améliorer la qualité de votre sommeil et vous réveiller en pleine forme."
+status: "published" # ou "draft"
 ---
 
 # Sommeil : les secrets d'une bonne nuit
@@ -14,6 +15,7 @@ Un sommeil de qualité est essentiel pour notre santé physique et mentale. Déc
 ## L'importance du sommeil
 
 Un bon sommeil permet :
+
 - La régénération cellulaire
 - La consolidation de la mémoire
 - La régulation hormonale
@@ -23,12 +25,14 @@ Un bon sommeil permet :
 ## Rituels pour un bon sommeil
 
 ### 1. Préparer sa chambre
+
 - Température idéale (18-20°C)
 - Obscurité complète
 - Calme
 - Bonne aération
 
 ### 2. Routine du soir
+
 - Horaires réguliers
 - Déconnexion des écrans
 - Activités relaxantes
@@ -37,12 +41,14 @@ Un bon sommeil permet :
 ## Solutions naturelles
 
 ### Plantes pour le sommeil
+
 - Valériane
 - Passiflore
 - Tilleul
 - Camomille
 
 ### Huiles essentielles apaisantes
+
 - Lavande vraie
 - Petit grain bigarade
 - Mandarine

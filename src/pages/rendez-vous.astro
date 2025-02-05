@@ -129,7 +129,7 @@ const steps = [
         <div class="max-w-5xl mx-auto">
           <Card variant="hover">
             <div class="p-8">
-              <form class="space-y-8">
+              <form id="appointment-form" class="space-y-8">
                 <!-- Services -->
                 <div>
                   <h3 class="font-heading text-2xl text-ebony mb-6">
@@ -220,6 +220,7 @@ const steps = [
                       <span class="text-ebony mb-1 block">Nom complet</span>
                       <input
                         type="text"
+                        name="name"
                         required
                         class="w-full px-4 py-2 rounded-lg border border-sage/20 focus:border-eucalyptus focus:ring-1 focus:ring-eucalyptus outline-none transition-colors"
                         placeholder="Votre nom"
@@ -230,6 +231,7 @@ const steps = [
                       <span class="text-ebony mb-1 block">Email</span>
                       <input
                         type="email"
+                        name="email"
                         required
                         class="w-full px-4 py-2 rounded-lg border border-sage/20 focus:border-eucalyptus focus:ring-1 focus:ring-eucalyptus outline-none transition-colors"
                         placeholder="votre@email.com"
@@ -263,7 +265,118 @@ const steps = [
                     Confirmer le rendez-vous
                   </Button>
                 </div>
+              
               </form>
+
+              <div id="error-message" class="hidden mt-4 p-4 bg-red-100 text-red-700 rounded-lg">
+              </div>
+
+              <script>
+                const form = document.getElementById('appointment-form');
+
+                const submitButton = form.querySelector('button[type="submit"]');
+                const errorMessage = document.getElementById('error-message');
+
+                let selectedDate = '';
+                let selectedTime = '';
+                let selectedService = '';
+
+                // Activer/désactiver le bouton de soumission
+                function updateSubmitButton() {
+                  submitButton.disabled = !selectedDate || !selectedTime || !selectedService;
+
+                }
+
+                // Gérer la sélection du service
+                form.querySelectorAll('input[name="service"]').forEach(input => {
+                  input.addEventListener('change', (e) => {
+                    selectedService = e.target.value;
+                    updateSubmitButton();
+                  });
+                });
+
+                // Gérer la sélection de la date
+                const dateInput = form.querySelector('input[type="date"]');
+                dateInput.addEventListener('change', async (e) => {
+                  selectedDate = e.target.value;
+                  updateSubmitButton();
+                });
+
+                // Gérer la sélection de l'heure
+                form.querySelectorAll('input[name="time"]').forEach(input => {
+                  input.addEventListener('change', async (e) => {
+                    selectedTime = e.target.value;
+                    
+                    // Vérifier la disponibilité
+                    try {
+                      const response = await fetch('/api/appointments/check-availability', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                          date: selectedDate,
+                          time: selectedTime,
+                          serviceId: selectedService,
+                        }),
+                      });
+
+                      const data = await response.json();
+                      
+                      if (!data.available) {
+                        errorMessage.textContent = 'Ce créneau n\'est plus disponible. Veuillez en choisir un autre.';
+                        errorMessage.classList.remove('hidden');
+                        selectedTime = '';
+                        input.checked = false;
+                      } else {
+                        errorMessage.classList.add('hidden');
+                      }
+                    } catch (error) {
+                      console.error('Erreur lors de la vérification de disponibilité:', error);
+                    }
+
+                    updateSubmitButton();
+                  });
+                });
+
+                // Gérer la soumission du formulaire
+                form.addEventListener('submit', async (e) => {
+                  e.preventDefault();
+                  
+                  const formData = new FormData(form);
+                  const name = formData.get('name');
+                  const email = formData.get('email');
+
+                  try {
+                    const response = await fetch('/api/appointments/create', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        date: selectedDate,
+                        time: selectedTime,
+                        serviceId: selectedService,
+                        name,
+                        email,
+                      }),
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.checkoutUrl) {
+                      window.location.href = data.checkoutUrl;
+                    } else {
+                      errorMessage.textContent = data.error || 'Une erreur est survenue. Veuillez réessayer.';
+                      errorMessage.classList.remove('hidden');
+                    }
+                  } catch (error) {
+                    console.error('Erreur lors de la création du rendez-vous:', error);
+                    errorMessage.textContent = 'Une erreur est survenue. Veuillez réessayer.';
+                    errorMessage.classList.remove('hidden');
+                  }
+                });
+              </script>
             </div>
           </Card>
         </div>

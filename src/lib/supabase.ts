@@ -20,34 +20,61 @@ try {
 
 const isBrowser = typeof window !== 'undefined';
 
-// Créer un client Supabase pour le navigateur avec localStorage
+// Créer un client Supabase pour le navigateur
 export const createBrowserClient = () => {
   if (!isBrowser) return null;
+  
+  let storage;
+  try {
+    storage = window.localStorage;
+  } catch (e) {
+    console.warn('LocalStorage non disponible:', e);
+    storage = null;
+  }
   
   return createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
       autoRefreshToken: true,
       persistSession: true,
-      detectSessionInUrl: false,
-      storage: {
-        getItem: (key) => localStorage.getItem(key),
-        setItem: (key, value) => localStorage.setItem(key, value),
-        removeItem: (key) => localStorage.removeItem(key),
-      },
-    },
+      detectSessionInUrl: true,
+      storage: storage || undefined,
+      storageKey: 'supabase.auth.token'
+    }
   });
 };
 
-// Créer un client Supabase pour le serveur sans storage
+// Créer un client Supabase pour le serveur
 export const createServerClient = () => {
   return createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
-      autoRefreshToken: false,
-      persistSession: false,
+      autoRefreshToken: true,
+      persistSession: true,
       detectSessionInUrl: false,
-    },
+      flowType: 'pkce'
+    }
   });
 };
 
 // Export le client approprié selon l'environnement
-export const supabase = isBrowser ? createBrowserClient() : createServerClient();
+// Créer un client Supabase avec des options spécifiques pour l'API
+export const createServiceClient = (accessToken?: string) => {
+  return createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    },
+    global: {
+      headers: accessToken ? {
+        Authorization: `Bearer ${accessToken}`
+      } : {}
+    }
+  });
+};
+
+// Client par défaut pour le navigateur
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true
+  }
+});

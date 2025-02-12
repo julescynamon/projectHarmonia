@@ -110,7 +110,7 @@ const categories = [...new Set(products.map(p => p.category))];
       noProducts.classList.add('hidden');
       productsGrid.innerHTML = products.map(product => `
         <article class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-          <a href="/boutique/${product.id}" class="block">
+          <a href="/boutique/${product.id}" class="block hover:no-underline">
             <div class="aspect-w-4 aspect-h-3">
               <img src="${product.image || '/images/placeholder.jpg'}" alt="${product.title}" loading="lazy" class="object-cover w-full h-full">
             </div>
@@ -220,7 +220,7 @@ const categories = [...new Set(products.map(p => p.category))];
   }) as EventListener);
 
   // Écouter les événements de tri
-  window.addEventListener('sort-changed', ((e: CustomEvent) => {
+  document.addEventListener('sortUpdate', ((e: CustomEvent) => {
     const sortValue = e.detail;
     if (currentFilters.sort === sortValue) return;
     

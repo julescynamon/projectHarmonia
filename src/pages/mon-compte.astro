@@ -6,48 +6,188 @@ declare global {
 }
 
 import MainLayout from '../layouts/MainLayout.astro';
+import Toast from '../components/Toast.astro';
+import { sendEmailChangeConfirmation } from '../lib/email';
 
 // Vérification de l'authentification
 const supabase = Astro.locals.supabase;
 const { data: { session }, error } = await supabase.auth.getSession();
 
-console.log('Récupération de la session:', session); // Log pour vérifier la session
-if (error) {
-  console.error('Erreur lors de la récupération de la session:', error);
-}
 if (!session) {
-  console.log('Aucune session trouvée, redirection vers la page de connexion.'); // Log pour indiquer la redirection
-  return Astro.redirect('/login?returnTo=/');
+  return Astro.redirect('/login?returnTo=/mon-compte');
+}
+
+// Gestion de la mise à jour du profil via action Astro
+if (Astro.request.method === 'POST') {
+  interface UpdateResponse {
+    success: boolean;
+    message: string;
+    preventReload?: boolean;
+  }
+
+  const response: UpdateResponse = {
+    success: false,
+    message: ''
+  };
+  try {
+    const formData = await Astro.request.formData();
+    const name = formData.get('name')?.toString();
+    const email = formData.get('email')?.toString();
+
+    if (!name || !email) {
+      throw new Error('Le nom et l\'email sont requis');
+    }
+
+    // Mise à jour du nom dans les métadonnées
+    const { error: nameError } = await supabase.auth.updateUser({
+      data: { name }
+    });
+
+    if (nameError) throw nameError;
+
+    // Mise à jour de l'email si modifié
+    if (email !== session.user.email) {
+      try {
+        // Mise à jour dans Supabase
+        const { data: updateData, error: emailError } = await supabase.auth.updateUser({
+          email
+        });
+
+        if (emailError) throw emailError;
+
+        type EmailUpdateResponse = {
+          user?: {
+            email_change_token?: string;
+            confirmation_sent_at?: string;
+          } | null;
+        };
+
+        // Récupération de l'URL de confirmation depuis la réponse de Supabase
+        const confirmationUrl = (updateData as EmailUpdateResponse)?.user?.confirmation_sent_at 
+          ? `${import.meta.env.WEBSITE_URL}/auth/confirm-email?token=${(updateData as EmailUpdateResponse).user?.email_change_token}` 
+          : null;
+
+        if (confirmationUrl) {
+          // Envoi de l'email personnalisé via Resend
+          await sendEmailChangeConfirmation(email, confirmationUrl, {
+            resendApiKey: import.meta.env.RESEND_API_KEY,
+            fromEmail: import.meta.env.FROM_EMAIL,
+            websiteUrl: import.meta.env.WEBSITE_URL,
+            websiteName: import.meta.env.WEBSITE_NAME
+          });
+        }
+
+        response.success = true;
+        response.message = 'Un email de confirmation a été envoyé à ' + email + '. Vous devez cliquer sur le lien dans l\'email pour confirmer le changement. En attendant, votre ancien email reste actif.';
+        // On ne rafraîchit pas la page dans ce cas
+        response.preventReload = true;
+      } catch (error) {
+        console.error('Erreur lors de l\'envoi de l\'email:', error);
+        throw new Error('Impossible d\'envoyer l\'email de confirmation. Veuillez réessayer plus tard.');
+      }
+    } else {
+      response.success = true;
+      response.message = 'Profil mis à jour avec succès';
+    }
+
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour du profil:', error);
+    response.success = false;
+    response.message = error.message || 'Une erreur est survenue lors de la mise à jour du profil';
+  }
+
+  return new Response(JSON.stringify(response), {
+    status: response.success ? 200 : 400,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
 }
 
 // Récupération des commandes de l'utilisateur avec leurs produits
-const { data: orders } = await supabase
+const { data: orders, error: ordersError } = await supabase
   .from('orders')
   .select(`
-    *,
-    order_items (
-      *,
+    id,
+    user_id,
+    total_amount,
+    status,
+    created_at,
+    stripe_session_id
+  `)
+  .eq('user_id', session.user.id)
+  .order('created_at', { ascending: false });
+
+console.log('Récupération des commandes - Résultat brut:', {
+  orders,
+  error: ordersError
+});
+
+// Si on a des commandes, récupérer les order_items séparément pour déboguer
+if (orders && orders.length > 0) {
+  const orderIds = orders.map(o => o.id);
+  const { data: items, error: itemsError } = await supabase
+    .from('order_items')
+    .select(`
+      id,
+      order_id,
+      product_id,
+      quantity,
+      price,
       products (
         id,
         title,
         price,
         pdf_path
       )
-    )
-  `)
-  .eq('user_id', session.user.id)
-  .order('created_at', { ascending: false });
+    `)
+    .in('order_id', orderIds);
+
+  // Associer les items à leurs commandes respectives
+  if (items && !itemsError) {
+    orders.forEach(order => {
+      order.order_items = items.filter(item => item.order_id === order.id);
+    });
+  }
+
+  console.log('Items des commandes:', {
+    items,
+    error: itemsError,
+    orderIds
+  });
+}
+
+console.log('Récupération des commandes:', {
+  orders,
+  error: ordersError
+});
+
+if (orders) {
+  orders.forEach((order, i) => {
+    console.log(`Commande ${i + 1}:`, {
+      id: order.id,
+      items: order.order_items?.map(item => ({
+        id: item.id,
+        product: item.products,
+        pdf_path: item.products?.pdf_path
+      }))
+    });
+  });
+}
 
 // Récupération des métadonnées de l'utilisateur
-const { data: { user } } = await supabase.auth.getUser();
+const { data: { user }, error: userError } = await supabase.auth.getUser();
+if (userError) {
+  console.error('Erreur lors de la récupération de l\'utilisateur:', userError);
+}
 const userData = user?.user_metadata || {};
-console.log('Données utilisateur récupérées:', userData); // Log pour vérifier les données utilisateur
 ---
 
 <MainLayout
   title="Mon compte"
   description="Gérez vos informations personnelles et consultez vos commandes"
 >
+  <Toast />
   <div class="pt-24">
     <section class="py-20">
       <div class="container mx-auto px-4">
@@ -74,7 +214,8 @@ console.log('Données utilisateur récupérées:', userData); // Log pour vérif
             </div>
 
             <!-- Formulaire de profil (caché par défaut) -->
-            <form class="hidden space-y-4 mb-6" data-profile-form>
+            <form method="POST" class="hidden space-y-4 mb-6 transition-all duration-300 ease-in-out" data-profile-form>
+              <div id="form-message" class="mb-4 hidden"></div>
               <div>
                 <label for="name" class="block text-sm font-medium text-gray-700">Nom</label>
                 <input
@@ -82,6 +223,16 @@ console.log('Données utilisateur récupérées:', userData); // Log pour vérif
                   id="name"
                   name="name"
                   value={userData.name || ''}
+                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
+                />
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={user?.email || ''}
                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
                 />
               </div>
@@ -95,7 +246,7 @@ console.log('Données utilisateur récupérées:', userData); // Log pour vérif
                 </button>
                 <button
                   type="submit"
-                  class="bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition-colors"
+                  class="bg-primary text-black px-4 py-2 rounded-full hover:bg-primary/90 transition-colors"
                 >
                   Enregistrer
                 </button>
@@ -120,43 +271,96 @@ console.log('Données utilisateur récupérées:', userData); // Log pour vérif
           </div>
 
           <!-- Historique des commandes -->
-          <div class="bg-white rounded-lg shadow-sm p-8 mb-8" data-aos="fade-up">
-            <h2 class="text-2xl font-medium mb-6">Mes commandes</h2>
+          <div class="bg-white rounded-lg shadow-sm p-4 sm:p-8 mb-8" data-aos="fade-up">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-2xl font-medium">Mes commandes</h2>
+              <div class="text-sm text-gray-500">{orders?.length || 0} commande{orders?.length !== 1 ? 's' : ''}</div>
+            </div>
             {orders && orders.length > 0 ? (
-              <div class="space-y-6">
+              <div class="grid gap-4 sm:gap-6 md:grid-cols-2">
+                <style>
+                  @keyframes slideIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                  }
+                  .order-card {
+                    animation: slideIn 0.5s ease-out forwards;
+                    opacity: 0;
+                  }
+                  .order-card:nth-child(1) { animation-delay: 0.1s; }
+                  .order-card:nth-child(2) { animation-delay: 0.2s; }
+                  .order-card:nth-child(3) { animation-delay: 0.3s; }
+                  .order-card:nth-child(4) { animation-delay: 0.4s; }
+                </style>
                 {orders.map((order) => (
-                  <div class="border rounded-lg p-6">
-                    <div class="flex justify-between items-center mb-4">
-                      <div>
-                        <p class="font-medium">
-                          Commande du {new Date(order.created_at).toLocaleDateString('fr-FR')}
-                        </p>
-                        <p class="text-sm text-gray-600">
-                          Total : {order.total_amount.toFixed(2)}€
-                        </p>
-                      </div>
-                      <span class="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                  <div class="order-card bg-gray-50 hover:bg-white rounded-xl p-4 sm:p-6 transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-primary/20">
+                    <div class="absolute top-0 right-0 -mt-2 -mr-2">
+                      <span 
+                        class={`px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${
+                          order.status === 'completed' 
+                            ? 'bg-green-100 text-green-800' 
+                            : 'bg-yellow-100 text-yellow-800'
+                        }`}
+                      >
                         {order.status === 'completed' ? 'Payée' : 'En cours'}
                       </span>
                     </div>
-                    <div class="space-y-4">
-                      {order.order_items.map((item) => (
-                        <div class="flex justify-between items-center">
-                          <div class="flex items-center gap-4">
-                            <span>{item.products.title}</span>
-                            {item.products.pdf_path && (
-                              <button
-                                class="text-primary hover:text-primary/80 text-sm flex items-center gap-1"
-                                onclick={`downloadFile('${item.products.id}', '${order.id}')`}
-                              >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                Télécharger
-                              </button>
-                            )}
+                    <div class="flex flex-col mb-6">
+                      <p class="text-sm text-gray-500">
+                        Commande du {new Date(order.created_at).toLocaleDateString('fr-FR')}
+                      </p>
+                      <p class="text-primary font-semibold text-xl mt-1">
+                        {order.total_amount.toFixed(2)}€
+                      </p>
+                    </div>
+
+                    <div class="space-y-4 divide-y divide-gray-200">
+                      {order.order_items?.map((item) => (
+                        <div class="flex flex-col py-4 first:pt-0 last:pb-0">
+                          <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-medium flex-1">
+                              {item.products?.title || 'Produit non trouvé'}
+                            </h3>
+                            <span class="text-primary font-medium ml-4">
+                              {item.products?.price?.toFixed(2) || '0.00'}€
+                            </span>
                           </div>
-                          <span>{item.products.price.toFixed(2)}€</span>
+
+                          {item.products?.pdf_path ? (
+                            <div class="flex items-center justify-between mt-2">
+                              <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <span>PDF disponible</span>
+                                {item.download_count > 0 && (
+                                  <span class="text-xs text-gray-500">
+                                    ({item.download_count} téléchargement{item.download_count > 1 ? 's' : ''})
+                                  </span>
+                                )}
+                              </div>
+                              <button
+                                class="group btn-secondary px-3 sm:px-4 py-2 rounded-full text-sm inline-flex items-center gap-2 hover:bg-primary hover:text-black transition-all duration-300 relative overflow-hidden"
+                                onclick={`downloadFile('${item.products.id}', '${order.id}');`}
+                                data-product-id={item.products.id}
+                                data-order-id={order.id}
+                              >
+                                <span class="relative z-10 flex items-center gap-2">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                  </svg>
+                                  <span class="hidden sm:inline">Télécharger</span>
+                                </span>
+                              </button>
+                            </div>
+                          ) : (
+                            <div class="flex items-center gap-2 text-sm text-red-500 mt-2">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              PDF non disponible
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -164,9 +368,28 @@ console.log('Données utilisateur récupérées:', userData); // Log pour vérif
                 ))}
               </div>
             ) : (
-              <p class="text-center text-gray-600">
-                Vous n'avez pas encore passé de commande.
-              </p>
+              <div class="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+                <div class="max-w-xs mx-auto">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                  <p class="text-gray-600 text-lg mb-2">
+                    Vous n'avez pas encore passé de commande
+                  </p>
+                  <p class="text-gray-500 text-sm mb-6">
+                    Découvrez notre sélection de guides pour améliorer votre pratique.
+                  </p>
+                  <a 
+                    href="/guides" 
+                    class="group btn inline-flex items-center gap-2 px-6 py-3 rounded-full hover:bg-primary hover:scale-105 transition-all duration-300"
+                  >
+                    <span>Découvrir nos guides</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
             )}
           </div>
 
@@ -178,7 +401,7 @@ console.log('Données utilisateur récupérées:', userData); // Log pour vérif
             </p>
             <a
               href="/contact"
-              class="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full hover:bg-primary/90 transition-colors"
+              class="inline-flex items-center gap-2 btn px-6 py-3 rounded-full hover:bg-primary/90 transition-colors"
             >
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
@@ -193,64 +416,111 @@ console.log('Données utilisateur récupérées:', userData); // Log pour vérif
 </MainLayout>
 
 <script>
-  import { supabase } from '../lib/supabase';
+  // Le système de toast est disponible globalement via window.toast
 
   // Gestion de l'édition du profil
   const editButton = document.querySelector('[data-edit-profile]');
   const profileForm = document.querySelector('[data-profile-form]');
   const profileInfo = document.querySelector('[data-profile-info]');
   const cancelButton = document.querySelector('[data-cancel-edit]');
-  const profileName = document.querySelector('[data-profile-name]');
 
-  editButton?.addEventListener('click', () => {
+  // Animation du formulaire
+  function showForm() {
     profileForm?.classList.remove('hidden');
     profileInfo?.classList.add('hidden');
-  });
+    // Focus sur le premier champ
+    const nameInput = document.querySelector('#name');
+    if (nameInput instanceof HTMLInputElement) {
+      nameInput.focus();
+    }
+  }
 
-  cancelButton?.addEventListener('click', () => {
+  function hideForm() {
     profileForm?.classList.add('hidden');
     profileInfo?.classList.remove('hidden');
-  });
+  }
 
-  profileForm?.addEventListener('submit', async (e) => {
+  editButton?.addEventListener('click', showForm);
+  cancelButton?.addEventListener('click', hideForm);
+
+  // Gestion de la soumission du formulaire
+  profileForm?.addEventListener('submit', async (e: SubmitEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
-    const nameInput = form.querySelector('#name') as HTMLInputElement;
+    const formData = new FormData(form);
 
     try {
-      const { error } = await supabase.auth.updateUser({
-        data: { name: nameInput.value }
+      const response = await fetch('/mon-compte', {
+        method: 'POST',
+        body: formData
       });
 
-      if (error) throw error;
-
-      // Mettre à jour l'affichage
-      if (profileName) {
-        profileName.textContent = nameInput.value || 'Non renseigné';
+      const result = await response.json();
+      
+      if (result.success) {
+        window.toast.show(result.message, 'success');
+        hideForm();
+        // Rafraîchir la page seulement si ce n'est pas une mise à jour d'email
+        if (!result.preventReload) {
+          setTimeout(() => window.location.reload(), 1500);
+        }
+      } else {
+        window.toast.show(result.message, 'error');
       }
-
-      // Cacher le formulaire
-      profileForm.classList.add('hidden');
-      profileInfo?.classList.remove('hidden');
-
     } catch (error) {
-      console.error('Erreur lors de la mise à jour du profil:', error);
-      alert('Une erreur est survenue lors de la mise à jour du profil');
+      window.toast.show('Une erreur est survenue lors de la mise à jour du profil', 'error');
+      console.error('Erreur:', error);
     }
   });
 
   // Fonction de téléchargement
-  async function downloadFile(productId: string, orderId: string) {
+  async function downloadFile(productId, orderId) {
     try {
-      const response = await fetch(`/api/download?productId=${productId}&orderId=${orderId}`);
-      const { url } = await response.json();
-      window.open(url, '_blank');
+      console.log('Début du téléchargement:', { productId, orderId });
+      
+      const response = await fetch(`/api/download?productId=${productId}&orderId=${orderId}`, {
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      console.log('Réponse reçue:', { 
+        status: response.status,
+        headers: Object.fromEntries(response.headers.entries())
+      });
+      
+      const text = await response.text();
+      console.log('Réponse brute:', text);
+      
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        console.error('Erreur parsing JSON:', e);
+        throw new Error('Réponse invalide du serveur');
+      }
+      
+      console.log('Données reçues:', data);
+      
+      if (!response.ok) {
+        throw new Error(`Erreur lors du téléchargement: ${data.error || 'Erreur inconnue'}`);
+      }
+      
+      if (!data.url) {
+        throw new Error('URL de téléchargement non reçue');
+      }
+      
+      console.log('Ouverture de l\'URL:', data.url);
+      window.open(data.url, '_blank');
     } catch (error) {
-      console.error('Erreur lors du téléchargement:', error);
-      alert('Une erreur est survenue lors du téléchargement');
+      console.error('Erreur complète lors du téléchargement:', error);
+      window.toast.show(
+        error instanceof Error ? error.message : 'Une erreur est survenue lors du téléchargement',
+        'error'
+      );
     }
   }
 
   // Rendre la fonction disponible globalement
   window.downloadFile = downloadFile;
+</script>
 </script>

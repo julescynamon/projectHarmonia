@@ -1,20 +1,20 @@
-import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
-import sitemap from '@astrojs/sitemap';
-import compress from 'astro-compress';
-import node from '@astrojs/node';
-import blogNotifications from './src/integrations/blog-notifications';
+import { defineConfig } from "astro/config";
+import tailwind from "@astrojs/tailwind";
+import sitemap from "@astrojs/sitemap";
+import compress from "astro-compress";
+import node from "@astrojs/node";
+import blogNotifications from "./src/integrations/blog-notifications";
 
 export default defineConfig({
-  site: 'https://harmonia.jules.com',
-  output: 'server',
+  site: "https://harmonia.jules.com",
+  output: "server",
   adapter: node({
-    mode: 'standalone'
+    mode: "standalone",
   }),
   integrations: [
     tailwind(),
     sitemap({
-      changefreq: 'weekly',
+      changefreq: "weekly",
       priority: 0.7,
       lastmod: new Date(),
     }),
@@ -25,15 +25,15 @@ export default defineConfig({
       img: true,
       svg: true,
     }),
-    blogNotifications()
+    blogNotifications(),
   ],
   compressHTML: true,
   build: {
-    inlineStylesheets: 'auto',
+    inlineStylesheets: "auto",
   },
   vite: {
     ssr: {
-      noExternal: ['@supabase/supabase-js']
-    }
-  }
+      noExternal: ["@supabase/supabase-js"],
+    },
+  },
 });

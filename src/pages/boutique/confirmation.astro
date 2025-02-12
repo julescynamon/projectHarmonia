@@ -3,13 +3,27 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import { supabase } from '../../lib/supabase';
 import { getDownloadUrl } from '../../lib/shop';
 
-const { user } = await supabase.auth.getUser();
+const { data: { user } } = await supabase.auth.getUser();
 if (!user) {
   return Astro.redirect('/login');
 }
 
 const { searchParams } = Astro.url;
-const orderId = searchParams.get('order_id');
+const sessionId = searchParams.get('session_id');
+
+let orderId;
+if (sessionId) {
+  const { data } = await supabase
+    .from('orders')
+    .select('id')
+    .eq('stripe_session_id', sessionId)
+    .eq('user_id', user.id)
+    .single();
+  
+  if (data) {
+    orderId = data.id;
+  }
+}
 
 let order;
 let orderItems;
@@ -110,19 +124,58 @@ if (orderId) {
       </div>
     </section>
   </div>
-</MainLayout>
 
-<script>
+<script is:inline>
+function showDebug(message, data) {
+  const debugDiv = document.getElementById('debug-output') || (() => {
+    const div = document.createElement('div');
+    div.id = 'debug-output';
+    div.style.position = 'fixed';
+    div.style.bottom = '20px';
+    div.style.right = '20px';
+    div.style.backgroundColor = 'white';
+    div.style.padding = '10px';
+    div.style.border = '1px solid black';
+    div.style.maxHeight = '200px';
+    div.style.overflowY = 'auto';
+    div.style.zIndex = '9999';
+    document.body.appendChild(div);
+    return div;
+  })();
+  
+  const line = document.createElement('div');
+  line.textContent = `${new Date().toLocaleTimeString()} - ${message}: ${JSON.stringify(data)}`;
+  debugDiv.appendChild(line);
+  debugDiv.scrollTop = debugDiv.scrollHeight;
+}
+
 async function downloadFile(productId, orderId) {
+  showDebug('Téléchargement demandé pour', { productId, orderId });
   try {
+    showDebug('Envoi de la requête', {});
     const response = await fetch(`/api/download?productId=${productId}&orderId=${orderId}`);
-    const { url } = await response.json();
+    showDebug('Réponse reçue', { status: response.status });
+    if (!response.ok) {
+      const errorText = await response.text();
+      showDebug('Erreur serveur', { error: errorText });
+      throw new Error('Erreur lors du téléchargement');
+    }
+    
+    const data = await response.json();
+    showDebug('Données reçues', data);
+    const { url } = data;
+    if (!url) throw new Error('URL de téléchargement non disponible');
+
+    // Ouvrir dans un nouvel onglet
     window.open(url, '_blank');
   } catch (error) {
-    console.error('Error downloading file:', error);
+    showDebug('Erreur', { message: error.message });
     alert('Une erreur est survenue lors du téléchargement. Veuillez réessayer.');
   }
 }
 
+// Rendre la fonction disponible globalement
 window.downloadFile = downloadFile;
 </script>
+
+</MainLayout>

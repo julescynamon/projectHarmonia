@@ -1,5 +1,7 @@
 ---
 import Button from "./ui/Button.astro";
+import AuthButton from '../components/navigation/AuthButton.astro';
+import CartIcon from './shop/CartIcon.astro';
 
 // Data for navigation links
 const navLinks = [
@@ -13,15 +15,15 @@ const navLinks = [
 ---
 <nav class="fixed w-full z-50 transition-all duration-300" id="mainNav">
   <div class="container mx-auto px-4 py-2">
-    <div class="md:bg-white/10 md:backdrop-blur-md md:rounded-full md:shadow-sm md:px-6 md:max-w-5xl md:mx-auto">
-      <div class="flex items-center justify-between h-16 md:h-20">
+    <div class="lg:bg-white/10 lg:backdrop-blur-md lg:rounded-full lg:shadow-sm lg:px-6 lg:max-w-5xl lg:mx-auto">
+      <div class="flex items-center justify-between h-16 lg:h-20">
         <!-- Logo -->
         <a href="/" class="flex-shrink-0">
           <img src="/images/logo.svg" alt="Naima Tyzra" class="h-12 w-auto" />
         </a>
 
         <!-- Navigation Desktop -->
-        <div class="mobileDispare md:flex items-center justify-center space-x-4 lg:space-x-6" id="desktopMenu">
+        <div class="mobileDispare lg:flex items-center justify-center space-x-4 lg:space-x-6" id="desktopMenu">
           {navLinks.map(link => (
             <a
               href={link.href}
@@ -30,16 +32,20 @@ const navLinks = [
               {link.text}
             </a>
           ))}
-          <Button href="/rendez-vous" variant="primary" size="sm" class="whitespace-nowrap">
+          <Button href="/rendez-vous" variant="primary" size="sm" class="whitespace-nowrap mr-4">
             Prendre rendez-vous
           </Button>
+          <div class="border-l border-gray-200 pl-4 flex items-center gap-4">
+            <CartIcon />
+            <AuthButton />
+          </div>
         </div>
 
         <!-- Menu Mobile Button -->
         <input type="checkbox" id="menuToggle" class="hidden" />
         <label
           for="menuToggle"
-          class="md:hidden p-2 text-ebony hover:text-gold transition-colors duration-200 cursor-pointer"
+          class="lg:hidden p-2 text-ebony hover:text-gold transition-colors duration-200 cursor-pointer"
           aria-label="Menu"
         >
           <svg
@@ -94,9 +100,12 @@ const navLinks = [
                   {link.text}
                 </a>
               ))}
-              <Button href="/rendez-vous" variant="primary" size="lg" class="w-full">
+              <Button href="/rendez-vous" variant="primary" size="lg" class="w-full mb-6 flex align-center justify-center">
                 Prendre rendez-vous
               </Button>
+              <div class="w-full border-t border-gray-200 pt-6">
+                <AuthButton />
+              </div>
             </div>
           </div>
         </div>
@@ -112,7 +121,7 @@ function toggleDesktopMenuVisibility() {
   const desktopMenu = document.querySelector('#desktopMenu') as HTMLElement; // Remplacez par l'ID ou la classe de votre menu desktop
   const viewportWidth = window.innerWidth;
 
-  if (viewportWidth < 768) {
+  if (viewportWidth < 1023) {
     desktopMenu.style.display = 'none';
   } else {
     desktopMenu.style.display = 'flex'; // Assurez-vous que 'flex' est la bonne valeur pour afficher le menu
@@ -145,7 +154,7 @@ document.addEventListener('DOMContentLoaded', toggleDesktopMenuVisibility);
   }
 
   /* Desktop-specific rules */
-  @media (min-width: 768px) {
+  @media (min-width: 1023px) {
     .mobile-menu {
       display: none !important;
     }

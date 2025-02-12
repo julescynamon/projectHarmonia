@@ -1,0 +1,177 @@
+---
+---
+
+<div id="toast-container" class="toast-container"></div>
+
+<script>
+  class Toast {
+    static container = document.getElementById('toast-container');
+    static queue = [];
+    static processing = false;
+
+    static async show(message: string, type: 'success' | 'error' = 'success', duration = 4000) {
+      this.queue.push({ message, type, duration });
+      if (!this.processing) {
+        this.processQueue();
+      }
+    }
+
+    static async processQueue() {
+      if (this.queue.length === 0) {
+        this.processing = false;
+        return;
+      }
+
+      this.processing = true;
+      const { message, type, duration } = this.queue.shift()!;
+
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+
+      // Icône
+      const icon = document.createElement('div');
+      icon.className = 'toast-icon';
+      icon.innerHTML = type === 'success' 
+        ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>'
+        : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.5 5h3v10h-3v-10zm1.5 15.25c-1.104 0-2-.896-2-2s.896-2 2-2 2 .896 2 2-.896 2-2 2z"/></svg>';
+
+      // Contenu
+      const content = document.createElement('div');
+      content.className = 'toast-content';
+      content.textContent = message;
+
+      // Barre de progression
+      const progress = document.createElement('div');
+      progress.className = 'toast-progress';
+
+      // Assemblage
+      toast.appendChild(icon);
+      toast.appendChild(content);
+      toast.appendChild(progress);
+      this.container?.appendChild(toast);
+
+      // Animation d'entrée
+      await new Promise(resolve => setTimeout(resolve, 50));
+      toast.classList.add('show');
+
+      // Animation de la barre de progression
+      progress.style.transition = `background-position ${duration}ms linear`;
+      progress.style.backgroundPosition = '0 0';
+
+      // Suppression après le délai
+      await new Promise(resolve => setTimeout(resolve, duration));
+      toast.classList.remove('show');
+      await new Promise(resolve => setTimeout(resolve, 400)); // Attendre la fin de l'animation
+      toast.remove();
+
+      // Traiter le prochain toast
+      this.processQueue();
+    }
+  }
+
+  // Exposer la fonction toast globalement
+  window.toast = Toast;
+</script>
+
+<style is:global>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lora:wght@400;500&family=Raleway:wght@300;400&display=swap');
+
+  .toast-container {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 28rem;
+    font-family: var(--font-body, 'Lora', serif);
+  }
+
+  .toast {
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    background-color: white;
+    color: var(--color-ebony, #1C1C1C);
+    font-size: 0.9375rem;
+    transform: translateX(120%) scale(0.9);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-left: 4px solid transparent;
+  }
+
+  .toast::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: currentColor;
+  }
+
+  .toast.show {
+    transform: translateX(0) scale(1);
+  }
+
+  .toast-success {
+    border-color: var(--color-eucalyptus, #748C69);
+    background-color: rgba(116, 140, 105, 0.1);
+  }
+
+  .toast-success::before {
+    background-color: var(--color-eucalyptus, #748C69);
+  }
+
+  .toast-error {
+    border-color: var(--color-gold, #D4A373);
+    background-color: rgba(222, 133, 43, 0.962);
+  }
+
+  .toast-error::before {
+    background-color: var(--color-gold, #D4A373);
+  }
+
+  .toast-icon {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .toast-content {
+    flex-grow: 1;
+    font-family: var(--font-body, 'Lora', serif);
+    line-height: 1.5;
+  }
+
+  .toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right,
+      var(--color-sage, #A8B5A3) 50%,
+      transparent 50%
+    );
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    transition: background-position linear;
+  }
+</style>
+
+<script>
+  // Types pour TypeScript
+  declare global {
+    interface Window {
+      toast: {
+        show(message: string, type?: 'success' | 'error', duration?: number): void;
+      };
+    }
+  }
+</script>

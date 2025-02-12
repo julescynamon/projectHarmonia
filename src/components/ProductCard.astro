@@ -3,11 +3,11 @@ interface Props {
   title: string;
   description: string;
   price: number;
-  pdfUrl?: string;
-  coverImage?: string;
+  pdf_path?: string;
+  image?: string;
 }
 
-const { title, description, price, pdfUrl, coverImage } = Astro.props;
+const { title, description, price, pdf_path, image } = Astro.props;
 
 // Image par défaut si aucune image n'est fournie
 const defaultImage = '/images/default-pdf-cover.jpg';
@@ -16,7 +16,7 @@ const defaultImage = '/images/default-pdf-cover.jpg';
 <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg">
   <div class="aspect-[3/4] relative overflow-hidden">
     <img
-      src={coverImage || defaultImage}
+      src={image || defaultImage}
       alt={`Couverture de ${title}`}
       class="w-full h-full object-cover"
     />

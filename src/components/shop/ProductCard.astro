@@ -9,7 +9,7 @@ interface Props {
   created_at: string;
 }
 
-const { id, title, description, price, category, created_at } = Astro.props;
+const { id, title, description, price, category, created_at, pdf_path } = Astro.props;
 const defaultImage = '/images/default-pdf-cover.jpg';
 ---
 
@@ -18,11 +18,17 @@ const defaultImage = '/images/default-pdf-cover.jpg';
   data-aos="fade-up"
 >
   <div class="aspect-w-4 aspect-h-3 relative bg-sage/5">
-    <div class="absolute inset-0 flex items-center justify-center">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-sage/20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-      </svg>
-    </div>
+    {pdf_path ? (
+      <div class="absolute inset-0 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-sage/20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+        </svg>
+      </div>
+    ) : (
+      <div class="absolute inset-0 flex items-center justify-center text-sage/70 text-center px-4">
+        <p>Aucun PDF présent<br>revenez plus tard</p>
+      </div>
+    )}
   </div>
   <div class="p-6">
     <div class="flex items-center gap-2 mb-2">

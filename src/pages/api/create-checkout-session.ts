@@ -5,9 +5,30 @@ const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16'
 });
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
+  const session = locals.session;
+  if (!session?.user) {
+    return new Response(
+      JSON.stringify({ error: 'Non autorisé' }),
+      { status: 401, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
   try {
-    const { items } = await request.json();
+    const body = await request.json();
+    console.log('Request body:', body);
+    const { items } = body;
+    console.log('Items reçus:', items);
+
+    // Vérifier que chaque item a les données du produit
+    console.log('Checking items validity...');
+    const validItems = items.filter(item => {
+      const isValid = item.product && item.quantity > 0;
+      if (!isValid) {
+        console.log('Invalid item:', item);
+      }
+      return isValid;
+    });
+    console.log('Valid items:', validItems);
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return new Response(
@@ -16,26 +37,34 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    const session = await stripe.checkout.sessions.create({
+    if (validItems.length === 0) {
+      return new Response(
+        JSON.stringify({ error: 'Panier invalide ou vide' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const stripeSession = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: items.map((item: any) => ({
-        price_data: {
-          currency: 'eur',
-          product_data: {
-            name: item.title,
-            images: [item.image],
+      line_items: validItems.map((item: any) => ({
+          price_data: {
+            currency: 'eur',
+            product_data: {
+              name: item.product.title,
+              description: `Fichier PDF: ${item.product.pdf_path}`,
+            },
+            unit_amount: Math.round(item.product.price * 100), // Conversion en centimes
           },
-          unit_amount: Math.round(item.price * 100), // Conversion en centimes
-        },
-        quantity: 1,
+          quantity: item.quantity,
       })),
       mode: 'payment',
-      success_url: `${import.meta.env.SITE_URL}/boutique/confirmation?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${import.meta.env.SITE_URL}/boutique`,
+      client_reference_id: session.user.id,
+      success_url: `${import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321'}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321'}/boutique`,
     });
 
     return new Response(
-      JSON.stringify({ url: session.url }),
+      JSON.stringify({ url: stripeSession.url }),
       { 
         status: 200,
         headers: { 'Content-Type': 'application/json' }

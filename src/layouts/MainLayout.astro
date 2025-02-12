@@ -1,6 +1,7 @@
 ---
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
+import Cart from '../components/shop/Cart.astro';
 import '../styles/theme.css';
 
 // Polices
@@ -71,6 +72,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
     <Footer />
+    <Cart />
     <script>
       import AOS from 'aos';
       
@@ -78,7 +80,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       const getResponsiveOffset = () => {
         const width = window.innerWidth;
         if (width < 768) return 20; // Mobile
-        if (width < 1024) return 40; // Tablette
+        if (width < 1024) return 20; // Tablette
         return 60; // Desktop
       };
 

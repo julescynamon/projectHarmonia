@@ -1,9 +1,12 @@
 ---
+import { supabase } from '../../lib/supabase';
+const session = Astro.locals.session;
 ---
 
 <div
   id="cart"
-  class="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50"
+  class="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-[100]"
+  style="pointer-events: auto;"
 >
   <div class="h-full flex flex-col">
     <div class="p-6 border-b">
@@ -12,6 +15,7 @@
         <button
           id="closeCart"
           class="text-gray-400 hover:text-gray-500"
+          aria-label="Fermer le panier"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -20,9 +24,29 @@
       </div>
     </div>
 
+    <!-- Message d'erreur -->
+    <div id="cartError" class="invisible bg-red-50 text-red-500 p-4 text-sm">
+      Une erreur est survenue
+    </div>
+
+    <!-- Indicateur de chargement -->
+    <div id="cartLoading" class="invisible flex justify-center items-center p-4">
+      <svg class="animate-spin h-5 w-5 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </div>
+
     <div class="flex-1 overflow-y-auto p-6">
       <div id="cartItems" class="space-y-6">
         <!-- Les articles du panier seront injectés ici via JavaScript -->
+      </div>
+      <!-- Message panier vide -->
+      <div id="emptyCart" class="hidden text-center py-8 text-gray-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+        <p>Votre panier est vide</p>
       </div>
     </div>
 
@@ -33,7 +57,7 @@
       </div>
       <button
         id="checkout"
-        class="w-full bg-primary text-white px-6 py-3 rounded-full hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        class="w-full btn text-white px-6 py-3 rounded-full hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         disabled
       >
         Valider la commande
@@ -43,37 +67,152 @@
 </div>
 
 <script>
-  // Gestion du panier
+  // Éléments du DOM
   const cart = document.getElementById('cart');
   const closeCart = document.getElementById('closeCart');
   const cartItems = document.getElementById('cartItems');
   const cartTotal = document.getElementById('cartTotal');
-  const checkout = document.getElementById('checkout');
+  const checkout = document.getElementById('checkout') as HTMLButtonElement;
+  const errorMessage = document.getElementById('cartError');
+  const loadingIndicator = document.getElementById('cartLoading');
+  const emptyCart = document.getElementById('emptyCart');
 
-  // Ouvrir/fermer le panier
-  document.addEventListener('click', (e) => {
-    if (e.target.matches('[data-open-cart]')) {
-      cart.classList.remove('translate-x-full');
+  // Fermer le panier
+  if (closeCart && cart) {
+    closeCart.addEventListener('click', () => {
+      cart.classList.add('translate-x-full');
+    });
+  }
+
+  // Fermer le panier avec Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && cart && !cart.classList.contains('translate-x-full')) {
+      cart.classList.add('translate-x-full');
     }
   });
 
-  closeCart.addEventListener('click', () => {
-    cart.classList.add('translate-x-full');
-  });
+  // Fonction de mise à jour du panier
+  async function updateCartDisplay() {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/cart/items');
+      const { data: items, error } = await response.json();
+
+      if (error) {
+        console.error('Erreur lors de la récupération du panier:', error);
+        showError('Erreur lors de la récupération du panier');
+        return;
+      }
+
+      renderItems(items || []);
+    } catch (error) {
+      console.error('Erreur lors de la récupération du panier:', error);
+      showError('Erreur lors de la récupération du panier');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Écouter les mises à jour du panier
+  window.addEventListener('cart:updated', updateCartDisplay);
+
+  // Mise à jour initiale
+  updateCartDisplay();
 
   // Mise à jour du panier
-  function updateCart() {
-    const items = JSON.parse(localStorage.getItem('cart') || '[]');
-    cartItems.innerHTML = items.map((item, index) => `
-      <div class="flex items-center gap-4">
-        <img src="${item.image}" alt="${item.title}" loading="lazy" class="w-20 h-20 object-cover rounded-lg">
+  async function updateCart() {
+    if (!cartItems || !cartTotal || !emptyCart || !loadingIndicator) return;
+
+    try {
+      setLoading(true);
+      errorMessage?.classList.add('hidden');
+      cartItems.style.display = 'none';
+      emptyCart.style.display = 'none';
+
+      const response = await fetch('/api/cart/items');
+      if (!response.ok) throw new Error('Erreur lors du chargement du panier');
+      
+      const data = await response.json();
+      console.log('Cart: Structure complète:', JSON.stringify(data, null, 2));
+      if (data?.items?.length > 0) {
+        console.log('Premier item du panier:', JSON.stringify(data.items[0], null, 2));
+        console.log('Produit associé:', data.items[0]?.product);
+      }
+      
+      if (!data?.items?.length) {
+        emptyCart.style.display = 'block';
+        cartTotal.textContent = '0.00 €';
+        if (checkout) checkout.disabled = true;
+        return;
+      }
+
+      cartItems.style.display = 'block';
+      renderItems(data.items);
+
+      // Calculer le total
+      const total = data.items.reduce((sum, item) => {
+        return sum + (item.quantity * (item.price || 0));
+      }, 0);
+      cartTotal.textContent = `${total.toFixed(2)} €`;
+      if (checkout) checkout.disabled = false;
+    } catch (error) {
+      console.error('Erreur:', error);
+      showError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Fonctions utilitaires
+  function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.classList.remove('invisible');
+    setTimeout(() => errorMessage.classList.add('invisible'), 3000);
+  }
+
+  function setLoading(isLoading) {
+    loadingIndicator.classList.toggle('invisible', !isLoading);
+    cartItems.classList.toggle('opacity-50', isLoading);
+  }
+
+  function renderItems(items) {
+    if (items.length === 0) {
+      cartItems.innerHTML = '';
+      emptyCart.classList.remove('hidden');
+      cartTotal.textContent = '0,00 €';
+      checkout.disabled = true;
+      return;
+    }
+
+    emptyCart.classList.add('hidden');
+    cartItems.innerHTML = items.map(item => `
+      <div class="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm">
         <div class="flex-1">
-          <h3 class="font-medium">${item.title}</h3>
-          <p class="text-gray-600">${item.price.toFixed(2)} €</p>
+          <h3 class="font-medium text-lg">${item.title || 'Produit inconnu'}</h3>
+          <p class="text-gray-600 mb-1">Fichier: ${item.image || 'Non disponible'}</p>
+          <p class="text-gray-800 font-semibold">${(item.price || 0).toFixed(2)} €</p>
+          <div class="flex items-center gap-2 mt-2">
+            <button
+              type="button"
+              class="px-2 py-1 text-sm bg-gray-100 rounded hover:bg-gray-200 transition-colors"
+              data-action="update" data-item-id="${item.id}" data-quantity="${item.quantity - 1}"
+              ${item.quantity <= 1 ? 'disabled' : ''}
+              aria-label="Diminuer la quantité"
+            >-</button>
+            <span class="text-sm" aria-label="Quantité">${item.quantity}</span>
+            <button
+              type="button"
+              class="px-2 py-1 text-sm bg-gray-100 rounded hover:bg-gray-200 transition-colors"
+              data-action="update" data-item-id="${item.id}" data-quantity="${item.quantity + 1}"
+              aria-label="Augmenter la quantité"
+            >+</button>
+          </div>
         </div>
         <button
-          class="text-red-500 hover:text-red-600"
-          onclick="removeFromCart(${index})"
+          type="button"
+          class="text-red-500 hover:text-red-600 p-2 transition-colors"
+          data-action="remove" data-item-id="${item.id}"
+          aria-label="Supprimer l'article"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -81,36 +220,97 @@
         </button>
       </div>
     `).join('');
+    attachCartHandlers();
 
-    const total = items.reduce((sum, item) => sum + item.price, 0);
+    const total = items.reduce((sum, item) => sum + ((item.price || 0) * item.quantity), 0);
     cartTotal.textContent = `${total.toFixed(2)} €`;
-    checkout.disabled = items.length === 0;
+    checkout.disabled = false;
   }
 
-  // Supprimer un article du panier
-  window.removeFromCart = function(index) {
-    const items = JSON.parse(localStorage.getItem('cart') || '[]');
-    items.splice(index, 1); // Supprime l'élément à l'index spécifié
-    localStorage.setItem('cart', JSON.stringify(items));
-    updateCart();
+  // Namespace pour les fonctions du panier
+  const cartActions = {
+    removeItem(itemId) {
+      if (!itemId) return;
+      setLoading(true);
+
+      fetch('/api/cart/remove', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ itemId })
+      })
+        .then(response => {
+          if (!response.ok) throw new Error('Erreur lors de la suppression');
+          return updateCart();
+        })
+        .catch(error => {
+          console.error('Erreur:', error);
+          showError(error.message);
+        })
+        .finally(() => setLoading(false));
+    },
+
+    updateQuantity(itemId, quantity) {
+      if (quantity < 1) return;
+      setLoading(true);
+
+      fetch('/api/cart/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ itemId, quantity })
+      })
+        .then(response => {
+          if (!response.ok) throw new Error('Erreur lors de la mise à jour de la quantité');
+          return updateCart();
+        })
+        .catch(error => {
+          console.error('Erreur:', error);
+          showError(error.message);
+        })
+        .finally(() => setLoading(false));
+    }
   };
 
-  // Initialisation
+  // Attacher les gestionnaires d'événements aux boutons
+  function attachCartHandlers() {
+    const buttons = cartItems.querySelectorAll('button');
+    buttons.forEach(button => {
+      const action = button.getAttribute('data-action');
+      const itemId = button.getAttribute('data-item-id');
+      const quantity = button.getAttribute('data-quantity');
+
+      if (action === 'remove' && itemId) {
+        button.onclick = () => cartActions.removeItem(itemId);
+      } else if (action === 'update' && itemId && quantity) {
+        button.onclick = () => cartActions.updateQuantity(itemId, parseInt(quantity, 10));
+      }
+    });
+  }
+
+  // Initialisation et mise à jour du panier
   updateCart();
 
   // Écouter les mises à jour du panier
-  document.addEventListener('cartUpdated', updateCart);
+  window.addEventListener('cart:updated', updateCart);
 
   // Gestion du checkout avec Stripe
   checkout.addEventListener('click', async () => {
     try {
-      const items = JSON.parse(localStorage.getItem('cart') || '[]');
-      
       // Désactiver le bouton pendant le traitement
       checkout.disabled = true;
       checkout.textContent = 'Traitement en cours...';
 
-      const response = await fetch('/api/create-checkout-session', {
+      // Récupérer les items du panier depuis la base de données
+      console.log('Fetching cart items...');
+      const cartResponse = await fetch('/api/cart/items');
+      console.log('Cart response:', cartResponse);
+      const cartJson = await cartResponse.json();
+      console.log('Cart JSON:', cartJson);
+      const { items } = cartJson;
+      
+      if (!items || !items.length) throw new Error('Votre panier est vide');
+
+      // Créer la session de paiement
+      const stripeResponse = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -118,25 +318,25 @@
         body: JSON.stringify({ items }),
       });
 
-      if (!response.ok) {
-        throw new Error('Erreur lors de la création de la session de paiement');
+      if (!stripeResponse.ok) {
+        const data = await stripeResponse.json();
+        throw new Error(data.message || 'Erreur lors de la création de la session de paiement');
       }
 
-      const { url } = await response.json();
-      
-      if (url) {
-        // Rediriger vers la page de paiement Stripe
-        window.location.href = url;
-      } else {
+      const { url } = await stripeResponse.json();
+      if (!url) {
         throw new Error('URL de paiement non reçue');
       }
+
+      window.location.href = url;
     } catch (error) {
       console.error('Erreur de paiement:', error);
-      alert('Une erreur est survenue lors du paiement. Veuillez réessayer.');
-      
-      // Réactiver le bouton en cas d'erreur
-      checkout.disabled = false;
-      checkout.textContent = 'Valider la commande';
+      showError('Une erreur est survenue lors du paiement. Veuillez réessayer.');
+    } finally {
+      if (checkout) {
+        checkout.disabled = false;
+        checkout.textContent = 'Valider la commande';
+      }
     }
   });
 </script>

@@ -1,11 +1,12 @@
 import { supabase } from "./supabase";
+import { supabase as adminClient } from "./supabase/service-role";
 import { cache } from "./cache";
 
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 const PRODUCT_CACHE_KEY = "products";
 
 export interface Product {
-  id: string;
+  id: string; // UUID stored as string in TypeScript
   title: string;
   description: string;
   price: number;
@@ -32,6 +33,7 @@ interface OrderItem {
 export async function getProducts(
   options: GetProductsOptions = {}
 ): Promise<Product[]> {
+  // Validation des paramètres
   const {
     category = null,
     search = null,
@@ -40,33 +42,56 @@ export async function getProducts(
     maxPrice = null,
   } = options;
 
+  // Validation des prix
+  if (minPrice !== null && maxPrice !== null && minPrice > maxPrice) {
+    throw new Error('Le prix minimum ne peut pas être supérieur au prix maximum');
+  }
+
+  if (minPrice !== null && minPrice < 0) {
+    throw new Error('Le prix minimum ne peut pas être négatif');
+  }
+
+  // Validation du tri
+  const validSorts = ['newest', 'price-asc', 'price-desc', 'popular'];
+  if (!validSorts.includes(sort)) {
+    throw new Error('Option de tri invalide');
+  }
+
   // Générer une clé de cache unique basée sur les options
   const cacheKey = `${PRODUCT_CACHE_KEY}-${JSON.stringify(options)}`;
 
-  // Vérifier le cache avec une durée de validité plus longue pour les requêtes sans recherche
-  const cacheDuration = search ? CACHE_DURATION : CACHE_DURATION * 2;
+  // Ajuster la durée du cache en fonction du type de requête
+  const isVolatileQuery = search || minPrice !== null || maxPrice !== null;
+  const cacheDuration = isVolatileQuery ? CACHE_DURATION : CACHE_DURATION * 4;
+
+  // Vérifier le cache
   const cachedProducts = cache.get<Product[]>(cacheKey);
   if (cachedProducts) {
     return cachedProducts;
   }
 
-  // Sélectionner uniquement les colonnes nécessaires
+  // Construire la requête de base
   let query = supabase
     .from("products")
     .select("id, title, description, price, category, pdf_path, created_at");
 
-  // Filtres
+  // Appliquer les filtres
   if (category) {
     query = query.eq("category", category);
   }
 
   if (search) {
-    const searchTerm = search.toLowerCase().trim();
+    const searchTerm = search.trim();
     if (searchTerm) {
-      query = query.or(`title.ilike.*${searchTerm}*,description.ilike.*${searchTerm}*,category.ilike.*${searchTerm}*`);
+      // Utiliser l'index de recherche plein texte
+      query = query.textSearch('search_vector', searchTerm, {
+        config: 'french',
+        type: 'plain'
+      });
     }
   }
 
+  // Appliquer les filtres de prix
   if (minPrice !== null) {
     query = query.gte("price", minPrice);
   }
@@ -84,28 +109,58 @@ export async function getProducts(
       query = query.order("price", { ascending: false });
       break;
     case "popular":
-      query = query.order("created_at", { ascending: false }); // Fallback sur la date de création
+      // Utiliser un score de popularité basé sur la recherche si disponible
+      if (search) {
+        query = query.order('search_vector', { ascending: false });
+      } else {
+        query = query.order("created_at", { ascending: false });
+      }
       break;
     default: // newest
       query = query.order("created_at", { ascending: false });
   }
 
-  const { data, error } = await query;
+  try {
+    const { data, error } = await query;
 
-  if (error) {
-    console.error("Erreur lors de la récupération des produits:", error);
-    throw error;
+    if (error) {
+      console.error("Erreur lors de la récupération des produits:", error);
+      throw error;
+    }
+
+    // Post-traitement des résultats
+    const products = data || [];
+
+    // Tri supplémentaire pour la popularité si nécessaire
+    if (sort === 'popular' && !search) {
+      products.sort((a, b) => {
+        // Ici vous pouvez ajouter une logique personnalisée de popularité
+        // Par exemple, basée sur le nombre de ventes, vues, etc.
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      });
+    }
+
+    // Mettre en cache les résultats
+    if (products.length > 0) {
+      cache.set(cacheKey, products, cacheDuration);
+    }
+
+    return products;
+  } catch (error) {
+    console.error('Erreur lors de la récupération des produits:', error);
+    throw new Error(
+      'Une erreur est survenue lors de la récupération des produits. ' +
+      'Veuillez réessayer plus tard.'
+    );
   }
-
-  // Mettre en cache les résultats avec une durée adaptée
-  if (data) {
-    cache.set(cacheKey, data, cacheDuration);
-  }
-
-  return data || [];
 }
 
-export async function getProduct(id: string) {
+export async function getProduct(id: string): Promise<Product | null> {
+  if (!id) {
+    console.error('ID du produit manquant');
+    return null;
+  }
+
   // Vérifier le cache pour un produit spécifique
   const cacheKey = `${PRODUCT_CACHE_KEY}-${id}`;
   const cachedProduct = cache.get<Product>(cacheKey);
@@ -113,24 +168,30 @@ export async function getProduct(id: string) {
     return cachedProduct;
   }
 
-  // Sélectionner uniquement les colonnes nécessaires
-  const { data, error } = await supabase
-    .from("products")
-    .select("id, title, description, price, category, image, pdf_path, created_at")
-    .eq("id", id)
-    .single();
+  try {
+    // Sélectionner uniquement les colonnes nécessaires
+    const { data, error } = await supabase
+      .from("products")
+      .select("id, title, description, price, category, pdf_path, created_at")
+      .eq("id", id)
+      .single();
 
-  if (error) {
+    if (error) {
+      console.error("Erreur lors de la récupération du produit:", error);
+      return null;
+    }
+
+    if (data) {
+      // Cache plus long pour les produits individuels
+      cache.set(cacheKey, data, CACHE_DURATION * 4);
+      return data;
+    }
+
+    return null;
+  } catch (error) {
     console.error("Erreur lors de la récupération du produit:", error);
-    throw error;
+    return null;
   }
-
-  if (data) {
-    // Cache plus long pour les produits individuels
-    cache.set(cacheKey, data, CACHE_DURATION * 4);
-  }
-
-  return data;
 }
 
 export async function createOrder(userId: string, items: any[]) {
@@ -170,44 +231,143 @@ export async function createOrder(userId: string, items: any[]) {
   }
 }
 
-export async function getDownloadUrl(productId: string, orderId: string) {
+export async function getDownloadUrl(productId: string, orderId: string, userId: string): Promise<string | null> {
+  console.log('Génération URL de téléchargement:', { productId, orderId, userId });
+
   try {
-    // Vérifier que l'utilisateur a bien acheté le produit
-    const { data: orderItem, error: orderError } = (await supabase
-      .from("order_items")
-      .select("products(pdf_path), download_count")
-      .eq("product_id", productId)
-      .eq("order_id", orderId)
-      .single()) as { data: OrderItem | null; error: any };
 
-    if (orderError) throw orderError;
-    if (!orderItem) throw new Error("Order item not found");
+    // Vérifier que le produit existe et récupérer son chemin PDF
+    const { data: product, error: productError } = await supabase
+      .from('products')
+      .select('pdf_path')
+      .eq('id', productId)
+      .single();
 
-    // Vérifier la limite de téléchargements (max 3)
-    if (orderItem.download_count >= 3) {
-      throw new Error("Limite de téléchargements atteinte");
+    if (productError || !product || !product.pdf_path) {
+      console.error('Erreur ou produit non trouvé:', productError);
+      return null;
     }
 
-    // Générer une URL signée pour le téléchargement
-    const {
-      data: { signedUrl },
-      error: signedError,
-    } = await supabase.storage
-      .from("pdfs")
-      .createSignedUrl(orderItem.products.pdf_path, 3600); // URL valide 1 heure
+    console.log('Produit trouvé:', product);
 
-    if (signedError) throw signedError;
+    // Vérifier que l'utilisateur a bien acheté ce produit
+    const { data: order, error: orderError } = await supabase
+      .from('orders')
+      .select(`
+        id,
+        user_id,
+        order_items!inner (id, product_id, download_count)
+      `)
+      .eq('id', orderId)
+      .eq('user_id', userId)
+      .single();
+
+    console.log('Résultat vérification commande:', { order, error: orderError });
+    if (orderError || !order) {
+      console.error('Erreur de vérification de la commande:', orderError);
+      return null;
+    }
+
+    // Vérifier que le produit fait partie de la commande
+    const hasProduct = order.order_items.some(item => item.product_id === productId);
+    if (!hasProduct) {
+      console.error('Le produit ne fait pas partie de la commande');
+      return null;
+    }
+
+    // Vérifier que le bucket existe
+    const { data: buckets } = await adminClient
+      .storage
+      .listBuckets();
+    
+    console.log('Buckets disponibles:', buckets);
+
+    // Lister les fichiers dans le bucket
+    const { data: files, error: listError } = await adminClient
+      .storage
+      .from('pdfs')
+      .list();
+
+    console.log('Fichiers dans le bucket pdfs:', files);
+    if (listError) {
+      console.error('Erreur lors de la liste des fichiers:', listError);
+    }
+
+    // Générer l'URL de téléchargement
+    console.log('Tentative de génération URL signée pour:', product.pdf_path);
+    const { data: signedUrl, error: signedUrlError } = await adminClient
+      .storage
+      .from('pdfs')
+      .createSignedUrl(product.pdf_path, 300); // URL valide 5 minutes
+
+    if (signedUrlError) {
+      console.error('Erreur lors de la génération de l\'URL signée:', signedUrlError);
+      return null;
+    }
 
     // Incrémenter le compteur de téléchargements
-    await supabase
-      .from("order_items")
-      .update({ download_count: orderItem.download_count + 1 })
-      .eq("product_id", productId)
-      .eq("order_id", orderId);
+    const { error: updateError } = await supabase
+      .from('order_items')
+      .update({ download_count: (order.order_items[0].download_count || 0) + 1 })
+      .eq('order_id', orderId)
+      .eq('product_id', productId);
 
-    return signedUrl;
+    if (updateError) {
+      console.error('Erreur lors de la mise à jour du compteur:', updateError);
+      // On continue quand même, ce n'est pas bloquant
+    }
+
+    console.log('URL signée générée:', signedUrl);
+    return signedUrl?.signedUrl || null;
   } catch (error) {
-    console.error("Error generating download URL:", error);
+    console.error('Erreur lors de la génération de l\'URL:', error);
+    return null;
+  }
+}
+
+// Fonctions de gestion du panier
+export interface CartItem {
+  id: string; // UUID
+  user_id: string; // UUID
+  product_id: string; // UUID
+  quantity: number;
+  created_at: string;
+  product: Product;
+}
+
+export async function getCartItems(userId: string): Promise<CartItem[]> {
+  const { data, error } = await supabase
+    .from('cart_items')
+    .select(`
+      *,
+      product:products (
+        id,
+        title,
+        description,
+        price,
+        category
+      )
+    `)
+    .eq('user_id', userId);
+
+  if (error) {
+    console.error('Erreur lors de la récupération du panier:', error);
     throw error;
   }
+
+  return data || [];
+}
+
+export async function getCartItemCount(userId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from('cart_items')
+    .select('*', { count: 'exact' })
+    .eq('user_id', userId);
+
+  if (error) {
+    console.error('Erreur lors du comptage des articles:', error);
+    throw error;
+  }
+
+  return count || 0;
 }

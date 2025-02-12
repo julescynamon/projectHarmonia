@@ -59,7 +59,7 @@ const { type } = Astro.props;
 
   <button
     type="submit"
-    class="w-full bg-primary text-white px-6 py-3 rounded-full hover:bg-primary/90 transition-colors"
+    class="w-full btn px-6 py-3 rounded-full hover:bg-primary/90 transition-colors"
   >
     {type === 'login' ? 'Se connecter' : 'S\'inscrire'}
   </button>
@@ -69,6 +69,16 @@ const { type } = Astro.props;
 
 <script>
   import { supabase } from '../../lib/supabase';
+
+  // Récupérer l'URL de retour depuis les paramètres de l'URL
+  let returnTo = '/';
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    returnTo = urlParams.get('returnTo') || '/';
+  } catch (e) {
+    console.warn('Erreur lors de la récupération des paramètres URL:', e);
+  }
+
 
   function initAuthForm() {
     document.querySelectorAll('[data-auth-form]').forEach(form => {
@@ -93,64 +103,87 @@ const { type } = Astro.props;
               email: email.trim(),
               password: (formEl.querySelector('#password') as HTMLInputElement).value.trim()
             });
+          } else if (type === 'register') {
+            console.log('Tentative d\'inscription...');
+            const name = (formEl.querySelector('#name') as HTMLInputElement)?.value.trim();
+            
+            result = await supabase.auth.signUp({
+              email: email.trim(),
+              password: (formEl.querySelector('#password') as HTMLInputElement).value.trim(),
+              options: {
+                data: {
+                  name: name,
+                }
+              }
+            });
 
-            console.log('Résultat de la connexion:', result);
-
-            if (result.error) {
-              throw result.error;
+            if (!result.error && result.data?.user) {
+              // Afficher un message de succès et rediriger vers la page de connexion
+              alert('Inscription réussie ! Veuillez vous connecter.');
+              window.location.href = '/login';
+              return;
             }
+          }
 
-            if (result.data?.session) {
-              console.log('Session obtenue:', result.data.session);
-              
-              // Attendre que la session soit complètement établie
-              await supabase.auth.setSession(result.data.session);
-              
-              // Vérifier que la session est bien établie
-              const { data: { session: currentSession } } = await supabase.auth.getSession();
-              console.log('Session actuelle après setSession:', currentSession);
+          console.log('Résultat de la connexion:', result);
 
-              if (currentSession) {
-                console.log('Session établie avec succès');
+          if (result.error) {
+            throw result.error;
+          }
+
+          if (result.data?.session) {
+            console.log('Session obtenue:', result.data.session);
+            
+            // Attendre que la session soit complètement établie
+            await supabase.auth.setSession(result.data.session);
+            
+            // Vérifier que la session est bien établie
+            const { data: { session: currentSession } } = await supabase.auth.getSession();
+            console.log('Session actuelle après setSession:', currentSession);
+
+            if (currentSession) {
+              console.log('Session établie avec succès');
+              
+              try {
+                console.log('Session établie, préparation de la redirection...');
                 
-                try {
-                  // Sauvegarder le token dans un cookie accessible par le serveur
+                // Vérifier la session immédiatement
+                const { data: { session: currentSession } } = await supabase.auth.getSession();
+                
+                if (currentSession?.user) {
+                  console.log('Session vérifiée pour:', currentSession.user.email);
+                  
+                  // Sauvegarder le token dans localStorage
                   const token = JSON.stringify({
                     access_token: currentSession.access_token,
                     refresh_token: currentSession.refresh_token
                   });
+                  localStorage.setItem('supabase.auth.token', token);
                   
-                  // Définir le cookie avec un max-age d'une heure
-                  const cookieValue = `sb-hvthtebjvmutuvzvttdb-auth-token=${encodeURIComponent(token)}; path=/; max-age=3600; secure; samesite=lax`;
-                  document.cookie = cookieValue;
+                  // Sauvegarder le token dans un cookie pour le serveur
+                  document.cookie = `supabase.auth.token=${encodeURIComponent(token)}; path=/; max-age=${60 * 60 * 24 * 7}; secure; samesite=lax`;
                   
-                  console.log('Cookie défini:', cookieValue);
-                  console.log('Cookies actuels:', document.cookie);
-                  
-                  // Vérifier que le cookie est bien défini
-                  const cookieExists = document.cookie.includes('sb-hvthtebjvmutuvzvttdb-auth-token');
-                  console.log('Cookie existe:', cookieExists);
-                  
-                  if (!cookieExists) {
-                    throw new Error('Le cookie n\'a pas été correctement défini');
-                  }
-                  
-                  // Attendre un peu pour s'assurer que le cookie est bien défini
+                  // Attendre un court instant pour que le cookie soit bien défini
                   await new Promise(resolve => setTimeout(resolve, 100));
                   
-                  console.log('Redirection...');
-                  // Recharger la page pour que le middleware prenne en compte la session
-                  window.location.reload();
-                } catch (error) {
-                  console.error('Erreur lors de la définition du cookie:', error);
-                  throw error;
+                  // Définir la destination
+                  const destination = returnTo === '/' ? '/mon-compte' : returnTo;
+                  console.log('Redirection vers:', destination);
+                  
+                  // Forcer un rafraîchissement complet
+                  window.location.replace(destination);
+                } else {
+                  throw new Error('Session non établie après authentification');
                 }
-              } else {
-                throw new Error('La session n\'a pas pu être établie');
+              } catch (error) {
+                console.error('Erreur lors de la définition du cookie:', error);
+                throw error;
               }
             } else {
-              throw new Error('Aucune session n\'a été retournée par Supabase');
+              throw new Error('La session n\'a pas pu être établie');
             }
+          } else {
+            throw new Error('Aucune session n\'a été retournée par Supabase');
           }
         } catch (error) {
           console.error('Auth error:', error);

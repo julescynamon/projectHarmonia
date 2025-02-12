@@ -19,7 +19,7 @@ export const GET: APIRoute = async ({ request }) => {
       headers: {
         'Content-Type': 'application/json',
         // Ajouter des en-têtes de cache pour optimiser les performances
-        'Cache-Control': 'public, max-age=60', // Cache pendant 1 minute
+        'Cache-Control': 'public, max-age=10', // Cache pendant 10 secondes
       },
     });
   } catch (error) {

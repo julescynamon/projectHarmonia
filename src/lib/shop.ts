@@ -2,7 +2,7 @@ import { supabase } from "./supabase";
 import { supabase as adminClient } from "./supabase/service-role";
 import { cache } from "./cache";
 
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const CACHE_DURATION = 10 * 1000; // 10 secondes
 const PRODUCT_CACHE_KEY = "products";
 
 export interface Product {

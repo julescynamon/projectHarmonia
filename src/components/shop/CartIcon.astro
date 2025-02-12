@@ -13,7 +13,7 @@ const session = Astro.locals.session;
     </svg>
     <span 
       id="cartCount"
-      class="absolute -top-1 -right-1 bg-primary text-green-700 text-xs w-5 h-5 flex items-center justify-center rounded-full hidden"
+      class="absolute -top-1 -right-1 bg-primary text-green-700 text-xs w-5 h-5 flex items-center justify-center rounded-full opacity-0 invisible"
     ></span>
   </button>
 </div>
@@ -37,10 +37,12 @@ const session = Astro.locals.session;
 
       const count = data.items.reduce((sum, item) => sum + item.quantity, 0);
       cartCount.textContent = count.toString();
-      cartCount.classList.toggle('hidden', count === 0);
+      cartCount.classList.toggle('opacity-0', count === 0);
+      cartCount.classList.toggle('invisible', count === 0);
     } catch (error) {
       console.error('Error updating cart count:', error);
-      cartCount.classList.add('hidden');
+      cartCount.classList.add('opacity-0');
+      cartCount.classList.add('invisible');
     } finally {
       isUpdating = false;
     }
@@ -50,7 +52,8 @@ const session = Astro.locals.session;
   window.addEventListener('payment-success', () => {
     if (cartCount) {
       cartCount.textContent = '0';
-      cartCount.classList.add('hidden');
+      cartCount.classList.add('opacity-0');
+      cartCount.classList.add('invisible');
     }
   });
 

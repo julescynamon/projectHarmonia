@@ -55,6 +55,13 @@ const { type } = Astro.props;
         </a>
       )}
     </div>
+    {type === 'login' && (
+      <div class="text-sm">
+        <a href="/mot-de-passe-oublie" class="text-primary hover:text-primary/80">
+          Mot de passe oublié ?
+        </a>
+      </div>
+    )}
   </div>
 
   <button

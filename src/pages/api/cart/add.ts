@@ -29,6 +29,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
 
+    // Vérifier si le produit est un PDF
+    const { data: product, error: productError } = await supabase
+      .from('products')
+      .select('pdf_path')
+      .eq('id', productId)
+      .single();
+
+    if (productError) throw productError;
+
     // Vérifier si le produit existe déjà dans le panier
     const { data: existingItem, error: selectError } = await supabase
       .from('cart_items')
@@ -41,8 +50,16 @@ export const POST: APIRoute = async ({ request, locals }) => {
       throw selectError;
     }
 
-    if (existingItem) {
-      // Mettre à jour la quantité
+    // Si c'est un PDF et qu'il est déjà dans le panier, renvoyer une erreur
+    if (product?.pdf_path && existingItem) {
+      return new Response(
+        JSON.stringify({ message: 'Ce PDF est déjà dans votre panier' }), 
+        { status: 400 }
+      );
+    }
+
+    // Si ce n'est pas un PDF et qu'il est déjà dans le panier, mettre à jour la quantité
+    if (!product?.pdf_path && existingItem) {
       const { error: updateError } = await supabase
         .from('cart_items')
         .update({ quantity: existingItem.quantity + 1 })

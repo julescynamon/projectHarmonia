@@ -1,0 +1,40 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import ResetPasswordForm from '../components/auth/ResetPasswordForm.astro';
+
+const supabase = Astro.locals.supabase;
+const { data: { session } } = await supabase.auth.getSession();
+
+if (session) {
+  return Astro.redirect('/mon-compte');
+}
+
+const token = Astro.url.searchParams.get('token');
+if (!token) {
+  return Astro.redirect('/mot-de-passe-oublie');
+}
+
+// Vérifier la validité du token
+const { data: tokenData, error } = await supabase
+  .from('password_reset_tokens')
+  .select('*')
+  .eq('token', token)
+  .single();
+
+if (error || !tokenData || new Date(tokenData.expires_at) < new Date()) {
+  return Astro.redirect('/mot-de-passe-oublie?error=token_invalide');
+}
+---
+
+<MainLayout title="Réinitialisation du mot de passe" description="Définissez votre nouveau mot de passe">
+  <div class="pt-24">
+    <section class="py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-md mx-auto">
+          <h1 class="text-2xl font-bold text-center mb-8">Réinitialisation du mot de passe</h1>
+          <ResetPasswordForm token={token} email={tokenData.email} />
+        </div>
+      </div>
+    </section>
+  </div>
+</MainLayout>

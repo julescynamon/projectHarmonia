@@ -30,11 +30,29 @@ const session = Astro.locals.session;
 <script is:inline>
   function showError(message) {
     const toast = document.createElement('div');
-    toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
-    toast.textContent = message;
+    toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-sage text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2';
+    
+    // Ajout de l'icône d'information
+    const icon = document.createElement('svg');
+    icon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    icon.setAttribute('class', 'h-5 w-5');
+    icon.setAttribute('viewBox', '0 0 20 20');
+    icon.setAttribute('fill', 'currentColor');
+    icon.innerHTML = `
+      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+    `;
+    
+    const messageSpan = document.createElement('span');
+    messageSpan.textContent = message;
+    
+    toast.appendChild(icon);
+    toast.appendChild(messageSpan);
     document.body.appendChild(toast);
     
-    setTimeout(() => toast.remove(), 3000);
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
   }
 
   function handleAddToCart(button) {
@@ -72,13 +90,8 @@ const session = Astro.locals.session;
             return;
           }
           
-          const contentType = response.headers.get('content-type');
-          if (contentType && contentType.includes('application/json')) {
-            const data = await response.json();
-            throw new Error(data.message || 'Une erreur est survenue');
-          } else {
-            throw new Error('Une erreur est survenue lors de la communication avec le serveur');
-          }
+          const data = await response.json();
+          throw new Error(data.message || 'Une erreur est survenue');
         }
         
         // Mettre à jour le panier

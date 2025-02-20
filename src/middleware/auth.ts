@@ -13,12 +13,25 @@ declare global {
   }
 }
 
+// Routes à ignorer pour l'authentification
+const PUBLIC_ROUTES = [
+  '/mot-de-passe-oublie',
+  '/reinitialiser-mot-de-passe',
+  '/login',
+  '/register'
+];
+
 export const onRequest = defineMiddleware(
   async ({ request, redirect, locals }, next) => {
     try {
       console.log('Middleware - URL actuelle:', request.url);
       const url = new URL(request.url);
       const { pathname } = url;
+
+      // Ignorer les routes publiques
+      if (PUBLIC_ROUTES.includes(pathname)) {
+        return next();
+      }
       
       // Create a new supabase client on every request
       const supabase = createServerClient();

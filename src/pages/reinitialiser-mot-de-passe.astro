@@ -1,29 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import ResetPasswordForm from '../components/auth/ResetPasswordForm.astro';
-
-const supabase = Astro.locals.supabase;
-const { data: { session } } = await supabase.auth.getSession();
-
-if (session) {
-  return Astro.redirect('/mon-compte');
-}
-
-const token = Astro.url.searchParams.get('token');
-if (!token) {
-  return Astro.redirect('/mot-de-passe-oublie');
-}
-
-// Vérifier la validité du token
-const { data: tokenData, error } = await supabase
-  .from('password_reset_tokens')
-  .select('*')
-  .eq('token', token)
-  .single();
-
-if (error || !tokenData || new Date(tokenData.expires_at) < new Date()) {
-  return Astro.redirect('/mot-de-passe-oublie?error=token_invalide');
-}
 ---
 
 <MainLayout title="Réinitialisation du mot de passe" description="Définissez votre nouveau mot de passe">
@@ -32,9 +9,62 @@ if (error || !tokenData || new Date(tokenData.expires_at) < new Date()) {
       <div class="container mx-auto px-4">
         <div class="max-w-md mx-auto">
           <h1 class="text-2xl font-bold text-center mb-8">Réinitialisation du mot de passe</h1>
-          <ResetPasswordForm token={token} email={tokenData.email} />
+          
+          <div id="loading" class="text-center py-8">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+            <p class="mt-4 text-gray-600">Vérification du lien de réinitialisation...</p>
+          </div>
+
+          <div id="error-message" class="hidden text-center py-8">
+            <p class="text-red-500">Le lien de réinitialisation est invalide ou a expiré.</p>
+            <a href="/mot-de-passe-oublie" class="mt-4 inline-block text-primary hover:text-primary/80">
+              Demander un nouveau lien
+            </a>
+          </div>
+
+          <div id="reset-form" class="hidden">
+            <ResetPasswordForm />
+          </div>
         </div>
       </div>
     </section>
   </div>
 </MainLayout>
+
+<script>
+  // Fonction pour afficher/masquer les éléments
+  function showElement(id: string, show: boolean) {
+    const element = document.getElementById(id);
+    if (element) {
+      element.classList.toggle('hidden', !show);
+    }
+  }
+
+  // Vérifier le hash au chargement de la page
+  function checkRecoveryHash() {
+    const hash = window.location.hash;
+    if (!hash) {
+      showElement('loading', false);
+      showElement('error-message', true);
+      return;
+    }
+
+    const params = new URLSearchParams(hash.substring(1));
+    const type = params.get('type');
+    const accessToken = params.get('access_token');
+    const refreshToken = params.get('refresh_token');
+
+    if (type === 'recovery' && accessToken && refreshToken) {
+      showElement('loading', false);
+      showElement('reset-form', true);
+    } else {
+      showElement('loading', false);
+      showElement('error-message', true);
+    }
+  }
+
+  // Exécuter la vérification au chargement
+  if (typeof window !== 'undefined') {
+    window.addEventListener('load', checkRecoveryHash);
+  }
+</script>

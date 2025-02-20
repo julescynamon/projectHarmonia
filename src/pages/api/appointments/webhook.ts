@@ -10,7 +10,7 @@ const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY || '', {
 const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
 export const POST: APIRoute = async ({ request }) => {
-  console.log('Webhook Stripe reçu');
+
   const payload = await request.text();
   console.log('Payload reçu:', payload);
   const sig = request.headers.get('stripe-signature') || '';
@@ -36,7 +36,6 @@ export const POST: APIRoute = async ({ request }) => {
   if (event.type === 'checkout.session.completed') {
     console.log('Session de paiement complétée');
     const session = event.data.object;
-    console.log('Session ID:', session.id);
     const supabase = createServerClient();
 
     console.log('Mise à jour du statut du rendez-vous...');
@@ -58,9 +57,7 @@ export const POST: APIRoute = async ({ request }) => {
         { status: 500 }
       );
     }
-    console.log('Rendez-vous mis à jour:', appointment);
 
-    console.log('Récupération des informations du service...');
     // Récupérer les informations du service
     const { data: service, error: serviceError } = await supabase
       .from('services')
@@ -78,12 +75,9 @@ export const POST: APIRoute = async ({ request }) => {
         { status: 500 }
       );
     }
-    console.log('Service trouvé:', service);
+
 
     // Envoyer l'email de confirmation
-    console.log('Envoi de l\'email de confirmation...');
-    console.log('Email FROM:', import.meta.env.FROM_EMAIL);
-    console.log('Email TO:', appointment.client_email);
     try {
       await resend.emails.send({
       from: import.meta.env.FROM_EMAIL,

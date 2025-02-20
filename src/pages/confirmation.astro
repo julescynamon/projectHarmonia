@@ -1,0 +1,140 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { pageSEO } from '../lib/seo';
+import { createClient } from '@supabase/supabase-js';
+import Stripe from 'stripe';
+import { sendAppointmentNotification } from '../lib/notifications';
+
+const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY);
+const supabase = createClient(
+  import.meta.env.PUBLIC_SUPABASE_URL,
+  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+);
+
+const seo = pageSEO.confirmation;
+
+// Récupérer l'ID de session Stripe
+const sessionId = Astro.url.searchParams.get('session_id');
+
+console.log('Page de confirmation chargée');
+
+if (!sessionId) {
+  console.error('Aucun session_id trouvé dans l\'URL');
+  return Astro.redirect('/rendez-vous');
+}
+
+console.log('Session ID trouvé:', sessionId);
+
+try {
+  // Vérifier le statut du paiement
+  console.log('Récupération de la session Stripe...');
+  const session = await stripe.checkout.sessions.retrieve(sessionId);
+  console.log('Session Stripe:', {
+    id: session.id,
+    status: session.status,
+    payment_status: session.payment_status,
+    metadata: session.metadata
+  });
+
+  if (session.payment_status === 'paid') {
+    console.log('Paiement confirmé, récupération du rendez-vous en attente...');
+      // Récupérer le rendez-vous en attente
+      const { data: pendingAppointment, error: pendingError } = await supabase
+        .from('appointments_pending')
+        .select('*')
+        .eq('stripe_session_id', sessionId)
+        .single();
+
+      if (pendingError) {
+        console.error('Erreur lors de la récupération du rendez-vous en attente:', pendingError);
+        throw pendingError;
+      }
+
+      console.log('Rendez-vous en attente:', pendingAppointment);
+
+      if (!pendingAppointment) {
+        console.error('Aucun rendez-vous en attente trouvé pour la session:', sessionId);
+        throw new Error('Rendez-vous non trouvé');
+      }
+
+      try {
+        console.log('Création du rendez-vous définitif...');
+        // Créer le rendez-vous définitif
+        const { error: appointmentError } = await supabase
+          .from('appointments')
+          .insert([{
+            date: pendingAppointment.date,
+            time: pendingAppointment.time,
+            service: pendingAppointment.service,
+            client_name: pendingAppointment.client_name,
+            client_email: pendingAppointment.client_email,
+            stripe_session_id: sessionId
+          }]);
+
+        if (appointmentError) {
+          console.error('Erreur lors de la création du rendez-vous:', appointmentError);
+          throw appointmentError;
+        }
+
+        console.log('Rendez-vous créé avec succès');
+
+        // Supprimer le rendez-vous en attente
+        const { error: deleteError } = await supabase
+          .from('appointments_pending')
+          .delete()
+          .eq('stripe_session_id', sessionId);
+
+        console.log('Envoi des notifications...');
+        if (deleteError) {
+          console.error('Erreur lors de la suppression du rendez-vous en attente:', deleteError);
+          // On continue quand même car le rendez-vous a été créé
+        }
+
+        console.log('Envoi des notifications...');
+        // Envoyer la notification
+        await sendAppointmentNotification({
+          date: pendingAppointment.date,
+          time: pendingAppointment.time,
+          service: pendingAppointment.service,
+          clientName: pendingAppointment.client_name,
+          clientEmail: pendingAppointment.client_email
+        });
+      }
+    }
+      } catch (error) {
+        console.error('Erreur lors de la finalisation du rendez-vous:', error);
+        throw error;
+      }
+    } else {
+      console.error('Le paiement n\'est pas marqué comme payé:', session.payment_status);
+      return Astro.redirect('/rendez-vous?error=payment_failed');
+    }
+  } catch (error) {
+    console.error('Erreur lors de la confirmation du rendez-vous:', error);
+    return Astro.redirect('/rendez-vous?error=confirmation_failed');
+  }
+}
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <div class="pt-24">
+    <section class="py-20 bg-sage/5">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h1 class="font-heading text-4xl md:text-5xl text-ebony mb-6">
+            Merci pour votre réservation !
+          </h1>
+          <p class="text-lg text-eucalyptus mb-8">
+            Votre rendez-vous a été confirmé. Vous recevrez bientôt un email de confirmation avec tous les détails.
+          </p>
+          <a
+            href="/"
+            class="inline-block bg-eucalyptus text-white px-8 py-3 rounded-lg hover:bg-eucalyptus/90 transition-colors"
+          >
+            Retour à l'accueil
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</MainLayout>

@@ -193,17 +193,21 @@ const steps = [
                   <h3 class="font-heading text-2xl text-ebony mb-6">
                     Choisissez un horaire
                   </h3>
-                  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                  <div id="time-slots" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
                     {timeSlots.map(time => (
-                      <label class="cursor-pointer">
+                      <label class="cursor-pointer relative group">
                         <input
                           type="radio"
                           name="time"
+                          data-time={time}
                           value={time}
                           class="peer hidden"
                         />
-                        <div class="p-3 text-center rounded-lg border-2 border-sage/20 hover:border-eucalyptus peer-checked:border-eucalyptus peer-checked:bg-sage/5 transition-colors">
-                          <span class="text-eucalyptus">{time}</span>
+                        <div class="p-3 text-center rounded-lg border-2 border-sage/20 hover:border-eucalyptus peer-checked:border-eucalyptus peer-checked:bg-sage/5 transition-colors relative group-hover:border-eucalyptus">
+                          <span class="text-eucalyptus group-hover:text-eucalyptus/80">{time}</span>
+                          <div class="time-slot-status hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full shadow-sm">
+                            ✕
+                          </div>
                         </div>
                       </label>
                     ))}
@@ -419,4 +423,159 @@ const steps = [
       </div>
     </section>
   </div>
+
+<script>
+  import { checkAvailability, isDayBlocked } from '../lib/availability';
+
+  const form = document.getElementById('appointment-form');
+  const dateInput = form.querySelector('input[type="date"]');
+  const timeSlots = document.getElementById('time-slots');
+
+  // Définir la date minimum à aujourd'hui
+  const today = new Date();
+  dateInput.min = today.toISOString().split('T')[0];
+
+  // Vérifier si la date est bloquée avant de permettre la sélection
+  dateInput.addEventListener('input', async (e) => {
+    const selectedDate = e.target.value;
+    if (!selectedDate) return;
+
+    try {
+      const isBlocked = await isDayBlocked(selectedDate);
+      if (isBlocked) {
+        alert('Cette journée n\'est pas disponible');
+        dateInput.value = '';
+        // Masquer et réinitialiser les créneaux horaires
+        timeSlots.querySelectorAll('input[type="radio"]').forEach(input => {
+          input.disabled = true;
+          input.checked = false;
+          const label = input.closest('label');
+          label.classList.add('opacity-50', 'cursor-not-allowed');
+          const statusDiv = label.querySelector('.time-slot-status');
+          if (statusDiv) {
+            statusDiv.classList.add('hidden');
+          }
+        });
+      } else {
+        // Si la date n'est pas bloquée, vérifier les créneaux disponibles
+        checkTimeSlots();
+      }
+    } catch (error) {
+      console.error('Erreur lors de la vérification de la date:', error);
+      alert('Erreur lors de la vérification de la date. Veuillez réessayer.');
+    }
+  });
+
+  // Vérifier les disponibilités lorsque la date change
+  async function checkTimeSlots() {
+    const selectedDate = dateInput.value;
+    if (!selectedDate) return;
+
+    const timeInputs = timeSlots.querySelectorAll('input[type="radio"]');
+    
+    // Désactiver tous les créneaux horaires pendant la vérification
+    timeInputs.forEach(input => {
+      input.disabled = true;
+      input.checked = false;
+      const label = input.closest('label');
+      label.classList.add('opacity-50', 'cursor-not-allowed');
+      const statusDiv = label.querySelector('.time-slot-status');
+      if (statusDiv) {
+        statusDiv.classList.add('hidden');
+      }
+    });
+
+    try {
+      // Vérifier chaque créneau horaire
+      for (const input of timeInputs) {
+        const time = input.value;
+        console.log(`Vérification du créneau ${time}`);
+        const isAvailable = await checkAvailability(selectedDate, time);
+        
+        const label = input.closest('label');
+        const statusDiv = label.querySelector('.time-slot-status');
+        
+        if (isAvailable) {
+          input.disabled = false;
+          label.classList.remove('opacity-50', 'cursor-not-allowed');
+          label.classList.add('cursor-pointer');
+          if (statusDiv) {
+            statusDiv.classList.add('hidden');
+          }
+        } else {
+          input.disabled = true;
+          label.classList.add('opacity-50', 'cursor-not-allowed');
+          label.classList.remove('cursor-pointer');
+          if (statusDiv) {
+            statusDiv.classList.remove('hidden');
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Erreur lors de la vérification des disponibilités:', error);
+      alert('Erreur lors de la vérification des disponibilités. Veuillez réessayer.');
+    }
+  }
+
+  // Mettre à jour les créneaux quand la date change
+  dateInput.addEventListener('change', checkTimeSlots);
+
+  // Vérifier les disponibilités au chargement si une date est déjà sélectionnée
+  if (dateInput.value) {
+    checkTimeSlots();
+  }
+
+  // Avant la soumission du formulaire
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const selectedDate = dateInput.value;
+    const selectedTime = form.querySelector('input[name="time"]:checked')?.value;
+    const selectedService = form.querySelector('input[name="service"]:checked')?.value;
+    const clientName = form.querySelector('input[name="clientName"]')?.value;
+    const clientEmail = form.querySelector('input[name="clientEmail"]')?.value;
+    
+    if (!selectedDate || !selectedTime || !selectedService || !clientName || !clientEmail) {
+      alert('Veuillez remplir tous les champs du formulaire');
+      return;
+    }
+
+    try {
+      // Vérifier une dernière fois la disponibilité
+      const isAvailable = await checkAvailability(selectedDate, selectedTime);
+      
+      if (!isAvailable) {
+        alert('Désolé, ce créneau n\'est plus disponible. Veuillez en choisir un autre.');
+        return;
+      }
+
+      // Envoyer les données à l'API
+      const response = await fetch('/api/create-appointment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          date: selectedDate,
+          time: selectedTime,
+          service: selectedService,
+          clientName,
+          clientEmail
+        })
+      });
+
+      const data = await response.json();
+      
+      if (response.ok && data.url) {
+        // Rediriger vers Stripe
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || 'Erreur lors de la création du rendez-vous');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la création du rendez-vous:', error);
+      alert('Une erreur est survenue. Veuillez réessayer.');
+    }
+  });
+</script>
 </MainLayout>

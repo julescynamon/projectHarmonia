@@ -118,10 +118,7 @@ const { data: orders, error: ordersError } = await supabase
   .eq('user_id', session.user.id)
   .order('created_at', { ascending: false });
 
-console.log('Récupération des commandes - Résultat brut:', {
-  orders,
-  error: ordersError
-});
+
 
 // Si on a des commandes, récupérer les order_items séparément pour déboguer
 if (orders && orders.length > 0) {
@@ -150,17 +147,10 @@ if (orders && orders.length > 0) {
     });
   }
 
-  console.log('Items des commandes:', {
-    items,
-    error: itemsError,
-    orderIds
-  });
+
 }
 
-console.log('Récupération des commandes:', {
-  orders,
-  error: ordersError
-});
+
 
 if (orders) {
   orders.forEach((order, i) => {
@@ -476,7 +466,7 @@ const userData = user?.user_metadata || {};
   // Fonction de téléchargement
   async function downloadFile(productId, orderId) {
     try {
-      console.log('Début du téléchargement:', { productId, orderId });
+
       
       const response = await fetch(`/api/download?productId=${productId}&orderId=${orderId}`, {
         headers: {
@@ -489,7 +479,7 @@ const userData = user?.user_metadata || {};
       });
       
       const text = await response.text();
-      console.log('Réponse brute:', text);
+
       
       let data;
       try {
@@ -499,7 +489,7 @@ const userData = user?.user_metadata || {};
         throw new Error('Réponse invalide du serveur');
       }
       
-      console.log('Données reçues:', data);
+
       
       if (!response.ok) {
         throw new Error(`Erreur lors du téléchargement: ${data.error || 'Erreur inconnue'}`);
@@ -509,7 +499,7 @@ const userData = user?.user_metadata || {};
         throw new Error('URL de téléchargement non reçue');
       }
       
-      console.log('Ouverture de l\'URL:', data.url);
+
       window.open(data.url, '_blank');
     } catch (error) {
       console.error('Erreur complète lors du téléchargement:', error);

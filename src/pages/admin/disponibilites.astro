@@ -1,0 +1,188 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Card from '../../components/ui/Card.astro';
+
+// La vérification admin est déjà gérée par le middleware
+---
+
+<MainLayout title="Gestion des disponibilités" description="Gérez vos disponibilités">
+  <div class="pt-24">
+    <section class="py-20 bg-sage/5">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <Card variant="hover">
+            <div class="p-8">
+              <h1 class="font-heading text-3xl text-ebony mb-8">Gestion des disponibilités</h1>
+              
+              <div id="calendar-manager" class="space-y-6">
+                <!-- Le calendrier sera injecté ici par le JavaScript -->
+              </div>
+
+              <div class="mt-8">
+                <h2 class="font-heading text-2xl text-ebony mb-4">Bloquer une plage horaire</h2>
+                <form id="block-time-form" class="space-y-4">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-sm font-medium text-ebony mb-2">Date de début</label>
+                      <input type="date" name="startDate" class="w-full px-4 py-2 rounded-lg border border-sage/20" required>
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-ebony mb-2">Date de fin</label>
+                      <input type="date" name="endDate" class="w-full px-4 py-2 rounded-lg border border-sage/20" required>
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-ebony mb-2">Heure de début</label>
+                      <input type="time" name="startTime" class="w-full px-4 py-2 rounded-lg border border-sage/20" required>
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-ebony mb-2">Heure de fin</label>
+                      <input type="time" name="endTime" class="w-full px-4 py-2 rounded-lg border border-sage/20" required>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-ebony mb-2">Raison</label>
+                    <input type="text" name="reason" class="w-full px-4 py-2 rounded-lg border border-sage/20" placeholder="Optionnel">
+                  </div>
+                  <button type="submit" class="bg-eucalyptus text-white px-6 py-2 rounded-lg hover:bg-eucalyptus/90 transition-colors">
+                    Bloquer cette plage
+                  </button>
+                </form>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </section>
+  </div>
+</MainLayout>
+
+<script>
+  import { createServerClient } from '../../lib/supabase';
+  
+  const supabase = createServerClient();
+
+  // Gestion du formulaire de blocage
+  const form = document.getElementById('block-time-form') as HTMLFormElement;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    
+    try {
+      // Vérifier les dates
+      const startDate = formData.get('startDate') as string;
+      const endDate = formData.get('endDate') as string;
+      const startTime = formData.get('startTime') as string;
+      const endTime = formData.get('endTime') as string;
+      
+      if (new Date(`${startDate} ${startTime}`) >= new Date(`${endDate} ${endTime}`)) {
+        throw new Error('La date de fin doit être postérieure à la date de début');
+      }
+      
+      const { data, error } = await supabase
+        .from('blocked_times')
+        .insert([
+          {
+            start_date: startDate,
+            end_date: endDate,
+            start_time: startTime,
+            end_time: endTime,
+            reason: formData.get('reason') || null
+          }
+        ])
+        .select();
+
+      if (error) {
+        console.error('Erreur Supabase:', error);
+        throw error;
+      }
+      
+      alert('Plage horaire bloquée avec succès');
+      form.reset();
+      await loadBlockedTimes(); // Recharger l'affichage
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert(error instanceof Error ? error.message : 'Erreur lors du blocage de la plage horaire');
+    }
+  });
+
+  // Charger et afficher les plages bloquées
+  async function loadBlockedTimes() {
+    try {
+      const { data, error } = await supabase
+        .from('blocked_times')
+        .select('*')
+        .order('start_date', { ascending: true });
+
+      if (error) {
+        console.error('Erreur lors du chargement des disponibilités:', error);
+        return;
+      }
+
+      // Mettre à jour l'affichage
+      const calendar = document.getElementById('calendar-manager');
+      if (!calendar || !data) return;
+      
+      calendar.innerHTML = `
+        <div class="space-y-4">
+          <h2 class="font-heading text-2xl text-ebony mb-4">Périodes bloquées</h2>
+          ${data.length === 0 ? 
+            '<p class="text-sage">Aucune période bloquée</p>' :
+            `<div class="grid gap-4">
+              ${data.map(period => `
+                <div class="p-4 bg-sage/5 rounded-lg">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <p class="font-medium">Du ${new Date(period.start_date).toLocaleDateString()} à ${period.start_time}</p>
+                      <p class="font-medium">Au ${new Date(period.end_date).toLocaleDateString()} à ${period.end_time}</p>
+                      ${period.reason ? `<p class="text-sage mt-2">${period.reason}</p>` : ''}
+                    </div>
+                    <button 
+                      class="text-red-500 hover:text-red-700 transition-colors"
+                      onclick="deletePeriod('${period.id}')"
+                    >
+                      Supprimer
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>`
+          }
+        </div>
+      `;
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur lors du chargement des périodes bloquées');
+    }
+  }
+
+  // Fonction de suppression
+  window.deletePeriod = async (id: string) => {
+    if (!confirm('Voulez-vous vraiment supprimer cette période ?')) return;
+    
+    try {
+      const { error } = await supabase
+        .from('blocked_times')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      
+      await loadBlockedTimes();
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur lors de la suppression de la période');
+    }
+  };
+
+  // Charger les données initiales
+  loadBlockedTimes();
+</script>
+
+<script is:inline>
+  // Déclaration globale pour TypeScript
+  declare global {
+    interface Window {
+      deletePeriod: (id: string) => Promise<void>;
+    }
+  }
+</script>

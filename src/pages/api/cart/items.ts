@@ -25,7 +25,7 @@ interface FormattedCartItem {
 }
 
 export const GET: APIRoute = async ({ locals }) => {
-  console.log('GET /api/cart/items - Session:', locals.session);
+
   const session = locals.session;
   if (!session?.user) {
     return new Response(
@@ -35,8 +35,7 @@ export const GET: APIRoute = async ({ locals }) => {
   }
 
   try {
-    console.log('Fetching cart items for user:', session.user.id);
-    console.log('Access token:', session.access_token);
+
 
     // Créer un client Supabase avec le token d'accès
     const supabase = createServiceClient(session.access_token);
@@ -52,7 +51,7 @@ export const GET: APIRoute = async ({ locals }) => {
       `)
       .eq('user_id', session.user.id);
     
-    console.log('Executing query for user:', session.user.id);
+
     const { data: cartItems, error } = await query.returns<CartItem[]>();
 
     if (error) {
@@ -60,11 +59,10 @@ export const GET: APIRoute = async ({ locals }) => {
       throw error;
     }
 
-    console.log('Cart items found:', cartItems);
-    console.log('Raw response:', { data: cartItems, error });
+
 
     if (!cartItems || cartItems.length === 0) {
-      console.log('No items found in cart');
+
       return new Response(
         JSON.stringify({ items: [] }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }

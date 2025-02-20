@@ -10,7 +10,6 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     console.log('Début de la création du rendez-vous');
     const body = await request.json();
-    console.log('Corps de la requête:', body);
     const { date, time, serviceId, email, name } = body;
     const supabase = createServerClient();
 
@@ -57,15 +56,10 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    console.log('Création de la session Stripe...');
-    console.log('Service trouvé:', service);
+
 
     // Créer la session Stripe
-    console.log('Tentative de création de la session Stripe avec les données suivantes:', {
-      email,
-      service_title: service.title,
-      price: service.price
-    });
+
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -88,10 +82,9 @@ export const POST: APIRoute = async ({ request }) => {
       customer_email: email,
     });
 
-    console.log('Session Stripe créée avec succès:', session.id);
 
     // Créer le rendez-vous temporaire
-    console.log('Création du rendez-vous temporaire...');
+
     const { data: appointment, error } = await supabase
       .from('appointments')
       .insert([

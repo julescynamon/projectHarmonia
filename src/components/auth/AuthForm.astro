@@ -97,21 +97,21 @@ const { type } = Astro.props;
         const submitButton = formEl.querySelector('button[type="submit"]') as HTMLButtonElement;
         
         const email = (formEl.querySelector('#email') as HTMLInputElement).value;
-        console.log('Tentative de connexion avec email:', email);
+       
 
         try {
           submitButton.disabled = true;
           
           let result;
           if (type === 'login') {
-            console.log('Tentative de connexion...');
+            
             
             result = await supabase.auth.signInWithPassword({
               email: email.trim(),
               password: (formEl.querySelector('#password') as HTMLInputElement).value.trim()
             });
           } else if (type === 'register') {
-            console.log('Tentative d\'inscription...');
+            
             const name = (formEl.querySelector('#name') as HTMLInputElement)?.value.trim();
             
             result = await supabase.auth.signUp({
@@ -132,33 +132,33 @@ const { type } = Astro.props;
             }
           }
 
-          console.log('Résultat de la connexion:', result);
+          
 
           if (result.error) {
             throw result.error;
           }
 
           if (result.data?.session) {
-            console.log('Session obtenue:', result.data.session);
+            
             
             // Attendre que la session soit complètement établie
             await supabase.auth.setSession(result.data.session);
             
             // Vérifier que la session est bien établie
             const { data: { session: currentSession } } = await supabase.auth.getSession();
-            console.log('Session actuelle après setSession:', currentSession);
+            
 
             if (currentSession) {
-              console.log('Session établie avec succès');
+              
               
               try {
-                console.log('Session établie, préparation de la redirection...');
+                
                 
                 // Vérifier la session immédiatement
                 const { data: { session: currentSession } } = await supabase.auth.getSession();
                 
                 if (currentSession?.user) {
-                  console.log('Session vérifiée pour:', currentSession.user.email);
+                  
                   
                   // Sauvegarder le token dans localStorage
                   const token = JSON.stringify({
@@ -175,7 +175,7 @@ const { type } = Astro.props;
                   
                   // Définir la destination
                   const destination = returnTo === '/' ? '/mon-compte' : returnTo;
-                  console.log('Redirection vers:', destination);
+                  
                   
                   // Forcer un rafraîchissement complet
                   window.location.replace(destination);

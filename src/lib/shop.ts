@@ -232,7 +232,6 @@ export async function createOrder(userId: string, items: any[]) {
 }
 
 export async function getDownloadUrl(productId: string, orderId: string, userId: string): Promise<string | null> {
-  console.log('Génération URL de téléchargement:', { productId, orderId, userId });
 
   try {
 
@@ -248,7 +247,7 @@ export async function getDownloadUrl(productId: string, orderId: string, userId:
       return null;
     }
 
-    console.log('Produit trouvé:', product);
+
 
     // Vérifier que l'utilisateur a bien acheté ce produit
     const { data: order, error: orderError } = await supabase
@@ -280,7 +279,7 @@ export async function getDownloadUrl(productId: string, orderId: string, userId:
       .storage
       .listBuckets();
     
-    console.log('Buckets disponibles:', buckets);
+ 
 
     // Lister les fichiers dans le bucket
     const { data: files, error: listError } = await adminClient

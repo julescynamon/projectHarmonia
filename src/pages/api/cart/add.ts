@@ -11,8 +11,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   }
 
-  console.log('Session user:', session.user);
-  console.log('Access token:', session.access_token);
 
   // Créer un client Supabase avec le token d'accès
   const supabase = createServiceClient(session.access_token);
@@ -68,11 +66,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       if (updateError) throw updateError;
     } else {
       // Ajouter un nouvel article
-      console.log('Tentative d\'insertion avec les données suivantes:', {
-        user_id: session.user.id,
-        product_id: productId,
-        quantity: 1
-      });
+
 
       // Vérifier d'abord si l'utilisateur a accès à la table
       const { data: testData, error: testError } = await supabase
@@ -80,7 +74,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         .select('id')
         .limit(1);
 
-      console.log('Test de lecture:', { testData, testError });
+
 
       // Tenter l'insertion
       const { data: insertData, error: insertError } = await supabase
@@ -92,7 +86,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         })
         .select();
 
-      console.log('Résultat de l\'insertion:', { insertData, insertError });
+
 
       if (insertError) {
         console.error('Détails de l\'erreur d\'insertion:', {

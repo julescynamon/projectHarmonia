@@ -65,7 +65,7 @@ export const GET: APIRoute = async ({ locals }) => {
 
     if (error) throw error;
 
-    console.log('Cart Items:', data); // Log the structure of cartItems
+ // Log the structure of cartItems
 
     // Formater les données pour le frontend
     const items = data.map((item) => ({
@@ -77,7 +77,7 @@ export const GET: APIRoute = async ({ locals }) => {
       image: item.products.pdf_path,
     }));
 
-    console.log('Cart API Response:', { items }); // Debug log
+// Debug log
 
     return new Response(
       JSON.stringify({ items }), 

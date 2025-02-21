@@ -8,14 +8,9 @@ const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY || '', {
 
 export async function POST({ request }) {
   try {
-    console.log('Début de la création du rendez-vous');
     const body = await request.json();
-    console.log('Données reçues:', body);
     const { date, time, serviceId, email, name, reason } = body;
-    console.log('Données extraites:', { date, time, serviceId, email, name, reason });
     const supabase = createServerClient();
-
-    console.log('Vérification de la disponibilité...');
     // Vérifier à nouveau la disponibilité
     const { data: existingAppointments, error: availabilityError } = await supabase
       .from('appointments')
@@ -35,16 +30,11 @@ export async function POST({ request }) {
       console.error('Erreur lors de la vérification de disponibilité:', availabilityError);
     }
 
-    console.log('Récupération des informations du service...');
-    // Récupérer les informations du service
-    console.log('Recherche du service avec ID:', serviceId);
     const { data: service, error: serviceError } = await supabase
       .from('services')
       .select('*')
       .eq('id', serviceId)
       .single();
-    
-    console.log('Résultat de la recherche du service:', { service, serviceError });
 
     if (!service) {
       return new Response(
@@ -66,7 +56,6 @@ export async function POST({ request }) {
     // Créer la session Stripe
 
 
-    console.log('Configuration de la session Stripe...');
     const sessionConfig = {
       payment_method_types: ['card'],
       line_items: [
@@ -96,15 +85,8 @@ export async function POST({ request }) {
       }
     };
     
-    console.log('Création de la session Stripe avec config:', sessionConfig);
     const session = await stripe.checkout.sessions.create(sessionConfig);
 
-
-    // Créer le rendez-vous
-
-    console.log('Tentative de création du rendez-vous...');
-    
-    // Préparer les données du rendez-vous
     const appointmentData = {
       date,
       time,
@@ -115,16 +97,11 @@ export async function POST({ request }) {
       stripe_session_id: session.id
     };
     
-    console.log('Données du rendez-vous à insérer:', appointmentData);
-    
-    // Essayer d'insérer le rendez-vous
     const { data: appointment, error } = await supabase
       .from('appointments')
       .insert(appointmentData)
       .select()
       .single();
-      
-    console.log('Résultat de l\'insertion:', { appointment, error });
     
     if (error) {
       console.error('Erreur Supabase lors de la création du rendez-vous:', error);

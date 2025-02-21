@@ -63,7 +63,6 @@ export const onRequest = defineMiddleware(
       
       
       if (sessionError) {
-        console.error('Erreur de session:', sessionError);
         locals.session = null;
         locals.user = null;
       } else if (currentSession) {
@@ -90,7 +89,6 @@ export const onRequest = defineMiddleware(
             });
             
             if (error) {
-              console.error('Erreur lors de la définition de la session:', error);
               locals.session = null;
               locals.user = null;
             } else {
@@ -98,7 +96,6 @@ export const onRequest = defineMiddleware(
               locals.user = authSession.user;
             }
           } catch (error) {
-            console.error('Erreur lors du traitement du cookie:', error);
             locals.session = null;
             locals.user = null;
           }

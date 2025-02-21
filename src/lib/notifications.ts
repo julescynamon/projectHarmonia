@@ -1,7 +1,14 @@
 import { Resend } from 'resend';
 
-console.log('Clé API Resend:', import.meta.env.RESEND_API_KEY ? 'Présente' : 'Manquante');
-const resend = new Resend(import.meta.env.RESEND_API_KEY);
+// Vérifier la clé API Resend
+const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
+console.log('Clé API Resend:', RESEND_API_KEY ? 'Présente' : 'Manquante');
+
+if (!RESEND_API_KEY) {
+  console.error('ATTENTION: La clé API Resend n\'est pas configurée!');
+}
+
+const resend = new Resend(RESEND_API_KEY);
 
 function generateICalendarData(appointment: {
   date: string;
@@ -45,12 +52,21 @@ export async function sendAppointmentNotification(
   }
 ) {
   try {
-    console.log('Génération du fichier ICS...');
+    console.log('Début de l\'envoi des notifications pour:', {
+      client: appointment.clientName,
+      email: appointment.clientEmail,
+      date: appointment.date,
+      time: appointment.time
+    });
+    if (!RESEND_API_KEY) {
+      throw new Error('Clé API Resend manquante. Impossible d\'envoyer les emails.');
+    }
+
     const icsAttachment = generateICalendarData(appointment);
-    console.log('Fichier ICS généré avec succès');
 
     // Email pour l'administrateur
     console.log('Envoi de l\'email à l\'administrateur...');
+    console.log('Envoi de l\'email admin avec Resend...');
     const adminEmailResult = await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: 'tyzranaima@gmail.com',
@@ -74,10 +90,12 @@ export async function sendAppointmentNotification(
       }]
     });
 
-    console.log('Email admin envoyé:', adminEmailResult);
-
+    if (!adminEmailResult?.id) {
+      console.error('Erreur: L\'email admin n\'a pas été envoyé correctement:', adminEmailResult);
+      throw new Error('Echec de l\'envoi de l\'email admin');
+    }
     // Email pour le client
-    console.log('Envoi de l\'email au client...');
+    console.log('Envoi de l\'email client avec Resend...');
     const clientEmailResult = await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: appointment.clientEmail,
@@ -103,7 +121,11 @@ export async function sendAppointmentNotification(
       }]
     });
 
-    console.log('Email client envoyé:', clientEmailResult);
+    if (!clientEmailResult?.id) {
+      console.error('Erreur lors de l\'envoi de l\'email client:', clientEmailResult);
+      throw new Error('Echec de l\'envoi de l\'email client');
+    }
+    console.log('Email client envoyé avec succès, ID:', clientEmailResult.id);
     console.log('Toutes les notifications ont été envoyées avec succès');
   } catch (error) {
     console.error('Erreur lors de l\'envoi des notifications:', error);

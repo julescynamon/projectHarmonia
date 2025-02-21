@@ -61,17 +61,20 @@ try {
   });
 
   if (session.payment_status !== 'paid') {
-    console.error(`Statut de paiement invalide: ${session.payment_status}`);
+    console.error('Statut de paiement invalide:', session.payment_status);
     error = 'Le paiement n\'a pas été effectué';
     return;
   }
 
-  console.log('Récupération du rendez-vous...');
+  console.log('Session Stripe valide, récupération du rendez-vous...');
+  console.log('Recherche du rendez-vous avec session ID:', sessionId);
   const { data: appointment, error: appointmentError } = await supabase
     .from('appointments')
     .select('*, services(title)')
     .eq('stripe_session_id', sessionId)
     .single();
+
+  console.log('Résultat de la recherche:', appointment ? 'Trouvé' : 'Non trouvé');
 
   if (appointmentError || !appointment) {
     console.error('Erreur ou rendez-vous non trouvé:', appointmentError);
@@ -91,7 +94,7 @@ try {
     return;
   }
 
-  console.log('Envoi des notifications...');
+  console.log('Envoi des notifications pour le rendez-vous...');
   await sendAppointmentNotification({
     date: appointment.date,
     time: appointment.time,

@@ -255,6 +255,7 @@ const steps = [
                     <label class="block">
                       <span class="text-ebony mb-1 block">Motif de consultation</span>
                       <textarea
+                        name="reason"
                         rows="3"
                         class="w-full px-4 py-2 rounded-lg border border-sage/20 focus:border-eucalyptus focus:ring-1 focus:ring-eucalyptus outline-none transition-colors resize-none"
                         placeholder="Décrivez brièvement le motif de votre consultation..."
@@ -275,112 +276,7 @@ const steps = [
               <div id="error-message" class="hidden mt-4 p-4 bg-red-100 text-red-700 rounded-lg">
               </div>
 
-              <script>
-                const form = document.getElementById('appointment-form');
 
-                const submitButton = form.querySelector('button[type="submit"]');
-                const errorMessage = document.getElementById('error-message');
-
-                let selectedDate = '';
-                let selectedTime = '';
-                let selectedService = '';
-
-                // Activer/désactiver le bouton de soumission
-                function updateSubmitButton() {
-                  submitButton.disabled = !selectedDate || !selectedTime || !selectedService;
-
-                }
-
-                // Gérer la sélection du service
-                form.querySelectorAll('input[name="service"]').forEach(input => {
-                  input.addEventListener('change', (e) => {
-                    selectedService = e.target.value;
-                    updateSubmitButton();
-                  });
-                });
-
-                // Gérer la sélection de la date
-                const dateInput = form.querySelector('input[type="date"]');
-                dateInput.addEventListener('change', async (e) => {
-                  selectedDate = e.target.value;
-                  updateSubmitButton();
-                });
-
-                // Gérer la sélection de l'heure
-                form.querySelectorAll('input[name="time"]').forEach(input => {
-                  input.addEventListener('change', async (e) => {
-                    selectedTime = e.target.value;
-                    
-                    // Vérifier la disponibilité
-                    try {
-                      const response = await fetch('/api/appointments/check-availability', {
-                        method: 'POST',
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                          date: selectedDate,
-                          time: selectedTime,
-                          serviceId: selectedService,
-                        }),
-                      });
-
-                      const data = await response.json();
-                      
-                      if (!data.available) {
-                        errorMessage.textContent = 'Ce créneau n\'est plus disponible. Veuillez en choisir un autre.';
-                        errorMessage.classList.remove('hidden');
-                        selectedTime = '';
-                        input.checked = false;
-                      } else {
-                        errorMessage.classList.add('hidden');
-                      }
-                    } catch (error) {
-                      console.error('Erreur lors de la vérification de disponibilité:', error);
-                    }
-
-                    updateSubmitButton();
-                  });
-                });
-
-                // Gérer la soumission du formulaire
-                form.addEventListener('submit', async (e) => {
-                  e.preventDefault();
-                  
-                  const formData = new FormData(form);
-                  const name = formData.get('name');
-                  const email = formData.get('email');
-
-                  try {
-                    const response = await fetch('/api/appointments/create', {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify({
-                        date: selectedDate,
-                        time: selectedTime,
-                        serviceId: selectedService,
-                        name,
-                        email,
-                      }),
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok && data.checkoutUrl) {
-                      window.location.href = data.checkoutUrl;
-                    } else {
-                      errorMessage.textContent = data.error || 'Une erreur est survenue. Veuillez réessayer.';
-                      errorMessage.classList.remove('hidden');
-                    }
-                  } catch (error) {
-                    console.error('Erreur lors de la création du rendez-vous:', error);
-                    errorMessage.textContent = 'Une erreur est survenue. Veuillez réessayer.';
-                    errorMessage.classList.remove('hidden');
-                  }
-                });
-              </script>
             </div>
           </Card>
         </div>
@@ -532,8 +428,9 @@ const steps = [
     const selectedDate = dateInput.value;
     const selectedTime = form.querySelector('input[name="time"]:checked')?.value;
     const selectedService = form.querySelector('input[name="service"]:checked')?.value;
-    const clientName = form.querySelector('input[name="clientName"]')?.value;
-    const clientEmail = form.querySelector('input[name="clientEmail"]')?.value;
+    const clientName = form.querySelector('input[name="name"]')?.value;
+    const clientEmail = form.querySelector('input[name="email"]')?.value;
+    const reason = form.querySelector('textarea[name="reason"]')?.value;
     
     if (!selectedDate || !selectedTime || !selectedService || !clientName || !clientEmail) {
       alert('Veuillez remplir tous les champs du formulaire');
@@ -549,8 +446,19 @@ const steps = [
         return;
       }
 
+      // Log des données envoyées
+      const payload = {
+        date: selectedDate,
+        time: selectedTime,
+        serviceId: selectedService,
+        name: clientName,
+        email: clientEmail,
+        reason: reason
+      };
+      console.log('Données envoyées à l\'API:', payload);
+
       // Envoyer les données à l'API
-      const response = await fetch('/api/create-appointment', {
+      const response = await fetch('/api/appointments/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -558,17 +466,20 @@ const steps = [
         body: JSON.stringify({
           date: selectedDate,
           time: selectedTime,
-          service: selectedService,
-          clientName,
-          clientEmail
+          serviceId: selectedService,
+          name: clientName,
+          email: clientEmail,
+          reason: reason
         })
       });
 
       const data = await response.json();
       
-      if (response.ok && data.url) {
+      console.log('Réponse de l\'API:', data);
+      
+      if (response.ok && data.checkoutUrl) {
         // Rediriger vers Stripe
-        window.location.href = data.url;
+        window.location.href = data.checkoutUrl;
       } else {
         throw new Error(data.error || 'Erreur lors de la création du rendez-vous');
       }

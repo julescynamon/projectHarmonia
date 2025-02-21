@@ -25,94 +25,88 @@ if (!sessionId) {
 
 console.log('Session ID trouvé:', sessionId);
 
+let error = null;
+let success = false;
+
 try {
-  // Vérifier le statut du paiement
+  console.log('Début de la confirmation du rendez-vous');
+  console.log('Session ID reçu:', sessionId);
+  console.log('Clé Stripe utilisée:', import.meta.env.STRIPE_SECRET_KEY ? 'Présente' : 'Manquante');
+  
+  if (!import.meta.env.STRIPE_SECRET_KEY) {
+    console.error('Clé Stripe manquante!');
+    error = 'Configuration du paiement invalide';
+    return;
+  }
+
   console.log('Récupération de la session Stripe...');
-  const session = await stripe.checkout.sessions.retrieve(sessionId);
-  console.log('Session Stripe:', {
+  let session;
+  try {
+    session = await stripe.checkout.sessions.retrieve(sessionId);
+    console.log('Session Stripe récupérée avec succès');
+  } catch (stripeError) {
+    console.error('Erreur lors de la récupération de la session Stripe:', stripeError);
+    error = 'Impossible de vérifier le paiement';
+    return;
+  }
+  
+  console.log('Session Stripe complète:', JSON.stringify(session, null, 2));
+  console.log('Détails importants:', {
     id: session.id,
     status: session.status,
     payment_status: session.payment_status,
+    customer_email: session.customer_email,
+    amount_total: session.amount_total,
     metadata: session.metadata
   });
 
-  if (session.payment_status === 'paid') {
-    console.log('Paiement confirmé, récupération du rendez-vous en attente...');
-      // Récupérer le rendez-vous en attente
-      const { data: pendingAppointment, error: pendingError } = await supabase
-        .from('appointments_pending')
-        .select('*')
-        .eq('stripe_session_id', sessionId)
-        .single();
-
-      if (pendingError) {
-        console.error('Erreur lors de la récupération du rendez-vous en attente:', pendingError);
-        throw pendingError;
-      }
-
-      console.log('Rendez-vous en attente:', pendingAppointment);
-
-      if (!pendingAppointment) {
-        console.error('Aucun rendez-vous en attente trouvé pour la session:', sessionId);
-        throw new Error('Rendez-vous non trouvé');
-      }
-
-      try {
-        console.log('Création du rendez-vous définitif...');
-        // Créer le rendez-vous définitif
-        const { error: appointmentError } = await supabase
-          .from('appointments')
-          .insert([{
-            date: pendingAppointment.date,
-            time: pendingAppointment.time,
-            service: pendingAppointment.service,
-            client_name: pendingAppointment.client_name,
-            client_email: pendingAppointment.client_email,
-            stripe_session_id: sessionId
-          }]);
-
-        if (appointmentError) {
-          console.error('Erreur lors de la création du rendez-vous:', appointmentError);
-          throw appointmentError;
-        }
-
-        console.log('Rendez-vous créé avec succès');
-
-        // Supprimer le rendez-vous en attente
-        const { error: deleteError } = await supabase
-          .from('appointments_pending')
-          .delete()
-          .eq('stripe_session_id', sessionId);
-
-        console.log('Envoi des notifications...');
-        if (deleteError) {
-          console.error('Erreur lors de la suppression du rendez-vous en attente:', deleteError);
-          // On continue quand même car le rendez-vous a été créé
-        }
-
-        console.log('Envoi des notifications...');
-        // Envoyer la notification
-        await sendAppointmentNotification({
-          date: pendingAppointment.date,
-          time: pendingAppointment.time,
-          service: pendingAppointment.service,
-          clientName: pendingAppointment.client_name,
-          clientEmail: pendingAppointment.client_email
-        });
-      }
-    }
-      } catch (error) {
-        console.error('Erreur lors de la finalisation du rendez-vous:', error);
-        throw error;
-      }
-    } else {
-      console.error('Le paiement n\'est pas marqué comme payé:', session.payment_status);
-      return Astro.redirect('/rendez-vous?error=payment_failed');
-    }
-  } catch (error) {
-    console.error('Erreur lors de la confirmation du rendez-vous:', error);
-    return Astro.redirect('/rendez-vous?error=confirmation_failed');
+  if (session.payment_status !== 'paid') {
+    console.error(`Statut de paiement invalide: ${session.payment_status}`);
+    error = 'Le paiement n\'a pas été effectué';
+    return;
   }
+
+  console.log('Récupération du rendez-vous...');
+  const { data: appointment, error: appointmentError } = await supabase
+    .from('appointments')
+    .select('*, services(title)')
+    .eq('stripe_session_id', sessionId)
+    .single();
+
+  if (appointmentError || !appointment) {
+    console.error('Erreur ou rendez-vous non trouvé:', appointmentError);
+    error = 'Rendez-vous non trouvé';
+    return;
+  }
+
+  // Mettre à jour le statut du rendez-vous
+  const { error: updateError } = await supabase
+    .from('appointments')
+    .update({ status: 'confirmed' })
+    .eq('stripe_session_id', sessionId);
+
+  if (updateError) {
+    console.error('Erreur lors de la mise à jour du statut:', updateError);
+    error = 'Erreur lors de la confirmation du rendez-vous';
+    return;
+  }
+
+  console.log('Envoi des notifications...');
+  await sendAppointmentNotification({
+    date: appointment.date,
+    time: appointment.time,
+    service: appointment.services?.title || appointment.service_id,
+    clientName: appointment.client_name,
+    clientEmail: appointment.client_email,
+    reason: appointment.reason
+  });
+
+  success = true;
+  console.log('Rendez-vous confirmé avec succès !');
+
+} catch (e) {
+  console.error('Erreur lors de la confirmation:', e);
+  error = 'Une erreur est survenue';
 }
 ---
 
@@ -121,18 +115,37 @@ try {
     <section class="py-20 bg-sage/5">
       <div class="container mx-auto px-4">
         <div class="max-w-3xl mx-auto text-center">
-          <h1 class="font-heading text-4xl md:text-5xl text-ebony mb-6">
-            Merci pour votre réservation !
-          </h1>
-          <p class="text-lg text-eucalyptus mb-8">
-            Votre rendez-vous a été confirmé. Vous recevrez bientôt un email de confirmation avec tous les détails.
-          </p>
-          <a
-            href="/"
-            class="inline-block bg-eucalyptus text-white px-8 py-3 rounded-lg hover:bg-eucalyptus/90 transition-colors"
-          >
-            Retour à l'accueil
-          </a>
+          {success ? (
+            <>
+              <h1 class="font-heading text-4xl md:text-5xl text-ebony mb-6">
+                Merci pour votre réservation !
+              </h1>
+              <p class="text-lg text-eucalyptus mb-8">
+                Votre rendez-vous a été confirmé. Vous recevrez bientôt un email de confirmation avec tous les détails.
+              </p>
+              <a
+                href="/"
+                class="inline-block bg-eucalyptus text-white px-8 py-3 rounded-lg hover:bg-eucalyptus/90 transition-colors"
+              >
+                Retour à l'accueil
+              </a>
+            </>
+          ) : (
+            <>
+              <h1 class="font-heading text-4xl md:text-5xl text-ebony mb-6">
+                Une erreur est survenue
+              </h1>
+              <p class="text-lg text-red-500 mb-8">
+                {error || 'Nous n\'avons pas pu trouver votre rendez-vous. Veuillez réessayer ou nous contacter.'}
+              </p>
+              <a
+                href="/rendez-vous"
+                class="inline-block bg-eucalyptus text-white px-8 py-3 rounded-lg hover:bg-eucalyptus/90 transition-colors"
+              >
+                Retour à la prise de rendez-vous
+              </a>
+            </>
+          )}
         </div>
       </div>
     </section>

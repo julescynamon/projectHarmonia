@@ -6,11 +6,13 @@ const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2023-10-16'
 });
 
-export const POST: APIRoute = async ({ request }) => {
+export async function POST({ request }) {
   try {
     console.log('Début de la création du rendez-vous');
     const body = await request.json();
-    const { date, time, serviceId, email, name } = body;
+    console.log('Données reçues:', body);
+    const { date, time, serviceId, email, name, reason } = body;
+    console.log('Données extraites:', { date, time, serviceId, email, name, reason });
     const supabase = createServerClient();
 
     console.log('Vérification de la disponibilité...');
@@ -35,11 +37,14 @@ export const POST: APIRoute = async ({ request }) => {
 
     console.log('Récupération des informations du service...');
     // Récupérer les informations du service
+    console.log('Recherche du service avec ID:', serviceId);
     const { data: service, error: serviceError } = await supabase
       .from('services')
       .select('*')
       .eq('id', serviceId)
       .single();
+    
+    console.log('Résultat de la recherche du service:', { service, serviceError });
 
     if (!service) {
       return new Response(
@@ -61,7 +66,8 @@ export const POST: APIRoute = async ({ request }) => {
     // Créer la session Stripe
 
 
-    const session = await stripe.checkout.sessions.create({
+    console.log('Configuration de la session Stripe...');
+    const sessionConfig = {
       payment_method_types: ['card'],
       line_items: [
         {
@@ -71,7 +77,7 @@ export const POST: APIRoute = async ({ request }) => {
               name: service.title,
               description: `Rendez-vous le ${date} à ${time}`,
             },
-            unit_amount: service.price * 100, // Stripe utilise les centimes
+            unit_amount: service.price * 100,
           },
           quantity: 1,
         },
@@ -80,34 +86,53 @@ export const POST: APIRoute = async ({ request }) => {
       success_url: `${import.meta.env.PUBLIC_SITE_URL}/rendez-vous/confirmation?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${import.meta.env.PUBLIC_SITE_URL}/rendez-vous`,
       customer_email: email,
-    });
+      metadata: {
+        appointment_date: date,
+        appointment_time: time,
+        service_id: serviceId,
+        client_name: name,
+        client_email: email,
+        reason: reason || ''
+      }
+    };
+    
+    console.log('Création de la session Stripe avec config:', sessionConfig);
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
 
-    // Créer le rendez-vous temporaire
+    // Créer le rendez-vous
 
+    console.log('Tentative de création du rendez-vous...');
+    
+    // Préparer les données du rendez-vous
+    const appointmentData = {
+      date,
+      time,
+      service_id: serviceId,
+      client_email: email,
+      client_name: name,
+      status: 'pending',
+      stripe_session_id: session.id
+    };
+    
+    console.log('Données du rendez-vous à insérer:', appointmentData);
+    
+    // Essayer d'insérer le rendez-vous
     const { data: appointment, error } = await supabase
       .from('appointments')
-      .insert([
-        {
-          date,
-          time,
-          service_id: serviceId,
-          client_email: email,
-          client_name: name,
-          status: 'pending',
-          stripe_session_id: session.id,
-        },
-      ])
+      .insert(appointmentData)
       .select()
       .single();
-
+      
+    console.log('Résultat de l\'insertion:', { appointment, error });
+    
     if (error) {
       console.error('Erreur Supabase lors de la création du rendez-vous:', error);
       return new Response(
         JSON.stringify({ 
           error: 'Erreur lors de la création du rendez-vous',
-          details: error.message,
-          code: error.code
+          details: error.message || 'Erreur inconnue',
+          code: error.code || 'UNKNOWN'
         }),
         { status: 500 }
       );

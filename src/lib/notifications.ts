@@ -9,6 +9,7 @@ function generateICalendarData(appointment: {
   service: string;
   clientName: string;
   clientEmail: string;
+  reason?: string;
 }) {
   const startDate = new Date(`${appointment.date}T${appointment.time}`);
   const endDate = new Date(startDate.getTime() + 90 * 60000); // +90 minutes par défaut
@@ -26,7 +27,7 @@ function generateICalendarData(appointment: {
     `DTSTART:${formatDate(startDate)}`,
     `DTEND:${formatDate(endDate)}`,
     `SUMMARY:RDV ${appointment.service} - ${appointment.clientName}`,
-    `DESCRIPTION:Rendez-vous avec ${appointment.clientName}\nEmail: ${appointment.clientEmail}`,
+    `DESCRIPTION:Rendez-vous avec ${appointment.clientName}\nEmail: ${appointment.clientEmail}${appointment.reason ? '\nMotif: ' + appointment.reason : ''}`,
     'END:VEVENT',
     'END:VCALENDAR'
   ].join('\r\n');
@@ -63,6 +64,7 @@ export async function sendAppointmentNotification(
           <li>Service : ${appointment.service}</li>
           <li>Client : ${appointment.clientName}</li>
           <li>Email : ${appointment.clientEmail}</li>
+          ${appointment.reason ? `<li>Motif : ${appointment.reason}</li>` : ''}
         </ul>
         <p>Le rendez-vous a été automatiquement ajouté à votre calendrier.</p>
       `,
@@ -89,6 +91,7 @@ export async function sendAppointmentNotification(
           <li>Date : ${appointment.date}</li>
           <li>Heure : ${appointment.time}</li>
           <li>Durée : 1h30</li>
+          ${appointment.reason ? `<li>Motif indiqué : ${appointment.reason}</li>` : ''}
         </ul>
         <p>Vous pouvez ajouter ce rendez-vous à votre calendrier en utilisant le fichier joint.</p>
         <p>Pour toute question ou modification, n'hésitez pas à nous contacter.</p>

@@ -1,4 +1,6 @@
 ---
+import { getPublicImageUrl } from '../../utils/supabaseStorage';
+
 interface Props {
   variant?: 'default' | 'hover' | 'feature';
   class?: string;
@@ -21,6 +23,9 @@ const {
   url
 } = Astro.props;
 
+// Générer l'URL publique de l'image si c'est un chemin Supabase
+const imageUrl = image?.startsWith('blog/') ? await getPublicImageUrl('blog', image) : image;
+
 const variants = {
   default: 'bg-white shadow-sm',
   hover: 'bg-white shadow-sm hover:shadow-xl hover:-translate-y-1',
@@ -31,11 +36,11 @@ const baseClasses = 'rounded-2xl transition-all duration-300 border border-sage/
 const classes = `${baseClasses} ${variants[variant]} ${className}`;
 ---
 
-<div class={classes}>
+<article class={classes} itemscope itemtype="https://schema.org/BlogPosting">
   {image && (
     <a href={url} class="block relative aspect-[16/9] overflow-hidden group">
       <img
-        src={image}
+        src={imageUrl}
         alt={title}
         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
       />
@@ -59,15 +64,15 @@ const classes = `${baseClasses} ${variants[variant]} ${className}`;
     )}
     
     {title && (
-      <h3 class="text-xl font-semibold mb-2">
-        <a href={url} class="hover:text-sage transition-colors">
+      <h3 class="text-xl font-semibold mb-2" itemprop="headline">
+        <a href={url} class="hover:text-sage transition-colors" itemprop="url">
           {title}
         </a>
       </h3>
     )}
     
     {description && (
-      <p class="text-gray-600 mb-4">
+      <p class="text-gray-600 mb-4" itemprop="description">
         {description}
       </p>
     )}

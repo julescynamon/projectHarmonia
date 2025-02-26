@@ -1,0 +1,153 @@
+---
+---
+
+<form id="blogForm" class="space-y-6">
+  <div>
+    <label for="title" class="block text-sm font-medium text-gray-700">
+      Titre
+    </label>
+    <input
+      type="text"
+      name="title"
+      id="title"
+      required
+      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sage focus:ring-sage sm:text-sm"
+    />
+  </div>
+
+  <div>
+    <label for="category" class="block text-sm font-medium text-gray-700">
+      Catégorie
+    </label>
+    <select
+      id="category"
+      name="category"
+      required
+      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sage focus:ring-sage sm:text-sm"
+    >
+      <option value="">Sélectionnez une catégorie</option>
+      <option value="actualites">Actualités</option>
+      <option value="conseils">Conseils</option>
+      <option value="evenements">Événements</option>
+      <option value="bien_etre">Bien-être</option>
+      <option value="nutrition">Nutrition</option>
+      <option value="naturopathie">Naturopathie</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="summary" class="block text-sm font-medium text-gray-700">
+      Résumé
+    </label>
+    <textarea
+      id="summary"
+      name="summary"
+      rows="3"
+      required
+      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sage focus:ring-sage sm:text-sm"
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="image" class="block text-sm font-medium text-gray-700">
+      Image
+    </label>
+    <input
+      type="text"
+      name="image"
+      id="image"
+      required
+      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sage focus:ring-sage sm:text-sm"
+    />
+  </div>
+
+  <div>
+    <label for="author" class="block text-sm font-medium text-gray-700">
+      Auteur
+    </label>
+    <input
+      type="text"
+      name="author"
+      id="author"
+      required
+      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sage focus:ring-sage sm:text-sm"
+    />
+  </div>
+
+  <div>
+    <label for="content" class="block text-sm font-medium text-gray-700">
+      Contenu
+    </label>
+    <textarea
+      id="content"
+      name="content"
+      rows="10"
+      required
+      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sage focus:ring-sage sm:text-sm"
+    ></textarea>
+  </div>
+
+  <div>
+    <button
+      type="submit"
+      id="submitButton"
+      class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-sage hover:bg-sage-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sage"
+    >
+      Publier l'article
+    </button>
+  </div>
+</form>
+
+<script>
+  // Gestionnaire de soumission du formulaire
+  document.getElementById('blogForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitButton = document.getElementById('submitButton');
+    if (!submitButton) return;
+    
+    submitButton.textContent = 'Publication en cours...';
+    submitButton.disabled = true;
+
+    try {
+      // Récupération des données du formulaire
+      const formData = new FormData(e.target as HTMLFormElement);
+      const title = formData.get('title') as string;
+      const category = formData.get('category') as string;
+      const summary = formData.get('summary') as string;
+      const content = formData.get('content') as string;
+      const image = formData.get('image') as string;
+      const author = formData.get('author') as string;
+
+      // Appel de l'API pour créer l'article
+      const response = await fetch('/api/blog/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title,
+          category,
+          summary,
+          content,
+          image,
+          author
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Une erreur est survenue');
+      }
+
+      alert('Article créé avec succès !');
+      window.location.href = '/admin/blog';
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Une erreur est survenue lors de la création de l\'article');
+    } finally {
+      submitButton.textContent = 'Publier l\'article';
+      submitButton.disabled = false;
+    }
+  });
+</script>

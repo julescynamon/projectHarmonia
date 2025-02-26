@@ -87,7 +87,15 @@ const { type } = Astro.props;
   }
 
 
+  async function checkSession() {
+    const { data } = await fetch('/api/auth/check-session').then(r => r.json());
+    
+  }
+
   function initAuthForm() {
+    // Vérifier la session toutes les 2 secondes
+    setInterval(checkSession, 2000);
+
     document.querySelectorAll('[data-auth-form]').forEach(form => {
       form.addEventListener('submit', async (e) => {
         e.preventDefault();

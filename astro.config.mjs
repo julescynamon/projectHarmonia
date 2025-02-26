@@ -1,4 +1,5 @@
 import { defineConfig } from "astro/config";
+import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
 import compress from "astro-compress";
@@ -12,6 +13,7 @@ export default defineConfig({
     mode: "standalone",
   }),
   integrations: [
+    react(),
     tailwind(),
     sitemap({
       changefreq: "weekly",

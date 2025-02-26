@@ -1,0 +1,262 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import BlogPostForm from '../../../components/admin/BlogPostForm.jsx';
+import { createServerClient } from '../../../lib/supabase';
+
+const supabase = createServerClient();
+
+// Configuration SQL pour le bucket et les policies
+const setupSQL = `
+  -- Création du bucket s'il n'existe pas
+  insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+  values ('blog', 'blog', false, 5242880, array['image/*'])
+  on conflict (id) do nothing;
+
+  -- Suppression des policies existantes
+  drop policy if exists "Admin Upload Policy" on storage.objects;
+  drop policy if exists "Public Read Policy" on storage.objects;
+
+  -- Policy pour permettre l'upload aux admins
+  create policy "Admin Upload Policy"
+    on storage.objects
+    for insert
+    to authenticated
+    with check (
+      bucket_id = 'blog'
+      and auth.uid() in (select id from public.profiles where role = 'admin')
+    );
+
+  -- Policy pour permettre la lecture publique
+  create policy "Public Read Policy"
+    on storage.objects
+    for select
+    to public
+    using (bucket_id = 'blog');
+`;
+
+// Exécution du SQL
+const { error: setupError } = await supabase.rpc('setup_storage', {
+  setup_sql: setupSQL
+});
+
+if (setupError) {
+  console.error('Erreur lors de la configuration du stockage:', setupError);
+} else {
+  console.log('Configuration du stockage réussie');
+}
+
+// Récupération des cookies de la requête
+const supabaseCookie = Astro.request.headers.get('cookie');
+if (supabaseCookie) {
+  try {
+    const match = supabaseCookie.match(/supabase\.auth\.token=([^;]+)/);
+    if (match) {
+      const tokenData = JSON.parse(decodeURIComponent(match[1]));
+      if (tokenData.access_token && tokenData.refresh_token) {
+        await supabase.auth.setSession({
+          access_token: tokenData.access_token,
+          refresh_token: tokenData.refresh_token
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Erreur lors du parsing du cookie:', error);
+  }
+}
+
+// Vérification de l'authentification et du rôle admin
+const { data, error: sessionError } = await supabase.auth.getSession();
+
+
+if (!data?.session) {
+  console.error('Pas de session, redirection vers /login');
+  return Astro.redirect('/login');
+}
+
+// Vérification du rôle admin
+const { data: profile } = await supabase
+  .from('profiles')
+  .select('role')
+  .eq('id', data.session.user.id)
+  .single();
+
+if (!profile || profile.role !== 'admin') {
+  return Astro.redirect('/');
+}
+
+// Liste des catégories disponibles
+const categories = [
+  { id: 'actualites', label: 'Actualités' },
+  { id: 'conseils', label: 'Conseils' },
+  { id: 'evenements', label: 'Événements' },
+  { id: 'bien_etre', label: 'Bien-être' },
+  { id: 'nutrition', label: 'Nutrition' }
+];
+
+// Récupération des articles existants
+const { data: posts } = await supabase
+  .from('blog_posts')
+  .select('*')
+  .order('created_at', { ascending: false });
+---
+
+<AdminLayout title="Gestion des articles">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Gestion des articles</h1>
+      <p class="mt-2 text-sm text-gray-700">Créez, modifiez et supprimez les articles du blog.</p>
+    </div>
+
+    <!-- Formulaire de création d'article -->
+    <div class="space-y-6 bg-white shadow-sm ring-1 ring-gray-900/5 p-6 rounded-lg mb-8">
+      <BlogPostForm client:load />
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const form = document.querySelector('form');
+          if (form) {
+            form.addEventListener('submit', async (e) => {
+              e.preventDefault();
+              const formData = new FormData(form);
+              const data = {
+                title: formData.get('title'),
+                content: formData.get('content'),
+                category: formData.get('category'),
+                summary: formData.get('summary'),
+                image: formData.get('image')
+              };
+
+              try {
+                // Upload de l'image
+                let imagePath = '';
+                if (data.image) {
+                  const filename = `${Date.now()}-${data.image.name}`;
+                  const { data: uploadData, error: uploadError } = await window.supabaseClient.storage
+                    .from('blog')
+                    .upload(`blog/${filename}`, data.image);
+
+                  if (uploadError) throw uploadError;
+                  imagePath = uploadData.path;
+                }
+
+                // Récupération du token de session
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) {
+                  throw new Error('Vous devez être connecté pour créer un article');
+                }
+
+                // Création de l'article
+                const response = await fetch('/api/blog/create', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session.access_token}`
+                  },
+                  body: JSON.stringify({
+                    ...data,
+                    image: imagePath
+                  })
+                });
+                
+                if (!response.ok) throw new Error('Erreur lors de la création de l\'article');
+                
+                window.location.reload();
+              } catch (error) {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue lors de la création de l\'article');
+              }
+            });
+          }
+        });
+      </script>
+    </div>
+
+    <!-- Liste des articles -->
+    <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-300">
+          <thead>
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Titre
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Catégorie
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 bg-white">
+            {posts?.map((post) => (
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{post.title}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{post.category}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <button data-post-id={post.id} class="delete-post text-red-600 hover:text-red-900">Supprimer</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script client:only define:vars={{ supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL, supabaseKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY }}>
+    // Initialisation globale de Supabase
+    window.supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+    let supabaseClient;
+    let userSession;
+    
+    async function initSupabase() {
+      const { data: { session } } = await window.supabaseClient.auth.getSession();
+      userSession = session;
+      return window.supabaseClient;
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        await initSupabase();
+        console.log('Supabase initialisé avec succès');
+
+        // Gestionnaire de suppression
+        document.querySelectorAll('.delete-post').forEach(button => {
+          button.addEventListener('click', async () => {
+            if (!supabaseClient) {
+              alert('Erreur: Le client Supabase n\'est pas initialisé');
+              return;
+            }
+
+            const postId = button.dataset.postId;
+            if (!postId) {
+              alert('Erreur: ID de l\'article non trouvé');
+              return;
+            }
+
+            if (confirm('Voulez-vous vraiment supprimer cet article ?')) {
+              try {
+                const { error } = await supabaseClient
+                  .from('blog_posts')
+                  .delete()
+                  .eq('id', postId);
+
+                if (error) throw error;
+
+                // Rechargement de la page après suppression
+                window.location.reload();
+              } catch (error) {
+                console.error('Erreur lors de la suppression:', error);
+                alert('Une erreur est survenue lors de la suppression de l\'article');
+              }
+            }
+          });
+        });
+      } catch (error) {
+        console.error('Erreur lors de l\'initialisation:', error);
+        alert('Une erreur est survenue lors de l\'initialisation');
+      }
+    });
+  </script>
+</AdminLayout>

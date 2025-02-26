@@ -1,55 +1,37 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
+import { supabase } from '../../lib/supabase';
+import { getPublicImageUrl } from '../../utils/supabaseStorage';
 
 // Désactiver le prerendering pour permettre l'envoi de notifications
 export const prerender = false;
 
-// Cette fonction est utilisée pour générer les routes statiques
-export async function getStaticPaths() {
-  try {
-    const posts = await getCollection('blog');
-    return posts.map(post => ({
-      params: { slug: post.slug },
-    }));
-  } catch (error) {
-    console.error('Erreur lors de la génération des chemins:', error);
-    return [];
-  }
-}
-
 // Récupérer le post en fonction du slug
 const { slug } = Astro.params;
-let post = null;
 
-try {
-  post = await getEntry('blog', slug);
-} catch (error) {
+// Récupérer l'article depuis Supabase
+const { data: post, error } = await supabase
+  .from('blog_posts')
+  .select('*')
+  .eq('slug', slug)
+  .single();
+
+if (error || !post) {
   console.error(`Erreur lors de la récupération de l'article ${slug}:`, error);
-}
-
-// Rediriger vers la page 404 si l'article n'existe pas ou s'il y a eu une erreur
-if (!post) {
   return Astro.redirect('/404');
 }
 
-let Content;
-try {
-  const rendered = await post.render();
-  Content = rendered.Content;
-} catch (error) {
-  console.error(`Erreur lors du rendu de l'article ${slug}:`, error);
-  return Astro.redirect('/404');
-}
+// Générer l'URL publique de l'image
+const imageUrl = await getPublicImageUrl('blog', post.image_url);
 ---
 
 <BlogPostLayout 
-  title={post.data.title}
-  description={post.data.description}
-  image={post.data.image}
-  category={post.data.category}
-  date={post.data.date}
-  readingTime={post.data.readingTime}
+  title={post.title}
+  description={post.summary}
+  image={imageUrl}
+  category={post.category}
+  date={post.created_at}
+  author={post.author || 'Harmonia'}
 >
-  <Content />
+  <div class="prose prose-lg max-w-none prose-headings:font-serif prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-p:text-gray-600 prose-a:text-sage hover:prose-a:text-sage-600 prose-img:rounded-xl prose-img:shadow-soft" set:html={post.content} />
 </BlogPostLayout>

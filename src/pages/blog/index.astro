@@ -3,30 +3,45 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import { pageSEO } from '../../lib/seo';
 import Button from '../../components/ui/Button.astro';
 import Card from '../../components/ui/Card.astro';
-import { getCollection } from 'astro:content';
 import NewsletterForm from '../../components/NewsletterForm.astro';
+import { supabase } from '../../lib/supabase';
 
 // Désactiver le prerendering pour une mise à jour dynamique
 export const prerender = false;
 
 const seo = pageSEO.blog;
 
-// Récupérer tous les articles de blog avec gestion d'erreurs
-let posts = [];
-try {
-  posts = await getCollection('blog');
-  console.log('Articles trouvés:', posts.length);
-} catch (error) {
+// Récupérer tous les articles de blog depuis Supabase
+// Récupérer la catégorie depuis l'URL si elle existe
+const category = Astro.url.searchParams.get('category');
+
+// Construire la requête Supabase
+let query = supabase
+  .from('blog_posts')
+  .select('*')
+  .order('created_at', { ascending: false });
+
+// Filtrer par catégorie si spécifiée
+if (category) {
+  query = query.eq('category', category);
+}
+
+const { data: posts, error } = await query;
+
+if (error) {
   console.error('Erreur lors de la récupération des articles:', error);
 }
 
-// Trier les articles par date (du plus récent au plus ancien)
-const sortedPosts = posts.sort((a, b) => 
-  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
-
 // Catégories uniques pour le filtre
-const categories = [...new Set(sortedPosts.map(post => post.data.category?.toLowerCase() || 'non-categorise'))].sort();
+// Liste statique des catégories disponibles
+const categories = [
+  { id: 'actualites', label: 'Actualités' },
+  { id: 'conseils', label: 'Conseils' },
+  { id: 'evenements', label: 'Événements' },
+  { id: 'bien_etre', label: 'Bien-être' },
+  { id: 'nutrition', label: 'Nutrition' },
+  { id: 'naturopathie', label: 'Naturopathie' }
+];
 
 // Formater la date
 function formatDate(dateStr: string) {
@@ -64,38 +79,40 @@ function formatDate(dateStr: string) {
       <div class="container mx-auto px-4">
         <!-- Filtres -->
         <div class="mb-12 flex flex-wrap justify-center gap-4" id="category-filters">
-          <Button 
-            variant="outline"
-            size="sm"
-            class="filter-btn active"
-            data-category="all"
+          <a 
+            href="/blog"
+            class={`inline-flex items-center px-4 py-2 border rounded-md text-sm font-medium transition-colors
+              ${!category ? 
+                'border-sage bg-sage text-white hover:bg-sage-600' : 
+                'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}`}
           >
             Tous
-          </Button>
-          {categories.map(category => (
-            <Button
-              variant="outline"
-              size="sm"
-              class="filter-btn"
-              data-category={category}
+          </a>
+          {categories.map(cat => (
+            <a
+              href={`/blog?category=${cat.id}`}
+              class={`inline-flex items-center px-4 py-2 border rounded-md text-sm font-medium transition-colors
+                ${category === cat.id ? 
+                  'border-sage bg-sage text-white hover:bg-sage-600' : 
+                  'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}`}
             >
-              {category.charAt(0).toUpperCase() + category.slice(1)}
-            </Button>
+              {cat.label}
+            </a>
           ))}
         </div>
 
         <!-- Grille d'articles -->
-        {sortedPosts.length > 0 ? (
+        {posts && posts.length > 0 ? (
           <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {sortedPosts.map(post => (
-              <div class="post-card" data-category={post.data.category?.toLowerCase() || 'non-categorise'}>
+            {posts?.map(post => (
+              <div class="post-card opacity-0 transition-opacity duration-500">
                 <Card
                   variant="hover"
-                  title={post.data.title}
-                  description={post.data.description}
-                  image={post.data.image}
-                  date={formatDate(post.data.date)}
-                  category={post.data.category}
+                  title={post.title}
+                  description={post.summary}
+                  image={post.image_url}
+                  date={formatDate(post.created_at)}
+                  category={post.category}
                   url={`/blog/${post.slug}`}
                 />
               </div>
@@ -124,56 +141,13 @@ function formatDate(dateStr: string) {
 </MainLayout>
 
 <script>
-  // Fonction pour mettre à jour la visibilité des articles
-  function updateVisibility(category: string) {
-    const postCards = document.querySelectorAll('.post-card');
-    const postsGrid = document.getElementById('posts-grid');
-    let visibleCount = 0;
-
-    // Supprimer l'ancien message s'il existe
-    const oldMessage = postsGrid?.querySelector('.col-span-full');
-    if (oldMessage) {
-      oldMessage.remove();
-    }
-
-    postCards.forEach(card => {
-      if (category === 'all' || (card as HTMLElement).dataset.category === category) {
-        (card as HTMLElement).style.display = 'block';
-        visibleCount++;
-      } else {
-        (card as HTMLElement).style.display = 'none';
-      }
-    });
-
-    // Afficher un message si aucun article n'est visible
-    if (visibleCount === 0 && postsGrid) {
-      const noPostsMessage = document.createElement('div');
-      noPostsMessage.className = 'text-center py-12 col-span-full';
-      noPostsMessage.innerHTML = '<p class="text-xl text-gray-600">Aucun article disponible dans cette catégorie.</p>';
-      postsGrid.appendChild(noPostsMessage);
-    }
-  }
-
-  // Gestionnaire d'événements pour les filtres
+  // Animation des cartes au chargement
   document.addEventListener('DOMContentLoaded', () => {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-
-    filterButtons.forEach(button => {
-      button.addEventListener('click', (e) => {
-        // Mettre à jour les classes actives
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        // Mettre à jour la visibilité des articles
-        const category = (button as HTMLElement).dataset.category || 'all';
-        updateVisibility(category);
-      });
+    const postCards = document.querySelectorAll('.post-card');
+    postCards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add('opacity-100');
+      }, index * 100);
     });
   });
 </script>
-
-<style>
-  .filter-btn.active {
-    @apply bg-sage text-white border-sage;
-  }
-</style>

@@ -1,0 +1,128 @@
+---
+import { createServerClient } from '../lib/supabase';
+
+
+
+const supabase = createServerClient();
+
+// Récupération des cookies de la requête
+const supabaseCookie = Astro.request.headers.get('cookie');
+
+
+
+if (supabaseCookie) {
+  try {
+    const match = supabaseCookie.match(/supabase\.auth\.token=([^;]+)/);
+    if (match) {
+      const tokenData = JSON.parse(decodeURIComponent(match[1]));
+
+      
+      if (tokenData.access_token && tokenData.refresh_token) {
+        await supabase.auth.setSession({
+          access_token: tokenData.access_token,
+          refresh_token: tokenData.refresh_token
+        });
+      } else {
+        console.error('Tokens manquants dans les données du cookie');
+      }
+    } else {
+      console.error('Cookie supabase.auth.token non trouvé');
+    }
+  } catch (error) {
+    console.error('Erreur lors du parsing du cookie:', error);
+  }
+} else {
+  console.error('Pas de cookie trouvé');
+}
+
+
+
+// Vérification de l'authentification
+const { data: sessionData } = await supabase.auth.getSession();
+const session = sessionData?.session;
+
+// Vérification du rôle admin si connecté
+let isAdmin = false;
+if (session?.user?.id) {
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', session.user.id)
+    .single();
+  isAdmin = profile?.role === 'admin';
+}
+
+// Stockage des informations d'authentification pour le client
+const authInfo = {
+  isAuthenticated: !!session,
+  isAdmin,
+  userId: session?.user?.id
+};
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} - Administration Harmonia</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body class="min-h-screen bg-gray-50">
+    <script define:vars={{ authInfo }}>
+      // Vérification côté client
+      if (!authInfo.isAuthenticated) {
+        window.location.href = '/login';
+      } else if (!authInfo.isAdmin) {
+        window.location.href = '/';
+      }
+    </script>
+    <!-- Header -->
+    <header class="bg-white shadow">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center">
+            <a href="/admin" class="text-xl font-semibold text-gray-900">
+              Administration Harmonia
+            </a>
+          </div>
+          <nav class="flex space-x-4">
+            <a href="/admin/blog" class="text-gray-600 hover:text-gray-900">
+              Articles
+            </a>
+            <button id="logoutBtn" class="text-gray-600 hover:text-gray-900">
+              Déconnexion
+            </button>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script is:inline define:vars={{ supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL, supabaseKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY }}>
+  // Initialisation de Supabase
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+  // Gestionnaire de déconnexion
+  document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      window.location.href = '/';
+    }
+  });
+</script>

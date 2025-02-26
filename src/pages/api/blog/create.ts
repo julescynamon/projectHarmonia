@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { createServerClient } from '../../../lib/supabase';
+import { createServiceClient } from '../../../lib/supabase';
 import { marked } from 'marked';
 import sanitizeHtml from 'sanitize-html';
 
@@ -7,8 +7,6 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     // Récupération du token d'authentification
     const authHeader = request.headers.get('Authorization');
-    console.log('Auth Header:', authHeader);
-
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return new Response(JSON.stringify({ error: 'Token d\'authentification manquant' }), {
         status: 401
@@ -16,21 +14,11 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const token = authHeader.split(' ')[1];
-    console.log('Token:', token);
-
-    // Créer le client Supabase avec le token
-    const supabaseAdmin = createServerClient();
     
-    // Définir le token d'authentification
-    supabaseAdmin.auth.setSession({
-      access_token: token,
-      refresh_token: ''
-    });
+    // Créer le client Supabase avec le token
+    const supabase = createServiceClient(token);
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-    // Vérifier l'utilisateur
-    const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser();
-    console.log('User:', user);
-    console.log('Auth Error:', authError);
 
     if (authError || !user) {
       return new Response(JSON.stringify({ error: 'Token d\'authentification invalide', details: authError }), {
@@ -39,20 +27,23 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Vérification du rôle admin dans la table profiles
-    const { data: profile, error: profileError } = await supabaseAdmin
+    const { data: profiles, error: profileError } = await supabase
       .from('profiles')
       .select('role')
-      .eq('id', user.id)
-      .single();
+      .eq('id', user.id);
 
-    console.log('Profile Query:', {
-      userId: user.id,
-      profile,
-      profileError
-    });
 
+    // Vérifions aussi directement dans la base
+
+    const { data: directCheck, error: directError } = await supabase
+      .rpc('check_is_admin', { user_id: user.id });
+
+
+
+    const isAdmin = (profiles && profiles.length > 0 && profiles[0].role === 'admin') || directCheck === true;
+    
     // Vérifier si l'utilisateur est admin
-    if (!profile || profile.role !== 'admin') {
+    if (!isAdmin) {
       return new Response(JSON.stringify({ 
         error: 'Accès non autorisé',
         details: 'Vous devez être administrateur pour effectuer cette action'
@@ -60,6 +51,8 @@ export const POST: APIRoute = async ({ request }) => {
         status: 403
       });
     }
+
+    // Le client est déjà configuré avec la session
 
     // La vérification du profil est déjà faite plus haut
     // Continuer avec la création de l'article
@@ -95,8 +88,9 @@ export const POST: APIRoute = async ({ request }) => {
       .replace(/\s+/g, '-'); // Remplace les espaces par des tirets
 
     // Création de l'article
-    const { data, error } = await supabaseAdmin.from("blog_posts").insert([
-      {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .insert({
         title,
         category,
         summary,
@@ -106,8 +100,9 @@ export const POST: APIRoute = async ({ request }) => {
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
         slug
-      }
-    ]).select().single();
+      })
+      .select()
+      .single();
 
     if (error) {
       console.error('Erreur lors de la création:', error);

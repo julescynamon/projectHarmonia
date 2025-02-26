@@ -65,12 +65,12 @@ export default function BlogPostForm({ initialData = {} }) {
           required
         >
           <option value="">Sélectionner une catégorie</option>
-          <option value="actualites">Actualités</option>
-          <option value="conseils">Conseils</option>
-          <option value="evenements">Événements</option>
-          <option value="bien_etre">Bien-être</option>
-          <option value="nutrition">Nutrition</option>
           <option value="naturopathie">Naturopathie</option>
+          <option value="alimentation">Alimentation</option>
+          <option value="comportement">Comportement</option>
+          <option value="education">Éducation</option>
+          <option value="soins">Soins</option>
+          <option value="actualites">Actualités</option>
         </select>
       </div>
 
@@ -125,7 +125,7 @@ export default function BlogPostForm({ initialData = {} }) {
             onChange={(e) => setContent(e.target.value)}
             rows={15}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-sage focus:ring-sage sm:text-sm font-mono"
-            placeholder="# Titre principal&#10;&#10;## Sous-titre&#10;&#10;Votre texte ici...&#10;&#10;- Point 1&#10;- Point 2"
+            placeholder="# Titre principal&#10;&#10;## Sous-titre&#10;&#10;Votre texte ici...&#10;&#10;- Point 1&#10;- Point 2&#10;&#10;[Texte du lien](https://www.example.com)&#10;[Lien avec info-bulle](https://www.example.com 'Description du lien')"
             required
           />
         </div>

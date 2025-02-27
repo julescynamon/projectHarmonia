@@ -27,7 +27,8 @@ export default defineConfig({
       img: true,
       svg: true,
     }),
-    blogNotifications(),
+    // Désactivé temporairement
+    // blogNotifications(),
   ],
   compressHTML: true,
   build: {

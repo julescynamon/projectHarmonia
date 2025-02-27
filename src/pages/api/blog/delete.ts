@@ -1,30 +1,24 @@
 import type { APIRoute } from 'astro';
 import { supabase } from '../../../lib/supabase';
 
-export const post: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
+    console.log('=== Début de la requête POST /api/blog/delete ===');
+    
     const { id } = await request.json();
+    console.log('ID de l\'article à supprimer:', id);
 
-    // Vérifier que l'utilisateur est admin
-    const session = await supabase.auth.getSession();
-    if (!session?.data?.session?.user?.id) {
-      return new Response(JSON.stringify({ error: 'Non authentifié' }), {
-        status: 401,
+    // La session est déjà vérifiée par le middleware
+    const session = locals.session;
+    if (!session?.user) {
+      console.error('Session utilisateur non trouvée');
+      return new Response(JSON.stringify({ error: 'Session invalide' }), {
+        status: 401
       });
     }
 
-    // Vérifier que l'utilisateur est admin
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', session.data.session.user.id)
-      .single();
-
-    if (profileError || profile?.role !== 'admin') {
-      return new Response(JSON.stringify({ error: 'Non autorisé' }), {
-        status: 403,
-      });
-    }
+    // Utiliser le client Supabase du middleware
+    const supabase = locals.supabase;
 
     // Supprimer l'article
     const { error } = await supabase

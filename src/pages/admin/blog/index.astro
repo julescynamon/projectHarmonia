@@ -207,14 +207,13 @@ const { data: posts } = await supabase
   <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script client:only define:vars={{ supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL, supabaseKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY }}>
     // Initialisation globale de Supabase
-    window.supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
-    let supabaseClient;
+    let supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
     let userSession;
     
     async function initSupabase() {
-      const { data: { session } } = await window.supabaseClient.auth.getSession();
+      const { data: { session } } = await supabaseClient.auth.getSession();
       userSession = session;
-      return window.supabaseClient;
+      return supabaseClient;
     }
 
     document.addEventListener('DOMContentLoaded', async () => {

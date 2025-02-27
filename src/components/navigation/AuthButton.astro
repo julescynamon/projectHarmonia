@@ -1,7 +1,7 @@
 ---
 // Vérification de l'authentification via Astro.locals
-const user = Astro.locals.user;
-const isAuthenticated = !!user;
+const session = Astro.locals.session;
+const isAuthenticated = !!session;
 
 // Classes communes pour les boutons
 const commonButtonClasses = "font-slogan text-sm tracking-wide transition-colors duration-200 flex items-center gap-2 logout-button";
@@ -30,7 +30,19 @@ const commonButtonClasses = "font-slogan text-sm tracking-wide transition-colors
           />
         </svg>
       </a>
-      <form action="/api/auth/signout" method="GET" class="inline-block">
+      <form 
+        action="/api/auth/signout" 
+        method="POST" 
+        class="inline-block"
+        onsubmit="
+          localStorage.clear();
+          sessionStorage.clear();
+          document.cookie.split(';').forEach(function(c) {
+            document.cookie = c.trim().split('=')[0] + '=;' + 'expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/';
+          });
+          return true;
+        "
+      >
         <button
           type="submit"
           class={`${commonButtonClasses}`}

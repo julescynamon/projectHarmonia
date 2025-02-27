@@ -65,12 +65,10 @@ export default function BlogPostForm({ initialData = {} }) {
           required
         >
           <option value="">Sélectionner une catégorie</option>
-          <option value="naturopathie">Naturopathie</option>
-          <option value="alimentation">Alimentation</option>
-          <option value="comportement">Comportement</option>
-          <option value="education">Éducation</option>
-          <option value="soins">Soins</option>
           <option value="actualites">Actualités</option>
+          <option value="conseils">Conseils</option>
+          <option value="tutoriels">Tutoriels</option>
+          <option value="evenements">Événements</option>
         </select>
       </div>
 

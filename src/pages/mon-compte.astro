@@ -11,11 +11,20 @@ import { sendEmailChangeConfirmation } from '../lib/email';
 
 // Vérification de l'authentification
 const supabase = Astro.locals.supabase;
-const { data: { session }, error } = await supabase.auth.getSession();
+const session = Astro.locals.session;
 
 if (!session) {
   return Astro.redirect('/login?returnTo=/mon-compte');
 }
+
+// Récupération du rôle depuis la table profiles
+const { data: profile } = await supabase
+  .from('profiles')
+  .select('role')
+  .eq('id', session.user.id)
+  .single();
+
+console.log('Profile:', profile);
 
 // Gestion de la mise à jour du profil via action Astro
 if (Astro.request.method === 'POST') {
@@ -382,6 +391,48 @@ const userData = user?.user_metadata || {};
               </div>
             )}
           </div>
+
+          {(profile?.role === 'admin' || session.user.email === 'tyzranaima@gmail.com') && (
+            <div class="bg-white rounded-lg shadow-sm p-4 sm:p-8 mb-8" data-aos="fade-up">
+              <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-medium">Administration</h2>
+              </div>
+              <div class="grid gap-4 sm:gap-6 md:grid-cols-3">
+                <a 
+                  href="/admin/boutique"
+                  class="flex flex-col items-center p-6 bg-gray-50 hover:bg-primary/5 rounded-xl transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-primary/20"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                  <span class="text-lg font-medium">Boutique</span>
+                  <span class="text-sm text-gray-500 text-center mt-2">Gérer les PDF</span>
+                </a>
+
+                <a 
+                  href="/admin/disponibilites"
+                  class="flex flex-col items-center p-6 bg-gray-50 hover:bg-primary/5 rounded-xl transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-primary/20"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span class="text-lg font-medium">Disponibilités</span>
+                  <span class="text-sm text-gray-500 text-center mt-2">Gérer les RDV</span>
+                </a>
+
+                <a 
+                  href="/admin/blog"
+                  class="flex flex-col items-center p-6 bg-gray-50 hover:bg-primary/5 rounded-xl transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-primary/20"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                  <span class="text-lg font-medium">Blog</span>
+                  <span class="text-sm text-gray-500 text-center mt-2">Gérer les articles</span>
+                </a>
+              </div>
+            </div>
+          )}
 
           <!-- Aide et support -->
           <div class="text-center" data-aos="fade-up">

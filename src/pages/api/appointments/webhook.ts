@@ -1,5 +1,4 @@
 import type { APIRoute } from 'astro';
-import { createServerClient } from '../../../lib/supabase';
 import Stripe from 'stripe';
 import { Resend } from 'resend';
 import { sendAppointmentNotification } from '../../../lib/notifications';
@@ -10,7 +9,7 @@ const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY || '', {
 
 const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
 
   const payload = await request.text();
   const sig = request.headers.get('stripe-signature') || '';;
@@ -32,7 +31,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
-    const supabase = createServerClient();
+    const supabase = locals.supabase;
 
 
     // Mettre à jour le statut du rendez-vous

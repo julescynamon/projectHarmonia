@@ -1,9 +1,7 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 import BlogPostForm from '../../../components/admin/BlogPostForm.jsx';
-import { createServerClient } from '../../../lib/supabase';
-
-const supabase = createServerClient();
+const supabase = Astro.locals.supabase;
 
 // Configuration SQL pour le bucket et les policies
 const setupSQL = `
@@ -45,43 +43,27 @@ if (setupError) {
   console.log('Configuration du stockage réussie');
 }
 
-// Récupération des cookies de la requête
-const supabaseCookie = Astro.request.headers.get('cookie');
-if (supabaseCookie) {
-  try {
-    const match = supabaseCookie.match(/supabase\.auth\.token=([^;]+)/);
-    if (match) {
-      const tokenData = JSON.parse(decodeURIComponent(match[1]));
-      if (tokenData.access_token && tokenData.refresh_token) {
-        await supabase.auth.setSession({
-          access_token: tokenData.access_token,
-          refresh_token: tokenData.refresh_token
-        });
-      }
-    }
-  } catch (error) {
-    console.error('Erreur lors du parsing du cookie:', error);
-  }
-}
+// La session est déjà disponible via Astro.locals.session grâce au middleware
+const session = Astro.locals.session;
 
-// Vérification de l'authentification et du rôle admin
-const { data, error: sessionError } = await supabase.auth.getSession();
-
-
-if (!data?.session) {
-  console.error('Pas de session, redirection vers /login');
-  return Astro.redirect('/login');
+// Vérification de l'authentification
+if (!session?.user?.id) {
+  console.error('[ADMIN_BLOG] Pas de session, redirection vers /login');
+  return Astro.redirect('/login?returnTo=/admin/blog');
 }
 
 // Vérification du rôle admin
-const { data: profile } = await supabase
+const { data: profile, error: profileError } = await supabase
   .from('profiles')
   .select('role')
-  .eq('id', data.session.user.id)
+  .eq('id', session.user.id)
   .single();
 
-if (!profile || profile.role !== 'admin') {
-  return Astro.redirect('/');
+console.log('[ADMIN_BLOG] Profil trouvé:', profile);
+
+if (profileError || !profile || profile.role !== 'admin') {
+  console.log('[ADMIN_BLOG] Utilisateur non admin, redirection vers /mon-compte');
+  return Astro.redirect('/mon-compte');
 }
 
 // Liste des catégories disponibles
@@ -205,14 +187,13 @@ const { data: posts } = await supabase
   </div>
 
   <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script client:only define:vars={{ supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL, supabaseKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY }}>
+  <script define:vars={{ supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL, supabaseKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY }}>
     // Initialisation globale de Supabase
     let supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
-    let userSession;
     
     async function initSupabase() {
-      const { data: { session } } = await supabaseClient.auth.getSession();
-      userSession = session;
+      // Pas besoin de récupérer la session, elle est déjà gérée par le middleware
+      // et la vérification d'authentification est faite côté serveur
       return supabaseClient;
     }
 

@@ -16,68 +16,38 @@ const seo = pageSEO.confirmation;
 // Récupérer l'ID de session Stripe
 const sessionId = Astro.url.searchParams.get('session_id');
 
-console.log('Page de confirmation chargée');
-
 if (!sessionId) {
-  console.error('Aucun session_id trouvé dans l\'URL');
   return Astro.redirect('/rendez-vous');
 }
-
-console.log('Session ID trouvé:', sessionId);
 
 let error = null;
 let success = false;
 
 try {
-  console.log('Début de la confirmation du rendez-vous');
-  console.log('Session ID reçu:', sessionId);
-  console.log('Clé Stripe utilisée:', import.meta.env.STRIPE_SECRET_KEY ? 'Présente' : 'Manquante');
-  
   if (!import.meta.env.STRIPE_SECRET_KEY) {
-    console.error('Clé Stripe manquante!');
     error = 'Configuration du paiement invalide';
     return;
   }
 
-  console.log('Récupération de la session Stripe...');
   let session;
   try {
     session = await stripe.checkout.sessions.retrieve(sessionId);
-    console.log('Session Stripe récupérée avec succès');
   } catch (stripeError) {
-    console.error('Erreur lors de la récupération de la session Stripe:', stripeError);
     error = 'Impossible de vérifier le paiement';
     return;
   }
   
-  console.log('Session Stripe complète:', JSON.stringify(session, null, 2));
-  console.log('Détails importants:', {
-    id: session.id,
-    status: session.status,
-    payment_status: session.payment_status,
-    customer_email: session.customer_email,
-    amount_total: session.amount_total,
-    metadata: session.metadata
-  });
-
   if (session.payment_status !== 'paid') {
-    console.error('Statut de paiement invalide:', session.payment_status);
     error = 'Le paiement n\'a pas été effectué';
     return;
   }
-
-  console.log('Session Stripe valide, récupération du rendez-vous...');
-  console.log('Recherche du rendez-vous avec session ID:', sessionId);
   const { data: appointment, error: appointmentError } = await supabase
     .from('appointments')
     .select('*, services(title)')
     .eq('stripe_session_id', sessionId)
     .single();
 
-  console.log('Résultat de la recherche:', appointment ? 'Trouvé' : 'Non trouvé');
-
   if (appointmentError || !appointment) {
-    console.error('Erreur ou rendez-vous non trouvé:', appointmentError);
     error = 'Rendez-vous non trouvé';
     return;
   }
@@ -89,12 +59,11 @@ try {
     .eq('stripe_session_id', sessionId);
 
   if (updateError) {
-    console.error('Erreur lors de la mise à jour du statut:', updateError);
     error = 'Erreur lors de la confirmation du rendez-vous';
     return;
   }
 
-  console.log('Envoi des notifications pour le rendez-vous...');
+
   await sendAppointmentNotification({
     date: appointment.date,
     time: appointment.time,
@@ -105,10 +74,8 @@ try {
   });
 
   success = true;
-  console.log('Rendez-vous confirmé avec succès !');
 
 } catch (e) {
-  console.error('Erreur lors de la confirmation:', e);
   error = 'Une erreur est survenue';
 }
 ---

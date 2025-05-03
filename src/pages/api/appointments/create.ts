@@ -1,16 +1,15 @@
 import type { APIRoute } from 'astro';
-import { createServerClient } from '../../../lib/supabase';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2023-10-16'
 });
 
-export async function POST({ request }) {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const { date, time, serviceId, email, name, reason } = body;
-    const supabase = createServerClient();
+    const supabase = locals.supabase;
     // Vérifier à nouveau la disponibilité
     const { data: existingAppointments, error: availabilityError } = await supabase
       .from('appointments')

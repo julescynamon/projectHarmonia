@@ -1,19 +1,27 @@
 import type { APIRoute } from "astro";
+import { createServerClient } from "../../../lib/supabase";
 
 // Fonction commune pour la déconnexion
 async function handleSignOut({ cookies, locals, request }) {
-  console.log('=== DÉCONNEXION DEBUG ===');
-  console.log('Cookies avant:', request.headers.get('cookie'));
 
-  // Déconnexion de Supabase
-  const { error } = await locals.supabase.auth.signOut();
-  console.log('Supabase signOut result:', error ? 'error' : 'success');
+
+  // Récupérer les cookies pour analyse
+  const cookiesHeader = request.headers.get('cookie');
   
-  if (error) throw error;
+  // Créer un client Supabase avec les cookies
+  const supabase = createServerClient(cookiesHeader);
+  
+  // Déconnexion de Supabase
+  const { error } = await supabase.auth.signOut();
+
+  
+  if (error) {
+    console.error('Erreur lors de la déconnexion Supabase:', error);
+  }
 
   // Récupération du cookie actuel pour analyse
   const currentCookie = request.headers.get('cookie');
-  console.log('Cookie complet:', currentCookie);
+
 
   // Fonction pour supprimer un cookie avec toutes les combinaisons possibles
   function deleteWithAllOptions(name: string) {
@@ -44,7 +52,7 @@ async function handleSignOut({ cookies, locals, request }) {
   // Suppression de tous les cookies
   cookiesToRemove.forEach(name => {
     deleteWithAllOptions(name);
-    console.log(`Cookie ${name} supprimé`);
+
   });
 
   // Création des en-têtes Set-Cookie pour une suppression forcée
@@ -63,18 +71,24 @@ async function handleSignOut({ cookies, locals, request }) {
 
   // Nettoyage des locals
   locals.session = null;
-  console.log('Session nettoyée');
+
 
   // Redirection vers la page d'accueil avec no-cache et suppression des cookies
+  const headers = new Headers({
+    'Location': '/',
+    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
+  });
+  
+  // Ajouter chaque cookie individuellement
+  cookieHeaders.forEach(cookie => {
+    headers.append('Set-Cookie', cookie);
+  });
+  
   return new Response(null, {
     status: 302,
-    headers: {
-      'Location': '/',
-      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-      'Pragma': 'no-cache',
-      'Expires': '0',
-      'Set-Cookie': cookieHeaders
-    }
+    headers
   });
 }
 

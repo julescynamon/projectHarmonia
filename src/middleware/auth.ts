@@ -81,24 +81,44 @@ export const onRequest = defineMiddleware(
       const url = new URL(request.url);
       pathname = url.pathname;
 
-      console.log('=== AUTH MIDDLEWARE DEBUG ===');
-      console.log('Path:', pathname);
-
-      // Vérification de la session via le token JWT
+      
+      // Récupérer les cookies pour analyse
       const cookies = request.headers.get('cookie');
-      const decodedSession = extractAndVerifySession(cookies);
+      
+      if (cookies) {
+        const cookiesList = cookies.split(';').map(c => c.trim());
+        const supabaseAuthToken = cookiesList.find(c => c.startsWith('supabase.auth.token='));
+        const sbAccessToken = cookiesList.find(c => c.startsWith('sb-access-token='));
+        const sbRefreshToken = cookiesList.find(c => c.startsWith('sb-refresh-token='));
+        
+      }
 
-      // Création du client Supabase
-      const supabase = createServerClient();
+      // Récupération directe de la session via Supabase
+      const supabase = createServerClient(cookies);
       locals.supabase = supabase;
-
-      // Si on a une session valide, on la convertit au format Supabase
-      if (decodedSession) {
-        locals.session = convertToSupabaseSession(decodedSession);
-        console.log('Session trouvée pour:', decodedSession.user.email);
+      
+      // Obtenir la session directement depuis Supabase
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      
+      if (sessionError) {
+        console.error('Erreur lors de la récupération de la session:', sessionError);
+      }
+      
+      locals.session = session;
+      
+      if (session) {
+        console.log("session OK")
       } else {
-        locals.session = null;
-        console.log('Pas de session valide');
+        // Fallback sur notre méthode personnalisée si nécessaire
+        const decodedSession = extractAndVerifySession(cookies);
+        
+        if (decodedSession) {
+
+          locals.session = convertToSupabaseSession(decodedSession);
+        } else {
+          console.log('Aucune session valide trouvée par aucune méthode');
+          locals.session = null;
+        }
       }
 
       // Définir les types de routes
@@ -112,7 +132,7 @@ export const onRequest = defineMiddleware(
 
       // Vérification des accès authentifiés
       if (isAuthApi) {
-        if (!decodedSession) {
+        if (!locals.session) {
           console.log('Accès API refusé: pas de session');
           return new Response(JSON.stringify({ error: 'Unauthorized' }), {
             status: 401,
@@ -123,7 +143,7 @@ export const onRequest = defineMiddleware(
 
       // Vérification des accès admin (pages et API)
       if (isAdminPath || isAdminApi) {
-        if (!decodedSession) {
+        if (!locals.session) {
           console.log('Accès admin refusé: pas de session');
           return redirect('/login');
         }
@@ -132,23 +152,23 @@ export const onRequest = defineMiddleware(
         const { data: profile } = await supabase
           .from('profiles')
           .select('role')
-          .eq('id', decodedSession.user.id)
+          .eq('id', locals.session.user.id)
           .single();
 
         console.log('Profile trouvé:', profile);
 
         // Vérification spéciale pour l'admin principal
-        const isMainAdmin = decodedSession.user.email === 'tyzranaima@gmail.com';
+        const isMainAdmin = locals.session.user.email === 'tyzranaima@gmail.com';
 
         if (isMainAdmin) {
-          console.log('Accès admin accordé pour admin principal');
+          
           // Créer ou mettre à jour le profil admin si nécessaire
           if (!profile) {
             const { error: upsertError } = await supabase
               .from('profiles')
               .upsert({
-                id: decodedSession.user.id,
-                email: decodedSession.user.email,
+                id: locals.session.user.id,
+                email: locals.session.user.email,
                 role: 'admin',
                 updated_at: new Date().toISOString()
               });
@@ -159,21 +179,22 @@ export const onRequest = defineMiddleware(
           }
         } else if (!profile || profile.role !== 'admin') {
           console.log('Accès admin refusé: pas admin dans profiles');
-          return redirect('/');
+          return redirect('/mon-compte');
         }
 
-        console.log('Accès admin accordé pour:', decodedSession.user.email);
+      
       } else if (!isPublicRoute && !isPublicApi && !isApiPath) {
-        if (!decodedSession) {
+        if (!locals.session) {
           console.log('Accès refusé: authentification requise');
           return redirect('/login');
         }
       }
 
       // Si l'utilisateur est sur la page de login et qu'il est déjà connecté
-      if (isLoginPath && decodedSession) {
-        console.log('Redirection: déjà connecté');
-        return redirect('/');
+      if (isLoginPath && locals.session) {
+        // Rediriger vers la page appropriée
+        const returnTo = new URL(request.url).searchParams.get('returnTo');
+        return redirect(returnTo || '/mon-compte');
       }
 
       // Continuer vers la page demandée

@@ -10,22 +10,11 @@ const endpointSecret = import.meta.env.STRIPE_WEBHOOK_SECRET;
 
 // Fonction utilitaire pour logger les erreurs
 function logError(phase: string, error: any) {
-  console.error(`Webhook - Erreur ${phase}:`, {
-    message: error.message,
-    code: error.code,
-    details: error.details,
-    stack: error.stack
-  });
+  // Suppression des logs d'erreur
 }
 
 function logWebhook(message: string, data?: any) {
-  const timestamp = new Date().toISOString();
-  const logMessage = `[${timestamp}] ${message}`;
-  if (data) {
-    console.log(logMessage, JSON.stringify(data, null, 2));
-  } else {
-    console.log(logMessage);
-  }
+  // Suppression des logs
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -35,9 +24,7 @@ export const POST: APIRoute = async ({ request }) => {
     const payload = await request.text();
     const sig = request.headers.get('stripe-signature');
     
-    console.log('Webhook - Headers reçus:', {
-      'stripe-signature': sig?.substring(0, 20) + '...' // Log only the beginning for security
-    });
+  
 
     if (!sig) {
       throw new Error('Signature Stripe manquante');
@@ -50,9 +37,9 @@ export const POST: APIRoute = async ({ request }) => {
     let event;
     try {
       event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
-      console.log('Webhook - Événement construit avec succès:', event.type);
+
     } catch (err: any) {
-      console.error('Webhook - Erreur de construction de l\'événement:', err.message);
+
       return new Response(`Webhook Error: ${err.message}`, { status: 400 });
     }
 
@@ -80,12 +67,10 @@ export const POST: APIRoute = async ({ request }) => {
         }
 
         const userId = stripeSession.client_reference_id;
-        console.log('Webhook - UserId:', userId);
         
         const supabase = createServiceClient();
 
         // Vérifier si une commande existe déjà
-        console.log('Webhook - Vérification commande existante...');
         const { data: existingOrder } = await supabase
           .from('orders')
           .select('id')
@@ -93,7 +78,7 @@ export const POST: APIRoute = async ({ request }) => {
           .single();
 
         if (existingOrder) {
-          console.log('Webhook - Commande déjà existante:', existingOrder.id);
+
           return new Response(JSON.stringify({ received: true, existing: true }), {
             status: 200,
             headers: { 'Content-Type': 'application/json' }
@@ -101,7 +86,6 @@ export const POST: APIRoute = async ({ request }) => {
         }
 
         // Create the order
-        console.log('Webhook - Création de la commande...');
         const { data: order, error: orderError } = await supabase
           .from('orders')
           .insert({
@@ -114,10 +98,9 @@ export const POST: APIRoute = async ({ request }) => {
           .single();
 
       if (orderError) {
-        console.error('Webhook - Erreur création commande:', orderError);
         throw orderError;
       }
-      console.log('Webhook - Commande créée avec succès:', order.id);
+
 
       // Get line items from the session
       logWebhook('Récupération des articles de la session');
@@ -139,30 +122,19 @@ export const POST: APIRoute = async ({ request }) => {
       }
 
       // Vider le panier de l'utilisateur
-      console.log('Webhook - Suppression des articles du panier...');
       const { error: cartError } = await supabase
         .from('cart_items')
         .delete()
         .eq('user_id', userId);
 
       if (cartError) {
-        console.error('Webhook - Erreur lors de la suppression du panier:', cartError);
         // On continue quand même, ce n'est pas bloquant
-      } else {
-        console.log('Webhook - Panier vidé avec succès');
       }
 
       // Create order items
-      console.log('Webhook - Création des articles de la commande...');
       for (const item of lineItems) {
-        console.log('Webhook - Traitement de l\'article:', {
-          id: item.id,
-          price: item.price,
-          product: item.price?.product
-        });
 
         if (!item.price?.product) {
-          console.error('Webhook - Pas de produit associé au prix');
           continue;
         }
 
@@ -171,16 +143,14 @@ export const POST: APIRoute = async ({ request }) => {
           ? await stripe.products.retrieve(item.price.product)
           : item.price.product;
 
-        console.log('Webhook - Détails du produit Stripe:', {
-          id: stripeProduct.id,
-          name: stripeProduct.name,
-          description: stripeProduct.description
-        });
+
 
         // Extraire le chemin du PDF de la description
-        const pdfPath = stripeProduct.description?.replace('Fichier PDF: ', '');
+        // Utiliser un type guard pour vérifier si le produit est un produit actif avec une description
+        const pdfPath = typeof stripeProduct === 'object' && 'description' in stripeProduct && stripeProduct.description
+          ? stripeProduct.description.replace('Fichier PDF: ', '')
+          : null;
         if (!pdfPath) {
-          console.error('Webhook - Pas de chemin PDF dans la description');
           continue;
         }
 
@@ -192,17 +162,11 @@ export const POST: APIRoute = async ({ request }) => {
           .single();
 
         if (productError) {
-          console.error('Webhook - Erreur recherche produit:', productError);
           continue;
         }
 
         if (product) {
-          console.log('Webhook - Création article commande pour:', {
-            orderId: order.id,
-            productId: product.id,
-            productTitle: product.title,
-            pdfPath: product.pdf_path
-          });
+
 
           const { error: itemError } = await supabase
             .from('order_items')
@@ -214,16 +178,14 @@ export const POST: APIRoute = async ({ request }) => {
             });
 
           if (itemError) {
-            console.error('Webhook - Erreur création article commande:', itemError);
-          } else {
-            console.log('Webhook - Article commande créé avec succès');
+            // Erreur création article commande
           }
         } else {
-          console.error('Webhook - Produit non trouvé dans la base de données:', productId);
+
         }
       }
 
-      console.log('Webhook - Commande traitée avec succès:', order.id);
+
     } catch (error) {
       logError('traitement commande', error);
       return new Response(JSON.stringify({

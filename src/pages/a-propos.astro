@@ -35,32 +35,79 @@ const qualifications = [
 
 const values = [
   {
-    title: 'Équilibre Naturel',
-    description: 'Chez Harmonia et Vita, nous croyons que la nature détient les clés de l’harmonie intérieure et du bien-être. Chaque être humain et chaque animal peut retrouver son équilibre grâce à une approche respectueuse du corps et de l’esprit, en s’appuyant sur les trésors offerts par la naturopathie, les plantes, et les pratiques naturelles. L’harmonie commence par une reconnexion à la simplicité et à la force de la nature.',
-    icon: '🌿 '
+    title: 'Santé naturelle',
+    par1: 'Revenez à l’essentiel.',
+    description: 'Votre corps sait. Il sait comment guérir, comment se rééquilibrer, comment retrouver sa pleine vitalité. Chez Harmonia et Vita, je vous propose un accompagnement sur-mesure fondé sur la naturopathie, l’alimentation vivante, les plantes médicinales et l’écoute du vivant – pour vous comme pour vos animaux. Chaque être est unique, et chaque chemin de guérison aussi. Ensemble, nous mettrons en lumière les déséquilibres, les causes profondes, et les clés naturelles pour retrouver bien-être, clarté et énergie. Prenez rendez-vous aujourd’hui et commencez à soigner la vie… en vous.',
+    icon: '🌿 ',
+    buttonText: "Je prends rendez-vous maintenant",
+    buttonLink: "/rendez-vous"
   },
   {
-    title: 'Éveil Spirituel',
-    description: 'Nous voyons chaque être comme une lumière unique, capable de se révéler pleinement lorsqu’il se reconnecte à son essence. À travers nos rituels et nos guidances, Harmonia et Vita invite chacun à explorer les dimensions subtiles de son existence, à libérer ses blocages et à s’ouvrir à une transformation profonde. La spiritualité n’est pas un chemin imposé, mais une expérience personnelle, respectueuse et lumineuse.',
-    icon: '✨'
+    title: 'Rituels & énergie',
+    par1: 'Harmonisez les corps et les âmes.',
+    description: 'Il arrive que l’on ressente un poids sans nom, une tension invisible, une fatigue inexplicable… C’est le langage de l’énergie. Les rituels que je vous propose – pour humains et animaux – sont bien plus que des gestes symboliques. Ce sont des espaces sacrés pour libérer les émotions enfouies, rééquilibrer les flux énergétiques, couper les liens toxiques, et restaurer une circulation fluide et apaisée dans tout votre être. Vous (ou votre animal) êtes peut-être prêt à vous alléger, à vous réconcilier avec vous-même, à réharmoniser ce qui ne l’est plus. Si vous ressentez l’appel, alors c’est le moment.',
+    icon: '💫',
+    buttonText: "Réserver un rituel personnalisé",
+    buttonLink: "/rendez-vous"
   },
   {
-    title: 'Lien Sacré entre Humains et Animaux',
-    description: 'Les animaux ne sont pas seulement nos compagnons, ils sont des âmes qui partagent avec nous un lien sacré et profond. Harmonia et Vita honore cette connexion en proposant des approches holistiques qui renforcent l’harmonie entre humains et animaux. Nous aidons chacun à mieux comprendre son compagnon, à soutenir son bien-être et à créer une relation empreinte de respect et d’amour.',
-    icon: '🐾'
-  },
-  {
-    title: 'Bienveillance et Transmission',
-    description: 'Chaque geste, chaque conseil, chaque mot que nous partageons chez Harmonia et Vita est imprégné de bienveillance. Notre mission est de transmettre, avec humilité et clarté, les clés qui permettent à chacun de devenir acteur de sa propre guérison et transformation. Nous guidons avec douceur et respect, dans l’unique but de révéler la lumière et la puissance que chaque être porte en lui.',
-    icon: '💛'
+    title: 'Développement spirituel',
+    par1: 'Éveillez votre lumière intérieure.',
+    description: 'Vous le sentez… quelque chose en vous aspire à plus grand. Une paix, une clarté, une puissance douce mais profonde. Ce que je vous propose ici, ce n’est pas une croyance, ni une méthode toute faite : c’est un retour à votre essence, à votre guidance intérieure, à votre vérité. À travers des rituels, des guidances intuitives et des pratiques énergétiques, je vous accompagne pour activer votre lumière, dépasser vos limitations, et avancer sur votre chemin d’âme en conscience. Si vous sentez que l’heure est venue de vous reconnecter à qui vous êtes vraiment… alors je suis là pour vous guider. Commencez ce voyage sacré aujourd’hui.',
+    icon: '✨',
+    buttonText: "Prendre rendez-vous pour une guidance",
+    buttonLink: "/rendez-vous"
   }
 ];
 ---
 
 <MainLayout title={seo.title} description={seo.description}>
   <div class="pt-24">
-    <!-- Hero Section -->
+    <!-- Values Section -->
     <section class="py-20 bg-sage/5 relative overflow-hidden">
+      <!-- Motifs de fond -->
+      <div class="absolute inset-0 bg-geometric-pattern opacity-5 rotate-180"></div>
+
+      <div class="container mx-auto px-4">
+        <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-12 text-center">
+          Bienvenue dans l’univers d’Harmonia et Vita
+        </h2>
+        <p class="text-lg md:text-xl text-eucalyptus mb-12 text-center
+        max-w-3xl mx-auto italic">
+          " Un espace de soin, de lumière et d’éveil pour vous et vos compagnons de vie. "
+        </p>
+
+        <div class="grid w-full gap-y-6 gap-x-4 ">
+          {values.map((value, index) => (
+            <div data-aos="fade-up" data-aos-delay={index * 100}>
+              <Card variant="feature" class="h-full">
+                <div class="p-6">
+                  <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-sage/10 flex items-center justify-center shrink-0">
+                      <span class="material-icons text-2xl text-eucalyptus">
+                        {value.icon}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 class="font-heading text-xl text-ebony mb-2">
+                        {value.title}
+                      </h3>
+                      <p class="font-bold text-eucalyptus mb-2">"{value.par1}"</p>
+                      <p class="text-eucalyptus mb-6">{value.description}</p>
+                      <Button href={value.buttonLink}>
+                        {value.buttonText}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+    <!-- Hero Section -->
+    <section class="py-20 relative overflow-hidden">
       <!-- Motifs de fond -->
       <div class="absolute inset-0 bg-geometric-pattern opacity-5"></div>
       <div class="absolute inset-0 bg-nature-pattern opacity-5"></div>
@@ -109,7 +156,7 @@ const values = [
     </section>
 
     <!-- Qualifications Section -->
-    <section class="py-20">
+    <section class="py-20 bg-sage/5">
       <div class="container mx-auto px-4">
         <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-12 text-center">
           Parcours & Qualifications
@@ -138,41 +185,7 @@ const values = [
       </div>
     </section>
 
-    <!-- Values Section -->
-    <section class="py-20 bg-sage/5 relative overflow-hidden">
-      <!-- Motifs de fond -->
-      <div class="absolute inset-0 bg-geometric-pattern opacity-5 rotate-180"></div>
-
-      <div class="container mx-auto px-4">
-        <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-12 text-center">
-          Mes Valeurs
-        </h2>
-
-        <div class="grid md:grid-cols-2 gap-8">
-          {values.map((value, index) => (
-            <div data-aos="fade-up" data-aos-delay={index * 100}>
-              <Card variant="feature" class="h-full">
-                <div class="p-6">
-                  <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 rounded-full bg-sage/10 flex items-center justify-center shrink-0">
-                      <span class="material-icons text-2xl text-eucalyptus">
-                        {value.icon}
-                      </span>
-                    </div>
-                    <div>
-                      <h3 class="font-heading text-xl text-ebony mb-2">
-                        {value.title}
-                      </h3>
-                      <p class="text-eucalyptus">{value.description}</p>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    
 
     <!-- CTA Section -->
     <section class="py-20">

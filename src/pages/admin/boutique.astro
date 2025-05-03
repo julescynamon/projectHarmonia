@@ -3,13 +3,20 @@ import Layout from '../../layouts/Layout.astro';
 
 // Protection de la route
 const supabase = Astro.locals.supabase;
-const { data: { session } } = await supabase.auth.getSession();
+const session = Astro.locals.session;
 
-if (!session?.user?.email) {
+if (!session?.user?.id) {
     return Astro.redirect('/login?returnTo=/admin/boutique');
 }
 
-if (session.user.email !== 'tyzranaima@gmail.com') {
+// Vérification du rôle admin dans la table profiles
+const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', session.user.id)
+    .single();
+
+if (profileError || !profile || profile.role !== 'admin') {
     return Astro.redirect('/mon-compte');
 }
 
@@ -22,13 +29,8 @@ const { data: products } = await supabase
 // Traiter la suppression
 if (Astro.request.method === 'POST') {
     try {
-        // Vérifier l'authentification
-        if (!session?.user?.email || session.user.email !== 'tyzranaima@gmail.com') {
-            return new Response(
-                JSON.stringify({ error: 'Non autorisé' }), 
-                { status: 403 }
-            );
-        }
+        // L'authentification et la vérification du rôle admin sont déjà gérées par le middleware
+        // et par la vérification au chargement de la page
 
         const formData = await Astro.request.formData();
         const action = formData.get('action');
@@ -43,6 +45,14 @@ if (Astro.request.method === 'POST') {
                 );
             }
 
+            // S'assurer que pdfFile est bien un objet File
+            if (!(pdfFile instanceof File)) {
+                return new Response(
+                    JSON.stringify({ error: 'PDF manquant ou invalide' }), 
+                    { status: 400 }
+                );
+            }
+            
             const pdfPath = `guides/${pdfFile.name}`;
             const pdfBuffer = await pdfFile.arrayBuffer();
 
@@ -64,13 +74,19 @@ if (Astro.request.method === 'POST') {
             }
 
             // 2. Création du produit
+            // Récupérer les valeurs du formulaire et les convertir en types appropriés
+            const title = formData.get('title')?.toString() || '';
+            const description = formData.get('description')?.toString() || '';
+            const priceValue = formData.get('price')?.toString() || '0';
+            const category = formData.get('category')?.toString() || '';
+            
             const { error: insertError } = await supabase
                 .from('products')
                 .insert({
-                    title: formData.get('title'),
-                    description: formData.get('description'),
-                    price: parseFloat(formData.get('price')),
-                    category: formData.get('category'),
+                    title,
+                    description,
+                    price: parseFloat(priceValue),
+                    category,
                     pdf_path: pdfPath
                 });
 
@@ -91,7 +107,7 @@ if (Astro.request.method === 'POST') {
         // Traitement de la suppression
         const productId = formData.get('productId');
 
-        console.log('Tentative de suppression du produit:', productId);
+
 
         if (!productId) {
             return new Response(

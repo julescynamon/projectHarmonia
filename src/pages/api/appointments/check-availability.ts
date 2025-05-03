@@ -1,10 +1,8 @@
 import type { APIRoute } from 'astro';
-import { createServerClient } from '../../../lib/supabase';
-
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const { date, time, serviceId } = await request.json();
-    const supabase = createServerClient();
+    const supabase = locals.supabase;
 
     // Vérifier si le créneau est déjà réservé
     const { data: existingAppointment, error } = await supabase

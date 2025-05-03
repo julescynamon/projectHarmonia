@@ -10,24 +10,24 @@ interface Dimension {
 const dimensions: Dimension[] = [
   {
     title: "Santé naturelle",
-    description: "Accompagner le corps et l'esprit vers l'équilibre avec la naturopathie humaine et animale.",
+    description: "<strong>Revenez à l'essentiel.</strong> Un accompagnement doux et complet pour restaurer l’équilibre naturel du corps et de l’esprit, chez l’humain comme chez l’animal.",
     icon: "🌿",
-    buttonText: "En savoir plus",
-    buttonLink: "/sante-naturelle"
+    buttonText: "Découvrez le chemin de l'équilibre.",
+    buttonLink: "/a-propos"
   },
   {
     title: "Rituels et énergie",
-    description: "Renforcer les liens sacrés et équilibrer les énergies des humains et des animaux.",
-    icon: "🐾",
+    description: "<strong>Harmonisez les corps et les âmes.</strong> Des rituels profonds et des soins énergétiques pour libérer les tensions, apaiser les émotions et rétablir l'équilibre, chez l’humain comme chez l’animal.",
+    icon: "💫",
     buttonText: "Découvrez nos rituels",
-    buttonLink: "/rituels-energie"
+    buttonLink: "/a-propos"
   },
   {
     title: "Développement spirituel",
-    description: "Guidance et rituels pour révéler votre lumière intérieure.",
+    description: "<strong>Éveillez votre lumière intérieure.</strong> Guidances et rituels pour vous reconnecter à votre essence profonde et marcher sur votre chemin d’âme, en conscience.",
     icon: "✨",
     buttonText: "Explorez nos outils spirituels",
-    buttonLink: "/developpement-spirituel"
+    buttonLink: "/a-propos"
   }
 ];
 ---
@@ -55,8 +55,8 @@ const dimensions: Dimension[] = [
             {dimension.title}
           </h3>
           
-          <p class="text-gray-600 mb-6">
-            {dimension.description}
+          <p set:html={dimension.description} class="text-gray-600 mb-6">
+            
           </p>
           
           <a

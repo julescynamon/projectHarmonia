@@ -24,7 +24,7 @@ const { data: profile } = await supabase
   .eq('id', session.user.id)
   .single();
 
-console.log('Profile:', profile);
+
 
 // Gestion de la mise à jour du profil via action Astro
 if (Astro.request.method === 'POST') {
@@ -152,7 +152,8 @@ if (orders && orders.length > 0) {
   // Associer les items à leurs commandes respectives
   if (items && !itemsError) {
     orders.forEach(order => {
-      order.order_items = items.filter(item => item.order_id === order.id);
+      // Utiliser un type assertion pour éviter l'erreur TypeScript
+      (order as any).order_items = items.filter(item => item.order_id === order.id);
     });
   }
 
@@ -163,13 +164,11 @@ if (orders && orders.length > 0) {
 
 if (orders) {
   orders.forEach((order, i) => {
-    console.log(`Commande ${i + 1}:`, {
-      id: order.id,
-      items: order.order_items?.map(item => ({
-        id: item.id,
-        product: item.products,
-        pdf_path: item.products?.pdf_path
-      }))
+    // Détails de la commande ${i + 1}
+    // Note: Utilisation de la syntaxe optionnelle pour éviter les erreurs
+    const orderItems = (order as any).order_items || [];
+    orderItems.forEach(item => {
+      // Traitement des articles de la commande
     });
   });
 }
@@ -177,7 +176,7 @@ if (orders) {
 // Récupération des métadonnées de l'utilisateur
 const { data: { user }, error: userError } = await supabase.auth.getUser();
 if (userError) {
-  console.error('Erreur lors de la récupération de l\'utilisateur:', userError);
+  // Gestion silencieuse de l'erreur
 }
 const userData = user?.user_metadata || {};
 ---
@@ -314,7 +313,7 @@ const userData = user?.user_metadata || {};
                     </div>
 
                     <div class="space-y-4 divide-y divide-gray-200">
-                      {order.order_items?.map((item) => (
+                      {((order as any).order_items || [])?.map((item) => (
                         <div class="flex flex-col py-4 first:pt-0 last:pb-0">
                           <div class="flex justify-between items-start mb-2">
                             <h3 class="font-medium flex-1">
@@ -524,10 +523,11 @@ const userData = user?.user_metadata || {};
           'Accept': 'application/json'
         }
       });
-      console.log('Réponse reçue:', { 
+      // Vérification de la réponse
+      const responseInfo = {
         status: response.status,
         headers: Object.fromEntries(response.headers.entries())
-      });
+      };
       
       const text = await response.text();
 
@@ -563,5 +563,4 @@ const userData = user?.user_metadata || {};
 
   // Rendre la fonction disponible globalement
   window.downloadFile = downloadFile;
-</script>
 </script>

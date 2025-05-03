@@ -16,23 +16,46 @@ export interface DecodedSession {
 export function extractAndVerifySession(cookies: string | null): DecodedSession | null {
   if (!cookies) return null;
 
-  // Extraction du token
-  const match = cookies.match(/supabase\.auth\.token=([^;]+)/);
-  if (!match) return null;
+  // Extraction du token - supporte plusieurs formats de cookies
+  const authTokenMatch = cookies.match(/supabase\.auth\.token=([^;]+)/);
+  const sbAccessTokenMatch = cookies.match(/sb-access-token=([^;]+)/);
+  const sbRefreshTokenMatch = cookies.match(/sb-refresh-token=([^;]+)/);
+  
+  // Priorité au format principal, puis aux formats alternatifs
+  let tokenData: any = null;
+  let token: string = '';
+  
+  if (authTokenMatch) {
+    try {
+      // Format JSON encodé en URL
+      const decodedCookie = decodeURIComponent(authTokenMatch[1]);
+      tokenData = JSON.parse(decodedCookie);
+      token = tokenData.access_token;
+      console.log('Session trouvée via supabase.auth.token');
+    } catch (e) {
+      console.log('Erreur de décodage du cookie principal:', e);
+    }
+  } else if (sbAccessTokenMatch) {
+    // Format alternatif utilisé par Supabase v2+
+    token = decodeURIComponent(sbAccessTokenMatch[1]);
+    console.log('Session trouvée via sb-access-token');
+  }
+  
+  if (!token) {
+    console.log('Aucun token valide trouvé dans les cookies');
+    return null;
+  }
 
   try {
-    // Vérifie si c'est un JSON encodé
-    let token: string;
-    if (match[1].includes('%22access_token%22')) {
-      const tokenData = JSON.parse(decodeURIComponent(match[1]));
-      token = tokenData.access_token;
-    } else {
-      token = decodeURIComponent(match[1]);
-    }
-
     // Décode le JWT
     const [header, payload, signature] = token.split('.');
-    const decodedPayload = JSON.parse(atob(payload));
+    if (!payload) {
+      console.log('Format de token invalide');
+      return null;
+    }
+    
+    // Décode le payload Base64
+    const decodedPayload = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
 
     // Vérifie si le token est expiré
     const now = Math.floor(Date.now() / 1000);
@@ -45,8 +68,8 @@ export function extractAndVerifySession(cookies: string | null): DecodedSession 
     return {
       user: {
         id: decodedPayload.sub,
-        email: decodedPayload.email,
-        user_metadata: decodedPayload.user_metadata,
+        email: decodedPayload.email || '',
+        user_metadata: decodedPayload.user_metadata || {},
         role: decodedPayload.role
       },
       session: {

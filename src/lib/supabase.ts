@@ -44,13 +44,45 @@ export const createBrowserClient = () => {
 };
 
 // Créer un client Supabase pour le serveur
-export const createServerClient = () => {
+export const createServerClient = (cookies?: string) => {
+  // Extraire le token d'accès des cookies si présent
+  let accessToken = null;
+  if (cookies) {
+    const cookiesList = cookies.split(';').map(c => c.trim());
+    
+    // Essayer d'abord le cookie spécifique
+    const sbAccessTokenCookie = cookiesList.find(c => c.startsWith('sb-access-token='));
+    if (sbAccessTokenCookie) {
+      accessToken = sbAccessTokenCookie.split('=')[1];
+    }
+    
+    // Si pas trouvé, essayer le cookie de session complète
+    if (!accessToken) {
+      const supabaseAuthTokenCookie = cookiesList.find(c => c.startsWith('supabase.auth.token='));
+      if (supabaseAuthTokenCookie) {
+        try {
+          const tokenValue = supabaseAuthTokenCookie.substring('supabase.auth.token='.length);
+          const decodedToken = decodeURIComponent(tokenValue);
+          const sessionData = JSON.parse(decodedToken);
+          accessToken = sessionData.access_token;
+        } catch (e) {
+          console.error('Erreur lors du décodage du cookie de session:', e);
+        }
+      }
+    }
+  }
+  
   return createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
       autoRefreshToken: true,
       persistSession: true,
       detectSessionInUrl: false,
       flowType: 'pkce'
+    },
+    global: {
+      headers: accessToken ? {
+        Authorization: `Bearer ${accessToken}`
+      } : {}
     }
   });
 };
@@ -75,6 +107,11 @@ export const createServiceClient = (accessToken?: string) => {
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     autoRefreshToken: true,
-    persistSession: true
+    persistSession: true,
+    detectSessionInUrl: true,
+    flowType: 'pkce'
+  },
+  global: {
+    headers: { "x-use-cookies": "true" } // Force l'utilisation des cookies
   }
 });

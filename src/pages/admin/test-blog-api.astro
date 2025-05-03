@@ -1,24 +1,27 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { createServerClient } from '../../lib/supabase';
-
 // Vérification de l'accès admin
-const supabase = createServerClient();
-const { data: { session } } = await supabase.auth.getSession();
+const supabase = Astro.locals.supabase;
+const session = Astro.locals.session;
 
-// Vérification du profil admin
-if (session?.user?.id) {
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', session.user.id)
-    .single();
+// Vérification de l'authentification
+if (!session?.user?.id) {
+  console.log('[ADMIN_TEST_BLOG_API] Aucune session trouvée, redirection vers /login');
+  return Astro.redirect('/login?returnTo=/admin/test-blog-api');
+}
 
-  if (!profile || profile.role !== 'admin') {
-    return Astro.redirect('/');
-  }
-} else {
-  return Astro.redirect('/login');
+// Vérification du rôle admin
+const { data: profile, error: profileError } = await supabase
+  .from('profiles')
+  .select('role')
+  .eq('id', session.user.id)
+  .single();
+
+console.log('[ADMIN_TEST_BLOG_API] Profil trouvé:', profile);
+
+if (profileError || !profile || profile.role !== 'admin') {
+  console.log('[ADMIN_TEST_BLOG_API] Utilisateur non admin, redirection vers /mon-compte');
+  return Astro.redirect('/mon-compte');
 }
 ---
 

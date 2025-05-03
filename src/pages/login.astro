@@ -1,8 +1,8 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import AuthForm from '../components/auth/AuthForm.astro';
-const supabase = Astro.locals.supabase;
-const { data: { session } } = await supabase.auth.getSession();
+
+const session = Astro.locals.session;
 
 if (session) {
   const returnTo = Astro.url.searchParams.get('returnTo');

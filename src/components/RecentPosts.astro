@@ -1,0 +1,95 @@
+---
+import Card from './ui/Card.astro';
+import Button from './ui/Button.astro';
+import { supabase } from '../lib/supabase';
+
+// Récupérer les 3 derniers articles de blog
+const { data: recentPosts, error } = await supabase
+  .from('blog_posts')
+  .select('*')
+  .order('created_at', { ascending: false })
+  .limit(3);
+
+// Fonction pour formater la date
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('fr-FR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+---
+
+<section class="py-12 sm:py-20 bg-sage/5 relative overflow-hidden">
+  <!-- Motifs de fond -->
+  <div class="absolute inset-0 bg-nature-pattern opacity-5"></div>
+  
+  <div class="container mx-auto px-4">
+    <!-- En-tête -->
+    <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16" data-aos="fade-up" data-aos-offset="40" data-aos-duration="500">
+      <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl text-ebony mb-4 sm:mb-6">
+        Derniers Articles
+      </h2>
+      <p class="font-slogan text-base sm:text-lg text-eucalyptus">
+        Découvrez mes derniers conseils, actualités et réflexions sur la naturopathie et le bien-être naturel.
+      </p>
+    </div>
+
+    <!-- Grille d'articles -->
+    {recentPosts && recentPosts.length > 0 ? (
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 relative">
+        {recentPosts.map((post, index) => (
+          <div 
+            data-aos="fade-up" 
+            data-aos-delay={index * 50} 
+            data-aos-offset="15"
+            data-aos-duration="600"
+            class="relative post-card opacity-0 transition-opacity duration-500"
+          >
+            <Card
+              variant="hover"
+              title={post.title}
+              description={post.summary}
+              image={post.image_url}
+              date={formatDate(post.created_at)}
+              category={post.category}
+              url={`/blog/${post.slug}`}
+              class="h-full backdrop-blur-sm bg-white/80"
+            />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12 bg-white/80 backdrop-blur-sm rounded-2xl border border-sage/10 shadow-sm" data-aos="fade-up">
+        <div class="p-8">
+          <span class="text-5xl mb-6 block">🌿</span>
+          <p class="text-xl text-eucalyptus mb-4 font-slogan">Les premiers articles arrivent bientôt, un peu de patience 🌿</p>
+          <p class="text-gray-600">En attendant, n'hésitez pas à explorer les autres sections du site.</p>
+        </div>
+      </div>
+    )}
+
+    <!-- Call to action -->
+    <div class="text-center mt-12 sm:mt-16" data-aos="fade-up" data-aos-offset="15" data-aos-duration="400">
+      <Button href="/blog" size="lg" class="w-full sm:w-auto">
+        Voir tous les articles
+      </Button>
+    </div>
+  </div>
+
+  <!-- Éléments décoratifs -->
+  <div class="absolute bottom-0 right-0 w-48 sm:w-64 h-48 sm:h-64 bg-geometric-pattern opacity-10 transform rotate-45"></div>
+  <div class="absolute top-0 left-0 w-32 sm:w-40 h-32 sm:h-40 bg-nature-pattern opacity-5 transform -rotate-12"></div>
+</section>
+
+<script>
+  // Animation des cartes au chargement
+  document.addEventListener('DOMContentLoaded', () => {
+    const postCards = document.querySelectorAll('.post-card');
+    postCards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add('opacity-100');
+      }, index * 100);
+    });
+  });
+</script>

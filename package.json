@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@astrojs/node": "^9.2.1",
-    "@astrojs/react": "^4.2.5",
+    "@astrojs/react": "^4.2.7",
     "@astrojs/sitemap": "^3.3.1",
     "@astrojs/tailwind": "^6.0.2",
     "@emailjs/browser": "^4.4.1",
@@ -31,7 +31,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/sanitize-html": "^2.13.0",
     "aos": "^2.3.4",
-    "astro": "^5.7.5",
+    "astro": "^5.7.12",
     "astro-compress": "^2.2.15",
     "dotenv": "^16.4.7",
     "gray-matter": "^4.0.3",

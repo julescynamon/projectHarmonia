@@ -3,50 +3,106 @@ import Button from "./ui/Button.astro";
 import AuthButton from '../components/navigation/AuthButton.astro';
 import CartIcon from './shop/CartIcon.astro';
 
-// Data for navigation links
-const navLinks = [
+// Nouvelle structure de navigation avec les menus déroulants
+interface NavLink {
+  href: string;
+  text: string;
+  submenu?: NavLink[];
+}
+
+const navLinks: NavLink[] = [
   { href: "/", text: "Accueil" },
+  {
+    text: "Accompagnements",
+    href: "#", // Lien parent qui ne navigue pas directement
+    submenu: [
+      { href: "/naturopathie-humaine", text: "Naturopathie humaine" },
+      { href: "/naturopathie-animale", text: "Naturopathie animale" },
+      { href: "/developpement-personnel", text: "Développement personnel" },
+      { href: "/consultations-tarifs", text: "Consultations & tarifs" }
+    ]
+  },
+  {
+    text: "Voie Chamanique",
+    href: "#", // Lien parent qui ne navigue pas directement
+    submenu: [
+      { href: "/soins-chamaniques-humains", text: "Soins chamaniques humains (présentiel et distanciel)" },
+      { href: "/soins-chamaniques-animaux", text: "Soins chamaniques animaux" },
+      { href: "/nettoyage-energetique", text: "Nettoyage énergétique des lieux" },
+      { href: "/guidances-rituels", text: "Guidances & rituels" }
+    ]
+  },
+  { href: "/eveil-interieur", text: "Éveil Intérieur" },
+  { href: "/blog", text: "Blog & Inspirations" },
   { href: "/a-propos", text: "À propos" },
-  { href: "/services", text: "Services" },
-  { href: "/boutique", text: "Boutique" },
-  { href: "/blog", text: "Blog" },
   { href: "/contact", text: "Contact" }
 ];
 ---
 <nav class="fixed w-full z-50 transition-all duration-300" id="mainNav">
   <div class="container mx-auto px-4 py-2">
-    <div class="lg:bg-white/10 lg:backdrop-blur-md lg:rounded-full lg:shadow-sm lg:px-6 lg:max-w-5xl lg:mx-auto">
-      <div class="flex items-center justify-between h-16 lg:h-20">
-        <!-- Logo -->
-        <a href="/" class="flex-shrink-0">
+    <div class="xl:bg-white/10 xl:backdrop-blur-md xl:rounded-full xl:shadow-sm xl:px-4 xl:max-w-6xl xl:mx-auto">
+      <div class="flex items-center h-16 xl:h-20 xl:justify-between">
+        <!-- Logo (Gauche) -->
+        <a href="/" class="flex-shrink-0 min-w-0">
           <img src="/images/logo.svg" alt="Naima Tyzra" class="h-12 w-auto" />
         </a>
 
-        <!-- Navigation Desktop -->
-        <div class="mobileDispare lg:flex items-center justify-center space-x-4 lg:space-x-6" id="desktopMenu">
-          {navLinks.map(link => (
-            <a
-              href={link.href}
-              class="font-slogan text-sm tracking-wide text-ebony hover:text-gold transition-colors duration-200 whitespace-nowrap"
-            >
-              {link.text}
-            </a>
-          ))}
-          <Button href="/rendez-vous" variant="primary" size="sm" class="whitespace-nowrap mr-4">
-            Prendre rendez-vous
+        <!-- Navigation Desktop (Centrée) -->
+        <div class="hidden xl:flex items-center space-x-3 xl:flex-grow xl:justify-center min-w-0">
+            {navLinks.map(link => (
+              link.submenu ? (
+                <div class="relative group" tabindex="0">
+                  <a
+                    href={link.href}
+                    class="font-slogan text-sm tracking-wide text-ebony hover:text-gold transition-colors duration-200 flex items-center"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    {link.text}
+                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                  </a>
+                  <div class="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20">
+                    <div class="py-2">
+                      {link.submenu.map(subItem => (
+                        <a
+                          href={subItem.href}
+                          class="block px-4 py-2 text-sm text-ebony hover:bg-gold/10 hover:text-gold transition-colors duration-200"
+                        >
+                          {subItem.text}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <a
+                  href={link.href}
+                  class="font-slogan text-sm tracking-wide text-ebony hover:text-gold transition-colors duration-200"
+                >
+                  {link.text}
+                </a>
+              )
+            ))}
+        </div>
+
+        <!-- Actions de droite Desktop -->
+        <div class="hidden xl:flex items-center space-x-2 min-w-0">
+          <Button href="/rendez-vous" variant="primary" size="sm" class="whitespace-nowrap">
+            Réserver
           </Button>
-          <div class="border-l border-gray-200 pl-4 flex items-center gap-4">
+          <div class="border-l border-gray-200 pl-4 flex items-center gap-2">
             <CartIcon />
             <AuthButton />
           </div>
         </div>
 
-        <!-- Menu Mobile Button -->
-        <input type="checkbox" id="menuToggle" class="hidden" />
-        <label
-          for="menuToggle"
-          class="lg:hidden p-2 text-ebony hover:text-gold transition-colors duration-200 cursor-pointer"
+        <!-- Bouton Menu Mobile (visible uniquement sur mobile) -->
+        <button
+          type="button"
+          class="xl:hidden p-2 text-ebony hover:text-gold transition-colors duration-200 ml-auto"
           aria-label="Menu"
+          aria-expanded="false"
+          id="menuButton"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -62,52 +118,91 @@ const navLinks = [
               d="M4 6h16M4 12h16M4 18h16"
             />
           </svg>
-        </label>
+        </button>
+      </div>
+    </div>
+  </div>
 
-        <!-- Menu Mobile Overlay -->
-        <div
-          class="fixed inset-0 bg-cream/95 backdrop-blur-sm transition-all duration-300 mobile-menu"
+  <!-- Overlay Menu Mobile -->
+  <div
+    class="fixed inset-0 bg-cream/95 backdrop-blur-sm transition-all duration-300 transform translate-x-full xl:hidden"
+    id="mobileMenu"
+  >
+    <div class="container mx-auto px-4 py-8">
+      <div class="flex justify-end">
+        <button
+          type="button"
+          class="p-2 text-ebony hover:text-gold transition-colors duration-200"
+          aria-label="Fermer le menu"
+          id="closeMenuButton"
         >
-          <div class="container mx-auto px-4 py-8">
-            <div class="flex justify-end">
-              <label
-                for="menuToggle"
-                class="p-2 text-ebony hover:text-gold transition-colors duration-200 cursor-pointer"
-                aria-label="Fermer le menu"
-              >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="flex flex-col space-y-4 mt-8">
+        {navLinks.map(link => (
+          <div class="mobile-nav-item">
+            <a
+              href={link.submenu ? "#" : link.href}
+              class="font-slogan text-lg text-ebony hover:text-gold transition-colors duration-200 flex items-center justify-between cursor-pointer"
+              aria-expanded={link.submenu ? "false" : undefined}
+              aria-haspopup={link.submenu ? "true" : undefined}
+            >
+              {link.text}
+              {link.submenu && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  class="w-6 h-6"
+                  class="w-4 h-4 transform transition-transform duration-200"
                 >
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
+                    d="M19 9l-7 7-7-7"
                   />
                 </svg>
-              </label>
-            </div>
-            <div class="flex flex-col items-center space-y-6 mt-8">
-              {navLinks.map(link => (
-                <a
-                  href={link.href}
-                  class="font-slogan text-lg text-ebony hover:text-gold transition-colors duration-200"
-                >
-                  {link.text}
-                </a>
-              ))}
-              <Button href="/rendez-vous" variant="primary" size="lg" class="w-full mb-6 flex align-center justify-center">
-                Prendre rendez-vous
-              </Button>
-              <div class="w-full border-t border-gray-200 pt-6">
-                <AuthButton />
+              )}
+            </a>
+            {link.submenu && (
+              <div class="mobile-submenu overflow-hidden transition-[max-height] duration-300 ease-in-out" style="max-height: 0;" role="menu">
+                <div class="pl-4 mt-2 space-y-2">
+                  {link.submenu.map(subItem => (
+                    <a
+                      href={subItem.href}
+                      class="block text-base text-ebony hover:text-gold transition-colors duration-200"
+                      role="menuitem"
+                    >
+                      {subItem.text}
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
+        ))}
+        <!-- Boutons d'action dans le menu mobile -->
+        <Button href="/rendez-vous" variant="primary" size="lg" class="w-full mb-6 flex items-center justify-center">
+          Réserver
+        </Button>
+        <div class="w-full border-t border-gray-200 pt-6 flex flex-col items-center gap-4">
+          <CartIcon />
+          <AuthButton />
         </div>
       </div>
     </div>
@@ -115,52 +210,78 @@ const navLinks = [
 </nav>
 
 <script>
+  // Gestion du menu mobile
+  const menuButton = document.getElementById('menuButton');
+  const closeMenuButton = document.getElementById('closeMenuButton');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
 
-  //fonction pour rajouter une classe pour faire disparaitre les boutons desktop en dessous de 768px
-function toggleDesktopMenuVisibility() {
-  const desktopMenu = document.querySelector('#desktopMenu') as HTMLElement; // Remplacez par l'ID ou la classe de votre menu desktop
-  const viewportWidth = window.innerWidth;
-
-  if (viewportWidth < 1023) {
-    desktopMenu.style.display = 'none';
-  } else {
-    desktopMenu.style.display = 'flex'; // Assurez-vous que 'flex' est la bonne valeur pour afficher le menu
+  function toggleMenu() {
+    const isExpanded = menuButton?.getAttribute('aria-expanded') === 'true';
+    menuButton?.setAttribute('aria-expanded', (!isExpanded).toString());
+    mobileMenu?.classList.toggle('translate-x-full');
   }
-}
 
-// Ajoute un écouteur pour vérifier la largeur de la fenêtre au redimensionnement
-window.addEventListener('resize', toggleDesktopMenuVisibility);
+  menuButton?.addEventListener('click', toggleMenu);
+  closeMenuButton?.addEventListener('click', toggleMenu);
 
-// Vérifie la largeur de la fenêtre au chargement de la page
-document.addEventListener('DOMContentLoaded', toggleDesktopMenuVisibility);
+  // Gestion des sous-menus mobiles
+  mobileNavItems.forEach(item => {
+    const link = item.querySelector('a[aria-haspopup="true"]');
+    const submenu = item.querySelector('.mobile-submenu') as HTMLElement;
+    const arrow = link?.querySelector('svg');
 
+    link?.addEventListener('click', (e) => {
+      if (submenu) {
+        e.preventDefault();
+        const isExpanded = link.getAttribute('aria-expanded') === 'true';
+        link.setAttribute('aria-expanded', (!isExpanded).toString());
 
+        // Toggle la classe pour contrôler la max-height
+        if (!isExpanded) {
+          submenu.style.maxHeight = submenu.scrollHeight + "px"; // Définit la max-height à la hauteur réelle du contenu
+        } else {
+          submenu.style.maxHeight = "0";
+        }
+
+        arrow?.classList.toggle('rotate-180');
+      }
+    });
+  });
+
+  // Gestion du scroll
+  let lastScroll = 0;
+  const nav = document.getElementById('mainNav');
+
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll > lastScroll && currentScroll > 50) {
+      nav?.classList.add('translate-y-[-100%]');
+    } else {
+      nav?.classList.remove('translate-y-[-100%]');
+    }
+    lastScroll = currentScroll;
+  });
+
+  // Gérer la transition du background et du blur au scroll
+  const navContainer = document.querySelector('#mainNav .lg\:bg-white\/10') as HTMLElement;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) { // Après 50px de scroll
+      navContainer.classList.add('lg:bg-white', 'lg:shadow-md');
+      navContainer.classList.remove('lg:bg-white/10', 'lg:shadow-sm');
+    } else {
+      navContainer.classList.remove('lg:bg-white', 'lg:shadow-md');
+      navContainer.classList.add('lg:bg-white/10', 'lg:shadow-sm');
+    }
+  });
 </script>
 
-<style>
-
-  .mobile-menu {
-    display: none;
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-  }
-
-  #menuToggle:checked ~ .mobile-menu {
-    display: block;
-    opacity: 1;
-    pointer-events: auto;
-    visibility: visible;
-  }
-
-  /* Desktop-specific rules */
-  @media (min-width: 1023px) {
-    .mobile-menu {
-      display: none !important;
-    }
-
-    #menuToggle {
-      display: none !important;
-    }
+<style is:global>
+  /* Styles pour les sous-menus mobiles */
+  .mobile-submenu {
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
   }
 </style>

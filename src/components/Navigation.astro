@@ -38,7 +38,7 @@ const navLinks: NavLink[] = [
   { href: "/contact", text: "Contact" }
 ];
 ---
-<nav class="fixed w-full z-50 top-0 transition-all duration-300 bg-cream xl:bg-transparent" id="mainNav">
+<nav class="fixed w-full z-50 top-0 transition-all duration-300" id="mainNav">
   <div class="container mx-auto px-4 py-2">
     <div class="xl:bg-white/10 xl:backdrop-blur-md xl:rounded-full xl:shadow-sm xl:px-4 xl:max-w-6xl xl:mx-auto">
       <div class="flex items-center h-16 xl:h-20 xl:justify-between">
@@ -96,29 +96,32 @@ const navLinks: NavLink[] = [
           </div>
         </div>
 
-        <!-- Bouton Menu Mobile (visible uniquement sur mobile) -->
-        <button
-          type="button"
-          class="xl:hidden p-2 text-ebony hover:text-gold transition-colors duration-200 ml-auto"
-          aria-label="Menu"
-          aria-expanded="false"
-          id="menuButton"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            class="w-6 h-6"
+        <!-- Actions Mobile (visible uniquement sur mobile) -->
+        <div class="xl:hidden flex items-center gap-2 ml-auto">
+          <CartIcon />
+          <button
+            type="button"
+            class="p-2 text-ebony hover:text-gold transition-colors duration-200"
+            aria-label="Menu"
+            aria-expanded="false"
+            id="menuButton"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -201,7 +204,6 @@ const navLinks: NavLink[] = [
           Réserver
         </Button>
         <div class="w-full border-t border-gray-200 pt-6 flex flex-col items-center gap-4">
-          <CartIcon />
           <AuthButton />
         </div>
       </div>
@@ -258,5 +260,19 @@ const navLinks: NavLink[] = [
   .mobile-submenu {
     transition: max-height 0.3s ease-in-out;
     overflow: hidden;
+  }
+
+  /* Nouvelle règle pour le fond de la navigation mobile */
+  @media (max-width: 1279px) {
+    #mainNav {
+      background-color: #f4f1ed; /* Couleur 'cream' */
+    }
+  }
+
+  /* Règle pour s'assurer que le fond est transparent sur desktop */
+  @media (min-width: 1280px) {
+    #mainNav {
+      background-color: transparent;
+    }
   }
 </style>

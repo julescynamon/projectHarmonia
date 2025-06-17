@@ -38,7 +38,7 @@ const navLinks: NavLink[] = [
   { href: "/contact", text: "Contact" }
 ];
 ---
-<nav class="fixed w-full z-50 transition-all duration-300" id="mainNav">
+<nav class="fixed w-full z-50 top-0 transition-all duration-300" id="mainNav">
   <div class="container mx-auto px-4 py-2">
     <div class="xl:bg-white/10 xl:backdrop-blur-md xl:rounded-full xl:shadow-sm xl:px-4 xl:max-w-6xl xl:mx-auto">
       <div class="flex items-center h-16 xl:h-20 xl:justify-between">
@@ -48,7 +48,7 @@ const navLinks: NavLink[] = [
         </a>
 
         <!-- Navigation Desktop (Centrée) -->
-        <div class="hidden xl:flex items-center space-x-3 xl:flex-grow xl:justify-center min-w-0">
+        <div class="hidden xl:flex items-center space-x-2 xl:flex-grow xl:justify-center min-w-0">
             {navLinks.map(link => (
               link.submenu ? (
                 <div class="relative group" tabindex="0">
@@ -86,7 +86,7 @@ const navLinks: NavLink[] = [
         </div>
 
         <!-- Actions de droite Desktop -->
-        <div class="hidden xl:flex items-center space-x-2 min-w-0">
+        <div class="hidden xl:flex items-center space-x-1 min-w-0">
           <Button href="/rendez-vous" variant="primary" size="sm" class="whitespace-nowrap">
             Réserver
           </Button>
@@ -249,33 +249,7 @@ const navLinks: NavLink[] = [
     });
   });
 
-  // Gestion du scroll
-  let lastScroll = 0;
-  const nav = document.getElementById('mainNav');
 
-  window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-
-    if (currentScroll > lastScroll && currentScroll > 50) {
-      nav?.classList.add('translate-y-[-100%]');
-    } else {
-      nav?.classList.remove('translate-y-[-100%]');
-    }
-    lastScroll = currentScroll;
-  });
-
-  // Gérer la transition du background et du blur au scroll
-  const navContainer = document.querySelector('#mainNav .lg\:bg-white\/10') as HTMLElement;
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) { // Après 50px de scroll
-      navContainer.classList.add('lg:bg-white', 'lg:shadow-md');
-      navContainer.classList.remove('lg:bg-white/10', 'lg:shadow-sm');
-    } else {
-      navContainer.classList.remove('lg:bg-white', 'lg:shadow-md');
-      navContainer.classList.add('lg:bg-white/10', 'lg:shadow-sm');
-    }
-  });
 </script>
 
 <style is:global>

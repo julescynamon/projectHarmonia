@@ -1,4 +1,12 @@
 import type { Session, User } from '@supabase/supabase-js';
+import { createHmac } from 'crypto';
+
+// Récupération de la clé secrète JWT depuis les variables d'environnement
+const JWT_SECRET = import.meta.env.SUPABASE_JWT_SECRET;
+
+if (!JWT_SECRET) {
+  console.error('ATTENTION: SUPABASE_JWT_SECRET n\'est pas défini dans les variables d\'environnement');
+}
 
 export interface DecodedSession {
   user: {
@@ -13,8 +21,42 @@ export interface DecodedSession {
   };
 }
 
+// Fonction pour vérifier la signature JWT
+function verifyJwtSignature(token: string): boolean {
+  if (!JWT_SECRET) {
+    console.error('JWT_SECRET n\'est pas défini');
+    return false;
+  }
+
+  try {
+    const [header, payload, signature] = token.split('.');
+    
+    // Vérifier la signature
+    const expectedSignature = createHmac('sha256', JWT_SECRET)
+      .update(`${header}.${payload}`)
+      .digest('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=/g, '');
+
+    const isValid = signature === expectedSignature;
+    
+    if (!isValid) {
+      console.error('Signature JWT invalide');
+    }
+    
+    return isValid;
+  } catch (error) {
+    console.error('Erreur lors de la vérification de la signature:', error);
+    return false;
+  }
+}
+
 export function extractAndVerifySession(cookies: string | null): DecodedSession | null {
-  if (!cookies) return null;
+  if (!cookies) {
+    console.log('Aucun cookie fourni');
+    return null;
+  }
 
   // Extraction du token - supporte plusieurs formats de cookies
   const authTokenMatch = cookies.match(/supabase\.auth\.token=([^;]+)/);
@@ -47,6 +89,12 @@ export function extractAndVerifySession(cookies: string | null): DecodedSession 
   }
 
   try {
+    // Vérifier la signature du token
+    if (!verifyJwtSignature(token)) {
+      console.log('Signature du token invalide');
+      return null;
+    }
+
     // Décode le JWT
     const [header, payload, signature] = token.split('.');
     if (!payload) {
@@ -61,6 +109,12 @@ export function extractAndVerifySession(cookies: string | null): DecodedSession 
     const now = Math.floor(Date.now() / 1000);
     if (decodedPayload.exp < now) {
       console.log('Token expiré');
+      return null;
+    }
+
+    // Vérifie les champs requis
+    if (!decodedPayload.sub || !decodedPayload.email) {
+      console.log('Token invalide: champs requis manquants');
       return null;
     }
 

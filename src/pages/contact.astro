@@ -50,7 +50,7 @@ const contactInfo = {
           <!-- Formulaire -->
           <div data-aos="fade-right">
             <Card variant="hover" class="h-full">
-              <form class="p-8 space-y-6" id="contactForm" data-csrf-token={import.meta.env.PUBLIC_CSRF_TOKEN}>
+              <form class="p-8 space-y-6" id="contactForm" method="POST" novalidate>
                 <!-- Honeypot field -->
                 <div class="hidden">
                   <input type="text" name="website" tabindex="-1" autocomplete="off" />
@@ -61,12 +61,13 @@ const contactInfo = {
                     <input
                       type="text"
                       name="name"
+                      id="name"
                       required
                       minlength="2"
                       maxlength="100"
-                      pattern="[A-Za-zÀ-ÿ\s-]+"
                       class="w-full px-4 py-2 rounded-lg border border-sage/20 focus:border-eucalyptus focus:ring-1 focus:ring-eucalyptus outline-none transition-colors"
                       placeholder="Votre nom"
+                      autocomplete="name"
                     />
                   </label>
 
@@ -75,11 +76,12 @@ const contactInfo = {
                     <input
                       type="email"
                       name="email"
+                      id="email"
                       required
-                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                       maxlength="254"
                       class="w-full px-4 py-2 rounded-lg border border-sage/20 focus:border-eucalyptus focus:ring-1 focus:ring-eucalyptus outline-none transition-colors"
                       placeholder="votre@email.com"
+                      autocomplete="email"
                     />
                   </label>
 
@@ -87,6 +89,7 @@ const contactInfo = {
                     <span class="text-ebony mb-1 block">Sujet</span>
                     <select
                       name="subject"
+                      id="subject"
                       required
                       class="w-full px-4 py-2 rounded-lg border border-sage/20 focus:border-eucalyptus focus:ring-1 focus:ring-eucalyptus outline-none transition-colors"
                     >
@@ -102,6 +105,7 @@ const contactInfo = {
                     <span class="text-ebony mb-1 block">Message</span>
                     <textarea
                       name="message"
+                      id="message"
                       required
                       minlength="10"
                       maxlength="1000"
@@ -112,11 +116,21 @@ const contactInfo = {
                   </label>
                 </div>
 
-                <div class="text-sm text-red-500 hidden" id="errorMessage"></div>
+                <!-- Message de statut -->
+                <div id="statusMessage" class="hidden p-4 rounded-lg text-sm">
+                  <div class="flex items-center gap-2">
+                    <span class="material-icons text-lg"></span>
+                    <p></p>
+                  </div>
+                </div>
 
-                <Button type="submit" variant="primary" class="w-full">
-                  Envoyer le message
-                </Button>
+                <button 
+                  type="button" 
+                  id="submitButton"
+                  class="w-full bg-eucalyptus text-white py-3 px-6 rounded-lg hover:bg-eucalyptus/90 transition-colors flex items-center justify-center gap-2"
+                >
+                  <span>Envoyer le message</span>
+                </button>
               </form>
             </Card>
           </div>
@@ -194,124 +208,195 @@ const contactInfo = {
 </MainLayout>
 
 <script>
-  import emailjs from '@emailjs/browser';
+  // Attendre que le DOM soit complètement chargé
+  window.addEventListener('load', () => {
+    console.log('Initialisation du formulaire de contact...');
+    
+    const form = document.querySelector('form');
+    const submitButton = document.getElementById('submitButton');
+    const statusMessage = document.getElementById('statusMessage');
 
-  // Initialisation d'EmailJS
-  emailjs.init(import.meta.env.PUBLIC_EMAILJS_KEY);
-
-  const form = document.querySelector('form') as HTMLFormElement;
-  const submitButton = document.querySelector('button[type="submit"]') as HTMLButtonElement;
-  const errorMessage = document.getElementById('errorMessage');
-
-  // Rate limiting
-  const RATE_LIMIT_MS = 60000; // 1 minute
-  const lastSubmitTime = new Map();
-
-  // Fonction de validation
-  function validateForm(formData: FormData): boolean {
-    // Vérification du honeypot
-    if (formData.get('website')) {
-      return false;
+    if (!form || !submitButton || !statusMessage) {
+      console.error('Éléments du formulaire non trouvés');
+      return;
     }
 
-    const email = formData.get('email') as string;
-    const message = formData.get('message') as string;
-    const name = formData.get('name') as string;
+    // Rate limiting
+    const RATE_LIMIT_MS = 60000; // 1 minute
+    const lastSubmitTime = new Map();
 
-    // Validation supplémentaire côté client
-    if (!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
-      showError('Format d\'email invalide');
-      return false;
+    // Fonction pour échapper les caractères HTML
+    function escapeHtml(unsafe: string): string {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
-    if (name.length < 2 || !name.match(/^[A-Za-zÀ-ÿ\s-]+$/)) {
-      showError('Le nom doit contenir au moins 2 caractères et ne contenir que des lettres');
-      return false;
-    }
+    function showStatus(message: string, type: 'success' | 'error' | 'info' = 'info') {
+      const icon = statusMessage.querySelector('.material-icons');
+      const text = statusMessage.querySelector('p');
 
-    if (message.length < 10) {
-      showError('Le message doit contenir au moins 10 caractères');
-      return false;
-    }
-
-    return true;
-  }
-
-  function showError(message: string) {
-    if (errorMessage) {
-      errorMessage.textContent = message;
-      errorMessage.classList.remove('hidden');
-    }
-  }
-
-  function hideError() {
-    if (errorMessage) {
-      errorMessage.classList.add('hidden');
-    }
-  }
-
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    hideError();
-
-    // Vérification du rate limiting
-    const userEmail = new FormData(form).get('email') as string;
-    const now = Date.now();
-    if (lastSubmitTime.has(userEmail)) {
-      const timeSinceLastSubmit = now - lastSubmitTime.get(userEmail);
-      if (timeSinceLastSubmit < RATE_LIMIT_MS) {
-        showError(`Veuillez attendre ${Math.ceil((RATE_LIMIT_MS - timeSinceLastSubmit) / 1000)} secondes avant de renvoyer un message`);
-        return;
-      }
-    }
-
-    if (submitButton) {
-      submitButton.disabled = true;
-      submitButton.textContent = 'Envoi en cours...';
-    }
-
-    try {
-      const formData = new FormData(form);
-      
-      // Validation du formulaire
-      if (!validateForm(formData)) {
-        if (submitButton) {
-          submitButton.disabled = false;
-          submitButton.textContent = 'Envoyer';
+      if (icon && text) {
+        // Définir l'icône et la couleur en fonction du type
+        switch (type) {
+          case 'success':
+            icon.textContent = 'check_circle';
+            statusMessage.className = 'p-4 rounded-lg text-sm bg-green-50 text-green-700 border border-green-200';
+            break;
+          case 'error':
+            icon.textContent = 'error';
+            statusMessage.className = 'p-4 rounded-lg text-sm bg-red-50 text-red-700 border border-red-200';
+            break;
+          default:
+            icon.textContent = 'info';
+            statusMessage.className = 'p-4 rounded-lg text-sm bg-blue-50 text-blue-700 border border-blue-200';
         }
+
+        text.textContent = escapeHtml(message);
+        statusMessage.classList.remove('hidden');
+      }
+    }
+
+    function hideStatus() {
+      statusMessage.classList.add('hidden');
+    }
+
+    function showFieldError(field: string, message: string) {
+      const input = document.getElementById(field);
+      if (input) {
+        input.classList.add('border-red-500');
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'text-sm text-red-500 mt-1';
+        errorDiv.textContent = escapeHtml(message);
+        input.parentElement?.appendChild(errorDiv);
+      }
+    }
+
+    function clearFieldErrors() {
+      document.querySelectorAll('.border-red-500').forEach(input => {
+        input.classList.remove('border-red-500');
+      });
+      document.querySelectorAll('.text-red-500').forEach(error => error.remove());
+    }
+
+    function validateName(name: string): boolean {
+      if (!name || name.length < 2) {
+        return false;
+      }
+      return /^[a-zA-ZÀ-ÿ\s-]+$/.test(name);
+    }
+
+    function validateEmail(email: string): boolean {
+      return email && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+    }
+
+    function validateMessage(message: string): boolean {
+      return message && message.length >= 10 && message.length <= 1000;
+    }
+
+    async function handleSubmit() {
+      hideStatus();
+      clearFieldErrors();
+
+      // Vérification du rate limiting
+      const now = Date.now();
+      const lastSubmit = lastSubmitTime.get(form.id) || 0;
+      if (now - lastSubmit < RATE_LIMIT_MS) {
+        showStatus('Veuillez attendre avant d\'envoyer un nouveau message', 'error');
         return;
       }
 
-      // Préparation des données pour EmailJS
-      const templateParams = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        subject: formData.get('subject'),
-        message: formData.get('message'),
-        csrf_token: form.dataset.csrfToken
-      };
+      // Récupération et nettoyage des valeurs
+      const nameInput = document.getElementById('name');
+      const emailInput = document.getElementById('email');
+      const subjectInput = document.getElementById('subject');
+      const messageInput = document.getElementById('message');
 
-      const response = await emailjs.send(
-        import.meta.env.PUBLIC_EMAILJS_SERVICE_ID,
-        import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID,
-        templateParams
-      );
-
-      if (response.status === 200) {
-        lastSubmitTime.set(userEmail, now);
-        alert('Votre message a été envoyé avec succès !');
-        form.reset();
-      } else {
-        throw new Error('Une erreur est survenue lors de l\'envoi du message');
+      if (!nameInput || !emailInput || !subjectInput || !messageInput) {
+        showStatus('Erreur: Formulaire incomplet', 'error');
+        return;
       }
-    } catch (error) {
-      console.error('Erreur:', error);
-      showError('Une erreur est survenue lors de l\'envoi du message. Veuillez réessayer plus tard.');
-    } finally {
-      if (submitButton) {
+
+      // Vérification des types
+      if (!(nameInput instanceof HTMLInputElement) ||
+          !(emailInput instanceof HTMLInputElement) ||
+          !(subjectInput instanceof HTMLSelectElement) ||
+          !(messageInput instanceof HTMLTextAreaElement)) {
+        showStatus('Erreur: Types de formulaire invalides', 'error');
+        return;
+      }
+
+      const name = nameInput.value.trim() || '';
+      const email = emailInput.value.trim() || '';
+      const subject = subjectInput.value.trim() || '';
+      const message = messageInput.value.trim() || '';
+
+      // Validation des champs
+      if (!validateName(name)) {
+        showFieldError('name', 'Le nom doit contenir au moins 2 caractères et ne peut contenir que des lettres, espaces et tirets');
+        showStatus('Veuillez corriger les erreurs dans le formulaire', 'error');
+        return;
+      }
+
+      if (!validateEmail(email)) {
+        showFieldError('email', 'Veuillez entrer une adresse email valide');
+        showStatus('Veuillez corriger les erreurs dans le formulaire', 'error');
+        return;
+      }
+
+      if (!subject) {
+        showFieldError('subject', 'Veuillez sélectionner un sujet');
+        showStatus('Veuillez corriger les erreurs dans le formulaire', 'error');
+        return;
+      }
+
+      if (!validateMessage(message)) {
+        showFieldError('message', 'Le message doit contenir entre 10 et 1000 caractères');
+        showStatus('Veuillez corriger les erreurs dans le formulaire', 'error');
+        return;
+      }
+
+      try {
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span>Envoi en cours...</span>';
+        showStatus('Envoi du message en cours...', 'info');
+
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            subject,
+            message
+          }),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Erreur lors de l\'envoi du message');
+        }
+
+        form.reset();
+        showStatus('Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.', 'success');
+        lastSubmitTime.set(form.id, now);
+      } catch (error) {
+        console.error('Erreur lors de l\'envoi:', error);
+        showStatus(error instanceof Error ? error.message : 'Une erreur est survenue lors de l\'envoi du message', 'error');
+      } finally {
         submitButton.disabled = false;
-        submitButton.textContent = 'Envoyer';
+        submitButton.innerHTML = '<span>Envoyer le message</span>';
       }
     }
+
+    // Ajouter l'écouteur d'événements au bouton
+    submitButton.addEventListener('click', handleSubmit);
   });
 </script>

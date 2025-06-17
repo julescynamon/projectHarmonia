@@ -8,9 +8,30 @@
     static container = document.getElementById('toast-container');
     static queue = [];
     static processing = false;
+    static readonly MAX_QUEUE_SIZE = 5; // Limite le nombre de toasts en attente
 
     static async show(message: string, type: 'success' | 'error' = 'success', duration = 4000) {
-      this.queue.push({ message, type, duration });
+      // Validation des paramètres
+      if (typeof message !== 'string' || message.length === 0) {
+        console.error('Toast message must be a non-empty string');
+        return;
+      }
+
+      if (!['success', 'error'].includes(type)) {
+        console.error('Toast type must be either "success" or "error"');
+        return;
+      }
+
+      // Limiter la durée entre 1s et 10s
+      const safeDuration = Math.min(Math.max(duration, 1000), 10000);
+
+      // Protection contre le DoS
+      if (this.queue.length >= this.MAX_QUEUE_SIZE) {
+        console.warn('Toast queue is full, removing oldest message');
+        this.queue.shift();
+      }
+
+      this.queue.push({ message, type, duration: safeDuration });
       if (!this.processing) {
         this.processQueue();
       }
@@ -25,15 +46,32 @@
       this.processing = true;
       const { message, type, duration } = this.queue.shift()!;
 
+      // Vérification de sécurité supplémentaire
+      if (!this.container) {
+        console.error('Toast container not found');
+        this.processing = false;
+        return;
+      }
+
       const toast = document.createElement('div');
       toast.className = `toast toast-${type}`;
 
       // Icône
       const icon = document.createElement('div');
       icon.className = 'toast-icon';
-      icon.innerHTML = type === 'success' 
-        ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>'
-        : '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.5 5h3v10h-3v-10zm1.5 15.25c-1.104 0-2-.896-2-2s.896-2 2-2 2 .896 2 2-.896 2-2 2z"/></svg>';
+      
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('fill', 'currentColor');
+      
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', type === 'success' 
+        ? 'M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z'
+        : 'M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.5 5h3v10h-3v-10zm1.5 15.25c-1.104 0-2-.896-2-2s.896-2 2-2 2 .896 2 2-.896 2-2 2z'
+      );
+      
+      svg.appendChild(path);
+      icon.appendChild(svg);
 
       // Contenu
       const content = document.createElement('div');

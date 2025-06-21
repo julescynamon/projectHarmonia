@@ -22,6 +22,8 @@ const PUBLIC_ROUTES = [
   '/boutique',
   '/contact',
   '/a-propos',
+  '/naturopathie-humaine',
+  '/naturopathie-animale',
   '/mot-de-passe-oublie',
   '/reinitialiser-mot-de-passe',
   '/login',

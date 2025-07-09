@@ -1,6 +1,5 @@
 ---
-
-
+import ClientMonitoring from '../components/monitoring/ClientMonitoring.astro';
 
 interface Props {
 	title: string;
@@ -21,6 +20,7 @@ const { title } = Astro.props;
 	</head>
 	<body>
 		<slot />
+		<ClientMonitoring />
 		
 		<style is:global>
 			:root {

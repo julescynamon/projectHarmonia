@@ -54,7 +54,6 @@ function verifyJwtSignature(token: string): boolean {
 
 export function extractAndVerifySession(cookies: string | null): DecodedSession | null {
   if (!cookies) {
-    console.log('Aucun cookie fourni');
     return null;
   }
 
@@ -73,32 +72,29 @@ export function extractAndVerifySession(cookies: string | null): DecodedSession 
       const decodedCookie = decodeURIComponent(authTokenMatch[1]);
       tokenData = JSON.parse(decodedCookie);
       token = tokenData.access_token;
-      console.log('Session trouvée via supabase.auth.token');
     } catch (e) {
-      console.log('Erreur de décodage du cookie principal:', e);
+      console.error('Erreur de décodage du cookie principal:', e);
     }
   } else if (sbAccessTokenMatch) {
     // Format alternatif utilisé par Supabase v2+
     token = decodeURIComponent(sbAccessTokenMatch[1]);
-    console.log('Session trouvée via sb-access-token');
   }
   
   if (!token) {
-    console.log('Aucun token valide trouvé dans les cookies');
     return null;
   }
 
   try {
     // Vérifier la signature du token
     if (!verifyJwtSignature(token)) {
-      console.log('Signature du token invalide');
+      console.error('Signature du token invalide');
       return null;
     }
 
     // Décode le JWT
     const [header, payload, signature] = token.split('.');
     if (!payload) {
-      console.log('Format de token invalide');
+      console.error('Format de token invalide');
       return null;
     }
     
@@ -108,13 +104,13 @@ export function extractAndVerifySession(cookies: string | null): DecodedSession 
     // Vérifie si le token est expiré
     const now = Math.floor(Date.now() / 1000);
     if (decodedPayload.exp < now) {
-      console.log('Token expiré');
+      console.error('Token expiré');
       return null;
     }
 
     // Vérifie les champs requis
     if (!decodedPayload.sub || !decodedPayload.email) {
-      console.log('Token invalide: champs requis manquants');
+      console.error('Token invalide: champs requis manquants');
       return null;
     }
 

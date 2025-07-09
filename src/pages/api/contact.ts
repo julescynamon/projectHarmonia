@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { sendContactEmail } from '../../lib/email-service';
 import { validateContactForm, sanitizeContactData } from '../../lib/validation';
+import type { ContactFormData } from '../../lib/validation';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -25,48 +26,56 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // Récupération et validation des données
-    const data = await request.json();
-    console.log('Données reçues:', data);
+    const body = await request.json();
+    const data = body as ContactFormData;
 
+    // Validation et nettoyage des données
     const sanitizedData = sanitizeContactData(data);
-    console.log('Données nettoyées:', sanitizedData);
-
     const errors = validateContactForm(sanitizedData);
+    
     if (errors.length > 0) {
-      console.log('Erreurs de validation:', errors);
-      return new Response(JSON.stringify({ errors }), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          message: 'Données invalides',
+          errors 
+        }),
+        { status: 400 }
+      );
     }
 
     // Envoi de l'email
-    console.log('Tentative d\'envoi de l\'email...');
-    await sendContactEmail(sanitizedData);
-    console.log('Email envoyé avec succès');
+    try {
+      await sendContactEmail(sanitizedData);
+      
+      return new Response(
+        JSON.stringify({ 
+          success: true, 
+          message: 'Message envoyé avec succès' 
+        }),
+        { status: 200 }
+      );
+    } catch (emailError) {
+      console.error('Erreur lors de l\'envoi de l\'email:', emailError);
+      
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          message: 'Erreur lors de l\'envoi du message' 
+        }),
+        { status: 500 }
+      );
+    }
 
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
   } catch (error) {
-    console.error('Erreur API contact:', error);
+    console.error('Erreur dans l\'API contact:', error);
+    
     return new Response(
       JSON.stringify({ 
-        error: 'Erreur lors de l\'envoi du message',
-        details: error instanceof Error ? error.message : 'Erreur inconnue'
-      }), 
-      {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
+        success: false, 
+        message: 'Erreur interne du serveur' 
+      }),
+      { status: 500 }
     );
   }
 }; 

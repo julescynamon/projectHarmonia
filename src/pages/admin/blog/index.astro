@@ -39,8 +39,6 @@ const { error: setupError } = await supabase.rpc('setup_storage', {
 
 if (setupError) {
   console.error('Erreur lors de la configuration du stockage:', setupError);
-} else {
-  console.log('Configuration du stockage réussie');
 }
 
 // La session est déjà disponible via Astro.locals.session grâce au middleware
@@ -59,10 +57,8 @@ const { data: profile, error: profileError } = await supabase
   .eq('id', session.user.id)
   .single();
 
-console.log('[ADMIN_BLOG] Profil trouvé:', profile);
-
 if (profileError || !profile || profile.role !== 'admin') {
-  console.log('[ADMIN_BLOG] Utilisateur non admin, redirection vers /mon-compte');
+  console.error('[ADMIN_BLOG] Utilisateur non admin, redirection vers /mon-compte');
   return Astro.redirect('/mon-compte');
 }
 
@@ -131,7 +127,6 @@ const { data: posts } = await supabase
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${session.access_token}`,
                     'Authorization': `Bearer ${session.access_token}`
                   },
                   body: JSON.stringify({

@@ -50,6 +50,8 @@ export function validateContactForm(data: ContactFormData): ValidationError[] {
   // Validation du nom
   if (!data.name) {
     errors.push({ field: 'name', message: 'Le nom est requis' });
+  } else if (data.name.length < validationRules.name.minLength!) {
+    errors.push({ field: 'name', message: validationRules.name.message });
   } else if (!validationRules.name.pattern.test(data.name)) {
     errors.push({ field: 'name', message: validationRules.name.message });
   }

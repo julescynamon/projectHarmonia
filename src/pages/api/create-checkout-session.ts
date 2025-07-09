@@ -5,42 +5,30 @@ const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16'
 });
 
-export const POST: APIRoute = async ({ request, locals }) => {
-  const session = locals.session;
-  if (!session?.user) {
-    return new Response(
-      JSON.stringify({ error: 'Non autorisé' }),
-      { status: 401, headers: { 'Content-Type': 'application/json' } }
-    );
-  }
+export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
-    console.log('Request body:', body);
-    const { items } = body;
-    console.log('Items reçus:', items);
-
-    // Vérifier que chaque item a les données du produit
-    console.log('Checking items validity...');
-    const validItems = items.filter(item => {
-      const isValid = item.product && item.quantity > 0;
-      if (!isValid) {
-        console.log('Invalid item:', item);
-      }
-      return isValid;
-    });
-    console.log('Valid items:', validItems);
+    const items = body.items;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return new Response(
-        JSON.stringify({ error: 'Panier invalide' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: 'Items requis et doivent être un tableau non vide' }),
+        { status: 400 }
       );
     }
 
+    // Vérifier la validité des items
+    const validItems = items.filter(item => {
+      if (!item.id || !item.quantity || item.quantity <= 0) {
+        return false;
+      }
+      return true;
+    });
+
     if (validItems.length === 0) {
       return new Response(
-        JSON.stringify({ error: 'Panier invalide ou vide' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: 'Aucun item valide trouvé' }),
+        { status: 400 }
       );
     }
 

@@ -1,181 +1,142 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
-import fs from 'fs/promises';
-import path from 'path';
-import matter from 'gray-matter';
-
-const resend = new Resend(import.meta.env.RESEND_API_KEY);
-const fromEmail = 'onboarding@resend.dev';
-const websiteUrl = 'http://localhost:4321';
+import { supabase } from '../../../lib/supabase';
+import { getNewArticleEmailTemplate } from '../../../lib/emails/new-article-template';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    console.log('Début de la requête de notification');
-    console.log('Clé API Resend:', import.meta.env.RESEND_API_KEY ? 'Présente' : 'Manquante');
+    const resend = new Resend(import.meta.env.RESEND_API_KEY);
     
-    const { slug } = await request.json();
-    console.log('Slug reçu:', slug);
+    if (!import.meta.env.RESEND_API_KEY) {
+      return new Response(
+        JSON.stringify({ error: 'Configuration Resend manquante' }),
+        { status: 500 }
+      );
+    }
+
+    const body = await request.json();
+    const { slug } = body;
 
     if (!slug) {
-      console.log('Erreur: Slug manquant');
-      return new Response(JSON.stringify({ error: 'Slug manquant dans la requête' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' }
-      });
+      return new Response(
+        JSON.stringify({ error: 'Slug de l\'article requis' }),
+        { status: 400 }
+      );
     }
 
-    // Lire directement le fichier pour avoir les données les plus récentes
-    const filePath = path.join(process.cwd(), 'src', 'content', 'blog', `${slug}.md`);
-    const fileContent = await fs.readFile(filePath, 'utf-8');
-    const { data: frontmatter } = matter(fileContent);
+    // Récupérer l'article
+    const { data: article, error: articleError } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('slug', slug)
+      .single();
 
-    console.log('Article trouvé:', {
-      title: frontmatter.title,
-      status: frontmatter.status,
-      notificationSent: frontmatter.notificationSent
-    });
-
-    // Vérifier si l'article est publié
-    if (frontmatter.status !== 'published') {
-      console.log('Erreur: Article non publié');
-      return new Response(JSON.stringify({ error: 'Article non publié' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' }
-      });
+    if (articleError || !article) {
+      return new Response(
+        JSON.stringify({ error: 'Article non trouvé' }),
+        { status: 404 }
+      );
     }
 
-    // Vérifier si l'article a déjà été notifié
-    if (frontmatter.notificationSent) {
-      console.log('Erreur: Article déjà notifié');
-      return new Response(JSON.stringify({ error: 'Notification déjà envoyée pour cet article' }), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' }
-      });
+    if (!article.published) {
+      return new Response(
+        JSON.stringify({ error: 'Article non publié' }),
+        { status: 400 }
+      );
     }
 
-    // En développement, envoyer uniquement à l'email de test
-    const testEmail = 'tyzranaima@gmail.com';
+    if (article.notification_sent) {
+      return new Response(
+        JSON.stringify({ error: 'Notifications déjà envoyées pour cet article' }),
+        { status: 400 }
+      );
+    }
 
-    try {
-      console.log('Configuration de l\'email:', {
-        from: fromEmail,
-        to: testEmail,
-        subject: `Nouvel article : ${frontmatter.title}`
-      });
+    // Récupérer les abonnés confirmés
+    const { data: subscribers, error: subscribersError } = await supabase
+      .from('newsletter_subscribers')
+      .select('email')
+      .eq('confirmed', true)
+      .eq('unsubscribed', false);
 
-      const result = await resend.emails.send({
-        from: fromEmail,
-        to: testEmail,
-        subject: `Nouvel article : ${frontmatter.title}`,
-        html: `
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <meta charset="utf-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            </head>
-            <body style="margin: 0; padding: 0; background-color: #f9fafb;">
-              <div style="font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; overflow: hidden; margin-top: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);">
-                <!-- En-tête avec logo -->
-                <div style="text-align: center; padding: 20px; background-color: #f8f9fa; border-bottom: 1px solid #e5e7eb;">
-                  <img src="${websiteUrl}/images/logo.svg" 
-                       alt="Harmonia"
-                       style="height: 40px; margin: 0 auto;"
-                  />
-                </div>
+    if (subscribersError) {
+      console.error('Erreur lors de la récupération des abonnés:', subscribersError);
+      return new Response(
+        JSON.stringify({ error: 'Erreur lors de la récupération des abonnés' }),
+        { status: 500 }
+      );
+    }
 
-                <!-- Image de couverture -->
-                ${frontmatter.image
-                  ? `
-                  <div style="position: relative;">
-                    <img src="${websiteUrl}${frontmatter.image}" 
-                         alt="Image de couverture pour ${frontmatter.title}"
-                         style="width: 100%; height: auto; object-fit: cover;"
-                    />
-                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 100%);"></div>
-                  </div>
-                  `
-                  : ''
-                }
+    if (!subscribers || subscribers.length === 0) {
+      return new Response(
+        JSON.stringify({ message: 'Aucun abonné à notifier' }),
+        { status: 200 }
+      );
+    }
 
-                <!-- Contenu -->
-                <div style="padding: 32px;">
-                  <h1 style="margin: 0 0 16px 0; color: #111827; font-size: 24px; font-weight: 600;">
-                    ${frontmatter.title}
-                  </h1>
-                  
-                  <p style="margin: 0 0 24px 0; color: #4b5563; font-size: 16px; line-height: 1.625;">
-                    ${frontmatter.description}
-                  </p>
+    // Configuration de l'email
+    const articleUrl = `${import.meta.env.WEBSITE_URL}/blog/${slug}`;
+    const fromEmail = import.meta.env.FROM_EMAIL || 'notifications@harmonia-naturo.com';
+    const websiteName = import.meta.env.WEBSITE_NAME || 'Harmonia';
 
-                  <div style="text-align: center; margin-top: 32px;">
-                    <a href="${websiteUrl}/blog/${slug}" 
-                       style="display: inline-block; padding: 12px 24px; background-color: #65815E; color: white; text-decoration: none; border-radius: 6px; font-weight: 500; transition: background-color 0.2s ease-in-out;"
-                    >
-                      Lire l'article
-                    </a>
-                  </div>
-                </div>
-
-                <!-- Pied de page -->
-                <div style="padding: 24px; background-color: #f8f9fa; border-top: 1px solid #e5e7eb; text-align: center;">
-                  <p style="margin: 0 0 16px 0; color: #6b7280; font-size: 14px;">
-                    Vous recevez cet email car vous êtes abonné(e) à la newsletter d'Harmonia.
-                  </p>
-                  <a href="${websiteUrl}/api/newsletter/unsubscribe?email=${encodeURIComponent(testEmail)}" 
-                     style="color: #6b7280; text-decoration: underline; font-size: 14px;"
-                  >
-                    Se désinscrire
-                  </a>
-                </div>
-              </div>
-            </body>
-          </html>
-        `,
-      });
-
-      console.log('Résultat de l\'envoi:', result);
-
-      // Si l'email est envoyé avec succès, marquer l'article comme notifié
-      console.log('Mise à jour du statut de notification...');
-      const updatedFileContent = matter.stringify(matter(fileContent).content, {
-        ...frontmatter,
-        notificationSent: true
-      });
-      await fs.writeFile(filePath, updatedFileContent);
-      console.log('Statut de notification mis à jour');
-
-      return new Response(JSON.stringify({ 
-        success: true,
-        message: 'Notification envoyée avec succès',
-        emailResult: result
-      }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-    } catch (error) {
-      console.error('Erreur détaillée lors de l\'envoi de l\'email:', {
-        name: error.name,
-        message: error.message,
-        stack: error.stack,
-        error
+    // Envoyer les notifications
+    const emailPromises = subscribers.map(async subscriber => {
+      const html = await getNewArticleEmailTemplate({
+        article: {
+          title: article.title,
+          description: article.excerpt || '',
+          url: articleUrl,
+          category: article.category || 'Général'
+        },
+        websiteUrl: import.meta.env.WEBSITE_URL || 'https://harmonia-naturo.com',
+        unsubscribeUrl: `${import.meta.env.WEBSITE_URL}/api/newsletter/unsubscribe?email=${encodeURIComponent(subscriber.email)}`
       });
       
-      return new Response(JSON.stringify({ 
-        error: 'Erreur lors de l\'envoi de l\'email',
-        details: error instanceof Error ? error.message : 'Erreur inconnue'
-      }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
+      return resend.emails.send({
+        from: fromEmail,
+        to: [subscriber.email],
+        subject: `Nouvel article : ${article.title}`,
+        html
       });
+    });
+
+    const results = await Promise.allSettled(emailPromises);
+    
+    // Compter les succès et erreurs
+    const successCount = results.filter(result => 
+      result.status === 'fulfilled' && !result.value.error
+    ).length;
+    
+    const errorCount = results.length - successCount;
+
+    // Marquer l'article comme notifié
+    const { error: updateError } = await supabase
+      .from('blog_posts')
+      .update({ notification_sent: true })
+      .eq('slug', slug);
+
+    if (updateError) {
+      console.error('Erreur lors de la mise à jour du statut de notification:', updateError);
     }
 
+    return new Response(
+      JSON.stringify({
+        success: true,
+        message: `Notifications envoyées: ${successCount}/${subscribers.length} succès`,
+        data: {
+          notifiedCount: successCount,
+          errorCount,
+          totalSubscribers: subscribers.length
+        }
+      }),
+      { status: 200 }
+    );
+
   } catch (error) {
-    console.error('Erreur générale:', error);
-    return new Response(JSON.stringify({ error: 'Erreur lors du traitement de la requête' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    console.error('Erreur lors de l\'envoi des notifications:', error);
+    return new Response(
+      JSON.stringify({ error: 'Erreur interne du serveur' }),
+      { status: 500 }
+    );
   }
 };

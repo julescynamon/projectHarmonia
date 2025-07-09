@@ -117,16 +117,15 @@ export const onRequest = defineMiddleware(
       locals.session = session;
       
       if (session) {
-        console.log("session OK")
+        // Session trouvée via Supabase
       } else {
         // Fallback sur notre méthode personnalisée si nécessaire
         const decodedSession = extractAndVerifySession(cookies);
         
         if (decodedSession) {
-
           locals.session = convertToSupabaseSession(decodedSession);
         } else {
-          console.log('Aucune session valide trouvée par aucune méthode');
+          console.error('Aucune session valide trouvée par aucune méthode');
           locals.session = null;
         }
       }
@@ -141,20 +140,20 @@ export const onRequest = defineMiddleware(
       const isAuthApi = AUTH_API_ROUTES.includes(pathname);
 
       // Vérification des accès authentifiés
-      if (isAuthApi) {
-        if (!locals.session) {
-          console.log('Accès API refusé: pas de session');
-          return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-            status: 401,
-            headers: { 'Content-Type': 'application/json' }
-          });
+              if (isAuthApi) {
+          if (!locals.session) {
+            console.error('Accès API refusé: pas de session');
+            return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+              status: 401,
+              headers: { 'Content-Type': 'application/json' }
+            });
+          }
         }
-      }
 
       // Vérification des accès admin (pages et API)
       if (isAdminPath || isAdminApi) {
         if (!locals.session) {
-          console.log('Accès admin refusé: pas de session');
+          console.error('Accès admin refusé: pas de session');
           return redirect('/login');
         }
 

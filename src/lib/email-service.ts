@@ -39,106 +39,58 @@ const ERROR_CODES = {
 } as const;
 
 export async function sendConfirmationEmail(email: string, token: string) {
-  console.log('Sending confirmation email to:', email);
-  console.log('Using FROM_EMAIL:', FROM_EMAIL);
-  
-  if (!email || !token) {
-    throw new EmailServiceError(
-      'Email et token requis pour l\'envoi de l\'email de confirmation',
-      ERROR_CODES.INVALID_INPUT
-    );
-  }
-
-  const confirmationUrl = `${WEBSITE_URL}/api/newsletter/confirm?token=${token}`;
-  const unsubscribeUrl = `${WEBSITE_URL}/api/newsletter/unsubscribe?token=${token}`;
-
   try {
-    // En développement, simuler l'envoi d'email si ce n'est pas l'email de test
-    if (IS_DEVELOPMENT && email !== 'tyzranaima@gmail.com') {
-      console.log('Mode développement : Simulation d\'envoi d\'email');
-      console.log('URL de confirmation :', confirmationUrl);
+    if (!RESEND_API_KEY) {
+      throw new EmailServiceError('RESEND_API_KEY non configurée', 'CONFIG_ERROR');
+    }
+
+    const confirmationUrl = `${WEBSITE_URL}/newsletter/confirm?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`;
+
+    const emailData = {
+      from: FROM_EMAIL,
+      to: [email],
+      subject: `Confirmez votre inscription à la newsletter ${WEBSITE_NAME}`,
+      html: getConfirmationEmailTemplate({
+        email,
+        confirmationUrl,
+        websiteName: WEBSITE_NAME,
+        websiteUrl: WEBSITE_URL
+      })
+    };
+
+    // En mode développement, simuler l'envoi
+    if (IS_DEVELOPMENT) {
       return {
         success: true,
-        data: {
-          id: 'simulated',
-          from: FROM_EMAIL,
-          to: email,
-          subject: `Confirmez votre inscription à la newsletter ${WEBSITE_NAME}`
-        }
+        message: 'Email de confirmation simulé (mode développement)',
+        data: { id: 'dev-simulation' }
       };
     }
 
-    const { data, error } = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: email,
-      subject: `Confirmez votre inscription à la newsletter ${WEBSITE_NAME}`,
-      html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1>Confirmez votre inscription</h1>
-          <p>Merci de votre inscription à la newsletter de ${WEBSITE_NAME} !</p>
-          <p>Pour confirmer votre inscription, veuillez cliquer sur le lien ci-dessous :</p>
-          <p>
-            <a href="${confirmationUrl}" 
-               style="display: inline-block; padding: 10px 20px; background-color: #4F46E5; color: white; text-decoration: none; border-radius: 5px;">
-              Confirmer mon inscription
-            </a>
-          </p>
-          <p style="margin-top: 20px; font-size: 0.9em; color: #666;">
-            Si vous n'avez pas demandé cette inscription, vous pouvez ignorer cet email.
-          </p>
-          <p style="margin-top: 20px; font-size: 0.8em; color: #666;">
-            <a href="${unsubscribeUrl}" style="color: #666;">Se désinscrire</a>
-          </p>
-        </div>
-      `,
-      headers: {
-        'X-Entity-Ref-ID': token
-      }
-    });
+    const result = await resend.emails.send(emailData);
 
-    if (error) {
-      console.error('Error sending confirmation email:', error);
-      
-      // Gestion spécifique des erreurs Resend
-      if (error.message.includes('rate limit')) {
-        throw new EmailServiceError(
-          'Limite d\'envoi d\'emails atteinte. Veuillez réessayer plus tard.',
-          ERROR_CODES.RATE_LIMIT,
-          error
-        );
-      }
-      
+    if (result.error) {
       throw new EmailServiceError(
-        'Erreur lors de l\'envoi de l\'email de confirmation',
-        ERROR_CODES.RESEND_API_ERROR,
-        error
+        `Erreur lors de l'envoi de l'email de confirmation: ${result.error.message}`,
+        'SEND_ERROR',
+        result.error
       );
     }
 
-    console.log('Confirmation email sent successfully:', data);
-    return { success: true, data };
+    return {
+      success: true,
+      message: 'Email de confirmation envoyé avec succès',
+      data: result.data
+    };
+
   } catch (error) {
-    console.error('Error in sendConfirmationEmail:', error);
-    
-    // Si c'est déjà une EmailServiceError, on la relance
     if (error instanceof EmailServiceError) {
       throw error;
     }
-    
-    // Sinon, on crée une nouvelle erreur avec le type approprié
-    if (error instanceof Error) {
-      if (error.message.includes('network') || error.message.includes('timeout')) {
-        throw new EmailServiceError(
-          'Erreur de connexion lors de l\'envoi de l\'email',
-          ERROR_CODES.NETWORK_ERROR,
-          error
-        );
-      }
-    }
-    
+
     throw new EmailServiceError(
-      'Une erreur inattendue s\'est produite lors de l\'envoi de l\'email',
-      ERROR_CODES.UNKNOWN_ERROR,
+      `Erreur inattendue lors de l'envoi de l'email de confirmation: ${error instanceof Error ? error.message : 'Erreur inconnue'}`,
+      'UNKNOWN_ERROR',
       error
     );
   }

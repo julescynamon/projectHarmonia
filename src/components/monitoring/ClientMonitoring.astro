@@ -1,0 +1,360 @@
+---
+// src/components/monitoring/ClientMonitoring.astro
+// Composant pour le monitoring côté client personnalisé
+---
+
+<script>
+  // Système de monitoring côté client personnalisé
+  class ClientMonitoring {
+    private events: Array<{
+      timestamp: number;
+      type: string;
+      data: any;
+    }> = [];
+    private metrics: Map<string, number[]> = new Map();
+    private isInitialized = false;
+
+    constructor() {
+      this.initialize();
+    }
+
+    private initialize() {
+      this.isInitialized = true;
+      this.setupErrorHandling();
+      this.setupPerformanceMonitoring();
+      this.setupUserInteractionTracking();
+      this.setupConsoleMonitoring();
+      this.setupMemoryMonitoring();
+      
+      console.log('🔍 Monitoring côté client initialisé');
+    }
+
+    private setupErrorHandling() {
+      // Capture des erreurs JavaScript
+      window.addEventListener('error', (event) => {
+        this.captureError('javascript_error', {
+          message: event.message,
+          filename: event.filename,
+          lineno: event.lineno,
+          colno: event.colno,
+          url: window.location.href,
+        });
+      });
+
+      // Capture des erreurs de promesses non gérées
+      window.addEventListener('unhandledrejection', (event) => {
+        this.captureError('unhandled_promise_rejection', {
+          reason: event.reason,
+          url: window.location.href,
+        });
+      });
+    }
+
+    private setupPerformanceMonitoring() {
+      // Monitoring des performances de navigation
+      if ('performance' in window) {
+        window.addEventListener('load', () => {
+          const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+          
+          if (navigation) {
+            const metrics = {
+              dns: navigation.domainLookupEnd - navigation.domainLookupStart,
+              tcp: navigation.connectEnd - navigation.connectStart,
+              ttfb: navigation.responseStart - navigation.requestStart,
+              domContentLoaded: navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart,
+              load: navigation.loadEventEnd - navigation.loadEventStart,
+              total: navigation.loadEventEnd - navigation.fetchStart,
+            };
+
+            this.captureMetric('page_load_total', metrics.total);
+            this.captureMetric('page_load_ttfb', metrics.ttfb);
+            this.captureMetric('page_load_dom', metrics.domContentLoaded);
+
+            // Alertes pour les pages lentes
+            if (metrics.total > 3000) {
+              this.captureWarning('Page lente détectée', {
+                url: window.location.href,
+                loadTime: metrics.total,
+              });
+            }
+          }
+        });
+      }
+
+             // Monitoring des requêtes fetch
+       const originalFetch = window.fetch;
+       window.fetch = async (...args) => {
+         const startTime = performance.now();
+         const url = typeof args[0] === 'string' ? args[0] : (args[0] as Request).url;
+         const method = args[1]?.method || 'GET';
+
+        try {
+          const response = await originalFetch.apply(this, args);
+          const duration = performance.now() - startTime;
+
+          this.captureMetric('fetch_duration', duration);
+          this.captureEvent('fetch_request', {
+            method,
+            url,
+            status: response.status,
+            duration,
+          });
+
+          // Alertes pour les requêtes lentes
+          if (duration > 1000) {
+            this.captureWarning('Requête lente', {
+              method,
+              url,
+              duration,
+            });
+          }
+
+          return response;
+        } catch (error) {
+          const duration = performance.now() - startTime;
+          
+          this.captureError('fetch_error', {
+            method,
+            url,
+            duration,
+            error: error.message,
+          });
+
+          throw error;
+        }
+      };
+    }
+
+    private setupUserInteractionTracking() {
+      // Monitoring des clics
+      document.addEventListener('click', (event) => {
+        const target = event.target as HTMLElement;
+        this.captureEvent('user_click', {
+          tagName: target.tagName.toLowerCase(),
+          className: target.className,
+          id: target.id,
+          text: target.textContent?.substring(0, 100),
+          url: window.location.href,
+        });
+      });
+
+      // Monitoring des soumissions de formulaires
+      document.addEventListener('submit', (event) => {
+        const form = event.target as HTMLFormElement;
+        this.captureEvent('form_submit', {
+          formId: form.id || 'unknown',
+          formAction: form.action,
+          method: form.method,
+          url: window.location.href,
+        });
+      });
+
+      // Monitoring de la profondeur de scroll
+      let scrollTimeout: number;
+      document.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = window.setTimeout(() => {
+          const scrollDepth = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+          this.captureMetric('scroll_depth', scrollDepth);
+        }, 100);
+      });
+
+      // Monitoring du redimensionnement
+      let resizeTimeout: number;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = window.setTimeout(() => {
+          this.captureEvent('window_resize', {
+            width: window.innerWidth,
+            height: window.innerHeight,
+          });
+        }, 100);
+      });
+    }
+
+    private setupConsoleMonitoring() {
+      // Monitoring des erreurs de console
+      const originalConsoleError = console.error;
+      console.error = (...args) => {
+        this.captureError('console_error', {
+          message: args.join(' '),
+          url: window.location.href,
+        });
+        originalConsoleError.apply(console, args);
+      };
+
+      const originalConsoleWarn = console.warn;
+      console.warn = (...args) => {
+        this.captureWarning('console_warning', {
+          message: args.join(' '),
+          url: window.location.href,
+        });
+        originalConsoleWarn.apply(console, args);
+      };
+    }
+
+    private setupMemoryMonitoring() {
+      // Monitoring de l'utilisation mémoire (si disponible)
+      if ('memory' in performance) {
+        setInterval(() => {
+          const memory = (performance as any).memory;
+          const usedMB = Math.round(memory.usedJSHeapSize / 1024 / 1024);
+          const totalMB = Math.round(memory.totalJSHeapSize / 1024 / 1024);
+          
+          this.captureMetric('memory_used_mb', usedMB);
+          this.captureMetric('memory_total_mb', totalMB);
+
+          if (usedMB > 100) {
+            this.captureWarning('Utilisation mémoire élevée', {
+              usedMB,
+              totalMB,
+            });
+          }
+        }, 30000); // Vérifier toutes les 30 secondes
+      }
+
+      // Monitoring des FPS
+      if ('requestAnimationFrame' in window) {
+        let frameCount = 0;
+        let lastTime = performance.now();
+
+        function measureFPS() {
+          frameCount++;
+          const currentTime = performance.now();
+          
+          if (currentTime - lastTime >= 1000) {
+            const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+            
+            this.captureMetric('fps', fps);
+            
+            if (fps < 30) {
+              this.captureWarning('FPS bas détecté', { fps });
+            }
+            
+            frameCount = 0;
+            lastTime = currentTime;
+          }
+          
+          requestAnimationFrame(measureFPS.bind(this));
+        }
+        
+        requestAnimationFrame(measureFPS.bind(this));
+      }
+    }
+
+    public captureError(type: string, data: any) {
+      this.captureEvent('error', { type, ...data });
+      
+      if (process.env.NODE_ENV === 'development') {
+        console.error('🚨 Erreur côté client:', { type, ...data });
+      }
+    }
+
+    public captureWarning(type: string, data: any) {
+      this.captureEvent('warning', { type, ...data });
+      
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('⚠️ Avertissement côté client:', { type, ...data });
+      }
+    }
+
+    public captureEvent(name: string, data: any) {
+      const event = {
+        timestamp: Date.now(),
+        type: 'event',
+        data: {
+          name,
+          ...data,
+          url: window.location.href,
+          userAgent: navigator.userAgent,
+        }
+      };
+
+      this.events.push(event);
+
+      // Limiter le nombre d'événements en mémoire
+      if (this.events.length > 1000) {
+        this.events = this.events.slice(-1000);
+      }
+    }
+
+    public captureMetric(name: string, value: number) {
+      if (!this.metrics.has(name)) {
+        this.metrics.set(name, []);
+      }
+      this.metrics.get(name)!.push(value);
+
+      // Limiter le nombre de métriques en mémoire
+      if (this.metrics.get(name)!.length > 100) {
+        this.metrics.set(name, this.metrics.get(name)!.slice(-100));
+      }
+    }
+
+    public getStats() {
+      const now = Date.now();
+      const oneHourAgo = now - (60 * 60 * 1000);
+      const recentEvents = this.events.filter(event => event.timestamp > oneHourAgo);
+
+      return {
+        totalEvents: this.events.length,
+        recentEvents: recentEvents.length,
+        errors: this.events.filter(e => e.data.name === 'error').length,
+        warnings: this.events.filter(e => e.data.name === 'warning').length,
+        metrics: Object.fromEntries(
+          Array.from(this.metrics.entries()).map(([key, values]) => [
+            key,
+            {
+              count: values.length,
+              average: values.length > 0 ? values.reduce((a, b) => a + b, 0) / values.length : 0,
+              min: values.length > 0 ? Math.min(...values) : 0,
+              max: values.length > 0 ? Math.max(...values) : 0,
+            }
+          ])
+        ),
+      };
+    }
+
+    public exportData() {
+      return {
+        events: this.events,
+        metrics: Object.fromEntries(this.metrics),
+        stats: this.getStats(),
+        timestamp: new Date().toISOString(),
+      };
+    }
+
+    // Méthode pour envoyer les données au serveur (optionnel)
+    public async sendToServer() {
+      try {
+        const data = this.exportData();
+        await fetch('/api/monitoring/client-data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+      } catch (error) {
+        console.error('Erreur lors de l\'envoi des données de monitoring:', error);
+      }
+    }
+  }
+
+  // Initialiser le monitoring côté client
+  const clientMonitoring = new ClientMonitoring();
+
+  // Exposer globalement pour le débogage
+  if (process.env.NODE_ENV === 'development') {
+    (window as any).clientMonitoring = clientMonitoring;
+  }
+
+  // Envoyer les données au serveur toutes les 5 minutes
+  setInterval(() => {
+    clientMonitoring.sendToServer();
+  }, 5 * 60 * 1000);
+
+  // Envoyer les données avant que l'utilisateur quitte la page
+  window.addEventListener('beforeunload', () => {
+    clientMonitoring.sendToServer();
+  });
+</script> 

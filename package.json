@@ -9,7 +9,18 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "notify": "NODE_OPTIONS='--loader ts-node/esm' node --experimental-specifier-resolution=node src/scripts/send-notifications.ts"
+    "notify": "NODE_OPTIONS='--loader ts-node/esm' node --experimental-specifier-resolution=node src/scripts/send-notifications.ts",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:logging": "tsx src/scripts/test-logging.ts",
+    "test:monitoring": "tsx src/scripts/test-monitoring.ts",
+    "test:csp": "tsx src/scripts/test-csp.ts",
+    "test:cors": "tsx scripts/test-cors.ts",
+    "test:security": "tsx scripts/test-security.ts",
+    "test:rate-limiting": "tsx src/scripts/test-rate-limiting.ts",
+    "test:rate-limit-http": "node scripts/test-rate-limit-http.js"
   },
   "dependencies": {
     "@astrojs/node": "^9.3.0",
@@ -23,12 +34,14 @@
     "@fontsource/lora": "^5.1.1",
     "@fontsource/playfair-display": "^5.1.1",
     "@fontsource/raleway": "^5.1.1",
+    "@highlight-run/node": "^3.12.15",
     "@stripe/stripe-js": "^2.3.0",
     "@supabase/supabase-js": "^2.48.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/typography": "^0.5.10",
     "@types/marked": "^6.0.0",
     "@types/nodemailer": "^6.4.17",
+    "@types/pino": "^7.0.5",
     "@types/sanitize-html": "^2.13.0",
     "aos": "^2.3.4",
     "astro": "^5.11.0",
@@ -40,6 +53,8 @@
     "nanostores": "^0.11.3",
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.16",
+    "pino": "^9.7.0",
+    "pino-pretty": "^13.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "resend": "^4.6.0",
@@ -51,8 +66,14 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
     "@types/node": "^20.17.16",
+    "@vitest/ui": "^3.2.4",
+    "jsdom": "^26.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.3"
+    "tsx": "^4.20.3",
+    "typescript": "^5.7.3",
+    "vitest": "^3.2.4"
   }
 }

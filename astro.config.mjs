@@ -5,7 +5,6 @@ import sitemap from "@astrojs/sitemap";
 import compress from "astro-compress";
 import node from "@astrojs/node";
 import blogNotifications from "./src/integrations/blog-notifications";
-
 export default defineConfig({
   site: "https://harmonia.jules.com",
   output: "server",

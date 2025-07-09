@@ -63,7 +63,8 @@ export const GET: APIRoute = async ({ url }) => {
 };
 
 function verifyUnsubscribeToken(email: string, token: string): boolean {
-  // TODO: Implémenter votre logique de vérification du token
-  // Par exemple, vous pouvez utiliser un HMAC du email avec une clé secrète
-  return true;
+  // Vérification simple du token basée sur un hash de l'email
+  // En production, utilisez une méthode plus sécurisée comme HMAC
+  const expectedToken = Buffer.from(email + import.meta.env.API_SECRET_KEY).toString('base64');
+  return token === expectedToken;
 }

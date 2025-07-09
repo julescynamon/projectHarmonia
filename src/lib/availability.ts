@@ -1,5 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
+import { Resend } from 'resend';
 import type { Database } from '../types/supabase';
+
+const resend = new Resend(import.meta.env.RESEND_API_KEY);
 
 const supabase = createClient<Database>(
   import.meta.env.PUBLIC_SUPABASE_URL,
@@ -8,37 +11,26 @@ const supabase = createClient<Database>(
 
 export async function isDayBlocked(date: string): Promise<boolean> {
   try {
-    console.log('Vérification si le jour est bloqué:', date);
-
     const { data: blockedTimes, error: blockedError } = await supabase
       .from('blocked_times')
       .select('*')
-      .lte('start_date', date)
-      .gte('end_date', date)
-      .lte('start_time', '09:00')
-      .gte('end_time', '19:00');
+      .eq('date', date)
+      .eq('is_full_day', true);
 
     if (blockedError) {
       console.error('Erreur lors de la vérification du jour bloqué:', blockedError);
-      throw blockedError;
+      return false;
     }
 
-    console.log('Résultat de la vérification du jour:', blockedTimes);
-    
-    // Vérifier si au moins un bloc couvre toute la journée de travail
+    // Si une journée entière est bloquée, retourner true
     if (blockedTimes && blockedTimes.length > 0) {
-      for (const block of blockedTimes) {
-        if (block.start_time <= '09:00' && block.end_time >= '19:00') {
-          console.log('Journée entière bloquée:', block);
-          return true;
-        }
-      }
+      return true;
     }
-    
+
     return false;
   } catch (error) {
     console.error('Erreur lors de la vérification du jour:', error);
-    throw error;
+    return false;
   }
 }
 

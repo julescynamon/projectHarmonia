@@ -3,15 +3,17 @@ const currentYear = new Date().getFullYear();
 
 const links = {
   services: [
-    { href: '/services#consultation', label: 'Consultation Naturopathie' },
-    { href: '/services#nutrition', label: 'Suivi Nutritionnel' },
-    { href: '/services#phyto', label: 'Phytothérapie' },
-    { href: '/services#massage', label: 'Massages Bien-être' }
+    { href: '/naturopathie-humaine', label: 'Naturopathie humaine' },
+    { href: '/naturopathie-animale', label: 'Naturopathie animale' },
+    { href: '/soins-chamaniques-humains', label: 'Soins chamaniques humains' },
+    { href: '/soins-chamaniques-quantiques', label: 'Soin chamanique quantique' },
+    { href: '/soins-chamaniques-animaux', label: 'Soins chamaniques animaux' },
+    { href: '/nettoyage-energetique', label: 'Nettoyage énergétique' }
   ],
   information: [
     { href: '/a-propos', label: 'À Propos' },
     { href: '/blog', label: 'Blog' },
-    { href: '/boutique', label: 'Boutique' },
+    
     { href: '/contact', label: 'Contact' }
   ],
   legal: [
@@ -22,9 +24,9 @@ const links = {
 };
 
 const contact = {
-  address: '123 Avenue de la Santé, 75000 Paris',
-  email: 'contact@naimatyzra.fr',
-  phone: '01 23 45 67 89',
+  address: '2063 route de cabaresse, 30760 Salazac',
+  email: 'tyzranaima@gmail.com',
+  phone: '07 67 22 97 43',
   social: [
     { icon: 'facebook', href: 'https://facebook.com/naimatyzra' },
     { icon: 'instagram', href: 'https://instagram.com/naimatyzra' },
@@ -138,5 +140,13 @@ const contact = {
 
   .vague-decorative {
     z-index: -1 !important;
+    pointer-events: none !important;
+  }
+
+  /* S'assurer que les liens sont cliquables */
+  footer a {
+    position: relative;
+    z-index: 10;
+    cursor: pointer;
   }
 </style>

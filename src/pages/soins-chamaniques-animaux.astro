@@ -1,0 +1,439 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+
+const seo = {
+  title: "Soin Énergétique Animal - Naima Tyzra",
+  description: "Apaiser et réharmoniser votre animal avec un soin énergétique personnalisé. Présentiel ou à distance, libérez les blocages émotionnels et vibratoires de votre compagnon."
+};
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <!-- Hero Section -->
+  <section class="pt-32 pb-16 bg-gradient-to-b from-cream to-white relative overflow-hidden">
+    <!-- Motifs de fond décoratifs -->
+    <div class="absolute inset-0 bg-geometric-pattern opacity-5"></div>
+    <div class="absolute top-20 right-10 w-32 h-32 border-2 border-gold/20 rounded-full opacity-50"></div>
+    <div class="absolute bottom-20 left-10 w-24 h-24 border-2 border-sage/20 transform rotate-45 opacity-50"></div>
+    
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-4xl mx-auto">
+        <!-- En-tête -->
+        <div class="text-center mb-12" data-aos="fade-up">
+          <h1 class="inline-flex items-center gap-2 bg-sage/10 text-sage px-6 py-4 rounded-full text-lg md:text-xl font-slogan mb-6">
+            <span class="text-2xl md:text-3xl">✨</span>
+            <span>Soin Énergétique Animal</span>
+          </h1>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-eucalyptus font-medium">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-gold rounded-full"></span>
+              <span>Présentiel ou à distance</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-gold rounded-full"></span>
+              <span>Durée : 1h à 1h15</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-gold rounded-full"></span>
+              <span>Tarif : 70 €</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Introduction -->
+        <div class="grid md:grid-cols-2 gap-8 items-center mb-16" data-aos="fade-up" data-aos-delay="100">
+          <div class="relative order-1 md:order-1">
+            <!-- Placeholder pour image -->
+            <div class="aspect-square bg-gradient-to-br from-sage/20 to-gold/20 rounded-2xl overflow-hidden flex items-center justify-center">
+              <div class="text-center text-eucalyptus">
+                <div class="text-6xl mb-4">🐾</div>
+                <p class="text-sm">Image à venir</p>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-6 order-2 md:order-2">
+            <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-6 leading-tight">
+              Apaiser, réharmoniser, accompagner
+            </h2>
+            <p class="text-lg text-eucalyptus leading-relaxed">
+              Nos animaux ressentent profondément ce qui les entoure. Ils absorbent parfois des tensions, des émotions, voire des charges invisibles qui ne leur appartiennent pas.
+            </p>
+            <p class="text-lg text-eucalyptus leading-relaxed">
+              Un trouble physique, un changement de comportement ou une baisse d'énergie peut être l'expression d'un déséquilibre énergétique plus subtil.
+            </p>
+            <p class="text-lg text-eucalyptus leading-relaxed">
+              Le soin énergétique permet à ton compagnon de :
+            </p>
+            <div class="space-y-3">
+              <div class="flex items-start gap-3">
+                <span class="text-gold text-lg">•</span>
+                <span class="text-eucalyptus">Libérer les blocages émotionnels ou vibratoires</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="text-gold text-lg">•</span>
+                <span class="text-eucalyptus">Apaiser son système nerveux et restaurer sa vitalité</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="text-gold text-lg">•</span>
+                <span class="text-eucalyptus">Soulager certaines tensions physiques liées à une surcharge énergétique</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="text-gold text-lg">•</span>
+                <span class="text-eucalyptus">Rééquilibrer son champ vibratoire et renforcer le lien entre son corps, son esprit… et souvent, son humain</span>
+              </div>
+            </div>
+            <div class="bg-gold/10 rounded-xl p-6 border-l-4 border-gold">
+              <p class="text-ebony font-medium">
+                ✨ Chaque soin est unique, adapté à l'âme et à la sensibilité de ton animal, dans le plus grand respect de son rythme.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section spéciale pour animaux malades -->
+        <div class="bg-gradient-to-r from-sage/10 to-gold/10 rounded-2xl p-8 border border-sage/20" data-aos="fade-up" data-aos-delay="200">
+          <div class="text-center mb-6">
+            <span class="text-3xl mb-4 block">🌈</span>
+            <h3 class="font-heading text-2xl text-ebony mb-4">Accompagnement spécial</h3>
+          </div>
+          <p class="text-lg text-eucalyptus leading-relaxed mb-6">
+            Ce soin peut également accompagner les animaux malades, affaiblis, ou en fin de vie, en apportant :
+          </p>
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="text-center">
+              <div class="w-16 h-16 bg-white/50 rounded-full flex items-center justify-center mx-auto mb-3">
+                <span class="text-2xl">💝</span>
+              </div>
+              <p class="text-eucalyptus font-medium">Un apaisement émotionnel et énergétique</p>
+            </div>
+            <div class="text-center">
+              <div class="w-16 h-16 bg-white/50 rounded-full flex items-center justify-center mx-auto mb-3">
+                <span class="text-2xl">🌿</span>
+              </div>
+              <p class="text-eucalyptus font-medium">Un soutien en douceur aux traitements en cours</p>
+            </div>
+            <div class="text-center">
+              <div class="w-16 h-16 bg-white/50 rounded-full flex items-center justify-center mx-auto mb-3">
+                <span class="text-2xl">✨</span>
+              </div>
+              <p class="text-eucalyptus font-medium">Une présence vibratoire qui facilite le lâcher-prise, l'ancrage, ou simplement le repos profond</p>
+            </div>
+          </div>
+          <div class="text-center mt-6">
+            <p class="text-ebony font-medium italic">
+              Dans ces moments délicats, le soin devient un espace sacré d'amour, de soulagement, et de profonde connexion.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Déroulement -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12" data-aos="fade-up">
+          <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-6">
+            Comment se déroule un soin énergétique animal ?
+          </h2>
+        </div>
+
+        <!-- Étape 1: Échange préalable -->
+        <div class="mb-16" data-aos="fade-up" data-aos-delay="100">
+          <Card variant="hover" class="mb-8">
+            <div class="p-6 md:p-8">
+              <div class="flex items-start gap-4 mb-6">
+                <div class="w-16 h-16 bg-sage/10 rounded-full flex items-center justify-center shrink-0">
+                  <span class="text-2xl">🧡</span>
+                </div>
+                <div>
+                  <h3 class="font-heading text-2xl text-ebony mb-2">
+                    1. Échange préalable avec toi, son gardien·ne
+                  </h3>
+                </div>
+              </div>
+
+              <p class="text-eucalyptus mb-6 leading-relaxed">
+                Avant le soin, nous prenons un temps d'échange (par téléphone ou en présence) pour :
+              </p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Comprendre la situation actuelle de ton animal</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Identifier les troubles observés (physiques, émotionnels, comportementaux)</span>
+                  </div>
+                </div>
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Explorer son lien à son environnement, à toi, et à ce qu'il porte peut-être inconsciemment</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Poser ensemble une intention claire pour le soin</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-gold/10 rounded-xl p-6 border-l-4 border-gold">
+                <p class="text-ebony font-medium">
+                  🎯 Ce moment me permet de me connecter à sa fréquence avec justesse, respect et douceur.
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        <!-- Étape 2: Le soin énergétique -->
+        <div class="mb-16" data-aos="fade-up" data-aos-delay="200">
+          <Card variant="feature">
+            <div class="p-6 md:p-8">
+              <div class="flex items-start gap-4 mb-6">
+                <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center shrink-0">
+                  <span class="text-2xl">🌟</span>
+                </div>
+                <div>
+                  <h3 class="font-heading text-2xl text-ebony mb-2">
+                    2. Le soin énergétique (présentiel ou à distance)
+                  </h3>
+                </div>
+              </div>
+
+              <p class="text-eucalyptus mb-6 leading-relaxed">
+                Le soin peut se dérouler :
+              </p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus"><strong>En présentiel :</strong> chez toi ou dans un lieu calme et sécurisant pour ton animal</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus"><strong>À distance :</strong> à un moment défini ensemble ; ton animal n'a pas besoin d'être immobile ou préparé. Il vivra naturellement le soin à sa façon.</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-eucalyptus mb-6 leading-relaxed">
+                Pendant la séance, je me relie à son champ énergétique à travers :
+              </p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">L'écoute intuitive et la résonance vibratoire</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">L'observation subtile de son corps énergétique</span>
+                  </div>
+                </div>
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">La libération des tensions ou mémoires bloquées</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">L'harmonisation de sa circulation vitale et de ses centres d'énergie</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-gold/10 rounded-xl p-6 border-l-4 border-gold">
+                <p class="text-ebony font-medium">
+                  ✨ Le soin ne force rien : il suit ce que l'animal est prêt à relâcher ou à rééquilibrer, en toute liberté.
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        <!-- Étape 3: Retour de soin -->
+        <div class="mb-16" data-aos="fade-up" data-aos-delay="300">
+          <Card variant="hover">
+            <div class="p-6 md:p-8">
+              <div class="flex items-start gap-4 mb-6">
+                <div class="w-16 h-16 bg-sage/10 rounded-full flex items-center justify-center shrink-0">
+                  <span class="text-2xl">📩</span>
+                </div>
+                <div>
+                  <h3 class="font-heading text-2xl text-ebony mb-2">
+                    3. Retour de soin & conseils d'intégration
+                  </h3>
+                </div>
+              </div>
+
+              <p class="text-eucalyptus mb-6 leading-relaxed">
+                À l'issue du soin, je te transmets un retour complet comprenant :
+              </p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Ce qui a été perçu, ressenti ou rééquilibré</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Des clés pour accompagner ton animal dans les jours qui suivent : besoin de repos, comportements à observer, rituels doux si besoin</span>
+                  </div>
+                </div>
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Parfois, un éclairage sur le lien maître-animal, si cela se manifeste durant la séance</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Forfaits -->
+  <section class="py-16 bg-cream">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12" data-aos="fade-up">
+          <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-6">
+            Forfaits multi-soins disponibles
+          </h2>
+          <p class="text-lg text-eucalyptus leading-relaxed">
+            Si ton animal a besoin d'un accompagnement plus régulier, ou si tu souhaites travailler sur plusieurs niveaux de rééquilibrage (émotionnel, énergétique, relationnel…), des formules de soins personnalisées sont disponibles.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12" data-aos="fade-up" data-aos-delay="100">
+          <div class="text-center">
+            <Button href="/services" variant="primary" class="mb-4">
+              Voir les formules multi-soins
+            </Button>
+          </div>
+          <div class="text-center">
+            <Button href="/contact" variant="secondary" class="mb-4">
+              Me contacter via le formulaire
+            </Button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 shadow-soft" data-aos="fade-up" data-aos-delay="200">
+          <div class="text-center mb-6">
+            <span class="text-2xl mb-4 block">💬</span>
+            <h3 class="font-heading text-2xl text-ebony mb-4">Besoin d'échanger ?</h3>
+          </div>
+          <p class="text-eucalyptus text-center leading-relaxed">
+            Si tu ressens le besoin d'en parler avant de choisir, je serai ravie d'échanger avec toi pour t'aider à trouver la formule la plus juste pour ton compagnon.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Infos pratiques -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12" data-aos="fade-up">
+          <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-6">
+            Infos pratiques – Frais de déplacement
+          </h2>
+          <p class="text-lg text-eucalyptus leading-relaxed">
+            Pour les soins en présentiel, des frais de déplacement peuvent s'appliquer selon la distance depuis Salazac.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-12" data-aos="fade-up" data-aos-delay="100">
+          <div class="bg-sage/10 rounded-xl p-6 text-center">
+            <div class="w-12 h-12 bg-sage/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-xl">🔹</span>
+            </div>
+            <h3 class="font-heading text-lg text-ebony mb-2">0 à 15 km</h3>
+            <p class="text-eucalyptus">Inclus ou supplément symbolique (5 €)</p>
+          </div>
+          <div class="bg-gold/10 rounded-xl p-6 text-center">
+            <div class="w-12 h-12 bg-gold/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-xl">🔹</span>
+            </div>
+            <h3 class="font-heading text-lg text-ebony mb-2">15 à 30 km</h3>
+            <p class="text-eucalyptus">Forfait de 10 à 15 € selon la distance</p>
+          </div>
+          <div class="bg-eucalyptus/10 rounded-xl p-6 text-center">
+            <div class="w-12 h-12 bg-eucalyptus/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span class="text-xl">🔹</span>
+            </div>
+            <h3 class="font-heading text-lg text-ebony mb-2">30 à 50 km</h3>
+            <p class="text-eucalyptus">Sur demande spécifique ou en cas de plusieurs soins dans une même zone (forfait de 20 à 30 €)</p>
+          </div>
+        </div>
+
+        <div class="bg-gold/10 rounded-xl p-8 border-l-4 border-gold" data-aos="fade-up" data-aos-delay="200">
+          <div class="flex items-start gap-4 mb-4">
+            <span class="text-2xl">💡</span>
+            <div>
+              <h3 class="font-heading text-xl text-ebony mb-2">Réductions disponibles</h3>
+              <p class="text-eucalyptus leading-relaxed">
+                Des réductions peuvent être proposées en cas de soins groupés ou pour plusieurs animaux d'une même famille.
+              </p>
+            </div>
+          </div>
+          <div class="text-center mt-6">
+            <Button href="/contact" variant="primary">
+              Me contacter pour un devis personnalisé
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Conclusion -->
+  <section class="py-16 bg-gradient-to-b from-cream to-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="mb-12" data-aos="fade-up">
+          <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-6">
+            Harmonia et Vita
+          </h2>
+          <p class="text-xl text-eucalyptus leading-relaxed italic">
+            C'est une manière de tisser un pont entre l'invisible et le vivant,<br>
+            entre l'instinct et la lumière.
+          </p>
+          <p class="text-lg text-eucalyptus leading-relaxed mt-4">
+            Un espace sacré où l'animal peut se libérer, rayonner, et simplement être.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 shadow-soft" data-aos="fade-up" data-aos-delay="100">
+          <div class="text-center mb-8">
+            <span class="text-4xl mb-4 block">🐾</span>
+            <h3 class="font-heading text-2xl text-ebony mb-4">
+              Tu sens que ton animal porte une charge invisible ou traverse une période difficile ?
+            </h3>
+          </div>
+          
+          <div class="grid md:grid-cols-2 gap-6">
+            <Button href="/contact" variant="primary" class="w-full">
+              Demander un soin énergétique
+            </Button>
+            <Button href="/services" variant="secondary" class="w-full">
+              Découvrir les formules multi-soins
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout> 

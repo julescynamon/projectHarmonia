@@ -1,0 +1,456 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+
+const seo = {
+  title: "Soin Chamanique Quantique - Naima Tyzra",
+  description: "Une rencontre sacrée avec votre essence profonde. Soin chamanique quantique présentiel ou à distance pour libérer, réharmoniser et réactiver votre fréquence originelle."
+};
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <!-- Hero Section -->
+  <section class="pt-32 pb-16 bg-gradient-to-b from-cream to-white relative overflow-hidden">
+    <!-- Motifs de fond décoratifs -->
+    <div class="absolute inset-0 bg-geometric-pattern opacity-5"></div>
+    <div class="absolute top-20 right-10 w-32 h-32 border-2 border-gold/20 rounded-full opacity-50"></div>
+    <div class="absolute bottom-20 left-10 w-24 h-24 border-2 border-sage/20 transform rotate-45 opacity-50"></div>
+    
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-4xl mx-auto">
+        <!-- En-tête -->
+        <div class="text-center mb-12" data-aos="fade-up">
+          <h1 class="inline-flex items-center gap-2 bg-sage/10 text-sage px-6 py-4 rounded-full text-lg md:text-xl font-slogan mb-6">
+            <span class="text-2xl md:text-3xl">✨</span>
+            <span>Soin Chamanique Quantique</span>
+          </h1>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-eucalyptus font-medium">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-gold rounded-full"></span>
+              <span>Présentiel ou à distance</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-gold rounded-full"></span>
+              <span>Durée : 1h15 à 1h30</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 bg-gold rounded-full"></span>
+              <span>Tarif : 133 €</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Introduction -->
+        <div class="grid md:grid-cols-2 gap-8 items-center mb-16" data-aos="fade-up" data-aos-delay="100">
+          <div class="relative order-1 md:order-1">
+            <!-- Placeholder pour image -->
+            <div class="aspect-square bg-gradient-to-br from-sage/20 to-gold/20 rounded-2xl overflow-hidden flex items-center justify-center">
+              <div class="text-center text-eucalyptus">
+                <div class="text-6xl mb-4">🔮</div>
+                <p class="text-sm">Image à venir</p>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-6 order-2 md:order-2">
+            <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-6 leading-tight">
+              Une rencontre sacrée avec ton essence profonde
+            </h2>
+            <p class="text-lg text-eucalyptus leading-relaxed">
+              Ce soin est un voyage énergétique, vibratoire et spirituel, où je me connecte à ton âme et à ce qui, en toi, appelle à être libéré, réharmonisé ou réactivé.
+            </p>
+            <p class="text-lg text-eucalyptus leading-relaxed">
+              Il agit au-delà du corps, dans tes mémoires énergétiques, émotionnelles, karmiques ou transgénérationnelles.
+            </p>
+            <p class="text-lg text-eucalyptus leading-relaxed">
+              Un soin qui traverse les couches visibles et invisibles pour te reconnecter à ta fréquence originelle, celle de ton axe, de ta lumière, de ta vérité.
+            </p>
+            <div class="bg-gold/10 rounded-xl p-6 border-l-4 border-gold">
+              <p class="text-ebony font-medium">
+                ✨ C'est un soin d'âme à âme, qui vient œuvrer là où les mots ne suffisent plus.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Indications -->
+        <div class="mb-16" data-aos="fade-up" data-aos-delay="200">
+          <Card variant="hover">
+            <div class="p-6 md:p-8">
+              <div class="flex items-start gap-4 mb-6">
+                <div class="w-16 h-16 bg-sage/10 rounded-full flex items-center justify-center shrink-0">
+                  <span class="text-2xl">🌿</span>
+                </div>
+                <div>
+                  <h3 class="font-heading text-2xl text-ebony mb-2">
+                    Ce soin peut t'accompagner si tu ressens :
+                  </h3>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Une sensation de blocage ou de stagnation profonde</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Un mal-être émotionnel ou spirituel difficile à nommer</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Des schémas répétitifs, des peurs irrationnelles ou un sentiment de déconnexion</span>
+                  </div>
+                </div>
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Un besoin d'expansion, de libération ou de reconnexion à ta mission, ton intuition, ton feu intérieur</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Déroulement -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-12" data-aos="fade-up">
+          <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-6">
+            🔮 Comment se déroule le soin
+          </h2>
+        </div>
+
+        <!-- Étape 1: Échange d'ouverture -->
+        <div class="mb-16" data-aos="fade-up" data-aos-delay="100">
+          <Card variant="hover" class="mb-8">
+            <div class="p-6 md:p-8">
+              <div class="flex items-start gap-4 mb-6">
+                <div class="w-16 h-16 bg-sage/10 rounded-full flex items-center justify-center shrink-0">
+                  <span class="text-2xl">🌱</span>
+                </div>
+                <div>
+                  <h3 class="font-heading text-2xl text-ebony mb-2">
+                    1. Échange d'ouverture
+                  </h3>
+                </div>
+              </div>
+
+              <p class="text-eucalyptus mb-6 leading-relaxed">
+                Avant le soin, nous prenons un temps pour :
+              </p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Explorer ce que tu vis actuellement (émotionnellement, énergétiquement, intérieurement)</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Clarifier ton intention</span>
+                  </div>
+                </div>
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Me permettre de me relier à ta vibration et au champ d'information qui entoure ta demande</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-gold/10 rounded-xl p-6 border-l-4 border-gold">
+                <p class="text-ebony font-medium">
+                  📍 Cet échange se fait en présentiel ou par téléphone selon le format choisi.
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        <!-- Étape 2: Le soin chamanique quantique -->
+        <div class="mb-16" data-aos="fade-up" data-aos-delay="200">
+          <Card variant="feature">
+            <div class="p-6 md:p-8">
+              <div class="flex items-start gap-4 mb-6">
+                <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center shrink-0">
+                  <span class="text-2xl">✨</span>
+                </div>
+                <div>
+                  <h3 class="font-heading text-2xl text-ebony mb-2">
+                    2. Le soin chamanique quantique
+                  </h3>
+                </div>
+              </div>
+
+              <p class="text-eucalyptus mb-6 leading-relaxed">
+                Le soin peut être réalisé :
+              </p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus"><strong>À domicile (présentiel) :</strong> dans un espace calme, préparé, sacralisé pour accueillir le soin</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus"><strong>À distance :</strong> à une heure convenue ensemble, dans un endroit où tu peux t'allonger ou t'installer en paix</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-eucalyptus mb-6 leading-relaxed">
+                Pendant la séance, j'entre en connexion avec ton champ énergétique à travers :
+              </p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Des ressentis intuitifs et vibratoires</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Des actes symboliques (souffle, chant, visualisation, mouvements…)</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Des libérations d'empreintes émotionnelles ou karmiques</span>
+                  </div>
+                </div>
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Des réencodages énergétiques pour te réaligner à ta fréquence d'origine</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Des messages reçus, si ton âme ou tes guides souhaitent transmettre</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-gold/10 rounded-xl p-6 border-l-4 border-gold">
+                <p class="text-ebony font-medium">
+                  🌌 Chaque soin est unique. Ce qui se passe est toujours juste, adapté à ton ouverture du moment.
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        <!-- Étape 3: Retour de soin -->
+        <div class="mb-16" data-aos="fade-up" data-aos-delay="300">
+          <Card variant="hover">
+            <div class="p-6 md:p-8">
+              <div class="flex items-start gap-4 mb-6">
+                <div class="w-16 h-16 bg-sage/10 rounded-full flex items-center justify-center shrink-0">
+                  <span class="text-2xl">🌕</span>
+                </div>
+                <div>
+                  <h3 class="font-heading text-2xl text-ebony mb-2">
+                    3. Retour de soin & conseils d'intégration
+                  </h3>
+                </div>
+              </div>
+
+              <p class="text-eucalyptus mb-6 leading-relaxed">
+                Après la séance, je te transmets :
+              </p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Ce qui a été perçu, libéré, ajusté</span>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Les messages reçus s'il y en a</span>
+                  </div>
+                </div>
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">•</span>
+                    <span class="text-eucalyptus">Des conseils d'intégration : ancrage, rituels simples, repos, écoute intérieure…</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-gold/10 rounded-xl p-6 border-l-4 border-gold">
+                <p class="text-ebony font-medium">
+                  🎁 Un espace sacré pour accueillir ce qui se transforme en toi.
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        <!-- Différence avec soin énergétique -->
+        <div class="mb-16" data-aos="fade-up" data-aos-delay="400">
+          <Card variant="feature">
+            <div class="p-6 md:p-8">
+              <div class="flex items-start gap-4 mb-6">
+                <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center shrink-0">
+                  <span class="text-2xl">🔍</span>
+                </div>
+                <div>
+                  <h3 class="font-heading text-2xl text-ebony mb-2">
+                    Quelle est la différence entre un soin énergétique et un soin chamanique quantique ?
+                  </h3>
+                </div>
+              </div>
+
+              <div class="space-y-6">
+                <div>
+                  <p class="text-eucalyptus mb-4 leading-relaxed">
+                    <strong>Le soin énergétique</strong> agit principalement sur l'équilibre du corps subtil : il apaise, nettoie, relance la circulation de l'énergie vitale, et soutient les fonctions naturelles du corps, de l'émotionnel et du système nerveux.
+                  </p>
+                </div>
+                
+                <div>
+                  <p class="text-eucalyptus mb-4 leading-relaxed">
+                    <strong>Le soin chamanique quantique</strong>, lui, va plus loin : Il agit dans les profondeurs de l'âme, dans les mémoires karmiques, transgénérationnelles ou vibratoires, et dans le champ quantique de la personne.
+                  </p>
+                  <p class="text-eucalyptus mb-4 leading-relaxed">
+                    C'est un soin de transmutation qui libère ce qui bloque à un niveau plus ancien, plus subtil, souvent non conscient.
+                  </p>
+                </div>
+
+                <div class="bg-gold/10 rounded-xl p-6 border-l-4 border-gold">
+                  <p class="text-ebony font-medium">
+                    ✨ On pourrait dire que le soin énergétique réaligne, tandis que le soin chamanique quantique reconnecte à l'origine et transforme en profondeur.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        <!-- Infos pratiques -->
+        <div class="mb-16" data-aos="fade-up" data-aos-delay="500">
+          <Card variant="hover">
+            <div class="p-6 md:p-8">
+              <div class="flex items-start gap-4 mb-6">
+                <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center shrink-0">
+                  <span class="text-2xl">📌</span>
+                </div>
+                <div>
+                  <h3 class="font-heading text-2xl text-ebony mb-2">
+                    Infos pratiques – Frais de déplacement
+                  </h3>
+                </div>
+              </div>
+
+              <p class="text-eucalyptus mb-6 leading-relaxed">
+                Pour les soins en présentiel, des frais de déplacement peuvent s'appliquer depuis Salazac.
+              </p>
+
+              <div class="space-y-4 mb-6">
+                <div class="flex items-start gap-3">
+                  <span class="text-gold text-lg">🔹</span>
+                  <span class="text-eucalyptus"><strong>0 à 15 km :</strong> inclus ou supplément symbolique (5 €)</span>
+                </div>
+                <div class="flex items-start gap-3">
+                  <span class="text-gold text-lg">🔹</span>
+                  <span class="text-eucalyptus"><strong>15 à 30 km :</strong> forfait de 10 à 15 €</span>
+                </div>
+                <div class="flex items-start gap-3">
+                  <span class="text-gold text-lg">🔹</span>
+                  <span class="text-eucalyptus"><strong>30 à 50 km :</strong> sur demande spécifique (forfait de 20 à 30 €)</span>
+                </div>
+              </div>
+
+              <div class="bg-sage/10 rounded-xl p-6 border-l-4 border-sage">
+                <p class="text-ebony font-medium">
+                  💬 Besoin d'en parler ? Tu peux me contacter via le formulaire de contact pour ajuster cela ensemble.
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        <!-- Forfaits -->
+        <div class="mb-16" data-aos="fade-up" data-aos-delay="600">
+          <Card variant="feature">
+            <div class="p-6 md:p-8">
+              <div class="flex items-start gap-4 mb-6">
+                <div class="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center shrink-0">
+                  <span class="text-2xl">🔁</span>
+                </div>
+                <div>
+                  <h3 class="font-heading text-2xl text-ebony mb-2">
+                    Forfaits disponibles
+                  </h3>
+                </div>
+              </div>
+
+              <p class="text-eucalyptus mb-6 leading-relaxed">
+                Des accompagnements sur plusieurs soins peuvent être proposés si tu sens qu'un chemin plus profond est à initier (travail sur plusieurs couches, temporalités, ou dimensions).
+              </p>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">👉</span>
+                    <span class="text-eucalyptus">Voir les formules multi-soins</span>
+                  </div>
+                </div>
+                <div class="space-y-4">
+                  <div class="flex items-start gap-3">
+                    <span class="text-gold text-lg">💌</span>
+                    <span class="text-eucalyptus">Discuter ensemble via le formulaire</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-gold/10 rounded-xl p-6 border-l-4 border-gold mt-6">
+                <p class="text-ebony font-medium">
+                  Tu peux aussi me contacter pour définir le rythme et la forme les plus justes pour toi.
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section CTA -->
+  <section class="py-16 bg-gradient-to-b from-white to-cream">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="mb-12" data-aos="fade-up">
+          <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-6">
+            ✨ Harmonia et Vita, c'est un pont entre les mondes
+          </h2>
+          <p class="text-xl text-eucalyptus mb-8">
+            Un espace où ton essence peut se déployer, se libérer, se souvenir de qui elle est vraiment.
+          </p>
+        </div>
+
+        <div class="mb-12" data-aos="fade-up" data-aos-delay="100">
+          <h3 class="font-heading text-2xl text-ebony mb-6">
+            🌼 Tu sens que ton âme t'appelle à une reconnexion plus profonde ?
+          </h3>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center" data-aos="fade-up" data-aos-delay="200">
+          <Button href="/rendez-vous" variant="primary" class="w-full sm:w-auto">
+            Réserver un soin chamanique quantique
+          </Button>
+          <Button href="/contact" variant="secondary" class="w-full sm:w-auto">
+            Me contacter pour ressentir ce qui est juste pour toi
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout> 

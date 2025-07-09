@@ -31,7 +31,15 @@ const PUBLIC_ROUTES = [
   '/confirmation',
   '/mentions-legales',
   '/politique-de-confidentialite',
-  '/cgv'
+  '/cgv',
+  // Routes de la Voie Chamanique
+  '/soins-chamaniques-humains',
+  '/soins-chamaniques-quantiques',
+  '/soins-chamaniques-animaux',
+  '/nettoyage-energetique',
+  '/guidances-rituels',
+  '/consultations-tarifs-chamanique',
+  '/eveil-interieur'
 ];
 
 // Vérifie si un chemin correspond à une route publique

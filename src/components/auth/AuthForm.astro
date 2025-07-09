@@ -3,6 +3,7 @@ interface Props {
   type: 'login' | 'register';
 }
 const { type } = Astro.props;
+import Button from '../ui/Button.astro';
 ---
 
 <form class="space-y-6" id="auth-form" data-type={type}>
@@ -57,12 +58,9 @@ const { type } = Astro.props;
     )}
   </div>
 
-  <button
-    type="submit"
-    class="w-full btn px-6 py-3 rounded-full hover:bg-primary/90 transition-colors"
-  >
+  <Button type="submit" variant="primary" size="md" class="w-full">
     {type === 'login' ? 'Se connecter' : 'S\'inscrire'}
-  </button>
+  </Button>
 
   <div class="text-red-500 text-sm hidden" id="error-message"></div>
 </form>

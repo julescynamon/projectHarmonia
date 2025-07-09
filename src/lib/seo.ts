@@ -4,6 +4,15 @@ export interface SEOProps {
   image?: string;
 }
 
+export interface SEO {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  noindex?: boolean;
+  structuredData?: Record<string, any>;
+}
+
 export const defaultSEO: SEOProps = {
   title: 'Naima Tyzra - Naturopathe à Paris',
   description: 'Découvrez une approche holistique de la santé avec Naima Tyzra, naturopathe certifiée à Paris. Consultations personnalisées, conseils en nutrition et bien-être naturel.',

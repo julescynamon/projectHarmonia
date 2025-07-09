@@ -1,0 +1,100 @@
+---
+// src/components/OptimizedImage.astro
+export interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  sizes?: string;
+  priority?: boolean;
+}
+
+const {
+  src,
+  alt,
+  width = 800,
+  height = 600,
+  class: className = '',
+  loading = 'lazy',
+  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
+  priority = false
+} = Astro.props;
+
+// Génération des formats d'image optimisés
+const imageFormats = ['webp', 'avif'];
+const densities = [1, 2];
+
+// Génération des sources pour chaque format
+const sources = imageFormats.map(format => {
+  const srcset = densities.map(density => {
+    const w = width * density;
+    const h = height * density;
+    return `${src}?w=${w}&h=${h}&f=${format} ${density}x`;
+  }).join(', ');
+  
+  return {
+    format,
+    srcset,
+    type: `image/${format}`
+  };
+});
+---
+
+<picture class={className}>
+  {sources.map(({ format, srcset, type }) => (
+    <source srcset={srcset} type={type} />
+  ))}
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={priority ? 'eager' : loading}
+    decoding="async"
+    sizes={sizes}
+    class="w-full h-auto object-cover"
+    style="aspect-ratio: {width}/{height};"
+  />
+</picture>
+
+<style>
+  picture {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Optimisation pour les images en arrière-plan */
+  .bg-image {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  /* Optimisation pour les images responsives */
+  @media (max-width: 768px) {
+    img {
+      width: 100%;
+    }
+  }
+  
+  @media (min-width: 769px) and (max-width: 1200px) {
+    img {
+      width: 50%;
+    }
+  }
+  
+  @media (min-width: 1201px) {
+    img {
+      width: 33.333%;
+    }
+  }
+</style> 

@@ -7,20 +7,33 @@ export default {
         sage: "#A8B5A3",
         cream: "#F4F1ED",
         gold: "#D4A373",
-        ebony: "#1C1C1C",
+        ebony: "#131212", // Corrigé pour correspondre au CSS custom
         eucalyptus: "#748C69",
         transition: "#FAF7F2",
         primary: {
-          300: "#94A88B",  // Lighter shade
-          400: "#849C7A",  // Light shade
-          500: "#748C69",  // Base color (eucalyptus)
-          600: "#647A59",  // Darker shade
+          300: "#94A88B", // Lighter shade
+          400: "#849C7A", // Light shade
+          500: "#748C69", // Base color (eucalyptus)
+          600: "#647A59", // Darker shade
         },
       },
       fontFamily: {
         heading: ["Playfair Display", "serif"],
         slogan: ["Raleway", "sans-serif"],
         body: ["Lora", "serif"],
+      },
+      spacing: {
+        xs: "0.25rem",
+        sm: "0.5rem",
+        md: "1rem",
+        lg: "2rem",
+        xl: "4rem",
+      },
+      transitionDuration: {
+        default: "0.3s",
+      },
+      transitionTimingFunction: {
+        default: "ease-in-out",
       },
       container: {
         center: true,
@@ -39,6 +52,11 @@ export default {
       backgroundImage: {
         "geometric-pattern": "url('/images/geometric-pattern.svg')",
         "nature-pattern": "url('/images/nature-pattern.svg')",
+      },
+      borderRadius: {
+        btn: "30px",
+        card: "15px",
+        input: "8px",
       },
     },
   },

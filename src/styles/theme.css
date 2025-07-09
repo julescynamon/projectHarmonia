@@ -1,26 +1,26 @@
 @import "./fonts.css";
 
 :root {
-  /* Couleurs */
+  /* Couleurs - Maintenant définies dans Tailwind mais maintenues pour compatibilité */
   --color-sage: #a8b5a3;
   --color-cream: #f4f1ed;
   --color-gold: #d4a373;
   --color-ebony: #131212;
   --color-eucalyptus: #748c69;
 
-  /* Typographie */
+  /* Typographie - Maintenant définie dans Tailwind mais maintenue pour compatibilité */
   --font-heading: "Playfair Display", serif;
   --font-slogan: "Raleway", sans-serif;
   --font-body: "Lora", serif;
 
-  /* Espacements */
+  /* Espacements - Maintenant définis dans Tailwind mais maintenus pour compatibilité */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 2rem;
   --spacing-xl: 4rem;
 
-  /* Transitions */
+  /* Transitions - Maintenant définies dans Tailwind mais maintenues pour compatibilité */
   --transition-default: all 0.3s ease-in-out;
 }
 
@@ -49,8 +49,35 @@ h6 {
   letter-spacing: 0.03em;
 }
 
-/* Boutons */
-.btn {
+/* Classes utilitaires custom - Maintenues pour compatibilité pendant migration */
+.bg-sage {
+  background-color: #a8b5a3;
+}
+.bg-cream {
+  background-color: #f4f1ed;
+}
+.bg-gold {
+  background-color: #d4a373;
+}
+.bg-eucalyptus {
+  background-color: #748c69;
+}
+
+.text-sage {
+  color: #a8b5a3;
+}
+.text-gold {
+  color: #d4a373;
+}
+.text-ebony {
+  color: #131212;
+}
+.text-eucalyptus {
+  color: #748c69;
+}
+
+/* Boutons - Utiliser les classes Tailwind à la place */
+/* .btn {
   background-color: var(--color-sage);
   color: white;
   padding: var(--spacing-sm) var(--spacing-md);
@@ -67,7 +94,7 @@ h6 {
   background-color: var(--color-gold);
   color: var(--color-ebony);
   transform: translateY(-2px);
-}
+} */
 
 /* Liens */
 a {
@@ -80,8 +107,8 @@ a:hover {
   text-decoration: none;
 }
 
-/* Cartes et conteneurs */
-.card {
+/* Cartes et conteneurs - Utiliser les classes Tailwind à la place */
+/* .card {
   background-color: white;
   border-radius: 15px;
   padding: var(--spacing-md);
@@ -92,7 +119,7 @@ a:hover {
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* Éléments décoratifs */
 .geometric-accent {
@@ -117,8 +144,8 @@ a:hover {
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }
 
-/* Formulaires */
-input,
+/* Formulaires - Utiliser les classes Tailwind à la place */
+/* input,
 textarea,
 select {
   background-color: white;
@@ -135,31 +162,4 @@ select:focus {
   outline: none;
   border-color: var(--color-eucalyptus);
   box-shadow: 0 0 0 3px rgba(116, 140, 105, 0.2);
-}
-
-/* Utilitaires */
-.bg-sage {
-  background-color: var(--color-sage);
-}
-.bg-cream {
-  background-color: var(--color-cream);
-}
-.bg-gold {
-  background-color: var(--color-gold);
-}
-.bg-eucalyptus {
-  background-color: var(--color-eucalyptus);
-}
-
-.text-sage {
-  color: var(--color-sage);
-}
-.text-gold {
-  color: var(--color-gold);
-}
-.text-ebony {
-  color: var(--color-ebony);
-}
-.text-eucalyptus {
-  color: var(--color-eucalyptus);
-}
+} */

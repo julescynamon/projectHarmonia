@@ -1,13 +1,25 @@
-/// <reference path="../.astro/types.d.ts" />
-/// <reference types="astro/client" />
+# Documentation des Types TypeScript - Harmonia
 
+## Vue d'ensemble
+
+Le fichier `src/env.d.ts` contient tous les types TypeScript nécessaires pour le projet Harmonia, garantissant une sécurité de type complète et une meilleure expérience de développement.
+
+## Variables d'Environnement
+
+### Variables Publiques (Client)
+
+```typescript
 interface ImportMetaEnv {
-  // Variables publiques (accessibles côté client)
   readonly PUBLIC_SUPABASE_URL: string;
   readonly PUBLIC_SUPABASE_ANON_KEY: string;
   readonly PUBLIC_SITE_URL: string;
-  
-  // Variables privées (serveur uniquement)
+}
+```
+
+### Variables Privées (Serveur)
+
+```typescript
+interface ImportMetaEnv {
   readonly SUPABASE_SERVICE_KEY: string;
   readonly SUPABASE_JWT_SECRET: string;
   readonly RESEND_API_KEY: string;
@@ -17,36 +29,51 @@ interface ImportMetaEnv {
   readonly STRIPE_SECRET_KEY: string;
   readonly STRIPE_WEBHOOK_SECRET: string;
   readonly API_SECRET_KEY: string;
-  
-  // Variables d'environnement Astro
+}
+```
+
+### Variables Astro
+
+```typescript
+interface ImportMetaEnv {
   readonly DEV: boolean;
   readonly PROD: boolean;
   readonly BASE_URL: string;
   readonly SITE: string;
 }
+```
 
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
+## Types d'Application
 
+### Locals (Contexte Astro)
+
+```typescript
 declare namespace App {
   interface Locals {
-    supabase: import("@supabase/supabase-js").SupabaseClient;
-    session: import("@supabase/supabase-js").Session | null;
-    user: import("@supabase/supabase-js").User | null;
+    supabase: SupabaseClient;
+    session: Session | null;
+    user: User | null;
   }
 }
+```
 
-// Types pour les profils utilisateurs
+## Types de Données
+
+### Profils Utilisateurs
+
+```typescript
 interface UserProfile {
   id: string;
   email: string;
-  role: 'user' | 'admin';
+  role: "user" | "admin";
   created_at: string;
   updated_at: string;
 }
+```
 
-// Types pour les produits
+### Produits
+
+```typescript
 interface Product {
   id: number;
   title: string;
@@ -57,8 +84,11 @@ interface Product {
   created_at: string;
   updated_at: string;
 }
+```
 
-// Types pour les articles de blog
+### Articles de Blog
+
+```typescript
 interface BlogPost {
   id: number;
   title: string;
@@ -71,8 +101,11 @@ interface BlogPost {
   created_at: string;
   updated_at: string;
 }
+```
 
-// Types pour les éléments du panier
+### Panier
+
+```typescript
 interface CartItem {
   id: number;
   user_id: string;
@@ -81,13 +114,16 @@ interface CartItem {
   created_at: string;
   product: Product;
 }
+```
 
-// Types pour les commandes
+### Commandes
+
+```typescript
 interface Order {
   id: string;
   user_id: string;
   stripe_session_id: string;
-  status: 'pending' | 'completed' | 'failed';
+  status: "pending" | "completed" | "failed";
   total: number;
   created_at: string;
   items: OrderItem[];
@@ -101,20 +137,26 @@ interface OrderItem {
   price: number;
   product: Product;
 }
+```
 
-// Types pour les rendez-vous
+### Rendez-vous
+
+```typescript
 interface Appointment {
   id: string;
   user_id: string;
   service_type: string;
   date: string;
   time: string;
-  status: 'pending' | 'confirmed' | 'cancelled';
+  status: "pending" | "confirmed" | "cancelled";
   stripe_session_id?: string;
   created_at: string;
 }
+```
 
-// Types pour les abonnés newsletter
+### Newsletter
+
+```typescript
 interface NewsletterSubscriber {
   id: number;
   email: string;
@@ -122,59 +164,74 @@ interface NewsletterSubscriber {
   created_at: string;
   updated_at: string;
 }
+```
 
-// Types pour les notifications
+### Notifications
+
+```typescript
 interface Notification {
   id: number;
   user_id: string;
-  type: 'blog' | 'appointment' | 'order';
+  type: "blog" | "appointment" | "order";
   title: string;
   message: string;
   read: boolean;
   created_at: string;
 }
+```
 
-// Types pour les erreurs API
+## Types API
+
+### Erreurs API
+
+```typescript
 interface APIError {
   error: string;
   message: string;
   details?: any;
 }
+```
 
-// Types pour les réponses API
+### Réponses API
+
+```typescript
 interface APIResponse<T = any> {
   success: boolean;
   data?: T;
   error?: string;
   message?: string;
 }
+```
 
-// Types pour les cookies
-interface CookieOptions {
-  path?: string;
-  expires?: Date;
-  httpOnly?: boolean;
-  secure?: boolean;
-  sameSite?: 'strict' | 'lax' | 'none';
-}
+## Types HTTP
 
-// Types pour les requêtes HTTP
+### Requêtes
+
+```typescript
 interface HTTPRequest {
   method: string;
   url: string;
   headers: Headers;
   body?: any;
 }
+```
 
-// Types pour les réponses HTTP
+### Réponses
+
+```typescript
 interface HTTPResponse {
   status: number;
   statusText: string;
   headers: Headers;
   body?: any;
 }
+```
 
-// Types pour les middlewares
+## Types Middleware
+
+### Contexte Middleware
+
+```typescript
 interface MiddlewareContext {
   request: HTTPRequest;
   locals: App.Locals;
@@ -185,21 +242,34 @@ interface MiddlewareContext {
   };
   redirect: (url: string) => Response;
 }
+```
 
-// Types pour les composants Astro
+## Types Composants
+
+### Props Composants Astro
+
+```typescript
 interface AstroComponentProps {
   [key: string]: any;
 }
+```
 
-// Types pour les layouts
+### Props Layouts
+
+```typescript
 interface LayoutProps {
   title: string;
   description?: string;
   image?: string;
   canonical?: string;
 }
+```
 
-// Types pour les métadonnées SEO
+## Types SEO
+
+### Métadonnées SEO
+
+```typescript
 interface SEOMetadata {
   title: string;
   description: string;
@@ -208,17 +278,27 @@ interface SEOMetadata {
   canonical?: string;
   noindex?: boolean;
 }
+```
 
-// Types pour les animations
+## Types Animations
+
+### Configuration Animation
+
+```typescript
 interface AnimationConfig {
   duration?: number;
   delay?: number;
   easing?: string;
-  direction?: 'normal' | 'reverse' | 'alternate';
-  fillMode?: 'none' | 'forwards' | 'backwards' | 'both';
+  direction?: "normal" | "reverse" | "alternate";
+  fillMode?: "none" | "forwards" | "backwards" | "both";
 }
+```
 
-// Types pour les thèmes
+## Types Thème
+
+### Configuration Thème
+
+```typescript
 interface ThemeConfig {
   colors: {
     primary: string;
@@ -240,12 +320,17 @@ interface ThemeConfig {
     xl: string;
   };
 }
+```
 
-// Types pour les configurations
+## Types Configuration
+
+### Configuration Application
+
+```typescript
 interface AppConfig {
   name: string;
   version: string;
-  environment: 'development' | 'production' | 'staging';
+  environment: "development" | "production" | "staging";
   debug: boolean;
   api: {
     baseUrl: string;
@@ -256,13 +341,65 @@ interface AppConfig {
     refreshThreshold: number;
   };
   email: {
-    provider: 'resend' | 'nodemailer';
+    provider: "resend" | "nodemailer";
     fromAddress: string;
     replyTo?: string;
   };
   payment: {
-    provider: 'stripe';
+    provider: "stripe";
     currency: string;
     webhookSecret: string;
   };
 }
+```
+
+## Avantages
+
+1. **Sécurité de Type** : Toutes les variables d'environnement sont typées
+2. **Autocomplétion** : IDE avec suggestions intelligentes
+3. **Détection d'Erreurs** : Erreurs de type détectées à la compilation
+4. **Documentation** : Types servent de documentation du code
+5. **Refactoring** : Changements automatiques propagés
+6. **Maintenabilité** : Code plus robuste et maintenable
+
+## Utilisation
+
+### Dans les Composants Astro
+
+```typescript
+---
+// Les types sont automatiquement disponibles
+const session: Session | null = Astro.locals.session;
+const user: User | null = Astro.locals.user;
+---
+```
+
+### Dans les API Routes
+
+```typescript
+import type { APIRoute } from "astro";
+
+export const POST: APIRoute = async ({ request, locals }) => {
+  // locals est typé avec App.Locals
+  const session = locals.session;
+  const user = locals.user;
+};
+```
+
+### Dans les Middlewares
+
+```typescript
+import { defineMiddleware } from "astro:middleware";
+
+export const onRequest = defineMiddleware(async (context, next) => {
+  // context.locals est typé
+  context.locals.session = session;
+});
+```
+
+## Notes Importantes
+
+- Tous les types sont globaux et disponibles dans tout le projet
+- Les variables d'environnement sont strictement typées
+- Les types Supabase sont importés automatiquement
+- Les types sont extensibles selon les besoins du projet

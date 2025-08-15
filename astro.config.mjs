@@ -194,11 +194,5 @@ export default defineConfig({
     // Redimensionnement automatique
     densities: [1, 2],
   },
-  // Optimisations de sécurité et performance
-  experimental: {
-    // Optimisation des assets
-    assets: true,
-    // Optimisation du rendu
-    viewTransitions: true,
-  },
+
 });

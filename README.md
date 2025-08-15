@@ -266,3 +266,53 @@ Pour toute question ou problème :
 ---
 
 **Harmonia** - Votre bien-être naturel 🌿
+
+## 🗄️ Migrations Supabase
+
+Le projet utilise un système de migration versionnée pour gérer les changements de base de données.
+
+### Scripts de Migration
+
+```bash
+# Créer une nouvelle migration
+npm run migration:create "description de la migration"
+
+# Lister toutes les migrations
+npm run migration:list
+
+# Appliquer les migrations
+npm run migration:apply
+
+# Valider la syntaxe des migrations
+npm run migration:validate
+
+# Mode interactif
+npm run migration:interactive
+```
+
+### Workflow Rapide
+
+```bash
+# 1. Démarrer Supabase
+npm run supabase:start
+
+# 2. Créer une migration
+npm run migration:create "ajouter table utilisateurs"
+
+# 3. Éditer le fichier de migration généré
+# 4. Appliquer les migrations
+npm run migration:apply
+
+# 5. Vérifier les différences
+npm run supabase:diff
+```
+
+### Documentation Complète
+
+Consultez le [Guide des Migrations](./docs/MIGRATION_GUIDELINES.md) pour plus de détails sur :
+
+- Conventions de nommage
+- Structure des migrations
+- Bonnes pratiques
+- Exemples concrets
+- Dépannage

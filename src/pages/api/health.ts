@@ -1,7 +1,6 @@
 import type { APIRoute } from 'astro';
 import { createServiceClient } from '../../lib/supabase';
 import Stripe from 'stripe';
-import { monitorApi } from '../../middleware/performance';
 import { monitoring } from '../../lib/monitoring';
 
 interface HealthCheck {
@@ -218,4 +217,4 @@ const healthCheckHandler = async ({ request, locals }: { request: Request; local
   }
 };
 
-export const GET = monitorApi(healthCheckHandler); 
+export const GET = healthCheckHandler; 

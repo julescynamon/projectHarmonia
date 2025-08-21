@@ -1,7 +1,6 @@
 // src/pages/api/monitoring/stats.ts
 import type { APIRoute } from 'astro';
 import { monitoring } from '../../../lib/monitoring';
-import { monitorApi } from '../../../middleware/performance';
 import { logger } from '../../../lib/logger';
 
 const statsHandler = async ({ request, locals }: { request: Request; locals: any }) => {
@@ -52,4 +51,4 @@ const statsHandler = async ({ request, locals }: { request: Request; locals: any
   }
 };
 
-export const GET = monitorApi(statsHandler); 
+export const GET = statsHandler; 

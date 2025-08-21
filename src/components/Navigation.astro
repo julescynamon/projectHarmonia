@@ -16,11 +16,12 @@ const navLinks: NavLink[] = [
     text: "Accompagnements",
     href: "#", // Lien parent qui ne navigue pas directement
     submenu: [
-      { href: "/naturopathie-humaine", text: "Naturopathie humaine" },
-      { href: "/naturopathie-animale", text: "Naturopathie animale" },
-      { href: "/soins-energetiques-humains", text: "Soins énergétiques humains" },
-      { href: "/soins-energetiques-animaux", text: "Soins énergétiques animaux" },
-      { href: "/accompagnement-personalise", text: "Accompagnement personalisé" },
+      { href: "/accompagnements/naturopathie-humaine", text: "Naturopathie humaine" },
+      { href: "/accompagnements/naturopathie-animale", text: "Naturopathie animale" },
+      { href: "/accompagnements/soins-energetiques-humains", text: "Soins énergétiques humains" },
+      { href: "/accompagnements/soins-energetiques-animaux", text: "Soins énergétiques animaux" },
+      { href: "/accompagnements/accompagnement-personalise", text: "Accompagnement personalisé" },
+      { href: "/accompagnements/reservation", text: "→ Réserver un accompagnement" },
     ]
   },
   {
@@ -33,7 +34,8 @@ const navLinks: NavLink[] = [
       { href: "/communication-animale-chamanique", text: "Communication animale chamanique" },
       { href: "/rituels-de-transmutation-energetique", text: "Rituels de transmutation énergétique" },
       { href: "/nettoyage-energetique", text: "Nettoyage énergétique des lieux" },
-      { href: "/rituels", text: "Rituels" }
+      { href: "/rituels", text: "Rituels" },
+      { href: "/chamanisme/reservation", text: "→ Réserver un soin chamanique" }
     ]
   },
     {
@@ -46,6 +48,7 @@ const navLinks: NavLink[] = [
       { href: "/theme-naissance-spirituelle", text: "Thème de naissance spirituelle" },
       { href: "/lien-karmique-etres", text: "Lien karmique entre les êtres" },
       { href: "/guidance-intuitive", text: "Guidance intuitive" },
+      { href: "/lecture-ame/reservation", text: "→ Réserver une lecture d'âme" }
     ]
   },
   { href: "/blog", text: "Blog" },
@@ -103,10 +106,7 @@ const navLinks: NavLink[] = [
 
         <!-- Actions de droite Desktop -->
         <div class="hidden xl:flex items-center space-x-3 min-w-0">
-          <Button href="/rendez-vous" variant="primary" size="sm" class="whitespace-nowrap">
-            Réserver
-          </Button>
-          <div class="border-l border-gray-200 pl-6 flex items-center gap-4">
+          <div class="flex items-center gap-4">
             <CartIcon />
             <AuthButton />
           </div>
@@ -216,9 +216,6 @@ const navLinks: NavLink[] = [
           </div>
         ))}
         <!-- Boutons d'action dans le menu mobile -->
-        <Button href="/rendez-vous" variant="primary" size="lg" class="w-full mb-6 flex items-center justify-center">
-          Réserver
-        </Button>
         <div class="w-full border-t border-gray-200 pt-6 flex flex-col items-center gap-4">
           <AuthButton />
         </div>

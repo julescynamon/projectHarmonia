@@ -1,0 +1,493 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Button from '../../components/ui/Button.astro';
+import Card from '../../components/ui/Card.astro';
+
+const seo = {
+  title: "Soins énergétiques humains – Retrouver harmonie et vitalité intérieure | Harmonia et Vita",
+  description: "Soins énergétiques humains à domicile ou à distance. Rééquilibrage des chakras, libération des blocages émotionnels, harmonisation énergétique. Réservez votre séance.",
+  keywords: "soin énergétique humain, rééquilibrage énergétique, soin énergétique Gard, harmonisation chakras, soin énergétique à distance, bien-être énergétique"
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Soins Énergétiques Humains",
+  "description": "Rééquilibrage énergétique et harmonisation des chakras pour retrouver vitalité et paix intérieure",
+  "provider": {
+    "@type": "Person",
+    "name": "Naima Tyzra",
+    "jobTitle": "Naturopathe"
+  },
+  "areaServed": "France",
+  "serviceType": "Soins Énergétiques",
+  "offers": {
+    "@type": "Offer",
+    "price": "60",
+    "priceCurrency": "EUR",
+    "description": "Séance de soins énergétiques humains"
+  }
+};
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <!-- Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
+
+  <div class="pt-24">
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pb-16">
+      <!-- Background avec image et overlay -->
+      <div class="absolute inset-0">
+        <img 
+          src="/images/soin-energetique-humain-harmonia-vita.jpg" 
+          alt=""
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-r from-ebony/70 via-ebony/50 to-ebony/30"></div>
+      </div>
+      
+      <!-- Contenu principal -->
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            <!-- Texte principal -->
+            <div class="text-white" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
+              <div class="mb-6 mt-8" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                <span class="inline-block bg-sage/20 backdrop-blur-sm text-sage px-4 py-2 rounded-full text-sm font-slogan uppercase tracking-wider mb-4">
+                  Présentiel ou à distance
+                </span>
+              </div>
+              
+              <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+                Soins énergétiques humains
+                <span class="block text-sage">Retrouver harmonie et vitalité intérieure</span>
+              </h1>
+              
+              <p class="font-body text-xl mb-8 text-white/90 leading-relaxed" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
+                Vous vous sentez fatigué, stressé, submergé par vos émotions ou coupé de votre énergie vitale ? Les soins énergétiques permettent de rééquilibrer vos centres énergétiques.
+              </p>
+              
+              <div class="flex flex-col sm:flex-row gap-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="1000">
+                <Button href="/accompagnements/reservation" size="lg" variant="secondary">
+                  Je réserve mon soin énergétique
+                </Button>
+                <Button href="#details" size="lg" variant="outline" class="border-white text-white hover:bg-white hover:text-ebony">
+                  En savoir plus
+                </Button>
+              </div>
+            </div>
+            
+            <!-- Bloc résumé rapide -->
+            <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl mb-8" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="400">
+              <h3 class="font-heading text-2xl text-ebony mb-6 text-center">Informations pratiques</h3>
+              
+              <div class="space-y-6">
+                <div class="flex items-center space-x-4 p-4 bg-cream/50 rounded-xl">
+                  <div class="bg-sage/20 p-3 rounded-full">
+                    <span class="material-icons text-sage text-2xl">schedule</span>
+                  </div>
+                  <div>
+                    <p class="font-slogan text-sm text-gray-600 uppercase tracking-wider">Durée séance</p>
+                    <p class="font-body text-ebony font-semibold">1h</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-center space-x-4 p-4 bg-cream/50 rounded-xl">
+                  <div class="bg-sage/20 p-3 rounded-full">
+                    <span class="material-icons text-sage text-2xl">home</span>
+                  </div>
+                  <div>
+                    <p class="font-slogan text-sm text-gray-600 uppercase tracking-wider">Format</p>
+                    <p class="font-body text-ebony font-semibold">Présentiel ou à distance</p>
+                  </div>
+                </div>
+                
+                <div class="flex items-center space-x-4 p-4 bg-cream/50 rounded-xl">
+                  <div class="bg-sage/20 p-3 rounded-full">
+                    <span class="material-icons text-sage text-2xl">euro</span>
+                  </div>
+                  <div>
+                    <p class="font-slogan text-sm text-gray-600 uppercase tracking-wider">Tarif</p>
+                    <p class="font-body text-ebony font-semibold">60€</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-8 pt-6 border-t border-sage/20">
+                <Button href="/accompagnements/reservation" size="lg" class="w-full">
+                  Réserver maintenant
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Scroll indicator -->
+      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div class="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+          <div class="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Introduction -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+              <p class="font-body text-lg text-ebony leading-relaxed mb-6">
+                Vous vous sentez fatigué, stressé, submergé par vos émotions ou coupé de votre énergie vitale ?
+              </p>
+              <p class="font-body text-lg text-ebony leading-relaxed mb-6">
+                Les soins énergétiques permettent de rééquilibrer vos centres énergétiques (chakras), libérer les blocages et rétablir une circulation fluide de l'énergie.
+              </p>
+              <p class="font-body text-lg text-ebony leading-relaxed">
+                Ils offrent un moment de recentrage, de détente profonde et de régénération intérieure.
+              </p>
+            </div>
+            <div data-aos="fade-left">
+              <img 
+                src="/images/soin-energetique-humain-banniere.jpg" 
+                alt="Soin énergétique humain – rééquilibrage et harmonie intérieure"
+                class="w-full h-80 object-cover rounded-2xl shadow-medium"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ce soin est fait pour vous si... -->
+    <section class="py-16 bg-cream">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="font-heading text-3xl md:text-4xl text-ebony text-center mb-12" data-aos="fade-up">
+            Ce soin est fait pour vous si...
+          </h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white rounded-2xl p-6 shadow-soft" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+              <div class="flex items-start space-x-4">
+                <span class="material-icons text-sage text-2xl mt-1">energy_savings_leaf</span>
+                <p class="font-body text-ebony">Vous ressentez de la fatigue chronique ou un manque d'énergie</p>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 shadow-soft" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+              <div class="flex items-start space-x-4">
+                <span class="material-icons text-sage text-2xl mt-1">mood_bad</span>
+                <p class="font-body text-ebony">Vous traversez une période de stress, anxiété ou troubles du sommeil</p>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 shadow-soft" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+              <div class="flex items-start space-x-4">
+                <span class="material-icons text-sage text-2xl mt-1">psychology</span>
+                <p class="font-body text-ebony">Vous vous sentez bloqué émotionnellement ou mentalement</p>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 shadow-soft" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
+              <div class="flex items-start space-x-4">
+                <span class="material-icons text-sage text-2xl mt-1">self_improvement</span>
+                <p class="font-body text-ebony">Vous souhaitez rééquilibrer vos chakras et harmoniser vos énergies</p>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 shadow-soft md:col-span-2" data-aos="fade-up" data-aos-duration="800" data-aos-delay="1000">
+              <div class="flex items-start space-x-4">
+                <span class="material-icons text-sage text-2xl mt-1">favorite</span>
+                <p class="font-body text-ebony">Vous cherchez à vous reconnecter à vous-même et à votre paix intérieure</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Les bénéfices -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+              <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-8">
+                Les bénéfices des soins énergétiques
+              </h2>
+              
+              <div class="space-y-6">
+                <div class="flex items-start space-x-4">
+                  <span class="material-icons text-sage text-xl mt-1">healing</span>
+                  <p class="font-body text-ebony">Libération des blocages émotionnels et énergétiques</p>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                  <span class="material-icons text-sage text-xl mt-1">self_improvement</span>
+                  <p class="font-body text-ebony">Réduction du stress, détente et lâcher-prise</p>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                  <span class="material-icons text-sage text-xl mt-1">bedtime</span>
+                  <p class="font-body text-ebony">Amélioration du sommeil et de la vitalité</p>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                  <span class="material-icons text-sage text-xl mt-1">anchor</span>
+                  <p class="font-body text-ebony">Renforcement de l'ancrage et de la stabilité intérieure</p>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                  <span class="material-icons text-sage text-xl mt-1">lightbulb</span>
+                  <p class="font-body text-ebony">Clarification mentale et plus grande sérénité</p>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                  <span class="material-icons text-sage text-xl mt-1">auto_awesome</span>
+                  <p class="font-body text-ebony">Harmonisation des chakras et circulation fluide de l'énergie</p>
+                </div>
+              </div>
+            </div>
+            
+            <div data-aos="fade-left">
+              <img 
+                src="/images/soin-energetique-benefices.jpg" 
+                alt="Bienfaits d'un soin énergétique humain – Harmonia et Vita"
+                class="w-full h-96 object-cover rounded-2xl shadow-medium"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Déroulement d'un soin -->
+    <section class="py-16 bg-cream">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="font-heading text-3xl md:text-4xl text-ebony text-center mb-12" data-aos="fade-up">
+            Déroulement d'un soin énergétique humain
+          </h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white rounded-2xl p-6 shadow-soft text-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+              <div class="bg-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span class="material-icons text-sage text-2xl">hearing</span>
+              </div>
+              <h3 class="font-heading text-xl text-ebony mb-3">1. Écoute & accueil</h3>
+              <p class="font-body text-gray-600">Temps d'échange pour comprendre vos besoins et votre état du moment.</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 shadow-soft text-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+              <div class="bg-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span class="material-icons text-sage text-2xl">healing</span>
+              </div>
+              <h3 class="font-heading text-xl text-ebony mb-3">2. Libération des blocages</h3>
+              <p class="font-body text-gray-600">Travail doux sur les tensions émotionnelles et physiques.</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 shadow-soft text-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+              <div class="bg-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span class="material-icons text-sage text-2xl">auto_awesome</span>
+              </div>
+              <h3 class="font-heading text-xl text-ebony mb-3">3. Équilibrage énergétique</h3>
+              <p class="font-body text-gray-600">Harmonisation des chakras et circulation de l'énergie vitale.</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-6 shadow-soft text-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
+              <div class="bg-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span class="material-icons text-sage text-2xl">psychology</span>
+              </div>
+              <h3 class="font-heading text-xl text-ebony mb-3">4. Intégration & retour</h3>
+              <p class="font-body text-gray-600">Temps de partage pour accueillir vos ressentis et conseils personnalisés.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Détails pratiques -->
+    <section id="details" class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="font-heading text-3xl md:text-4xl text-ebony text-center mb-12" data-aos="fade-up">
+            Détails pratiques
+          </h2>
+          
+          <div class="bg-cream rounded-2xl p-8 shadow-soft" data-aos="fade-up">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+              <div class="text-center">
+                <div class="bg-sage/20 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <span class="material-icons text-sage text-2xl">schedule</span>
+                </div>
+                <h3 class="font-heading text-xl text-ebony mb-2">Durée</h3>
+                <p class="font-body text-ebony">1h</p>
+              </div>
+              
+              <div class="text-center">
+                <div class="bg-sage/20 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <span class="material-icons text-sage text-2xl">home</span>
+                </div>
+                <h3 class="font-heading text-xl text-ebony mb-2">Format</h3>
+                <p class="font-body text-ebony">Présentiel ou à distance</p>
+              </div>
+              
+              <div class="text-center">
+                <div class="bg-sage/20 p-4 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <span class="material-icons text-sage text-2xl">euro</span>
+                </div>
+                <h3 class="font-heading text-xl text-ebony mb-2">Tarif</h3>
+                <p class="font-body text-ebony">60€</p>
+              </div>
+            </div>
+            
+            <div class="space-y-6">
+              <div class="bg-white rounded-xl p-6">
+                <h4 class="font-heading text-lg text-ebony mb-4">👨‍👩‍👧‍👦 Forfaits famille</h4>
+                <p class="font-body text-ebony mb-4">
+                  Forfaits pour plusieurs membres d'une même famille disponibles sur demande.
+                </p>
+                <p class="font-body text-ebony mb-4">
+                  Merci de prendre directement contact via le bouton ci-contre afin de recevoir une proposition personnalisée adaptée à votre situation.
+                </p>
+                <Button href="/contact" variant="outline" class="w-full md:w-auto">
+                  Me contacter pour un devis personnalisé
+                </Button>
+              </div>
+              
+              <div class="bg-white rounded-xl p-6">
+                <h4 class="font-heading text-lg text-ebony mb-4">📍 Déplacements à domicile</h4>
+                <p class="font-body text-ebony mb-4">
+                  Les accompagnements peuvent être réalisés directement au domicile, pour plus de confort et de sérénité, dans les départements suivants : Gard, Ardèche, Vaucluse, Drôme et Bouches-du-Rhône, dans un rayon de 70 km autour de Salazac.
+                </p>
+                
+                <div class="space-y-2">
+                  <div class="flex items-center space-x-3">
+                    <span class="material-icons text-sage text-sm">check_circle</span>
+                    <span class="font-body text-ebony text-sm">Frais de déplacement inclus jusqu'à 10 km autour de Salazac</span>
+                  </div>
+                  <div class="flex items-center space-x-3">
+                    <span class="material-icons text-sage text-sm">info</span>
+                    <span class="font-body text-ebony text-sm">Au-delà : participation aux frais selon la distance, indiquée lors de la réservation</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pourquoi choisir Harmonia et Vita -->
+    <section class="py-16 bg-cream">
+      <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+              <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-8">
+                Pourquoi choisir Harmonia et Vita ?
+              </h2>
+              
+              <div class="space-y-6">
+                <div class="flex items-start space-x-4">
+                  <span class="material-icons text-sage text-xl mt-1">favorite</span>
+                  <p class="font-body text-ebony">Une approche bienveillante et adaptée à vos besoins du moment</p>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                  <span class="material-icons text-sage text-xl mt-1">psychology</span>
+                  <p class="font-body text-ebony">Allier soins énergétiques et guidance intuitive pour un travail complet</p>
+                </div>
+                
+                <div class="flex items-start space-x-4">
+                  <span class="material-icons text-sage text-xl mt-1">security</span>
+                  <p class="font-body text-ebony">Un espace de sécurité, d'écoute et de transformation profonde</p>
+                </div>
+              </div>
+            </div>
+            
+            <div data-aos="fade-left">
+              <img 
+                src="/images/soin-energetique-portrait.jpg" 
+                alt="Soin énergétique – accompagnement bienveillant Harmonia et Vita"
+                class="w-full h-96 object-cover rounded-2xl shadow-medium"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Témoignages -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="font-heading text-3xl md:text-4xl text-ebony text-center mb-12" data-aos="fade-up">
+            Témoignages
+          </h2>
+          
+          <div class="space-y-8">
+            <Card variant="feature" class="p-8" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+              <div class="flex items-start space-x-4">
+                <span class="material-icons text-sage text-3xl">format_quote</span>
+                <div>
+                  <p class="font-body text-ebony text-lg italic mb-4">
+                    "Je me sentais épuisée et anxieuse, j'ai tenté un soin énergétique à distance. Dès la fin de la séance, j'ai ressenti une profonde détente et une clarté intérieure. C'était comme un nouveau départ."
+                  </p>
+                  <p class="font-slogan text-sage font-semibold">Élodie, 34 ans</p>
+                </div>
+              </div>
+            </Card>
+            
+            <Card variant="feature" class="p-8" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+              <div class="flex items-start space-x-4">
+                <span class="material-icons text-sage text-3xl">format_quote</span>
+                <div>
+                  <p class="font-body text-ebony text-lg italic mb-4">
+                    "Je ne savais pas trop à quoi m'attendre mais j'ai été bluffé : pendant le soin, une chaleur douce m'a envahi et depuis je dors mieux. En plus, tout s'est fait en visio, donc sans stress de déplacement."
+                  </p>
+                  <p class="font-slogan text-sage font-semibold">Julien, 42 ans</p>
+                </div>
+              </div>
+            </Card>
+            
+            <Card variant="feature" class="p-8" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+              <div class="flex items-start space-x-4">
+                <span class="material-icons text-sage text-3xl">format_quote</span>
+                <div>
+                  <p class="font-body text-ebony text-lg italic mb-4">
+                    "À un moment difficile de ma vie, j'ai reçu un soin énergétique directement chez moi. Cela m'a permis de relâcher des émotions bloquées et de retrouver confiance. J'ai enfin la sensation de respirer à nouveau."
+                  </p>
+                  <p class="font-slogan text-sage font-semibold">Amandine, 28 ans</p>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="py-20 bg-gradient-to-b from-sage to-eucalyptus text-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center" data-aos="fade-up">
+          <h2 class="font-heading text-3xl md:text-4xl mb-6">
+            Réservez votre soin énergétique
+          </h2>
+          <p class="font-body text-lg mb-8 opacity-90">
+            Offrez-vous un moment de libération, de paix et d'harmonie intérieure.
+          </p>
+          <p class="font-body text-lg mb-8 opacity-90">
+            Réservez dès aujourd'hui votre soin énergétique humain et retrouvez votre vitalité.
+          </p>
+          <Button href="/accompagnements/reservation" variant="secondary" size="lg">
+            Je réserve mon soin énergétique
+          </Button>
+        </div>
+      </div>
+    </section>
+  </div>
+</MainLayout>

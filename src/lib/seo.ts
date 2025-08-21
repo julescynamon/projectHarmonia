@@ -47,5 +47,17 @@ export const pageSEO: Record<string, SEOProps> = {
   appointment: {
     title: 'Prendre Rendez-vous | Naima Tyzra Naturopathe',
     description: 'Réservez votre consultation en naturopathie avec Naima Tyzra. Séances en cabinet à Paris ou en visioconférence pour un accompagnement personnalisé.',
+  },
+  accompagnementsReservation: {
+    title: 'Réserver un accompagnement | Naima Tyzra',
+    description: 'Prenez rendez-vous pour un accompagnement personnalisé en naturopathie humaine et animale, soins énergétiques et suivi nutritionnel.',
+  },
+  chamanismeReservation: {
+    title: 'Réserver un soin chamanique | Naima Tyzra',
+    description: 'Prenez rendez-vous pour un soin chamanique personnalisé : soins quantiques, communication animale, rituels de transmutation et nettoyage énergétique.',
+  },
+  lectureAmeReservation: {
+    title: 'Réserver une lecture d\'âme | Naima Tyzra',
+    description: 'Prenez rendez-vous pour une lecture d\'âme personnalisée et découvrez votre chemin de vie, vos missions d\'âme et votre potentiel spirituel.',
   }
 };

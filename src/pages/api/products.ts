@@ -1,6 +1,5 @@
 import type { APIRoute } from 'astro';
 import { getProducts } from '../../lib/shop';
-import { monitorApi } from '../../middleware/performance';
 import { monitoring } from '../../lib/monitoring';
 
 const productsHandler = async ({ request, locals }: { request: Request; locals: any }) => {
@@ -76,4 +75,4 @@ const productsHandler = async ({ request, locals }: { request: Request; locals: 
   }
 };
 
-export const GET = monitorApi(productsHandler);
+export const GET = productsHandler;

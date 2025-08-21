@@ -39,7 +39,11 @@ const PUBLIC_ROUTES = [
   '/nettoyage-energetique',
   '/guidances-rituels',
   '/consultations-tarifs-chamanique',
-  '/eveil-interieur'
+  '/eveil-interieur',
+  // Routes de réservation spécifiques
+  '/accompagnements/reservation',
+  '/chamanisme/reservation',
+  '/lecture-ame/reservation'
 ];
 
 // Vérifie si un chemin correspond à une route publique

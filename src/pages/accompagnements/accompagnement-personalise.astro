@@ -34,6 +34,8 @@ const structuredData = {
   <!-- Structured Data -->
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
 
+
+
   <div class="pt-24">
     <!-- Hero Section -->
     <section class="relative min-h-screen flex items-center justify-center overflow-hidden pb-16">
@@ -146,7 +148,7 @@ const structuredData = {
     </section>
 
     <!-- Introduction - Design moderne avec image de fond -->
-    <section class="py-20 bg-gradient-to-br from-cream via-white to-sage/5 relative overflow-hidden">
+    <section class="py-16 bg-gradient-to-br from-cream via-white to-sage/5 relative overflow-hidden">
       <!-- Éléments décoratifs en arrière-plan -->
       <div class="absolute inset-0 opacity-10">
         <div class="absolute top-20 left-10 w-2 h-2 bg-sage rounded-full animate-pulse"></div>
@@ -158,7 +160,7 @@ const structuredData = {
       <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-6xl mx-auto">
           <!-- Titre principal avec effet de gradient -->
-          <div class="text-center mb-16" data-aos="fade-up">
+          <div class="text-center mb-12" data-aos="fade-up">
             <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
               <span class="bg-gradient-to-r from-sage via-eucalyptus to-gold bg-clip-text text-transparent">
                 Un espace bienveillant
@@ -169,53 +171,36 @@ const structuredData = {
             <div class="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full"></div>
           </div>
 
-          <!-- Grille 3 colonnes avec cartes interactives -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            <!-- Carte 1: Coaching -->
+          <!-- Grille 2 colonnes avec cartes interactives (fusion des 3 en 2) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <!-- Carte 1: Coaching & Guidance -->
             <div class="group relative" data-aos="fade-up" data-aos-delay="200">
-              <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10">
+              <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full flex flex-col">
                 <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <span class="material-icons text-sage text-3xl">psychology</span>
                 </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Coaching de vie</h3>
-                <p class="font-body text-ebony leading-relaxed mb-4">
-                  Un accompagnement structuré pour clarifier vos objectifs et dépasser vos blocages avec des outils concrets.
+                <h3 class="font-heading text-2xl text-ebony mb-4">Coaching & Guidance</h3>
+                <p class="font-body text-ebony leading-relaxed mb-4 flex-grow">
+                  Un accompagnement structuré combinant coaching de vie et guidance intuitive pour clarifier vos objectifs et retrouver votre confiance.
                 </p>
-                <div class="flex items-center text-sage font-slogan text-sm">
+                <div class="flex items-center text-sage font-slogan text-sm mt-auto">
                   <span class="material-icons text-sm mr-1">arrow_forward</span>
                   Découvrir l'approche
                 </div>
               </div>
             </div>
 
-            <!-- Carte 2: Guidance -->
+            <!-- Carte 2: Transformation personnelle -->
             <div class="group relative" data-aos="fade-up" data-aos-delay="400">
-              <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10">
-                <div class="bg-gradient-to-br from-gold/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-gold text-3xl">lightbulb</span>
-                </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Guidance intuitive</h3>
-                <p class="font-body text-ebony leading-relaxed mb-4">
-                  Une écoute profonde et bienveillante pour vous aider à retrouver votre chemin intérieur et votre confiance.
-                </p>
-                <div class="flex items-center text-gold font-slogan text-sm">
-                  <span class="material-icons text-sm mr-1">arrow_forward</span>
-                  Comprendre le processus
-                </div>
-              </div>
-            </div>
-
-            <!-- Carte 3: Transformation -->
-            <div class="group relative" data-aos="fade-up" data-aos-delay="600">
-              <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10">
+              <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full flex flex-col">
                 <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <span class="material-icons text-eucalyptus text-3xl">auto_awesome</span>
                 </div>
                 <h3 class="font-heading text-2xl text-ebony mb-4">Transformation personnelle</h3>
-                <p class="font-body text-ebony leading-relaxed mb-4">
+                <p class="font-body text-ebony leading-relaxed mb-4 flex-grow">
                   Un accompagnement sur-mesure pour vous aider à avancer avec plus de clarté et de sérénité dans votre vie.
                 </p>
-                <div class="flex items-center text-eucalyptus font-slogan text-sm">
+                <div class="flex items-center text-eucalyptus font-slogan text-sm mt-auto">
                   <span class="material-icons text-sm mr-1">arrow_forward</span>
                   Renforcer la connexion
                 </div>
@@ -224,7 +209,7 @@ const structuredData = {
           </div>
 
           <!-- Section avec image de fond et contenu -->
-          <div class="relative rounded-3xl overflow-hidden shadow-2xl" data-aos="fade-up" data-aos-delay="800">
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl" data-aos="fade-up" data-aos-delay="600">
             <!-- Image de fond -->
             <div class="absolute inset-0">
               <img 
@@ -297,7 +282,7 @@ const structuredData = {
     </section>
 
     <!-- Cette séance est faite pour vous si... - Design moderne -->
-    <section class="py-20 bg-gradient-to-br from-white via-cream to-sage/5 relative overflow-hidden">
+    <section class="py-16 bg-gradient-to-br from-white via-cream to-sage/5 relative overflow-hidden">
       <!-- Éléments décoratifs en arrière-plan -->
       <div class="absolute inset-0 opacity-10">
         <div class="absolute top-10 left-10 w-32 h-32 bg-sage rounded-full blur-3xl animate-pulse"></div>
@@ -307,7 +292,7 @@ const structuredData = {
       <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-6xl mx-auto">
           <!-- Titre principal -->
-          <div class="text-center mb-16" data-aos="fade-up">
+          <div class="text-center mb-12" data-aos="fade-up">
             <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
               <span class="bg-gradient-to-r from-sage via-eucalyptus to-gold bg-clip-text text-transparent">
                 Cette séance est faite pour vous si...
@@ -319,171 +304,116 @@ const structuredData = {
             </p>
           </div>
 
-          <!-- Timeline verticale avec cartes modernes -->
-          <div class="relative">
-            <!-- Ligne de connexion -->
-            <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-sage to-gold opacity-30 hidden lg:block"></div>
-            
-            <div class="space-y-8">
-              <!-- Étape 1 -->
-              <div class="flex flex-col lg:flex-row items-center gap-8" data-aos="fade-up" data-aos-delay="200">
-                <div class="lg:w-1/2 lg:pr-8">
-                  <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 border border-sage/10">
-                    <div class="flex items-center space-x-4 mb-4">
-                      <div class="bg-gradient-to-br from-red-100 to-red-200 p-3 rounded-full">
-                        <span class="material-icons text-red-500 text-2xl">help</span>
-                      </div>
-                      <div class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-slogan uppercase tracking-wider">
-                        Confusion
-                      </div>
-                    </div>
-                    <h3 class="font-heading text-2xl text-ebony mb-4">Vous vous sentez perdu(e)</h3>
-                    <p class="font-body text-ebony leading-relaxed mb-4">
-                      Dans vos choix, vos projets ou la direction à prendre dans votre vie. Vous avez besoin de clarifier vos priorités.
-                    </p>
-                    <div class="flex items-center text-red-500 font-slogan text-sm">
-                      <span class="material-icons text-sm mr-1">arrow_forward</span>
-                      Retrouver sa direction
-                    </div>
+          <!-- Grille 3 colonnes simplifiée -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Carte 1: Confusion & Direction -->
+            <div class="group" data-aos="fade-up" data-aos-delay="200">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="flex items-center space-x-4 mb-4">
+                  <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 p-3 rounded-full">
+                    <span class="material-icons text-sage text-2xl">help</span>
+                  </div>
+                  <div class="bg-sage text-white px-3 py-1 rounded-full text-sm font-slogan uppercase tracking-wider">
+                    Confusion
                   </div>
                 </div>
-                
-                <!-- Point de connexion -->
-                <div class="hidden lg:block w-4 h-4 bg-sage rounded-full border-4 border-white shadow-lg"></div>
-                
-                <div class="lg:w-1/2 lg:pl-8">
-                  <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-6 text-center">
-                    <span class="material-icons text-red-400 text-6xl mb-4">navigation</span>
-                    <p class="font-body text-ebony text-lg">Doutes, hésitations, manque de clarté</p>
-                  </div>
+                <h3 class="font-heading text-2xl text-ebony mb-4">Vous vous sentez perdu(e)</h3>
+                <p class="font-body text-ebony leading-relaxed mb-4">
+                  Dans vos choix, vos projets ou la direction à prendre dans votre vie. Vous avez besoin de clarifier vos priorités.
+                </p>
+                <div class="flex items-center text-sage font-slogan text-sm">
+                  <span class="material-icons text-sm mr-1">arrow_forward</span>
+                  Retrouver sa direction
                 </div>
               </div>
+            </div>
 
-              <!-- Étape 2 -->
-              <div class="flex flex-col lg:flex-row-reverse items-center gap-8" data-aos="fade-up" data-aos-delay="400">
-                <div class="lg:w-1/2 lg:pl-8">
-                  <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 border border-sage/10">
-                    <div class="flex items-center space-x-4 mb-4">
-                      <div class="bg-gradient-to-br from-blue-100 to-blue-200 p-3 rounded-full">
-                        <span class="material-icons text-blue-500 text-2xl">change_circle</span>
-                      </div>
-                      <div class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-slogan uppercase tracking-wider">
-                        Transition
-                      </div>
-                    </div>
-                    <h3 class="font-heading text-2xl text-ebony mb-4">Période de transition</h3>
-                    <p class="font-body text-ebony leading-relaxed mb-4">
-                      Personnelle ou professionnelle. Vous traversez un changement et avez besoin de soutien pour naviguer cette période.
-                    </p>
-                    <div class="flex items-center text-blue-500 font-slogan text-sm">
-                      <span class="material-icons text-sm mr-1">arrow_forward</span>
-                      Accompagner le changement
-                    </div>
+            <!-- Carte 2: Transition & Changement -->
+            <div class="group" data-aos="fade-up" data-aos-delay="400">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="flex items-center space-x-4 mb-4">
+                  <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 p-3 rounded-full">
+                    <span class="material-icons text-eucalyptus text-2xl">change_circle</span>
+                  </div>
+                  <div class="bg-eucalyptus text-white px-3 py-1 rounded-full text-sm font-slogan uppercase tracking-wider">
+                    Transition
                   </div>
                 </div>
-                
-                <!-- Point de connexion -->
-                <div class="hidden lg:block w-4 h-4 bg-sage rounded-full border-4 border-white shadow-lg"></div>
-                
-                <div class="lg:w-1/2 lg:pr-8">
-                  <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 text-center">
-                    <span class="material-icons text-blue-400 text-6xl mb-4">trending_up</span>
-                    <p class="font-body text-ebony text-lg">Changements de vie, nouvelles étapes</p>
-                  </div>
+                <h3 class="font-heading text-2xl text-ebony mb-4">Période de transition</h3>
+                <p class="font-body text-ebony leading-relaxed mb-4">
+                  Personnelle ou professionnelle. Vous traversez un changement et avez besoin de soutien pour naviguer cette période.
+                </p>
+                <div class="flex items-center text-eucalyptus font-slogan text-sm">
+                  <span class="material-icons text-sm mr-1">arrow_forward</span>
+                  Accompagner le changement
                 </div>
               </div>
+            </div>
 
-              <!-- Étape 3 -->
-              <div class="flex flex-col lg:flex-row items-center gap-8" data-aos="fade-up" data-aos-delay="600">
-                <div class="lg:w-1/2 lg:pr-8">
-                  <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 border border-sage/10">
-                    <div class="flex items-center space-x-4 mb-4">
-                      <div class="bg-gradient-to-br from-orange-100 to-orange-200 p-3 rounded-full">
-                        <span class="material-icons text-orange-500 text-2xl">self_improvement</span>
-                      </div>
-                      <div class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-slogan uppercase tracking-wider">
-                        Confiance
-                      </div>
-                    </div>
-                    <h3 class="font-heading text-2xl text-ebony mb-4">Retrouver confiance en vous</h3>
-                    <p class="font-body text-ebony leading-relaxed mb-4">
-                      Et en vos capacités. Vous avez besoin de renforcer votre estime de soi et votre élan personnel.
-                    </p>
-                    <div class="flex items-center text-orange-500 font-slogan text-sm">
-                      <span class="material-icons text-sm mr-1">arrow_forward</span>
-                      Renforcer l'estime de soi
-                    </div>
+            <!-- Carte 3: Confiance & Émotions -->
+            <div class="group" data-aos="fade-up" data-aos-delay="600">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="flex items-center space-x-4 mb-4">
+                  <div class="bg-gradient-to-br from-gold/20 to-sage/20 p-3 rounded-full">
+                    <span class="material-icons text-gold text-2xl">self_improvement</span>
+                  </div>
+                  <div class="bg-gold text-white px-3 py-1 rounded-full text-sm font-slogan uppercase tracking-wider">
+                        Confiance & Émotions
                   </div>
                 </div>
-                
-                <!-- Point de connexion -->
-                <div class="hidden lg:block w-4 h-4 bg-sage rounded-full border-4 border-white shadow-lg"></div>
-                
-                <div class="lg:w-1/2 lg:pl-8">
-                  <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-6 text-center">
-                    <span class="material-icons text-orange-400 text-6xl mb-4">favorite</span>
-                    <p class="font-body text-ebony text-lg">Estime de soi, élan personnel</p>
-                  </div>
+                <h3 class="font-heading text-2xl text-ebony mb-4">Retrouver confiance & équilibre</h3>
+                <p class="font-body text-ebony leading-relaxed mb-4">
+                  Vous avez besoin de renforcer votre estime de soi et mieux gérer vos émotions au quotidien.
+                </p>
+                <div class="flex items-center text-gold font-slogan text-sm">
+                  <span class="material-icons text-sm mr-1">arrow_forward</span>
+                  Renforcer l'estime de soi
                 </div>
               </div>
+            </div>
+          </div>
 
-              <!-- Étape 4 -->
-              <div class="flex flex-col lg:flex-row-reverse items-center gap-8" data-aos="fade-up" data-aos-delay="800">
-                <div class="lg:w-1/2 lg:pl-8">
-                  <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 border border-sage/10">
-                    <div class="flex items-center space-x-4 mb-4">
-                      <div class="bg-gradient-to-br from-purple-100 to-purple-200 p-3 rounded-full">
-                        <span class="material-icons text-purple-500 text-2xl">psychology</span>
-                      </div>
-                      <div class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-slogan uppercase tracking-wider">
-                        Émotions
-                      </div>
-                    </div>
-                    <h3 class="font-heading text-2xl text-ebony mb-4">Gérer vos émotions</h3>
-                    <p class="font-body text-ebony leading-relaxed mb-4">
-                      Et vos relations. Vous cherchez un soutien pour mieux comprendre et gérer vos ressentis au quotidien.
-                    </p>
-                    <div class="flex items-center text-purple-500 font-slogan text-sm">
-                      <span class="material-icons text-sm mr-1">arrow_forward</span>
-                      Équilibrer les émotions
-                    </div>
+          <!-- Carte finale centrée -->
+          <div class="flex justify-center mt-12" data-aos="fade-up" data-aos-delay="800">
+            <div class="max-w-2xl">
+              <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 border border-sage/20">
+                <div class="flex items-center justify-center space-x-4 mb-6">
+                  <div class="bg-gradient-to-br from-sage to-eucalyptus p-4 rounded-full">
+                    <span class="material-icons text-white text-3xl">auto_awesome</span>
+                  </div>
+                  <div class="bg-sage text-white px-4 py-2 rounded-full text-sm font-slogan uppercase tracking-wider">
+                    Clarté & Sérénité
                   </div>
                 </div>
-                
-                <!-- Point de connexion -->
-                <div class="hidden lg:block w-4 h-4 bg-sage rounded-full border-4 border-white shadow-lg"></div>
-                
-                <div class="lg:w-1/2 lg:pr-8">
-                  <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6 text-center">
-                    <span class="material-icons text-purple-400 text-6xl mb-4">balance</span>
-                    <p class="font-body text-ebony text-lg">Équilibre émotionnel, relations</p>
-                  </div>
+                <h3 class="font-heading text-3xl text-ebony mb-4 text-center">Avancer avec sérénité</h3>
+                <p class="font-body text-ebony leading-relaxed text-center text-lg">
+                  Vous souhaitez avancer avec plus de clarté et de sérénité dans votre vie, en alignement avec vos valeurs profondes.
+                </p>
+                <div class="flex items-center justify-center text-sage font-slogan text-sm mt-4">
+                  <span class="material-icons text-sm mr-1">arrow_forward</span>
+                  Trouver son alignement
                 </div>
               </div>
-
-              <!-- Étape 5 - Centrée -->
-              <div class="flex justify-center" data-aos="fade-up" data-aos-delay="1000">
-                <div class="max-w-2xl">
-                  <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 border border-sage/20">
-                    <div class="flex items-center justify-center space-x-4 mb-6">
-                      <div class="bg-gradient-to-br from-sage to-eucalyptus p-4 rounded-full">
-                        <span class="material-icons text-white text-3xl">auto_awesome</span>
-                      </div>
-                      <div class="bg-sage text-white px-4 py-2 rounded-full text-sm font-slogan uppercase tracking-wider">
-                        Clarté & Sérénité
-                      </div>
-                    </div>
-                    <h3 class="font-heading text-3xl text-ebony mb-4 text-center">Avancer avec sérénité</h3>
-                    <p class="font-body text-ebony leading-relaxed text-center text-lg">
-                      Vous souhaitez avancer avec plus de clarté et de sérénité dans votre vie, en alignement avec vos valeurs profondes.
-                    </p>
-                    <div class="flex items-center justify-center text-sage font-slogan text-sm mt-4">
-                      <span class="material-icons text-sm mr-1">arrow_forward</span>
-                      Trouver son alignement
-                    </div>
-                  </div>
-                </div>
-              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- CTA après "Cette séance est faite pour vous si..." -->
+      <div class="container mx-auto px-4 relative z-10 mt-12">
+        <div class="max-w-4xl mx-auto text-center">
+          <div class="bg-gradient-to-br from-sage/10 to-eucalyptus/10 rounded-2xl p-8 border border-sage/20" data-aos="fade-up" data-aos-delay="1000">
+            <h3 class="font-heading text-2xl text-ebony mb-4">Vous vous reconnaissez dans ces situations ?</h3>
+            <p class="font-body text-ebony/80 mb-6">C'est le moment de prendre action et de commencer votre transformation personnelle.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button href="/accompagnements/reservation" size="lg" variant="secondary" class="bg-sage text-white hover:bg-eucalyptus">
+                <span class="material-icons mr-2">calendar_today</span>
+                Réserver ma séance
+              </Button>
+              <Button href="/contact" size="lg" variant="outline" class="border-sage text-sage hover:bg-sage hover:text-white">
+                <span class="material-icons mr-2">phone</span>
+                Discuter de mes besoins
+              </Button>
             </div>
           </div>
         </div>
@@ -571,8 +501,8 @@ const structuredData = {
             <!-- Bénéfice 4 -->
             <div class="group" data-aos="fade-up" data-aos-delay="800">
               <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-purple-500/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-purple-500 text-3xl">favorite</span>
+                <div class="bg-gradient-to-br from-gold/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-gold text-3xl">favorite</span>
                 </div>
                 <h3 class="font-heading text-2xl text-ebony mb-4">Regain de confiance</h3>
                 <p class="font-body text-ebony leading-relaxed">
@@ -584,8 +514,8 @@ const structuredData = {
             <!-- Bénéfice 5 -->
             <div class="group" data-aos="fade-up" data-aos-delay="1000">
               <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-blue-500/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-blue-500 text-3xl">visibility</span>
+                <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-eucalyptus text-3xl">visibility</span>
                 </div>
                 <h3 class="font-heading text-2xl text-ebony mb-4">Nouveau regard</h3>
                 <p class="font-body text-ebony leading-relaxed">
@@ -597,14 +527,34 @@ const structuredData = {
             <!-- Bénéfice 6 -->
             <div class="group" data-aos="fade-up" data-aos-delay="1200">
               <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-orange-500/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-orange-500 text-3xl">auto_awesome</span>
+                <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-sage text-3xl">auto_awesome</span>
                 </div>
                 <h3 class="font-heading text-2xl text-ebony mb-4">Transformation</h3>
                 <p class="font-body text-ebony leading-relaxed">
                   Une transformation profonde qui vous permet d'évoluer vers la meilleure version de vous-même.
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- CTA après "Les bénéfices" -->
+      <div class="container mx-auto px-4 relative z-10 mt-12">
+        <div class="max-w-4xl mx-auto text-center">
+          <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-sage/20" data-aos="fade-up" data-aos-delay="1400">
+            <h3 class="font-heading text-2xl text-ebony mb-4">Prêt(e) à vivre ces transformations ?</h3>
+            <p class="font-body text-ebony/80 mb-6">Commencez dès aujourd'hui votre voyage vers plus de clarté, de confiance et de sérénité.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button href="/accompagnements/reservation" size="lg" variant="secondary" class="bg-sage text-white hover:bg-eucalyptus">
+                <span class="material-icons mr-2">auto_awesome</span>
+                Commencer ma transformation
+              </Button>
+              <Button href="/contact" size="lg" variant="outline" class="border-sage text-sage hover:bg-sage hover:text-white">
+                <span class="material-icons mr-2">info</span>
+                En savoir plus
+              </Button>
             </div>
           </div>
         </div>
@@ -644,7 +594,7 @@ const structuredData = {
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-4">
               <!-- Étape 1 -->
               <div class="relative" data-aos="fade-up" data-aos-delay="200">
-                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 text-center">
+                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 text-center h-full flex flex-col">
                   <!-- Numéro d'étape -->
                   <div class="bg-gradient-to-br from-sage to-eucalyptus text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 font-heading text-xl font-bold">
                     1
@@ -656,7 +606,7 @@ const structuredData = {
                   </div>
                   
                   <h3 class="font-heading text-2xl text-ebony mb-4">Écoute & accueil</h3>
-                  <p class="font-body text-ebony leading-relaxed">
+                  <p class="font-body text-ebony leading-relaxed flex-grow">
                     Un temps d'échange pour exprimer vos besoins, vos ressentis et vos objectifs dans un espace bienveillant.
                   </p>
                 </div>
@@ -667,7 +617,7 @@ const structuredData = {
 
               <!-- Étape 2 -->
               <div class="relative" data-aos="fade-up" data-aos-delay="400">
-                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 text-center">
+                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 text-center h-full flex flex-col">
                   <!-- Numéro d'étape -->
                   <div class="bg-gradient-to-br from-eucalyptus to-gold text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 font-heading text-xl font-bold">
                     2
@@ -679,7 +629,7 @@ const structuredData = {
                   </div>
                   
                   <h3 class="font-heading text-2xl text-ebony mb-4">Exploration guidée</h3>
-                  <p class="font-body text-ebony leading-relaxed">
+                  <p class="font-body text-ebony leading-relaxed flex-grow">
                     À travers questions, outils de coaching et guidance intuitive pour approfondir votre réflexion.
                   </p>
                 </div>
@@ -690,7 +640,7 @@ const structuredData = {
 
               <!-- Étape 3 -->
               <div class="relative" data-aos="fade-up" data-aos-delay="600">
-                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 text-center">
+                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 text-center h-full flex flex-col">
                   <!-- Numéro d'étape -->
                   <div class="bg-gradient-to-br from-gold to-sage text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 font-heading text-xl font-bold">
                     3
@@ -702,7 +652,7 @@ const structuredData = {
                   </div>
                   
                   <h3 class="font-heading text-2xl text-ebony mb-4">Mise en lumière</h3>
-                  <p class="font-body text-ebony leading-relaxed">
+                  <p class="font-body text-ebony leading-relaxed flex-grow">
                     Identification de vos blocages, croyances ou freins inconscients pour les transformer en leviers.
                   </p>
                 </div>
@@ -713,7 +663,7 @@ const structuredData = {
 
               <!-- Étape 4 -->
               <div class="relative" data-aos="fade-up" data-aos-delay="800">
-                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 text-center">
+                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 text-center h-full flex flex-col">
                   <!-- Numéro d'étape -->
                   <div class="bg-gradient-to-br from-sage to-eucalyptus text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 font-heading text-xl font-bold">
                     4
@@ -725,7 +675,7 @@ const structuredData = {
                   </div>
                   
                   <h3 class="font-heading text-2xl text-ebony mb-4">Pistes concrètes</h3>
-                  <p class="font-body text-ebony leading-relaxed">
+                  <p class="font-body text-ebony leading-relaxed flex-grow">
                     Conseils pratiques, exercices ou rituels personnalisés pour avancer sereinement dans votre vie.
                   </p>
                 </div>

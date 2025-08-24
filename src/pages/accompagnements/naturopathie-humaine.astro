@@ -50,26 +50,20 @@ const structuredData = {
       <!-- Contenu principal -->
       <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-6xl mx-auto">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="text-center">
             
             <!-- Texte principal -->
-            <div class="text-white" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
-              <div class="mb-6 mt-8" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                <span class="inline-block bg-sage/20 backdrop-blur-sm text-sage px-4 py-2 rounded-full text-sm font-slogan uppercase tracking-wider mb-4">
-                  Consultation à distance
-                </span>
-              </div>
-              
-              <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
-                Naturopathie humaine
+            <div class="text-white mb-12" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+              <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                Naturopathie
                 <span class="block text-sage">Retrouver équilibre et vitalité naturellement</span>
               </h1>
               
-              <p class="font-body text-xl mb-8 text-white/90 leading-relaxed" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
-                Une approche douce et globale de la santé qui considère l'être humain dans toutes ses dimensions : physique, émotionnelle, énergétique et spirituelle.
+              <p class="font-body text-xl mb-8 text-white/90 leading-relaxed italic" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+                "La santé n'est pas l'absence de maladie, mais l'harmonie entre le corps, l'esprit et l'âme"
               </p>
               
-              <div class="flex flex-col sm:flex-row gap-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="1000">
+              <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
                 <Button href="/accompagnements/reservation" size="lg" variant="secondary">
                   Je réserve ma séance
                 </Button>
@@ -79,56 +73,30 @@ const structuredData = {
               </div>
             </div>
             
-            <!-- Bloc résumé rapide -->
-            <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl mb-8" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="400">
-              <h3 class="font-heading text-2xl text-ebony mb-6 text-center">Informations pratiques</h3>
-              
-              <div class="space-y-6">
-                <div class="flex items-center space-x-4 p-4 bg-cream/50 rounded-xl">
-                  <div class="bg-sage/20 p-3 rounded-full">
-                    <span class="material-icons text-sage text-2xl">schedule</span>
-                  </div>
-                  <div>
-                    <p class="font-slogan text-sm text-gray-600 uppercase tracking-wider">Première séance</p>
-                    <p class="font-body text-ebony font-semibold">1h30 à 2h</p>
-                  </div>
+            <!-- Bulles d'informations pratiques -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1000">
+              <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
+                <div class="flex justify-center mb-3">
+                  <span class="material-icons text-white text-3xl">schedule</span>
                 </div>
-                
-                <div class="flex items-center space-x-4 p-4 bg-cream/50 rounded-xl">
-                  <div class="bg-sage/20 p-3 rounded-full">
-                    <span class="material-icons text-sage text-2xl">update</span>
-                  </div>
-                  <div>
-                    <p class="font-slogan text-sm text-gray-600 uppercase tracking-wider">Suivis</p>
-                    <p class="font-body text-ebony font-semibold">45 min à 1h</p>
-                  </div>
-                </div>
-                
-                <div class="flex items-center space-x-4 p-4 bg-cream/50 rounded-xl">
-                  <div class="bg-sage/20 p-3 rounded-full">
-                    <span class="material-icons text-sage text-2xl">video_call</span>
-                  </div>
-                  <div>
-                    <p class="font-slogan text-sm text-gray-600 uppercase tracking-wider">Format</p>
-                    <p class="font-body text-ebony font-semibold">À distance (visioconférence)</p>
-                  </div>
-                </div>
-                
-                <div class="flex items-center space-x-4 p-4 bg-cream/50 rounded-xl">
-                  <div class="bg-sage/20 p-3 rounded-full">
-                    <span class="material-icons text-sage text-2xl">euro</span>
-                  </div>
-                  <div>
-                    <p class="font-slogan text-sm text-gray-600 uppercase tracking-wider">Tarif</p>
-                    <p class="font-body text-ebony font-semibold">150€ première – 60€ suivi</p>
-                  </div>
-                </div>
+                <p class="font-body text-white font-bold text-2xl mb-1">1h30</p>
+                <p class="font-slogan text-xs text-white/80 uppercase tracking-wider">PREMIÈRE SÉANCE</p>
               </div>
               
-              <div class="mt-8 pt-6 border-t border-sage/20">
-                <Button href="/accompagnements/reservation" size="lg" class="w-full">
-                  Réserver maintenant
-                </Button>
+              <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
+                <div class="flex justify-center mb-3">
+                  <span class="material-icons text-white text-3xl">video_call</span>
+                </div>
+                <p class="font-body text-white font-bold text-2xl mb-1">À distance</p>
+                <p class="font-slogan text-xs text-white/80 uppercase tracking-wider">VISIOCONFÉRENCE</p>
+              </div>
+              
+              <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
+                <div class="flex justify-center mb-3">
+                  <span class="material-icons text-white text-3xl">euro</span>
+                </div>
+                <p class="font-body text-white font-bold text-2xl mb-1">150€</p>
+                <p class="font-slogan text-xs text-white/80 uppercase tracking-wider">LA SÉANCE</p>
               </div>
             </div>
           </div>
@@ -148,20 +116,54 @@ const structuredData = {
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
             <div data-aos="fade-right">
-              <p class="font-body text-lg text-ebony leading-relaxed mb-6">
-                La naturopathie est une approche douce et globale de la santé, qui considère l'être humain dans toutes ses dimensions : physique, émotionnelle, énergétique et spirituelle.
-              </p>
-              <p class="font-body text-lg text-ebony leading-relaxed">
-                Elle aide à renforcer vos défenses naturelles, retrouver un équilibre durable et devenir acteur de votre propre bien-être.
-              </p>
+              <div class="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl border border-sage/20 relative overflow-hidden">
+                <!-- Éléments décoratifs -->
+                <div class="absolute top-0 right-0 w-20 h-20 bg-sage/10 rounded-full -translate-y-10 translate-x-10"></div>
+                <div class="absolute bottom-0 left-0 w-16 h-16 bg-eucalyptus/10 rounded-full translate-y-8 -translate-x-8"></div>
+                
+                <div class="relative z-10">
+                  <div class="flex items-start space-x-4 mb-6">
+                    <div class="bg-sage/20 p-3 rounded-full flex-shrink-0">
+                      <span class="material-icons text-sage text-xl">healing</span>
+                    </div>
+                    <p class="font-body text-lg text-ebony leading-relaxed">
+                      La naturopathie est une approche douce et globale de la santé, qui considère l'être humain dans toutes ses dimensions : physique, émotionnelle, énergétique et spirituelle.
+                    </p>
+                  </div>
+                  
+                  <div class="flex items-start space-x-4">
+                    <div class="bg-eucalyptus/20 p-3 rounded-full flex-shrink-0">
+                      <span class="material-icons text-eucalyptus text-xl">self_improvement</span>
+                    </div>
+                    <p class="font-body text-lg text-ebony leading-relaxed">
+                      Elle aide à renforcer vos défenses naturelles, retrouver un équilibre durable et devenir acteur de votre propre bien-être.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
+            
             <div data-aos="fade-left">
-              <img 
-                src="/images/naturopathie-benefice.jpg" 
-                alt="Naturopathie humaine – retrouver équilibre et vitalité naturellement"
-                class="w-full h-80 object-cover rounded-2xl shadow-medium"
-              />
+              <div class="relative group">
+                <div class="absolute inset-0 bg-gradient-to-r from-sage/20 to-eucalyptus/20 rounded-3xl transform rotate-2 group-hover:rotate-0 transition-transform duration-500"></div>
+                <div class="absolute inset-0 bg-gradient-to-l from-eucalyptus/20 to-sage/20 rounded-3xl transform -rotate-1 group-hover:rotate-0 transition-transform duration-500 delay-100"></div>
+                
+                <img 
+                  src="/images/naturopathie-benefice.jpg" 
+                  alt="Naturopathie humaine – retrouver équilibre et vitalité naturellement"
+                  class="w-full h-80 object-cover rounded-3xl shadow-2xl relative z-10 transition-all duration-500 group-hover:scale-105 group-hover:shadow-3xl"
+                />
+                
+                <!-- Overlay dynamique -->
+                <div class="absolute inset-0 bg-gradient-to-t from-ebony/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl z-20"></div>
+                
+                <!-- Badge flottant -->
+                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-sage px-4 py-2 rounded-full text-sm font-semibold shadow-lg z-30 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                  ✨ Approche naturelle
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -169,46 +171,95 @@ const structuredData = {
     </section>
 
     <!-- Cette séance est faite pour vous si... -->
-    <section class="py-16 bg-cream">
-      <div class="container mx-auto px-4">
+    <section class="py-16 bg-cream relative overflow-hidden">
+      <!-- Éléments décoratifs en arrière-plan -->
+      <div class="absolute top-0 left-0 w-64 h-64 bg-sage/5 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 right-0 w-48 h-48 bg-eucalyptus/5 rounded-full blur-3xl"></div>
+      <div class="absolute top-1/2 left-1/4 w-32 h-32 bg-sage/10 rounded-full blur-2xl"></div>
+      
+      <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-4xl mx-auto">
           <h2 class="font-heading text-3xl md:text-4xl text-ebony text-center mb-12" data-aos="fade-up">
             Cette séance est faite pour vous si...
           </h2>
           
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white rounded-2xl p-6 shadow-soft" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+            <!-- Lignes de connexion -->
+            <div class="hidden md:block absolute top-1/2 left-1/4 w-1/2 h-0.5 bg-gradient-to-r from-sage/30 to-eucalyptus/30 transform -translate-y-1/2 z-0"></div>
+            <div class="hidden md:block absolute top-1/2 left-1/4 w-1/2 h-0.5 bg-gradient-to-r from-eucalyptus/30 to-sage/30 transform -translate-y-1/2 translate-y-8 z-0"></div>
+            
+            <div class="group bg-white rounded-2xl p-6 shadow-soft transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:border-2 hover:border-sage/30 relative z-10" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
               <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-2xl mt-1">energy_savings_leaf</span>
-                <p class="font-body text-ebony">Vous ressentez une fatigue persistante ou un manque d'énergie</p>
+                <div class="bg-sage/20 p-3 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 group-hover:bg-sage/30 relative">
+                  <span class="material-icons text-sage text-2xl transition-all duration-300 group-hover:scale-110">energy_savings_leaf</span>
+                  <!-- Élément décoratif -->
+                  <div class="absolute -top-1 -right-1 w-3 h-3 bg-sage/40 rounded-full"></div>
+                </div>
+                <p class="font-body text-ebony group-hover:text-ebony/90 transition-colors duration-300">Vous ressentez une fatigue persistante ou un manque d'énergie</p>
               </div>
             </div>
             
-            <div class="bg-white rounded-2xl p-6 shadow-soft" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+            <div class="group bg-white rounded-2xl p-6 shadow-soft transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:border-2 hover:border-eucalyptus/30 relative z-10" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
               <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-2xl mt-1">healing</span>
-                <p class="font-body text-ebony">Vous cherchez une alternative naturelle aux médicaments pour mieux vivre au quotidien</p>
+                <div class="bg-eucalyptus/20 p-3 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:-rotate-12 group-hover:bg-eucalyptus/30 relative">
+                  <span class="material-icons text-eucalyptus text-2xl transition-all duration-300 group-hover:scale-110">healing</span>
+                  <!-- Élément décoratif -->
+                  <div class="absolute -top-1 -right-1 w-3 h-3 bg-eucalyptus/40 rounded-full"></div>
+                </div>
+                <p class="font-body text-ebony group-hover:text-ebony/90 transition-colors duration-300">Vous cherchez une alternative naturelle aux médicaments pour mieux vivre au quotidien</p>
               </div>
             </div>
             
-            <div class="bg-white rounded-2xl p-6 shadow-soft" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+            <div class="group bg-white rounded-2xl p-6 shadow-soft transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:border-2 hover:border-sage/30 relative z-10" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
               <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-2xl mt-1">self_improvement</span>
-                <p class="font-body text-ebony">Vous voulez mieux gérer votre stress, vos émotions ou vos troubles du sommeil</p>
+                <div class="bg-sage/20 p-3 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 group-hover:bg-sage/30 relative">
+                  <span class="material-icons text-sage text-2xl transition-all duration-300 group-hover:scale-110">self_improvement</span>
+                  <!-- Élément décoratif -->
+                  <div class="absolute -top-1 -right-1 w-3 h-3 bg-sage/40 rounded-full"></div>
+                </div>
+                <p class="font-body text-ebony group-hover:text-ebony/90 transition-colors duration-300">Vous voulez mieux gérer votre stress, vos émotions ou vos troubles du sommeil</p>
               </div>
             </div>
             
-            <div class="bg-white rounded-2xl p-6 shadow-soft" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
+            <div class="group bg-white rounded-2xl p-6 shadow-soft transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:border-2 hover:border-eucalyptus/30 relative z-10" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
               <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-2xl mt-1">restaurant</span>
-                <p class="font-body text-ebony">Vous souhaitez améliorer votre digestion ou renforcer vos défenses immunitaires</p>
+                <div class="bg-eucalyptus/20 p-3 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:-rotate-12 group-hover:bg-eucalyptus/30 relative">
+                  <span class="material-icons text-eucalyptus text-2xl transition-all duration-300 group-hover:scale-110">restaurant</span>
+                  <!-- Élément décoratif -->
+                  <div class="absolute -top-1 -right-1 w-3 h-3 bg-eucalyptus/40 rounded-full"></div>
+                </div>
+                <p class="font-body text-ebony group-hover:text-ebony/90 transition-colors duration-300">Vous souhaitez améliorer votre digestion ou renforcer vos défenses immunitaires</p>
               </div>
             </div>
             
-            <div class="bg-white rounded-2xl p-6 shadow-soft md:col-span-2" data-aos="fade-up" data-aos-duration="800" data-aos-delay="1000">
+            <div class="group bg-white rounded-2xl p-6 shadow-soft md:col-span-2 transition-all duration-300 hover:shadow-2xl hover:scale-105 hover:border-2 hover:border-sage/30 relative z-10" data-aos="fade-up" data-aos-duration="800" data-aos-delay="1000">
               <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-2xl mt-1">calendar_today</span>
-                <p class="font-body text-ebony">Vous désirez prévenir les déséquilibres liés aux saisons ou aux changements de vie</p>
+                <div class="bg-sage/20 p-3 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 group-hover:bg-sage/30 relative">
+                  <span class="material-icons text-sage text-2xl transition-all duration-300 group-hover:scale-110">calendar_today</span>
+                  <!-- Élément décoratif -->
+                  <div class="absolute -top-1 -right-1 w-3 h-3 bg-sage/40 rounded-full"></div>
+                </div>
+                <p class="font-body text-ebony group-hover:text-ebony/90 transition-colors duration-300">Vous désirez prévenir les déséquilibres liés aux saisons ou aux changements de vie</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- CTA Section -->
+          <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="1200">
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-soft border border-sage/20">
+              <p class="font-body text-lg text-ebony mb-6">
+                Vous vous reconnaissez dans ces situations ? 
+                <span class="text-sage font-semibold">Il est temps d'agir pour votre bien-être !</span>
+              </p>
+              <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button href="/accompagnements/reservation" size="lg" class="bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage transition-all duration-300">
+                  <span class="material-icons mr-2">calendar_today</span>
+                  Réserver maintenant
+                </Button>
+                <Button href="/contact" size="lg" variant="outline" class="border-sage text-sage hover:bg-sage hover:text-white transition-all duration-300">
+                  <span class="material-icons mr-2">phone</span>
+                  Questions ?
+                </Button>
               </div>
             </div>
           </div>
@@ -220,46 +271,58 @@ const structuredData = {
     <section class="py-16 bg-white">
       <div class="container mx-auto px-4">
         <div class="max-w-6xl mx-auto">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div data-aos="fade-right">
-              <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-8">
-                Les bénéfices d'un accompagnement naturopathique
-              </h2>
-              
-              <div class="space-y-6">
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">psychology</span>
-                  <p class="font-body text-ebony">Une vision globale de votre santé (corps, esprit, énergie)</p>
-                </div>
-                
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">person</span>
-                  <p class="font-body text-ebony">Des conseils personnalisés, adaptés à vos besoins et à votre rythme de vie</p>
-                </div>
-                
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">eco</span>
-                  <p class="font-body text-ebony">Des solutions naturelles et durables : alimentation, hygiène de vie, plantes, relaxation</p>
-                </div>
-                
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">self_improvement</span>
-                  <p class="font-body text-ebony">Une meilleure connaissance de vous-même et de votre corps</p>
-                </div>
-                
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">favorite</span>
-                  <p class="font-body text-ebony">Un accompagnement respectueux, bienveillant et sans jugement</p>
-                </div>
-              </div>
-            </div>
-            
-            <div data-aos="fade-left">
+          <div class="relative">
+            <!-- Image de fond -->
+            <div class="relative rounded-2xl overflow-hidden shadow-medium">
               <img 
                 src="/images/naturopathie-humaine-banniere.jpg" 
                 alt="Bienfaits de la naturopathie humaine – Harmonia et Vita"
-                class="w-full h-96 object-cover rounded-2xl shadow-medium"
+                class="w-full h-[500px] object-cover object-center"
               />
+              <!-- Overlay pour améliorer la lisibilité -->
+              <div class="absolute inset-0 bg-gradient-to-r from-ebony/40 via-ebony/20 to-transparent"></div>
+              
+              <!-- Cartes superposées -->
+              <div class="absolute inset-0 flex items-center justify-between p-12">
+                <!-- Carte de citation -->
+                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 max-w-md" data-aos="fade-right">
+                  <p class="font-handwriting text-xl text-ebony leading-relaxed italic text-center">
+                    "La clarté vient de l'écoute de son cœur et de la confiance en son intuition."
+                  </p>
+                </div>
+                
+                <!-- Carte "Les bénéfices" -->
+                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 max-w-lg" data-aos="fade-left">
+                  <h3 class="font-heading text-2xl text-ebony mb-6">Les bénéfices d'un accompagnement naturopathique</h3>
+                  
+                  <div class="space-y-4">
+                    <div class="flex items-start space-x-3">
+                      <span class="material-icons text-sage text-lg mt-1">psychology</span>
+                      <p class="font-body text-ebony text-sm">Une vision globale de votre santé (corps, esprit, énergie)</p>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3">
+                      <span class="material-icons text-sage text-lg mt-1">person</span>
+                      <p class="font-body text-ebony text-sm">Des conseils personnalisés, adaptés à vos besoins et à votre rythme de vie</p>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3">
+                      <span class="material-icons text-sage text-lg mt-1">eco</span>
+                      <p class="font-body text-ebony text-sm">Des solutions naturelles et durables : alimentation, hygiène de vie, plantes, relaxation</p>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3">
+                      <span class="material-icons text-sage text-lg mt-1">self_improvement</span>
+                      <p class="font-body text-ebony text-sm">Une meilleure connaissance de vous-même et de votre corps</p>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3">
+                      <span class="material-icons text-sage text-lg mt-1">favorite</span>
+                      <p class="font-body text-ebony text-sm">Un accompagnement respectueux, bienveillant et sans jugement</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -269,42 +332,69 @@ const structuredData = {
     <!-- Déroulement d'une séance -->
     <section class="py-16 bg-cream">
       <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <h2 class="font-heading text-3xl md:text-4xl text-ebony text-center mb-12" data-aos="fade-up">
-            Déroulement d'une séance de naturopathie humaine
-          </h2>
+        <div class="max-w-6xl mx-auto">
+          <!-- Header -->
+          <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-4">
+              <span class="text-sage">Déroulement</span> d'une séance
+            </h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-sage to-eucalyptus mx-auto mb-6"></div>
+            <p class="font-body text-lg text-gray-700 max-w-2xl mx-auto">
+              Découvrez comment se déroule une séance d'accompagnement personnel étape par étape.
+            </p>
+          </div>
           
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-white rounded-2xl p-6 shadow-soft text-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-              <div class="bg-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+          <!-- Cartes des étapes -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+            <!-- Ligne de connexion -->
+            <div class="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gray-300 transform -translate-y-1/2 z-0"></div>
+            
+            <!-- Étape 1 -->
+            <div class="bg-white rounded-2xl p-6 shadow-soft text-center relative z-10" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+              <div class="bg-sage rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">
+                <span class="font-heading text-white font-bold text-lg">1</span>
+              </div>
+              <div class="mb-4">
                 <span class="material-icons text-sage text-2xl">hearing</span>
               </div>
-              <h3 class="font-heading text-xl text-ebony mb-3">1. Écoute & accueil</h3>
-              <p class="font-body text-gray-600">Temps d'échange pour comprendre vos besoins et vos objectifs.</p>
+              <h3 class="font-heading text-xl text-ebony mb-3">Écoute & accueil</h3>
+              <p class="font-body text-gray-600 text-sm">Un temps d'échange pour exprimer vos besoins, vos ressentis et vos objectifs dans un espace bienveillant.</p>
             </div>
             
-            <div class="bg-white rounded-2xl p-6 shadow-soft text-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-              <div class="bg-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span class="material-icons text-sage text-2xl">search</span>
+            <!-- Étape 2 -->
+            <div class="bg-white rounded-2xl p-6 shadow-soft text-center relative z-10" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+              <div class="bg-eucalyptus rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">
+                <span class="font-heading text-white font-bold text-lg">2</span>
               </div>
-              <h3 class="font-heading text-xl text-ebony mb-3">2. Analyse naturopathique</h3>
-              <p class="font-body text-gray-600">Recherche des déséquilibres et causes possibles.</p>
-            </div>
-            
-            <div class="bg-white rounded-2xl p-6 shadow-soft text-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
-              <div class="bg-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span class="material-icons text-sage text-2xl">assignment</span>
+              <div class="mb-4">
+                <span class="material-icons text-eucalyptus text-2xl">search</span>
               </div>
-              <h3 class="font-heading text-xl text-ebony mb-3">3. Protocole personnalisé</h3>
-              <p class="font-body text-gray-600">Conseils pratiques en alimentation, hygiène de vie, gestion émotionnelle, phytothérapie, respiration…</p>
+              <h3 class="font-heading text-xl text-ebony mb-3">Exploration guidée</h3>
+              <p class="font-body text-gray-600 text-sm">À travers questions, outils de coaching et guidance intuitive pour approfondir votre réflexion.</p>
             </div>
             
-            <div class="bg-white rounded-2xl p-6 shadow-soft text-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
-              <div class="bg-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <!-- Étape 3 -->
+            <div class="bg-white rounded-2xl p-6 shadow-soft text-center relative z-10" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+              <div class="bg-eucalyptus rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">
+                <span class="font-heading text-white font-bold text-lg">3</span>
+              </div>
+              <div class="mb-4">
+                <span class="material-icons text-eucalyptus text-2xl">visibility</span>
+              </div>
+              <h3 class="font-heading text-xl text-ebony mb-3">Mise en lumière</h3>
+              <p class="font-body text-gray-600 text-sm">Identification de vos blocages, croyances ou freins inconscients pour les transformer en leviers.</p>
+            </div>
+            
+            <!-- Étape 4 -->
+            <div class="bg-white rounded-2xl p-6 shadow-soft text-center relative z-10" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
+              <div class="bg-sage rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">
+                <span class="font-heading text-white font-bold text-lg">4</span>
+              </div>
+              <div class="mb-4">
                 <span class="material-icons text-sage text-2xl">trending_up</span>
               </div>
-              <h3 class="font-heading text-xl text-ebony mb-3">4. Suivi</h3>
-              <p class="font-body text-gray-600">Ajustements et accompagnement progressif selon votre évolution.</p>
+              <h3 class="font-heading text-xl text-ebony mb-3">Pistes concrètes</h3>
+              <p class="font-body text-gray-600 text-sm">Conseils pratiques, exercices ou rituels personnalisés pour avancer sereinement dans votre vie.</p>
             </div>
           </div>
         </div>
@@ -312,48 +402,118 @@ const structuredData = {
     </section>
 
     <!-- Détails pratiques -->
-    <section id="details" class="py-16 bg-white">
+    <section id="details" class="py-16 bg-gradient-to-br from-cream via-white to-sage/10">
       <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-6xl mx-auto">
           <h2 class="font-heading text-3xl md:text-4xl text-ebony text-center mb-12" data-aos="fade-up">
             Détails pratiques
           </h2>
           
-          <div class="bg-cream rounded-2xl p-8 shadow-soft" data-aos="fade-up">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Première séance</h3>
-                <div class="space-y-3">
-                  <div class="flex items-center space-x-3">
-                    <span class="material-icons text-sage">schedule</span>
-                    <span class="font-body text-ebony">Durée : 1h30 à 2h</span>
-                  </div>
-                  <div class="flex items-center space-x-3">
-                    <span class="material-icons text-sage">euro</span>
-                    <span class="font-body text-ebony">Tarif : 150€</span>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" data-aos="fade-up">
+            <!-- Card Première séance -->
+            <div class="group relative">
+              <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-soft border border-white/50 transition-all duration-500 hover:shadow-2xl hover:scale-105 hover:bg-white/90">
+                <div class="absolute top-4 right-4">
+                  <div class="bg-gradient-to-r from-sage to-eucalyptus text-white px-4 py-2 rounded-full text-sm font-semibold">
+                    Recommandé
                   </div>
                 </div>
-              </div>
-              
-              <div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Séances de suivi</h3>
-                <div class="space-y-3">
-                  <div class="flex items-center space-x-3">
-                    <span class="material-icons text-sage">schedule</span>
-                    <span class="font-body text-ebony">Durée : 45 min à 1h</span>
+                
+                <div class="text-center mb-6">
+                  <div class="bg-gradient-to-r from-sage to-eucalyptus rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <span class="material-icons text-white text-3xl">star</span>
                   </div>
-                  <div class="flex items-center space-x-3">
-                    <span class="material-icons text-sage">euro</span>
-                    <span class="font-body text-ebony">Tarif : 60€</span>
+                  <h3 class="font-heading text-2xl text-ebony mb-2">Première séance</h3>
+                  <p class="font-body text-gray-600">Bilan complet et protocole personnalisé</p>
+                </div>
+                
+                <div class="space-y-4 mb-6">
+                  <div class="flex items-center justify-between p-4 bg-sage/10 rounded-xl group-hover:bg-sage/20 transition-colors duration-300">
+                    <div class="flex items-center space-x-3">
+                      <span class="material-icons text-sage">schedule</span>
+                      <span class="font-body text-ebony">Durée</span>
+                    </div>
+                    <span class="font-heading text-lg text-ebony font-semibold">1h30 à 2h</span>
+                  </div>
+                  
+                  <div class="flex items-center justify-between p-4 bg-eucalyptus/10 rounded-xl group-hover:bg-eucalyptus/20 transition-colors duration-300">
+                    <div class="flex items-center space-x-3">
+                      <span class="material-icons text-eucalyptus">euro</span>
+                      <span class="font-body text-ebony">Tarif</span>
+                    </div>
+                    <span class="font-heading text-2xl text-eucalyptus font-bold">150€</span>
                   </div>
                 </div>
+                
+                <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div class="bg-gradient-to-r from-sage/10 to-eucalyptus/10 rounded-xl p-4 mb-4">
+                    <p class="font-body text-sm text-ebony text-center">
+                      Inclut : questionnaire préalable, bilan complet, protocole personnalisé et suivi par email
+                    </p>
+                  </div>
+                </div>
+                
+                <Button href="/accompagnements/reservation" size="lg" class="w-full bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage transition-all duration-300">
+                  Réserver ma première séance
+                </Button>
               </div>
             </div>
             
-            <div class="mt-8 pt-8 border-t border-sage/20">
-              <div class="flex items-center space-x-3 justify-center">
-                <span class="material-icons text-sage">video_call</span>
-                <span class="font-body text-ebony">Format : à distance (visioconférence)</span>
+            <!-- Card Séances de suivi -->
+            <div class="group relative">
+              <div class="bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-soft border border-white/50 transition-all duration-500 hover:shadow-2xl hover:scale-105 hover:bg-white/90">
+                <div class="text-center mb-6">
+                  <div class="bg-gradient-to-r from-eucalyptus to-sage rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <span class="material-icons text-white text-3xl">update</span>
+                  </div>
+                  <h3 class="font-heading text-2xl text-ebony mb-2">Séances de suivi</h3>
+                  <p class="font-body text-gray-600">Accompagnement continu et ajustements</p>
+                </div>
+                
+                <div class="space-y-4 mb-6">
+                  <div class="flex items-center justify-between p-4 bg-eucalyptus/10 rounded-xl group-hover:bg-eucalyptus/20 transition-colors duration-300">
+                    <div class="flex items-center space-x-3">
+                      <span class="material-icons text-eucalyptus">schedule</span>
+                      <span class="font-body text-ebony">Durée</span>
+                    </div>
+                    <span class="font-heading text-lg text-ebony font-semibold">45 min à 1h</span>
+                  </div>
+                  
+                  <div class="flex items-center justify-between p-4 bg-sage/10 rounded-xl group-hover:bg-sage/20 transition-colors duration-300">
+                    <div class="flex items-center space-x-3">
+                      <span class="material-icons text-sage">euro</span>
+                      <span class="font-body text-ebony">Tarif</span>
+                    </div>
+                    <span class="font-heading text-2xl text-sage font-bold">60€</span>
+                  </div>
+                </div>
+                
+                <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div class="bg-gradient-to-r from-eucalyptus/10 to-sage/10 rounded-xl p-4 mb-4">
+                    <p class="font-body text-sm text-ebony text-center">
+                      Inclut : suivi des progrès, ajustements du protocole et conseils personnalisés
+                    </p>
+                  </div>
+                </div>
+                
+                <Button href="/accompagnements/reservation" size="lg" class="w-full bg-gradient-to-r from-eucalyptus to-sage hover:from-sage hover:to-eucalyptus transition-all duration-300">
+                  Réserver un suivi
+                </Button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Info format -->
+          <div class="mt-12 text-center" data-aos="fade-up" data-aos-delay="300">
+            <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 inline-block border border-white/50">
+              <div class="flex items-center justify-center space-x-3">
+                <div class="bg-gradient-to-r from-sage to-eucalyptus rounded-full p-3">
+                  <span class="material-icons text-white">video_call</span>
+                </div>
+                <div>
+                  <p class="font-heading text-lg text-ebony">Format : à distance</p>
+                  <p class="font-body text-gray-600">Visioconférence sécurisée</p>
+                </div>
               </div>
             </div>
           </div>
@@ -372,29 +532,38 @@ const structuredData = {
               </h2>
               
               <div class="space-y-6">
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">psychology</span>
-                  <p class="font-body text-ebony">Une approche complète alliant naturopathie, énergie et écoute bienveillante</p>
+                <div class="group flex items-start space-x-4 p-4 rounded-xl transition-all duration-300 hover:bg-white/50 hover:shadow-soft">
+                  <span class="material-icons text-sage text-xl mt-1 group-hover:scale-110 transition-transform duration-300">psychology</span>
+                  <p class="font-body text-ebony">
+                    Une approche complète alliant <span class="text-eucalyptus font-semibold">naturopathie</span>, <span class="text-eucalyptus font-semibold">énergie</span> et écoute bienveillante
+                  </p>
                 </div>
                 
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">lightbulb</span>
-                  <p class="font-body text-ebony">Conseils personnalisés et faciles à appliquer au quotidien</p>
+                <div class="group flex items-start space-x-4 p-4 rounded-xl transition-all duration-300 hover:bg-white/50 hover:shadow-soft">
+                  <span class="material-icons text-sage text-xl mt-1 group-hover:scale-110 transition-transform duration-300">lightbulb</span>
+                  <p class="font-body text-ebony">
+                    Conseils <span class="text-eucalyptus font-semibold">personnalisés</span> et faciles à appliquer au quotidien
+                  </p>
                 </div>
                 
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">security</span>
-                  <p class="font-body text-ebony">Expérience et accompagnement dans la confidentialité et le respect</p>
+                <div class="group flex items-start space-x-4 p-4 rounded-xl transition-all duration-300 hover:bg-white/50 hover:shadow-soft">
+                  <span class="material-icons text-sage text-xl mt-1 group-hover:scale-110 transition-transform duration-300">security</span>
+                  <p class="font-body text-ebony">
+                    Expérience et accompagnement dans la <span class="text-eucalyptus font-semibold">confidentialité</span> et le respect
+                  </p>
                 </div>
               </div>
             </div>
             
             <div data-aos="fade-left">
-              <img 
-                src="/images/naturopathie-portrait.jpg" 
-                alt="Consultation de naturopathie humaine – Harmonia et Vita"
-                class="w-full h-96 object-cover rounded-2xl shadow-medium"
-              />
+              <div class="group relative overflow-hidden rounded-2xl shadow-medium transition-all duration-500 hover:shadow-2xl">
+                <img 
+                  src="/images/naturopathie-portrait.jpg" 
+                  alt="Consultation de naturopathie humaine – Harmonia et Vita"
+                  class="w-full h-96 object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-ebony/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -404,68 +573,209 @@ const structuredData = {
     <!-- Témoignages -->
     <section class="py-16 bg-white">
       <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <h2 class="font-heading text-3xl md:text-4xl text-ebony text-center mb-12" data-aos="fade-up">
-            Témoignages
-          </h2>
+        <div class="max-w-6xl mx-auto">
+          <!-- Header -->
+          <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-4">
+              <span class="text-sage">Témoignages</span> de nos clients
+            </h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-sage to-eucalyptus mx-auto mb-6"></div>
+            <p class="font-body text-lg text-gray-700 max-w-2xl mx-auto">
+              Découvrez les retours d'expérience de personnes qui ont transformé leur vie grâce à notre accompagnement.
+            </p>
+          </div>
           
-          <div class="space-y-8">
-            <Card variant="feature" class="p-8" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-              <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-3xl">format_quote</span>
+          <!-- Cartes de témoignages -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="200">
+            <!-- Témoignage 1 -->
+            <div class="bg-white rounded-2xl p-6 shadow-soft">
+              <div class="flex mb-4">
+                <span class="material-icons text-amber-400">star</span>
+                <span class="material-icons text-amber-400">star</span>
+                <span class="material-icons text-amber-400">star</span>
+                <span class="material-icons text-amber-400">star</span>
+                <span class="material-icons text-amber-400">star</span>
+              </div>
+              <p class="font-body text-ebony text-sm mb-6 leading-relaxed">
+                "Je traversais une période de confusion où je ne savais plus quelle direction prendre. Grâce à nos séances en visio, j'ai pu y voir plus clair et poser des choix alignés. J'ai l'impression d'avoir retrouvé mon chemin."
+              </p>
+              <div class="flex items-center space-x-3">
+                <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center">
+                  <span class="font-heading text-gray-600 font-semibold">É</span>
+                </div>
                 <div>
-                  <p class="font-body text-ebony text-lg italic mb-4">
-                    "J'ai adoré ma séance de naturopathie, tout était clair et hyper concret. J'ai reçu un programme complet avec des conseils adaptés à mon rythme et même des idées de recettes simples à mettre en pratique. Franchement, ça change la vie : je sais enfin quoi manger sans me compliquer, et je me sens déjà plus légère et plus sereine."
-                  </p>
-                  <p class="font-slogan text-sage font-semibold">Claire M. – 37 ans</p>
+                  <p class="font-heading text-ebony font-semibold">Élodie</p>
+                  <p class="font-body text-gray-500 text-sm">34 ans</p>
                 </div>
               </div>
-            </Card>
+            </div>
             
-            <Card variant="feature" class="p-8" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-              <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-3xl">format_quote</span>
+            <!-- Témoignage 2 -->
+            <div class="bg-white rounded-2xl p-6 shadow-soft">
+              <div class="flex mb-4">
+                <span class="material-icons text-amber-400">star</span>
+                <span class="material-icons text-amber-400">star</span>
+                <span class="material-icons text-amber-400">star</span>
+                <span class="material-icons text-amber-400">star</span>
+                <span class="material-icons text-amber-400">star</span>
+              </div>
+              <p class="font-body text-ebony text-sm mb-6 leading-relaxed">
+                "Au téléphone, j'ai ressenti une écoute profonde et bienveillante. Je ne pensais pas pouvoir lâcher autant en quelques appels. Aujourd'hui, je me sens plus confiant et soutenu dans mes projets."
+              </p>
+              <div class="flex items-center space-x-3">
+                <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center">
+                  <span class="font-heading text-gray-600 font-semibold">K</span>
+                </div>
                 <div>
-                  <p class="font-body text-ebony text-lg italic mb-4">
-                    "Je pensais que ça allait être uniquement de la théorie, mais pas du tout ! On repart avec des solutions très pratiques pour le quotidien : des astuces alimentaires, des exercices faciles, et même des alternatives naturelles pour mieux gérer mon stress. J'ai senti que tout était personnalisé rien que pour moi, et ça m'a donné envie de continuer."
-                  </p>
-                  <p class="font-slogan text-sage font-semibold">Thomas B. – 41 ans</p>
+                  <p class="font-heading text-ebony font-semibold">Karim</p>
+                  <p class="font-body text-gray-500 text-sm">41 ans</p>
                 </div>
               </div>
-            </Card>
+            </div>
             
-            <Card variant="feature" class="p-8" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
-              <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-3xl">format_quote</span>
+            <!-- Témoignage 3 -->
+            <div class="bg-white rounded-2xl p-6 shadow-soft">
+              <div class="flex mb-4">
+                <span class="material-icons text-amber-400">star</span>
+                <span class="material-icons text-amber-400">star</span>
+                <span class="material-icons text-amber-400">star</span>
+                <span class="material-icons text-amber-400">star</span>
+                <span class="material-icons text-amber-400">star</span>
+              </div>
+              <p class="font-body text-ebony text-sm mb-6 leading-relaxed">
+                "Cet accompagnement à distance m'a permis de prendre du recul sur mes émotions. Même derrière un écran, j'ai senti une vraie connexion. Je ressors de chaque séance apaisée et reboostée."
+              </p>
+              <div class="flex items-center space-x-3">
+                <div class="bg-gray-200 rounded-full w-10 h-10 flex items-center justify-center">
+                  <span class="font-heading text-gray-600 font-semibold">M</span>
+                </div>
                 <div>
-                  <p class="font-body text-ebony text-lg italic mb-4">
-                    "Ce que j'ai le plus apprécié, c'est la richesse du suivi. Après la séance, j'ai reçu un programme détaillé avec plein de conseils et de petites habitudes à mettre en place. J'ai aussi testé quelques recettes proposées et elles sont super faciles et bonnes ! Résultat : moins de fatigue et plus d'énergie dans mes journées."
-                  </p>
-                  <p class="font-slogan text-sage font-semibold">Julie R. – 29 ans</p>
+                  <p class="font-heading text-ebony font-semibold">Marion</p>
+                  <p class="font-body text-gray-500 text-sm">28 ans</p>
                 </div>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- CTA Final -->
-    <section class="py-20 bg-gradient-to-b from-sage to-eucalyptus text-white">
+    <section class="py-20 bg-sage">
       <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto text-center" data-aos="fade-up">
-          <h2 class="font-heading text-3xl md:text-4xl mb-6">
-            Réservez votre séance
-          </h2>
-          <p class="font-body text-lg mb-8 opacity-90">
-            Offrez-vous un moment pour retrouver équilibre et vitalité grâce à la naturopathie.
-          </p>
-          <p class="font-body text-lg mb-8 opacity-90">
-            Réservez dès aujourd'hui votre séance de naturopathie humaine et commencez votre chemin vers une santé plus naturelle.
-          </p>
-          <Button href="/accompagnements/reservation" variant="secondary" size="lg">
-            Je réserve ma séance
-          </Button>
+        <div class="max-w-6xl mx-auto">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            
+            <!-- Colonne gauche - Texte et CTA -->
+            <div class="text-ebony" data-aos="fade-right">
+              <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight">
+                Ouvrez-vous un moment pour retrouver 
+                <span class="text-eucalyptus">clarté et confiance</span>
+              </h2>
+              
+              <p class="font-body text-xl mb-8 text-ebony/80 leading-relaxed">
+                Réservez dès aujourd'hui votre séance d'accompagnement personnel et ouvrez un nouveau chapitre de votre vie.
+              </p>
+              
+              <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                <Button href="/accompagnements/reservation" size="lg" variant="secondary" class="bg-white border-ebony text-ebony hover:bg-ebony hover:text-white">
+                  <span class="material-icons mr-2">calendar_today</span>
+                  Je réserve ma séance
+                </Button>
+                <Button href="/contact" size="lg" variant="outline" class="border-ebony text-ebony hover:bg-ebony hover:text-white">
+                  <span class="material-icons mr-2">phone</span>
+                  Nous contacter
+                </Button>
+              </div>
+              
+              <!-- Features -->
+              <div class="grid grid-cols-2 gap-4">
+                <div class="flex items-center space-x-3">
+                  <div class="bg-eucalyptus rounded-full w-8 h-8 flex items-center justify-center">
+                    <span class="material-icons text-white text-sm">schedule</span>
+                  </div>
+                  <span class="font-body text-ebony text-sm">Séance d'1h complète</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <div class="bg-eucalyptus rounded-full w-8 h-8 flex items-center justify-center">
+                    <span class="material-icons text-white text-sm">euro</span>
+                  </div>
+                  <span class="font-body text-ebony text-sm">Tarif accessible</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <div class="bg-eucalyptus rounded-full w-8 h-8 flex items-center justify-center">
+                    <span class="material-icons text-white text-sm">devices</span>
+                  </div>
+                  <span class="font-body text-ebony text-sm">Format flexible</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <div class="bg-eucalyptus rounded-full w-8 h-8 flex items-center justify-center">
+                    <span class="material-icons text-white text-sm">favorite</span>
+                  </div>
+                  <span class="font-body text-ebony text-sm">95% de satisfaction</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Colonne droite - Carte d'informations -->
+            <div data-aos="fade-left">
+              <div class="bg-white rounded-2xl p-8 shadow-soft">
+                <h3 class="font-heading text-2xl text-ebony mb-6">Informations rapides</h3>
+                
+                <div class="space-y-6">
+                  <div class="flex items-center justify-between p-4 bg-cream rounded-xl">
+                    <div class="flex items-center space-x-3">
+                      <span class="material-icons text-sage text-xl">schedule</span>
+                      <div>
+                        <p class="font-slogan text-xs text-gray-600 uppercase tracking-wider">DURÉE</p>
+                        <p class="font-heading text-lg text-ebony font-semibold">1 heure</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-center justify-between p-4 bg-cream rounded-xl">
+                    <div class="flex items-center space-x-3">
+                      <span class="material-icons text-sage text-xl">euro</span>
+                      <div>
+                        <p class="font-slogan text-xs text-gray-600 uppercase tracking-wider">TARIF</p>
+                        <p class="font-heading text-lg text-ebony font-semibold">60€</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-center justify-between p-4 bg-cream rounded-xl">
+                    <div class="flex items-center space-x-3">
+                      <span class="material-icons text-sage text-xl">phone</span>
+                      <div>
+                        <p class="font-slogan text-xs text-gray-600 uppercase tracking-wider">FORMAT</p>
+                        <p class="font-heading text-lg text-ebony font-semibold">Téléphone ou visio</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="text-center p-4 bg-sage/20 rounded-xl">
+                    <p class="font-heading text-3xl text-ebony font-bold mb-2">95%</p>
+                    <p class="font-body text-ebony text-sm">des clients ressentent une amélioration dès la première séance</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section Satisfaction garantie -->
+      <div class="mt-16 bg-eucalyptus py-12">
+        <div class="container mx-auto px-4">
+          <div class="max-w-4xl mx-auto text-center text-white">
+            <div class="flex items-center justify-center space-x-3 mb-4">
+              <span class="material-icons text-white text-2xl">check_circle</span>
+              <h3 class="font-heading text-2xl">Satisfaction garantie</h3>
+            </div>
+            <p class="font-body text-lg opacity-90">
+              Nous nous engageons à vous accompagner vers plus de clarté et de confiance. Si vous n'êtes pas satisfait(e) de votre première séance, nous vous offrons une séance de suivi gratuite.
+            </p>
+          </div>
         </div>
       </div>
     </section>

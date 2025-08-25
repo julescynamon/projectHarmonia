@@ -65,9 +65,9 @@
     "ci:validate": "npm run validate:secrets && npm run lint && npm run test:run"
   },
   "dependencies": {
-    "@astrojs/node": "^9.3.1",
+    "@astrojs/node": "^9.4.3",
     "@astrojs/react": "^4.3.0",
-    "@astrojs/sitemap": "^3.4.2",
+    "@astrojs/sitemap": "^3.5.1",
     "@astrojs/tailwind": "^6.0.2",
     "@emailjs/browser": "^4.4.1",
     "@fontsource/cormorant-garamond": "^5.0.8",
@@ -86,7 +86,7 @@
     "@types/pino": "^7.0.5",
     "@types/sanitize-html": "^2.13.0",
     "aos": "^2.3.4",
-    "astro": "^5.12.6",
+    "astro": "^5.13.3",
     "astro-compress": "^2.2.15",
     "dotenv": "^16.4.7",
     "gray-matter": "^4.0.3",

@@ -1,31 +1,32 @@
 ---
+// src/pages/accompagnements/soins-energetiques-animaux.astro
 import MainLayout from '../../layouts/MainLayout.astro';
 import Button from '../../components/ui/Button.astro';
 import Card from '../../components/ui/Card.astro';
 
 const seo = {
   title: "Soins énergétiques animaux – Soutenir la santé et l'équilibre de vos compagnons | Harmonia et Vita",
-  description: "Soins énergétiques animaux à domicile ou à distance. Apaisement du stress, rééquilibrage énergétique pour chiens, chats, chevaux. Réservez votre séance.",
+  description: "Soins énergétiques pour animaux en présentiel ou à distance. Apaisement du stress, rééquilibrage énergétique et soutien de la vitalité naturelle. Tarif 50€.",
   keywords: "soin énergétique animal, soin énergétique chien, soin énergétique chat, soin énergétique cheval, soin énergétique animaux Gard, rééquilibrage énergétique animal"
 };
 
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "name": "Soins Énergétiques Animaux",
-  "description": "Soins énergétiques pour chiens, chats et chevaux - apaisement et rééquilibrage énergétique",
+  "name": "Soins énergétiques animaux",
+  "description": "Soins énergétiques pour soutenir la santé et l'équilibre de vos compagnons animaux",
   "provider": {
     "@type": "Person",
     "name": "Naima Tyzra",
-    "jobTitle": "Naturopathe"
+    "jobTitle": "Praticienne en soins énergétiques"
   },
   "areaServed": "France",
-  "serviceType": "Soins Énergétiques Animaux",
+  "serviceType": "Soin énergétique animal",
   "offers": {
     "@type": "Offer",
     "price": "50",
     "priceCurrency": "EUR",
-    "description": "Séance de soins énergétiques animaux"
+    "description": "Soin énergétique animal"
   }
 };
 ---
@@ -34,93 +35,95 @@ const structuredData = {
   <!-- Structured Data -->
   <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
 
-  <div class="pt-24">
+  <div>
     <!-- Hero Section -->
     <section class="relative min-h-screen flex items-center justify-center overflow-hidden pb-16">
       <!-- Background avec image et overlay -->
       <div class="absolute inset-0">
         <img 
           src="/images/soin-energetique-animaux-harmonia-vita.jpg" 
-          alt="Soin énergétique animal – bien-être et équilibre naturel"
+          alt=""
           class="w-full h-full object-cover"
         />
         <div class="absolute inset-0 bg-gradient-to-r from-ebony/70 via-ebony/50 to-ebony/30"></div>
       </div>
       
-      <!-- Contenu principal -->
-      <div class="container mx-auto px-4 relative z-10">
-        <div class="max-w-6xl mx-auto">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Contenu principal centré -->
+      <div class="container mx-auto px-4 relative z-10 flex flex-col justify-center min-h-screen">
+        <div class="max-w-4xl mx-auto text-center">
+          <!-- En-tête centré -->
+          <div class="motion-safe:animate-fade-in">
             
-            <!-- Texte principal -->
-            <div class="text-white" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
-              <div class="mb-6 mt-8" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-                <span class="inline-block bg-sage/20 backdrop-blur-sm text-sage px-4 py-2 rounded-full text-sm font-slogan uppercase tracking-wider mb-4">
-                  Présentiel ou à distance
-                </span>
-              </div>
-              
-              <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
-                Soins énergétiques animaux
-                <span class="block text-sage">Soutenir la santé et l'équilibre de vos compagnons</span>
-              </h1>
-              
-              <p class="font-body text-xl mb-8 text-white/90 leading-relaxed" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
-                Nos animaux ressentent nos émotions, portent nos stress et peuvent développer des blocages énergétiques qui affectent leur bien-être.
-              </p>
-              
-              <div class="flex flex-col sm:flex-row gap-4" data-aos="fade-up" data-aos-duration="800" data-aos-delay="1000">
-                <Button href="/accompagnements/reservation" size="lg" variant="secondary">
-                  Je réserve un soin énergétique pour mon animal
-                </Button>
-                <Button href="#details" size="lg" variant="outline" class="border-white text-white hover:bg-white hover:text-ebony">
-                  En savoir plus
-                </Button>
+            
+            <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+              Soins énergétiques animaux
+              <span class="block text-sage mt-10 typewriter-text text-2xl md:text-3xl lg:text-4xl" id="hero-typewriter">Soutenir la santé et l'équilibre de vos compagnons</span>
+            </h1>
+            
+            <p class="font-body text-xl mb-10 text-white/90 leading-relaxed max-w-3xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] italic" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
+              Nos animaux ressentent nos émotions, portent nos stress et peuvent développer des blocages énergétiques qui affectent leur bien-être.
+            </p>
+          </div>
+          
+          <!-- Informations pratiques en petites bulles -->
+          <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="1000">
+            <!-- Bulle 1: Durée -->
+            <div class="group relative overflow-hidden rounded-xl backdrop-blur-sm transition-all duration-500 hover:transform hover:scale-105 w-32 h-32">
+              <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 border border-white/20 rounded-xl"></div>
+              <div class="relative p-6 text-center flex flex-col justify-center items-center h-full">
+                <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mb-4">
+                  <span class="material-icons text-white text-lg">schedule</span>
+                </div>
+                <p class="font-heading text-lg text-white mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] leading-tight">
+                  45 min – 1h
+                </p>
+                <p class="text-white/90 text-xs uppercase tracking-wider font-medium leading-tight">
+                  Durée séance
+                </p>
               </div>
             </div>
             
-            <!-- Bloc résumé rapide -->
-            <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl mb-8" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="400">
-              <h3 class="font-heading text-2xl text-ebony mb-6 text-center">Informations pratiques</h3>
-              
-              <div class="space-y-6">
-                <div class="flex items-center space-x-4 p-4 bg-cream/50 rounded-xl">
-                  <div class="bg-sage/20 p-3 rounded-full">
-                    <span class="material-icons text-sage text-2xl">schedule</span>
-                  </div>
-                  <div>
-                    <p class="font-slogan text-sm text-gray-600 uppercase tracking-wider">Durée séance</p>
-                    <p class="font-body text-ebony font-semibold">45 min - 1h</p>
-                  </div>
+            <!-- Bulle 2: Format -->
+            <div class="group relative overflow-hidden rounded-xl backdrop-blur-sm transition-all duration-500 hover:transform hover:scale-105 w-44 h-32">
+              <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 border border-white/20 rounded-xl"></div>
+              <div class="relative p-6 text-center flex flex-col justify-center items-center h-full">
+                <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mb-4">
+                  <span class="material-icons text-white text-lg">video_call</span>
                 </div>
-                
-                <div class="flex items-center space-x-4 p-4 bg-cream/50 rounded-xl">
-                  <div class="bg-sage/20 p-3 rounded-full">
-                    <span class="material-icons text-sage text-2xl">home</span>
-                  </div>
-                  <div>
-                    <p class="font-slogan text-sm text-gray-600 uppercase tracking-wider">Format</p>
-                    <p class="font-body text-ebony font-semibold">Présentiel ou à distance</p>
-                  </div>
-                </div>
-                
-                <div class="flex items-center space-x-4 p-4 bg-cream/50 rounded-xl">
-                  <div class="bg-sage/20 p-3 rounded-full">
-                    <span class="material-icons text-sage text-2xl">euro</span>
-                  </div>
-                  <div>
-                    <p class="font-slogan text-sm text-gray-600 uppercase tracking-wider">Tarif</p>
-                    <p class="font-body text-ebony font-semibold">50€</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="mt-8 pt-6 border-t border-sage/20">
-                <Button href="/accompagnements/reservation" size="lg" class="w-full">
-                  Réserver maintenant
-                </Button>
+                <p class="font-heading text-lg text-white mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] leading-tight">
+                  Présentiel ou distance
+                </p>
+                <p class="text-white/90 text-xs uppercase tracking-wider font-medium leading-tight px-1">
+                  Chez vous ou visio
+                </p>
               </div>
             </div>
+            
+            <!-- Bulle 3: Tarif -->
+            <div class="group relative overflow-hidden rounded-xl backdrop-blur-sm transition-all duration-500 hover:transform hover:scale-105 w-32 h-32">
+              <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 border border-white/20 rounded-xl"></div>
+              <div class="relative p-6 text-center flex flex-col justify-center items-center h-full">
+                <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mb-4">
+                  <span class="material-icons text-white text-lg">euro</span>
+                </div>
+                <p class="font-heading text-lg text-white mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] leading-tight">
+                  50€
+                </p>
+                <p class="text-white/90 text-xs uppercase tracking-wider font-medium leading-tight">
+                  la séance
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Boutons CTA -->
+          <div class="flex flex-col sm:flex-row gap-6 justify-center items-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="1200">
+            <Button href="/accompagnements/reservation" size="lg" variant="secondary">
+              Je réserve un soin énergétique pour mon animal
+            </Button>
+            <Button href="#details" size="lg" variant="outline" class="border-white text-white hover:bg-sage hover:text-ebony">
+              En savoir plus
+            </Button>
           </div>
         </div>
       </div>
@@ -133,173 +136,502 @@ const structuredData = {
       </div>
     </section>
 
-    <!-- Introduction -->
-    <section class="py-16 bg-white">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div data-aos="fade-right">
-              <p class="font-body text-lg text-ebony leading-relaxed mb-6">
-                Nos animaux ressentent nos émotions, portent nos stress et peuvent développer des blocages énergétiques qui affectent leur bien-être.
-              </p>
-              <p class="font-body text-lg text-ebony leading-relaxed">
-                Un soin énergétique permet d'apaiser, rééquilibrer et soutenir leur vitalité naturelle, tout en renforçant le lien profond qui vous unit à eux.
-              </p>
-            </div>
-            <div data-aos="fade-left">
-              <img 
-                src="/images/soin-energetique-animaux-benefices.jpg" 
-                alt="Bienfaits d'un soin énergétique animal – Harmonia et Vita"
-                class="w-full h-80 object-cover rounded-2xl shadow-medium"
-              />
-            </div>
-          </div>
-        </div>
+    <!-- Introduction - Design moderne avec image de fond -->
+    <section class="py-24 bg-gradient-to-br from-sage/10 via-cream to-white relative overflow-hidden">
+      <!-- Éléments décoratifs en arrière-plan -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-20 left-10 w-2 h-2 bg-sage rounded-full animate-pulse"></div>
+        <div class="absolute top-40 right-20 w-1 h-1 bg-gold rounded-full animate-bounce"></div>
+        <div class="absolute bottom-20 left-1/4 w-3 h-3 bg-eucalyptus rounded-full animate-ping"></div>
+        <div class="absolute bottom-40 right-1/3 w-1 h-1 bg-sage rounded-full animate-pulse"></div>
       </div>
-    </section>
-
-    <!-- Ce soin est fait pour votre animal si... -->
-    <section class="py-16 bg-cream">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <h2 class="font-heading text-3xl md:text-4xl text-ebony text-center mb-12" data-aos="fade-up">
-            Ce soin est fait pour votre animal si...
-          </h2>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white rounded-2xl p-6 shadow-soft" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-              <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-2xl mt-1">mood_bad</span>
-                <p class="font-body text-ebony">Il montre des signes de stress, anxiété ou agitation</p>
-              </div>
-            </div>
-            
-            <div class="bg-white rounded-2xl p-6 shadow-soft" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-              <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-2xl mt-1">home</span>
-                <p class="font-body text-ebony">Il traverse une période de changement (déménagement, arrivée d'un autre animal, séparation)</p>
-              </div>
-            </div>
-            
-            <div class="bg-white rounded-2xl p-6 shadow-soft" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
-              <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-2xl mt-1">healing</span>
-                <p class="font-body text-ebony">Il souffre de douleurs chroniques, fatigue ou perte de vitalité</p>
-              </div>
-            </div>
-            
-            <div class="bg-white rounded-2xl p-6 shadow-soft" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
-              <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-2xl mt-1">psychology</span>
-                <p class="font-body text-ebony">Il a vécu un traumatisme ou un choc émotionnel</p>
-              </div>
-            </div>
-            
-            <div class="bg-white rounded-2xl p-6 shadow-soft md:col-span-2" data-aos="fade-up" data-aos-duration="800" data-aos-delay="1000">
-              <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-2xl mt-1">favorite</span>
-                <p class="font-body text-ebony">Vous souhaitez renforcer son bien-être global et son équilibre énergétique</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Les bénéfices -->
-    <section class="py-16 bg-white">
-      <div class="container mx-auto px-4">
+      
+      <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-6xl mx-auto">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div data-aos="fade-right">
-              <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-8">
-                Les bénéfices des soins énergétiques animaux
-              </h2>
-              
-              <div class="space-y-6">
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">self_improvement</span>
-                  <p class="font-body text-ebony">Apaisement du stress et des émotions</p>
-                </div>
-                
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">healing</span>
-                  <p class="font-body text-ebony">Soulagement des douleurs ou inconforts liés aux blocages énergétiques</p>
-                </div>
-                
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">bedtime</span>
-                  <p class="font-body text-ebony">Amélioration du sommeil et de la vitalité</p>
-                </div>
-                
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">trending_up</span>
-                  <p class="font-body text-ebony">Meilleure adaptation aux changements de vie</p>
-                </div>
-                
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">favorite</span>
-                  <p class="font-body text-ebony">Renforcement du lien animal-humain dans une relation harmonieuse</p>
-                </div>
-                
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">health_and_safety</span>
-                  <p class="font-body text-ebony">Accompagnement en complément d'un suivi vétérinaire</p>
-                </div>
-              </div>
+          <!-- Titre principal avec effet de gradient -->
+          <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+              <span class="bg-gradient-to-r from-sage via-eucalyptus to-gold bg-clip-text text-transparent">
+                Un soin énergétique permet
+              </span>
+              <br />
+              <span class="text-ebony">d'apaiser, rééquilibrer et soutenir leur vitalité naturelle</span>
+            </h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full"></div>
+          </div>
+
+          <!-- Section avec image de fond et contenu -->
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl" data-aos="fade-up" data-aos-delay="600">
+            <!-- Image de fond -->
+            <div class="absolute inset-0">
+              <img 
+                src="/images/soin-energetique-animal-bien-etre.jpg" 
+                alt=""
+                class="w-full h-full object-cover"
+              />
+              <!-- Overlay gradient pour la lisibilité -->
+              <div class="absolute inset-0 bg-gradient-to-r from-ebony/70 via-ebony/50 to-ebony/30"></div>
             </div>
             
-            <div data-aos="fade-left">
-              <img 
-                src="/images/soin-energetique-animaux-deroulement.jpg" 
-                alt="Soin énergétique pour animaux – approche douce et respectueuse"
-                class="w-full h-96 object-cover rounded-2xl shadow-medium"
-              />
+            <!-- Contenu par-dessus -->
+            <div class="relative z-10 p-8 md:p-12 lg:p-16">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Citation -->
+                <div class="text-white" data-aos="fade-right">
+                  <div class="p-8 mb-8 inline-block">
+                    <blockquote class="text-white font-['Dancing Script'] text-2xl text-center leading-relaxed" style="font-family: 'Dancing Script', cursive;">
+                      "Un soin énergétique permet d'apaiser, rééquilibrer et soutenir leur vitalité naturelle, tout en renforçant le lien profond qui vous unit à eux."
+                    </blockquote>
+                  </div>
+                </div>
+                
+                <!-- Description -->
+                <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-8 border border-white/20 shadow-lg" data-aos="fade-left">
+                  <div class="space-y-6">
+                    <div class="flex items-start space-x-4">
+                      <div class="bg-sage/40 p-3 rounded-full">
+                        <span class="material-icons text-sage text-2xl">pets</span>
+                      </div>
+                      <div>
+                        <h4 class="font-heading text-xl text-white mb-2">Connexion subtile</h4>
+                        <p class="font-body text-white/90 leading-relaxed">
+                          Une approche douce qui respecte la sensibilité naturelle de votre animal.
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                      <div class="bg-gold/40 p-3 rounded-full">
+                        <span class="material-icons text-gold text-2xl">healing</span>
+                      </div>
+                      <div>
+                        <h4 class="font-heading text-xl text-white mb-2">Équilibrage énergétique</h4>
+                        <p class="font-body text-white/90 leading-relaxed">
+                          Harmonisation des chakras et libération des blocages énergétiques.
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-4">
+                      <div class="bg-eucalyptus/40 p-3 rounded-full">
+                        <span class="material-icons text-eucalyptus text-2xl">favorite</span>
+                      </div>
+                      <div>
+                        <h4 class="font-heading text-xl text-white mb-2">Lien renforcé</h4>
+                        <p class="font-body text-white/90 leading-relaxed">
+                          Renforcement du lien animal-humain dans une relation harmonieuse.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Déroulement d'un soin -->
-    <section class="py-16 bg-cream">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <h2 class="font-heading text-3xl md:text-4xl text-ebony text-center mb-12" data-aos="fade-up">
-            Déroulement d'un soin énergétique animal
-          </h2>
+    <!-- Ce soin est fait pour votre animal si... - Design moderne -->
+    <section class="py-16 bg-gradient-to-br from-white via-cream to-sage/5 relative overflow-hidden">
+      <!-- Éléments décoratifs en arrière-plan -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-10 left-10 w-32 h-32 bg-sage rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-10 right-10 w-24 h-24 bg-gold rounded-full blur-2xl animate-bounce"></div>
+      </div>
+      
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-6xl mx-auto">
+          <!-- Titre principal -->
+          <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+              <span class="bg-gradient-to-r from-sage via-eucalyptus to-gold bg-clip-text text-transparent">
+                Ce soin est fait pour votre animal si...
+              </span>
+            </h2>
+            <div class="w-32 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-8"></div>
+            <p class="font-body text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed">
+              Découvrez si les soins énergétiques correspondent aux besoins de votre compagnon.
+            </p>
+          </div>
+
+          <!-- Grille de cartes responsive -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <!-- Carte 1: Stress et anxiété -->
+            <div class="group" data-aos="fade-up" data-aos-delay="200">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="flex items-center space-x-4 mb-4">
+                  <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 p-3 rounded-full">
+                    <span class="material-icons text-sage text-2xl">sentiment_very_dissatisfied</span>
+                  </div>
+                  <div class="bg-sage text-white px-3 py-1 rounded-full text-sm font-slogan uppercase tracking-wider">
+                    Stress
+                  </div>
+                </div>
+                <h3 class="font-heading text-xl lg:text-2xl text-ebony mb-4">Signes de stress</h3>
+                <p class="font-body text-ebony leading-relaxed text-sm lg:text-base">
+                  Il montre des signes de stress, anxiété ou agitation
+                </p>
+              </div>
+            </div>
+            
+            <!-- Carte 2: Changements -->
+            <div class="group" data-aos="fade-up" data-aos-delay="300">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="flex items-center space-x-4 mb-4">
+                  <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 p-3 rounded-full">
+                    <span class="material-icons text-eucalyptus text-2xl">moving</span>
+                  </div>
+                  <div class="bg-eucalyptus text-white px-3 py-1 rounded-full text-sm font-slogan uppercase tracking-wider">
+                    Adaptation
+                  </div>
+                </div>
+                <h3 class="font-heading text-xl lg:text-2xl text-ebony mb-4">Période de changement</h3>
+                <p class="font-body text-ebony leading-relaxed text-sm lg:text-base">
+                  Il traverse une période de changement (déménagement, arrivée d'un autre animal, séparation)
+                </p>
+              </div>
+            </div>
+            
+            <!-- Carte 3: Douleurs chroniques -->
+            <div class="group" data-aos="fade-up" data-aos-delay="400">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="flex items-center space-x-4 mb-4">
+                  <div class="bg-gradient-to-br from-gold/20 to-sage/20 p-3 rounded-full">
+                    <span class="material-icons text-gold text-2xl">sick</span>
+                  </div>
+                  <div class="bg-gold text-white px-3 py-1 rounded-full text-sm font-slogan uppercase tracking-wider">
+                    Douleurs
+                  </div>
+                </div>
+                <h3 class="font-heading text-xl lg:text-2xl text-ebony mb-4">Douleurs chroniques</h3>
+                <p class="font-body text-ebony leading-relaxed text-sm lg:text-base">
+                  Il souffre de douleurs chroniques, fatigue ou perte de vitalité
+                </p>
+              </div>
+            </div>
+            
+            <!-- Carte 4: Traumatisme -->
+            <div class="group" data-aos="fade-up" data-aos-delay="500">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="flex items-center space-x-4 mb-4">
+                  <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 p-3 rounded-full">
+                    <span class="material-icons text-sage text-2xl">psychology</span>
+                  </div>
+                  <div class="bg-sage text-white px-3 py-1 rounded-full text-sm font-slogan uppercase tracking-wider">
+                    Émotionnel
+                  </div>
+                </div>
+                <h3 class="font-heading text-xl lg:text-2xl text-ebony mb-4">Traumatisme émotionnel</h3>
+                <p class="font-body text-ebony leading-relaxed text-sm lg:text-base">
+                  Il a vécu un traumatisme ou un choc émotionnel
+                </p>
+              </div>
+            </div>
+            
+            <!-- Carte 5: Bien-être global -->
+            <div class="group md:col-span-2 lg:col-span-1" data-aos="fade-up" data-aos-delay="600">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 lg:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="flex items-center space-x-4 mb-4">
+                  <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 p-3 rounded-full">
+                    <span class="material-icons text-eucalyptus text-2xl">health_and_safety</span>
+                  </div>
+                  <div class="bg-eucalyptus text-white px-3 py-1 rounded-full text-sm font-slogan uppercase tracking-wider">
+                    Bien-être
+                  </div>
+                </div>
+                <h3 class="font-heading text-xl lg:text-2xl text-ebony mb-4">Renforcement du bien-être</h3>
+                <p class="font-body text-ebony leading-relaxed text-sm lg:text-base">
+                  Vous souhaitez renforcer son bien-être global et son équilibre énergétique
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- CTA après "Ce soin est fait pour votre animal si..." -->
+      <div class="container mx-auto px-4 relative z-10 mt-12">
+        <div class="max-w-4xl mx-auto text-center">
+          <div class="bg-gradient-to-br from-sage/10 to-eucalyptus/10 rounded-2xl p-8 border border-sage/20" data-aos="fade-up" data-aos-delay="1000">
+            <h3 class="font-heading text-2xl text-ebony mb-4">Votre animal présente ces signes ?</h3>
+            <p class="font-body text-ebony/80 mb-4">Il est temps d'agir pour son bien-être naturel !</p>
+            <p class="font-body text-ebony/90 mb-6 italic">Un accompagnement respectueux, bienveillant et adapté vous attend.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button href="/accompagnements/reservation" size="lg" variant="secondary" class="bg-sage text-white hover:bg-eucalyptus">
+                <span class="material-icons mr-2">calendar_today</span>
+                Réserver un soin pour mon animal
+              </Button>
+              <Button href="/contact" size="lg" variant="outline" class="border-sage text-sage hover:bg-sage hover:text-white">
+                <span class="material-icons mr-2">phone</span>
+                Me contacter pour un devis personnalisé
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Les bénéfices - Design moderne avec grille de cartes -->
+    <section class="py-28 relative overflow-hidden">
+      <!-- Image de fond -->
+      <div class="absolute inset-0">
+        <img 
+          src="/images/bienfaits-soin-energetique-animal-harmonia-vita.jpg" 
+          alt=""
+          class="w-full h-full object-cover"
+        />
+        <!-- Overlay gradient pour la lisibilité -->
+        <div class="absolute inset-0 bg-gradient-to-br from-white/40 via-white/30 to-sage/5"></div>
+      </div>
+      
+      <!-- Éléments décoratifs en arrière-plan -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-20 right-10 w-2 h-2 bg-sage rounded-full animate-pulse"></div>
+        <div class="absolute bottom-40 left-20 w-1 h-1 bg-gold rounded-full animate-bounce"></div>
+        <div class="absolute top-1/2 right-1/4 w-3 h-3 bg-eucalyptus rounded-full animate-ping"></div>
+      </div>
+      
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-6xl mx-auto">
+          <!-- Titre principal -->
+          <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+              <span class="bg-gradient-to-r from-sage via-eucalyptus to-gold bg-clip-text text-transparent">
+                Les bénéfices
+              </span>
+              <br />
+              <span class="text-ebony">des soins énergétiques animaux</span>
+            </h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-8"></div>
+            <p class="font-body text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed">
+              Découvrez les transformations que votre animal peut vivre grâce à cet accompagnement énergétique.
+            </p>
+          </div>
+                
+          <!-- Grille de bénéfices -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <!-- Bénéfice 1 -->
+            <div class="group" data-aos="fade-up" data-aos-delay="200">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-sage text-3xl">psychology</span>
+                </div>
+                <h3 class="font-heading text-2xl text-ebony mb-4">Apaisement du stress et des émotions</h3>
+                <p class="font-body text-ebony leading-relaxed">
+                  Votre animal retrouve calme et sérénité face aux situations stressantes.
+                </p>
+              </div>
+            </div>
+
+            <!-- Bénéfice 2 -->
+            <div class="group" data-aos="fade-up" data-aos-delay="400">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-gold/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-gold text-3xl">healing</span>
+                </div>
+                <h3 class="font-heading text-2xl text-ebony mb-4">Soulagement des douleurs</h3>
+                <p class="font-body text-ebony leading-relaxed">
+                  Soulagement des douleurs ou inconforts liés aux blocages énergétiques.
+                </p>
+              </div>
+            </div>
+                    
+            <!-- Bénéfice 3 -->
+            <div class="group" data-aos="fade-up" data-aos-delay="600">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-eucalyptus text-3xl">bedtime</span>
+                </div>
+                <h3 class="font-heading text-2xl text-ebony mb-4">Amélioration du sommeil et de la vitalité</h3>
+                <p class="font-body text-ebony leading-relaxed">
+                  Votre animal retrouve un sommeil réparateur et une énergie stable.
+                </p>
+              </div>
+            </div>
+                
+            <!-- Bénéfice 4 -->
+            <div class="group" data-aos="fade-up" data-aos-delay="800">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-gold/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-gold text-3xl">diversity_1</span>
+                </div>
+                <h3 class="font-heading text-2xl text-ebony mb-4">Meilleure adaptation aux changements</h3>
+                <p class="font-body text-ebony leading-relaxed">
+                  Facilite l'adaptation de votre animal aux changements de vie.
+                </p>
+              </div>
+            </div>
+                
+            <!-- Bénéfice 5 -->
+            <div class="group" data-aos="fade-up" data-aos-delay="1000">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-eucalyptus text-3xl">favorite</span>
+                </div>
+                <h3 class="font-heading text-2xl text-ebony mb-4">Renforcement du lien animal-humain</h3>
+                <p class="font-body text-ebony leading-relaxed">
+                  Renforcement du lien animal-humain dans une relation harmonieuse.
+                </p>
+              </div>
+            </div>
+                
+            <!-- Bénéfice 6 -->
+            <div class="group" data-aos="fade-up" data-aos-delay="1200">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-sage text-3xl">medical_services</span>
+                </div>
+                <h3 class="font-heading text-2xl text-ebony mb-4">Accompagnement en complément</h3>
+                <p class="font-body text-ebony leading-relaxed">
+                  Accompagnement en complément d'un suivi vétérinaire.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- CTA après "Les bénéfices" -->
+      <div class="container mx-auto px-4 relative z-10 mt-12">
+        <div class="max-w-4xl mx-auto text-center">
+          <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-sage/20" data-aos="fade-up" data-aos-delay="1400">
+            <h3 class="font-heading text-2xl text-ebony mb-4">Prêt(e) à offrir ces bienfaits à votre animal ?</h3>
+            <p class="font-body text-ebony/80 mb-6">Contribuez dès aujourd'hui à son équilibre et à son bien-être naturel.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button href="/accompagnements/reservation" size="lg" variant="secondary" class="bg-sage text-white hover:bg-eucalyptus">
+                <span class="material-icons mr-2">auto_awesome</span>
+                Je réserve un soin énergétique animal
+              </Button>
+              <Button href="/contact" size="lg" variant="outline" class="border-sage text-sage hover:bg-sage hover:text-white">
+                <span class="material-icons mr-2">info</span>
+                En savoir plus
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Déroulement d'une séance - Timeline horizontale moderne -->
+    <section class="py-28 bg-gradient-to-br from-cream via-white to-sage/5 relative overflow-hidden">
+      <!-- Éléments décoratifs en arrière-plan -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-10 left-10 w-32 h-32 bg-sage rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-10 right-10 w-24 h-24 bg-gold rounded-full blur-2xl animate-bounce"></div>
+      </div>
+      
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-6xl mx-auto">
+          <!-- Titre principal -->
+          <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+              <span class="bg-gradient-to-r from-sage via-eucalyptus to-gold bg-clip-text text-transparent">
+                Déroulement
+              </span>
+              <br />
+              <span class="text-ebony">d'un soin énergétique animal</span>
+            </h2>
+            <div class="w-32 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-8"></div>
+            <p class="font-body text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed">
+              Découvrez comment se déroule un soin énergétique pour votre animal étape par étape.
+            </p>
+          </div>
           
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-white rounded-2xl p-6 shadow-soft text-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-              <div class="bg-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span class="material-icons text-sage text-2xl">hearing</span>
-              </div>
-              <h3 class="font-heading text-xl text-ebony mb-3">1. Écoute & observation</h3>
-              <p class="font-body text-gray-600">Temps d'échange avec le gardien pour comprendre la situation.</p>
-            </div>
+          <!-- Timeline horizontale -->
+          <div class="relative">
+            <!-- Ligne de connexion -->
+            <div class="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-sage via-eucalyptus to-gold opacity-30 hidden lg:block transform -translate-y-1/2"></div>
             
-            <div class="bg-white rounded-2xl p-6 shadow-soft text-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-              <div class="bg-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span class="material-icons text-sage text-2xl">psychology</span>
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-4">
+              <!-- Étape 1 -->
+              <div class="relative" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 text-center h-full flex flex-col">
+                  <!-- Numéro d'étape -->
+                  <div class="bg-gradient-to-br from-sage to-eucalyptus text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 font-heading text-xl font-bold">
+                    1
+                  </div>
+                  
+                  <!-- Icône -->
+                  <div class="bg-sage/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                    <span class="material-icons text-sage text-3xl">hearing</span>
+                  </div>
+                  
+                  <h3 class="font-heading text-2xl text-ebony mb-4">Écoute & observation</h3>
+                  <p class="font-body text-ebony leading-relaxed flex-grow">
+                    Temps d'échange avec le gardien pour comprendre la situation.
+                  </p>
+                </div>
+                
+                <!-- Point de connexion -->
+                <div class="hidden lg:block absolute top-1/2 -right-2 w-4 h-4 bg-sage rounded-full border-4 border-white shadow-lg transform -translate-y-1/2"></div>
               </div>
-              <h3 class="font-heading text-xl text-ebony mb-3">2. Connexion énergétique</h3>
-              <p class="font-body text-gray-600">Présentiel ou à distance, connexion subtile à l'animal.</p>
-            </div>
             
-            <div class="bg-white rounded-2xl p-6 shadow-soft text-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
-              <div class="bg-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span class="material-icons text-sage text-2xl">auto_awesome</span>
+              <!-- Étape 2 -->
+              <div class="relative" data-aos="fade-up" data-aos-delay="400">
+                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 text-center h-full flex flex-col">
+                  <!-- Numéro d'étape -->
+                  <div class="bg-gradient-to-br from-eucalyptus to-gold text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 font-heading text-xl font-bold">
+                    2
+                  </div>
+                  
+                  <!-- Icône -->
+                  <div class="bg-eucalyptus/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                    <span class="material-icons text-eucalyptus text-3xl">connect_without_contact</span>
+                  </div>
+                  
+                  <h3 class="font-heading text-2xl text-ebony mb-4">Connexion énergétique</h3>
+                  <p class="font-body text-ebony leading-relaxed flex-grow">
+                    Présentiel ou à distance, connexion subtile à l'animal.
+                  </p>
+                </div>
+                
+                <!-- Point de connexion -->
+                <div class="hidden lg:block absolute top-1/2 -right-2 w-4 h-4 bg-eucalyptus rounded-full border-4 border-white shadow-lg transform -translate-y-1/2"></div>
               </div>
-              <h3 class="font-heading text-xl text-ebony mb-3">3. Harmonisation des énergies</h3>
-              <p class="font-body text-gray-600">Équilibrage des chakras et libération des blocages.</p>
-            </div>
             
-            <div class="bg-white rounded-2xl p-6 shadow-soft text-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
-              <div class="bg-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span class="material-icons text-sage text-2xl">lightbulb</span>
+              <!-- Étape 3 -->
+              <div class="relative" data-aos="fade-up" data-aos-delay="600">
+                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 text-center h-full flex flex-col">
+                  <!-- Numéro d'étape -->
+                  <div class="bg-gradient-to-br from-gold to-sage text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 font-heading text-xl font-bold">
+                    3
+                  </div>
+                  
+                  <!-- Icône -->
+                  <div class="bg-gold/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                    <span class="material-icons text-gold text-3xl">healing</span>
+                  </div>
+                  
+                  <h3 class="font-heading text-2xl text-ebony mb-4">Harmonisation des énergies</h3>
+                  <p class="font-body text-ebony leading-relaxed flex-grow">
+                    Équilibrage des chakras et libération des blocages.
+                  </p>
+                </div>
+                
+                <!-- Point de connexion -->
+                <div class="hidden lg:block absolute top-1/2 -right-2 w-4 h-4 bg-gold rounded-full border-4 border-white shadow-lg transform -translate-y-1/2"></div>
               </div>
-              <h3 class="font-heading text-xl text-ebony mb-3">4. Retour & conseils</h3>
-              <p class="font-body text-gray-600">Transmission des ressentis et conseils pour prolonger le bien-être de l'animal.</p>
+            
+              <!-- Étape 4 -->
+              <div class="relative" data-aos="fade-up" data-aos-delay="800">
+                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 text-center h-full flex flex-col">
+                  <!-- Numéro d'étape -->
+                  <div class="bg-gradient-to-br from-sage to-eucalyptus text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 font-heading text-xl font-bold">
+                    4
+                  </div>
+                  
+                  <!-- Icône -->
+                  <div class="bg-sage/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                    <span class="material-icons text-sage text-3xl">chat</span>
+                  </div>
+                  
+                  <h3 class="font-heading text-2xl text-ebony mb-4">Retour & conseils</h3>
+                  <p class="font-body text-ebony leading-relaxed flex-grow">
+                    Transmission des ressentis et conseils pour prolonger le bien-être de l'animal.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -307,115 +639,127 @@ const structuredData = {
     </section>
 
     <!-- Détails pratiques -->
-    <section id="details" class="py-16 bg-white">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <h2 class="font-heading text-3xl md:text-4xl text-ebony text-center mb-12" data-aos="fade-up">
-            Détails pratiques
-          </h2>
+    <section id="details" class="py-28 bg-gradient-to-br from-cream via-white to-sage/5 relative overflow-hidden">
+      <!-- Éléments décoratifs en arrière-plan -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-20 right-10 w-2 h-2 bg-sage rounded-full animate-pulse"></div>
+        <div class="absolute bottom-40 left-20 w-1 h-1 bg-gold rounded-full animate-bounce"></div>
+        <div class="absolute top-1/2 right-1/4 w-3 h-3 bg-eucalyptus rounded-full animate-ping"></div>
+      </div>
+      
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-6xl mx-auto">
+          <!-- Titre principal -->
+          <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+              <span class="bg-gradient-to-r from-sage via-eucalyptus to-gold bg-clip-text text-transparent">
+                Détails pratiques
+              </span>
+            </h2>
+            <div class="w-32 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-8"></div>
+            <p class="font-body text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed">
+              Découvrez nos tarifs et modalités pour votre soin énergétique animal.
+            </p>
+          </div>
           
-          <div class="bg-cream rounded-2xl p-8 shadow-soft" data-aos="fade-up">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Durée</h3>
-                <div class="space-y-3">
-                  <div class="flex items-center space-x-3">
-                    <span class="material-icons text-sage">schedule</span>
-                    <span class="font-body text-ebony">45 min – 1h</span>
+          <div class="grid grid-cols-1 lg:grid-cols-1 gap-8" data-aos="fade-up">
+            <!-- Card Soin énergétique animal -->
+            <div class="group relative max-w-4xl mx-auto">
+              <div class="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10">
+                
+                <div class="text-center mb-6">
+                  <div class="bg-gradient-to-r from-sage to-eucalyptus rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <span class="material-icons text-white text-3xl">pets</span>
+                  </div>
+                  <h3 class="font-heading text-2xl text-ebony mb-2">Soin énergétique animal</h3>
+                  <p class="font-body text-gray-600">Apaisement et rééquilibrage énergétique</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div class="flex items-center justify-between p-4 bg-sage/10 rounded-xl group-hover:bg-sage/20 transition-colors duration-300">
+                    <div class="flex items-center space-x-3">
+                      <span class="material-icons text-sage">schedule</span>
+                      <span class="font-body text-ebony">Durée</span>
+                    </div>
+                    <span class="font-heading text-lg text-ebony font-semibold">45 min – 1h</span>
+                  </div>
+                  
+                  <div class="flex items-center justify-between p-4 bg-eucalyptus/10 rounded-xl group-hover:bg-eucalyptus/20 transition-colors duration-300">
+                    <div class="flex items-center space-x-3">
+                      <span class="material-icons text-eucalyptus">video_call</span>
+                      <span class="font-body text-ebony">Format</span>
+                    </div>
+                    <span class="font-heading text-lg text-ebony font-semibold">Présentiel/Distance</span>
+                  </div>
+                  
+                  <div class="flex items-center justify-between p-4 bg-gold/10 rounded-xl group-hover:bg-gold/20 transition-colors duration-300">
+                    <div class="flex items-center space-x-3">
+                      <span class="material-icons text-gold">euro</span>
+                      <span class="font-body text-ebony">Tarif</span>
+                    </div>
+                    <span class="font-heading text-2xl text-gold font-bold">50€</span>
                   </div>
                 </div>
-              </div>
-              
-              <div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Format</h3>
-                <div class="space-y-3">
-                  <div class="flex items-center space-x-3">
-                    <span class="material-icons text-sage">home</span>
-                    <span class="font-body text-ebony">Présentiel ou à distance</span>
+                
+                <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div class="bg-gradient-to-r from-sage/10 to-eucalyptus/10 rounded-xl p-4 mb-4">
+                    <p class="font-body text-sm text-ebony text-center">
+                      Forfaits pour plusieurs animaux du même foyer disponibles sur demande
+                    </p>
                   </div>
                 </div>
-              </div>
-              
-              <div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Tarif</h3>
-                <div class="space-y-3">
-                  <div class="flex items-center space-x-3">
-                    <span class="material-icons text-sage">euro</span>
-                    <span class="font-body text-ebony">50€</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="mt-8 pt-8 border-t border-sage/20">
-              <p class="font-body text-ebony text-center mb-4">
-                Forfaits pour plusieurs animaux du même foyer disponibles sur demande.
-              </p>
-              <p class="font-body text-ebony text-center mb-6">
-                Merci de prendre directement contact via le bouton ci-contre afin de recevoir une proposition personnalisée adaptée à votre situation.
-              </p>
-              <div class="text-center">
-                <Button href="/contact" size="lg">
-                  Me contacter pour un devis personnalisé
+                
+                <Button href="/accompagnements/reservation" size="lg" class="w-full bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage transition-all duration-300">
+                  Je réserve un soin énergétique pour mon animal
                 </Button>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Déplacements à domicile -->
-    <section class="py-16 bg-cream">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <div class="bg-white rounded-2xl p-8 shadow-soft" data-aos="fade-up">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              <div>
-                <div class="flex items-center space-x-4 mb-6">
-                  <div class="bg-sage/20 p-3 rounded-full">
-                    <span class="material-icons text-sage text-2xl">location_on</span>
-                  </div>
-                  <h3 class="font-heading text-3xl text-ebony">Déplacements à domicile</h3>
+            
+          <!-- Info format et déplacements -->
+          <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8" data-aos="fade-up" data-aos-delay="300">
+            <!-- Format -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-sage/20">
+              <div class="flex items-center justify-center space-x-6 mb-6">
+                <div class="bg-gradient-to-r from-sage to-eucalyptus rounded-full p-4">
+                  <span class="material-icons text-white text-2xl">video_call</span>
                 </div>
-                <p class="font-body text-lg text-ebony/80 leading-relaxed mb-6">
-                  Pour plus de confort et de sérénité, les soins peuvent être réalisés directement chez vous. Nous intervenons dans un rayon de 70 km autour de Salazac.
+                <div class="text-left">
+                  <p class="font-heading text-xl text-ebony">Format : présentiel ou à distance</p>
+                  <p class="font-body text-gray-600">Chez vous ou photo + visio</p>
+                </div>
+              </div>
+              <p class="font-body text-ebony/80 text-center">
+                Merci de prendre directement contact via le bouton ci-contre afin de recevoir une proposition personnalisée adaptée à votre situation.
+              </p>
+              <div class="mt-4 text-center">
+                <Button href="/contact" size="md" variant="outline" class="border-sage text-sage hover:bg-sage hover:text-white">
+                  Me contacter pour un devis personnalisé
+                </Button>
+              </div>
+            </div>
+            
+            <!-- Déplacements -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-sage/20">
+              <div class="flex items-center justify-center space-x-6 mb-6">
+                <div class="bg-gradient-to-r from-eucalyptus to-gold rounded-full p-4">
+                  <span class="material-icons text-white text-2xl">location_on</span>
+                </div>
+                <div class="text-left">
+                  <p class="font-heading text-xl text-ebony">Déplacements à domicile</p>
+                  <p class="font-body text-gray-600">Pour plus de confort et de sérénité</p>
+                </div>
+              </div>
+              <div class="space-y-4">
+                <p class="font-body text-ebony/90 text-sm">
+                  Les accompagnements peuvent être réalisés directement au domicile, dans les départements suivants : Gard, Ardèche, Vaucluse, Drôme et Bouches-du-Rhône, dans un rayon de 70 km autour de Salazac.
                 </p>
-                
-                <div class="space-y-4">
-                  <div class="bg-cream/50 rounded-xl p-4">
-                    <div class="flex items-center space-x-3">
-                      <span class="material-icons text-sage">check_circle</span>
-                      <span class="font-body text-ebony font-semibold">Frais inclus jusqu'à 10 km</span>
-                    </div>
-                  </div>
-                  <div class="bg-cream/50 rounded-xl p-4">
-                    <div class="flex items-center space-x-3">
-                      <span class="material-icons text-sage">info</span>
-                      <span class="font-body text-ebony">Participation aux frais au-delà, indiquée lors de la réservation</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="bg-cream/50 rounded-2xl p-6">
-                <h4 class="font-heading text-xl text-ebony mb-4">Zones d'intervention :</h4>
-                <div class="grid grid-cols-2 gap-3">
-                  <div class="bg-white rounded-lg p-3 text-center">
-                    <div class="font-heading text-sage">Gard</div>
-                  </div>
-                  <div class="bg-white rounded-lg p-3 text-center">
-                    <div class="font-heading text-sage">Ardèche</div>
-                  </div>
-                  <div class="bg-white rounded-lg p-3 text-center">
-                    <div class="font-heading text-sage">Vaucluse</div>
-                  </div>
-                  <div class="bg-white rounded-lg p-3 text-center">
-                    <div class="font-heading text-sage">Drôme</div>
-                  </div>
-                  <div class="bg-white rounded-lg p-3 text-center col-span-2">
-                    <div class="font-heading text-sage">Bouches-du-Rhône</div>
-                  </div>
+                <div class="bg-sage/10 rounded-xl p-4">
+                  <h4 class="font-heading text-lg text-ebony mb-2">Frais de déplacement :</h4>
+                  <ul class="space-y-1 font-body text-ebony/80 text-sm">
+                    <li>• Inclus jusqu'à 10 km autour de Salazac</li>
+                    <li>• Au-delà : une participation aux frais est demandée, calculée selon la distance et indiquée au moment de la réservation</li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -424,118 +768,409 @@ const structuredData = {
       </div>
     </section>
 
-    <!-- Pourquoi choisir Harmonia et Vita -->
-    <section class="py-16 bg-white">
-      <div class="container mx-auto px-4">
+    <!-- Pourquoi choisir Harmonia et Vita - Section avec image de fond -->
+    <section class="py-28 bg-gradient-to-br from-sage/5 via-white to-cream relative overflow-hidden">
+      <!-- Éléments décoratifs en arrière-plan -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-20 right-10 w-2 h-2 bg-sage rounded-full animate-pulse"></div>
+        <div class="absolute bottom-40 left-20 w-1 h-1 bg-gold rounded-full animate-bounce"></div>
+        <div class="absolute top-1/2 right-1/4 w-3 h-3 bg-eucalyptus rounded-full animate-ping"></div>
+      </div>
+      
+      <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-6xl mx-auto">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div data-aos="fade-right">
-              <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-8">
-                Pourquoi choisir Harmonia et Vita pour votre animal ?
-              </h2>
-              
-              <div class="space-y-6">
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">psychology</span>
-                  <p class="font-body text-ebony">Expertise en soins énergétiques et accompagnement animalier</p>
-                </div>
-                
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">favorite</span>
-                  <p class="font-body text-ebony">Approche douce, respectueuse et adaptée à chaque animal</p>
-                </div>
-                
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">home</span>
-                  <p class="font-body text-ebony">Possibilité de travailler à distance pour limiter le stress de déplacement</p>
-                </div>
-                
-                <div class="flex items-start space-x-4">
-                  <span class="material-icons text-sage text-xl mt-1">health_and_safety</span>
-                  <p class="font-body text-ebony">Complémentaire à la médecine vétérinaire, dans une vision holistique</p>
-                </div>
-              </div>
-            </div>
-            
-            <div data-aos="fade-left">
+          <!-- Titre principal -->
+          <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+              <span class="bg-gradient-to-r from-sage via-eucalyptus to-gold bg-clip-text text-transparent">
+                Pourquoi choisir
+              </span>
+              <br />
+              <span class="text-ebony">Harmonia et Vita pour votre animal ?</span>
+            </h2>
+            <div class="w-32 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-8"></div>
+            <p class="font-body text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed">
+              Découvrez ce qui fait la différence dans notre approche des soins énergétiques animaux.
+            </p>
+          </div>
+
+          <!-- Section avec image de fond et contenu -->
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl" data-aos="fade-up" data-aos-delay="200">
+            <!-- Image de fond -->
+            <div class="absolute inset-0">
               <img 
-                src="/images/soin-energetique-animaux-portrait.jpg" 
-                alt="Soin énergétique pour animaux – approche douce et respectueuse"
-                class="w-full h-96 object-cover rounded-2xl shadow-medium"
+                src="/images/soin-energetique-pour-animaux-approche-douce.jpg" 
+                alt=""
+                class="w-full h-full object-cover"
               />
+              <!-- Overlay gradient pour la lisibilité -->
+              <div class="absolute inset-0 bg-gradient-to-r from-ebony/60 via-ebony/40 to-ebony/20"></div>
+            </div>
+            
+            <!-- Contenu par-dessus -->
+            <div class="relative z-10 p-8 md:p-12 lg:p-16">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Avantages -->
+                <div class="text-white" data-aos="fade-right">
+                  <h3 class="font-heading text-3xl text-white mb-8">Notre expertise en soins énergétiques animaliers</h3>
+              
+                  <div class="space-y-6">
+                    <div class="flex items-start space-x-4">
+                      <div class="bg-sage/20 p-3 rounded-full">
+                        <span class="material-icons text-sage text-2xl">healing</span>
+                      </div>
+                      <div>
+                        <h4 class="font-heading text-xl text-white mb-2">Expertise en soins énergétiques</h4>
+                        <p class="font-body text-white/90 leading-relaxed">
+                          Expertise en soins énergétiques et accompagnement animalier adapté à chaque espèce.
+                        </p>
+                      </div>
+                    </div>
+                
+                    <div class="flex items-start space-x-4">
+                      <div class="bg-gold/20 p-3 rounded-full">
+                        <span class="material-icons text-gold text-2xl">pets</span>
+                      </div>
+                      <div>
+                        <h4 class="font-heading text-xl text-white mb-2">Approche douce et respectueuse</h4>
+                        <p class="font-body text-white/90 leading-relaxed">
+                          Approche douce, respectueuse et adaptée à chaque animal, dans le respect de sa sensibilité.
+                        </p>
+                      </div>
+                    </div>
+                
+                    <div class="flex items-start space-x-4">
+                      <div class="bg-eucalyptus/20 p-3 rounded-full">
+                        <span class="material-icons text-eucalyptus text-2xl">video_call</span>
+                      </div>
+                      <div>
+                        <h4 class="font-heading text-xl text-white mb-2">Possibilité de travailler à distance</h4>
+                        <p class="font-body text-white/90 leading-relaxed">
+                          Possibilité de travailler à distance pour limiter le stress de déplacement de votre animal.
+                        </p>
+                      </div>
+                    </div>
+                
+                    <div class="flex items-start space-x-4">
+                      <div class="bg-sage/20 p-3 rounded-full">
+                        <span class="material-icons text-sage text-2xl">medical_services</span>
+                      </div>
+                      <div>
+                        <h4 class="font-heading text-xl text-white mb-2">Complémentaire à la médecine vétérinaire</h4>
+                        <p class="font-body text-white/90 leading-relaxed">
+                          Complémentaire à la médecine vétérinaire, dans une vision holistique du bien-être animal.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            
+                <!-- Statistiques en bulles -->
+                <div class="space-y-6" data-aos="fade-left">
+                  <h3 class="font-heading text-2xl text-white mb-6 text-center">Nos résultats</h3>
+                  
+                  <!-- Bulle 1 -->
+                  <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                    <div class="text-center">
+                      <div class="text-5xl font-heading text-sage mb-3 font-bold drop-shadow-lg">
+                        <span class="counter" data-target="200" data-suffix="+">0</span>
+                      </div>
+                      <p class="font-body text-white/90 text-lg">Animaux accompagnés</p>
+                    </div>
+                  </div>
+                  
+                  <!-- Bulle 2 -->
+                  <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                    <div class="text-center">
+                      <div class="text-5xl font-heading text-gold mb-3 font-bold drop-shadow-lg">
+                        <span class="counter" data-target="95" data-suffix="%">0</span>
+                      </div>
+                      <p class="font-body text-white/90 text-lg">Amélioration constatée</p>
+                    </div>
+                  </div>
+                  
+                  <!-- Bulle 3 -->
+                  <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                    <div class="text-center">
+                      <div class="text-5xl font-heading text-eucalyptus mb-3 font-bold drop-shadow-lg">
+                        <span class="counter" data-target="3" data-suffix=" ans">0</span>
+                      </div>
+                      <p class="font-body text-white/90 text-lg">D'expertise animale</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Témoignages -->
-    <section class="py-16 bg-cream">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <h2 class="font-heading text-3xl md:text-4xl text-ebony text-center mb-12" data-aos="fade-up">
-            Témoignages
-          </h2>
+    <!-- Témoignages - Grille de cartes modernes -->
+    <section class="py-28 bg-gradient-to-br from-cream via-white to-sage/5 relative overflow-hidden">
+      <!-- Éléments décoratifs en arrière-plan -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-10 left-10 w-32 h-32 bg-sage rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-10 right-10 w-24 h-24 bg-gold rounded-full blur-2xl animate-bounce"></div>
+      </div>
+      
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-6xl mx-auto">
+          <!-- Titre principal -->
+          <div class="text-center mb-16" data-aos="fade-up">
+            <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+              <span class="bg-gradient-to-r from-sage via-eucalyptus to-gold bg-clip-text text-transparent">
+                Témoignages
+              </span>
+              <br />
+              <span class="text-ebony">de nos clients</span>
+            </h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-8"></div>
+            <p class="font-body text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed">
+              Découvrez les retours d'expérience de propriétaires qui ont offert un soin énergétique à leur compagnon.
+            </p>
+          </div>
           
-          <div class="space-y-8">
-            <Card variant="feature" class="p-8" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-              <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-3xl">format_quote</span>
-                <div>
-                  <p class="font-body text-ebony text-lg italic mb-4">
-                    "Mon chien avait du mal à se détendre depuis des mois. Après un soin énergétique fait directement à la maison, j'ai vu la différence dès le soir même : il était apaisé et dormait profondément. C'était impressionnant."
-                  </p>
-                  <p class="font-slogan text-sage font-semibold">Sophie, maîtresse de Jazz, berger australien</p>
+          <!-- Grille de témoignages -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <!-- Témoignage 1 -->
+            <div class="group" data-aos="fade-up" data-aos-delay="200">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <!-- Note étoiles -->
+                <div class="flex items-center mb-6">
+                  <div class="flex space-x-1">
+                    <span class="material-icons text-gold text-lg">star</span>
+                    <span class="material-icons text-gold text-lg">star</span>
+                    <span class="material-icons text-gold text-lg">star</span>
+                    <span class="material-icons text-gold text-lg">star</span>
+                    <span class="material-icons text-gold text-lg">star</span>
+                  </div>
+                </div>
+                
+                <!-- Témoignage -->
+                <blockquote class="font-body text-ebony leading-relaxed mb-6 italic">
+                  "Mon chien avait du mal à se détendre depuis des mois. Après un soin énergétique fait directement à la maison, j'ai vu la différence dès le soir même : il était apaisé et dormait profondément. C'était impressionnant."
+                </blockquote>
+                
+                <!-- Auteur -->
+                <div class="flex items-center">
+                  <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 rounded-full w-12 h-12 flex items-center justify-center mr-4">
+                    <span class="font-heading text-sage font-bold">S</span>
+                  </div>
+                  <div>
+                    <p class="font-heading text-ebony font-semibold">Sophie</p>
+                    <p class="font-body text-ebony/60 text-sm">maîtresse de Jazz, berger australien</p>
+                  </div>
                 </div>
               </div>
-            </Card>
+            </div>
             
-            <Card variant="feature" class="p-8" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
-              <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-3xl">format_quote</span>
-                <div>
-                  <p class="font-body text-ebony text-lg italic mb-4">
-                    "J'étais sceptique pour une séance à distance en visio, mais mon chat s'est installé calmement pendant tout le soin. Depuis, il semble beaucoup plus serein et réclame même plus de câlins."
-                  </p>
-                  <p class="font-slogan text-sage font-semibold">Thomas, maître de Moka, chat européen</p>
+            <!-- Témoignage 2 -->
+            <div class="group" data-aos="fade-up" data-aos-delay="400">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <!-- Note étoiles -->
+                <div class="flex items-center mb-6">
+                  <div class="flex space-x-1">
+                    <span class="material-icons text-gold text-lg">star</span>
+                    <span class="material-icons text-gold text-lg">star</span>
+                    <span class="material-icons text-gold text-lg">star</span>
+                    <span class="material-icons text-gold text-lg">star</span>
+                    <span class="material-icons text-gold text-lg">star</span>
+                  </div>
+                </div>
+                
+                <!-- Témoignage -->
+                <blockquote class="font-body text-ebony leading-relaxed mb-6 italic">
+                  "J'étais sceptique pour une séance à distance en visio, mais mon chat s'est installé calmement pendant tout le soin. Depuis, il semble beaucoup plus serein et réclame même plus de câlins."
+                </blockquote>
+                
+                <!-- Auteur -->
+                <div class="flex items-center">
+                  <div class="bg-gradient-to-br from-gold/20 to-sage/20 rounded-full w-12 h-12 flex items-center justify-center mr-4">
+                    <span class="font-heading text-gold font-bold">T</span>
+                  </div>
+                  <div>
+                    <p class="font-heading text-ebony font-semibold">Thomas</p>
+                    <p class="font-body text-ebony/60 text-sm">maître de Moka, chat européen</p>
+                  </div>
                 </div>
               </div>
-            </Card>
+            </div>
             
-            <Card variant="feature" class="p-8" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
-              <div class="flex items-start space-x-4">
-                <span class="material-icons text-sage text-3xl">format_quote</span>
-                <div>
-                  <p class="font-body text-ebony text-lg italic mb-4">
-                    "Ma jument traversait une période de stress intense. Grâce au soin reçu sur place, elle a retrouvé de la légèreté dans ses mouvements et je sens qu'un poids s'est libéré. Je suis vraiment soulagée de la voir mieux."
-                  </p>
-                  <p class="font-slogan text-sage font-semibold">Claire, propriétaire de Perle, jument</p>
+            <!-- Témoignage 3 -->
+            <div class="group" data-aos="fade-up" data-aos-delay="600">
+              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <!-- Note étoiles -->
+                <div class="flex items-center mb-6">
+                  <div class="flex space-x-1">
+                    <span class="material-icons text-gold text-lg">star</span>
+                    <span class="material-icons text-gold text-lg">star</span>
+                    <span class="material-icons text-gold text-lg">star</span>
+                    <span class="material-icons text-gold text-lg">star</span>
+                    <span class="material-icons text-gold text-lg">star</span>
+                  </div>
+                </div>
+                
+                <!-- Témoignage -->
+                <blockquote class="font-body text-ebony leading-relaxed mb-6 italic">
+                  "Ma jument traversait une période de stress intense. Grâce au soin reçu sur place, elle a retrouvé de la légèreté dans ses mouvements et je sens qu'un poids s'est libéré. Je suis vraiment soulagée de la voir mieux."
+                </blockquote>
+                
+                <!-- Auteur -->
+                <div class="flex items-center">
+                  <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 rounded-full w-12 h-12 flex items-center justify-center mr-4">
+                    <span class="font-heading text-eucalyptus font-bold">C</span>
+                  </div>
+                  <div>
+                    <p class="font-heading text-ebony font-semibold">Claire</p>
+                    <p class="font-body text-ebony/60 text-sm">propriétaire de Perle, jument</p>
+                  </div>
                 </div>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CTA Final -->
-    <section class="py-20 bg-gradient-to-b from-sage to-eucalyptus text-white">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto text-center" data-aos="fade-up">
-          <h2 class="font-heading text-3xl md:text-4xl mb-6">
-            Réservez un soin énergétique pour votre animal
-          </h2>
-          <p class="font-body text-lg mb-8 opacity-90">
-            Offrez à votre compagnon un moment de paix et de régénération.
-          </p>
-          <p class="font-body text-lg mb-8 opacity-90">
-            Réservez dès aujourd'hui votre soin énergétique animal et contribuez à son équilibre.
-          </p>
-          <Button href="/accompagnements/reservation" variant="secondary" size="lg">
-            Je réserve un soin énergétique animal
-          </Button>
+    <!-- CTA Final - Section moderne et impactante -->
+    <section class="py-28 bg-gradient-to-br from-sage to-eucalyptus relative overflow-hidden">
+      <!-- Éléments décoratifs en arrière-plan -->
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-10 left-10 w-32 h-32 bg-white rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-10 right-10 w-24 h-24 bg-gold rounded-full blur-2xl animate-bounce"></div>
+        <div class="absolute top-1/2 left-1/2 w-16 h-16 bg-white rounded-full blur-xl animate-ping"></div>
+      </div>
+      
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-6xl mx-auto">
+          <!-- Contenu principal -->
+          <div class="text-center text-white" data-aos="fade-up">
+            <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight">
+              Offrez à votre compagnon un moment de
+              <span class="block text-gold">paix et de régénération</span>
+            </h2>
+              
+            <p class="font-body text-xl mb-8 text-white/90 leading-relaxed max-w-3xl mx-auto">
+              Réservez dès aujourd'hui votre soin énergétique animal et contribuez à son équilibre.
+            </p>
+              
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button href="/accompagnements/reservation" size="lg" variant="secondary" class="bg-white text-sage hover:bg-gold hover:text-white transition-all duration-300 font-semibold">
+                <span class="material-icons mr-2">calendar_today</span>
+                Je réserve un soin énergétique animal
+              </Button>
+              <a href="/contact" class="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-sage transition-all duration-300 text-lg">
+                <span class="material-icons mr-2">phone</span>
+                Nous contacter
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   </div>
+
+  <!-- Script pour l'animation de comptage et typewriter -->
+  <script is:inline>
+    // Attendre que le DOM soit chargé
+    window.addEventListener('load', function() {
+      // Fonction pour animer le comptage
+      function animateCounter(element) {
+        const target = parseInt(element.getAttribute('data-target'));
+        const suffix = element.getAttribute('data-suffix') || '';
+        const duration = 2000; // 2 secondes
+        const increment = target / (duration / 16); // 60 FPS
+        let current = 0;
+        
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          element.textContent = Math.floor(current) + suffix;
+        }, 16);
+      }
+
+      // Observer pour déclencher l'animation quand l'élément devient visible
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const counters = entry.target.querySelectorAll('.counter');
+            counters.forEach(counter => {
+              // Vérifier si l'animation n'a pas déjà été lancée
+              if (!counter.classList.contains('animated')) {
+                counter.classList.add('animated');
+                animateCounter(counter);
+              }
+            });
+          }
+        });
+      }, {
+        threshold: 0.3
+      });
+
+      // Chercher toutes les sections avec des compteurs
+      const counters = document.querySelectorAll('.counter');
+      if (counters.length > 0) {
+        // Observer le premier parent qui contient des compteurs
+        const firstCounter = counters[0];
+        const parentSection = firstCounter.closest('section');
+        if (parentSection) {
+          observer.observe(parentSection);
+        }
+      }
+
+      // Animation typewriter pour la citation
+      function typeWriter(element, text, speed = 100) {
+        let i = 0;
+        element.innerHTML = '';
+        
+        function type() {
+          if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+          }
+        }
+        
+        type();
+      }
+
+      // Animation typewriter pour le hero
+      function typeWriterHero(element, text, speed = 80) {
+        let i = 0;
+        element.innerHTML = '';
+        
+        function type() {
+          if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+          }
+        }
+        
+        type();
+      }
+
+      // Démarrer l'animation typewriter pour le hero
+      setTimeout(() => {
+        const heroElement = document.getElementById('hero-typewriter');
+        if (heroElement) {
+          const originalText = heroElement.textContent;
+          typeWriterHero(heroElement, originalText, 80);
+        }
+      }, 1500);
+
+      // Démarrer l'animation typewriter pour la citation après un délai
+      setTimeout(() => {
+        const quoteElement = document.querySelector('blockquote');
+        if (quoteElement) {
+          const originalText = quoteElement.textContent;
+          typeWriter(quoteElement, originalText, 80);
+        }
+      }, 4000);
+    });
+  </script>
 </MainLayout>

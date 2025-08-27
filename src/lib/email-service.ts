@@ -3,6 +3,8 @@ import { getConfirmationEmailHtml } from './emails/confirmation-email';
 import { getNewArticleEmailTemplate } from './emails/new-article-template';
 import { getAppointmentNotificationEmailHtml } from './emails/appointment-notification';
 import { getAppointmentConfirmationEmailHtml } from './emails/appointment-confirmation';
+import { getAppointmentApprovalEmailHtml } from './emails/appointment-approval';
+import { getAppointmentRejectionEmailHtml } from './emails/appointment-rejection';
 
 // Configuration
 const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
@@ -444,5 +446,149 @@ ${sanitizedData.message}
     
     // Relancer l'erreur avec un message plus générique pour l'utilisateur
     throw new Error('Une erreur est survenue lors de l\'envoi du message. Veuillez réessayer plus tard.');
+  }
+}
+
+// Fonction pour envoyer l'email d'approbation avec lien de paiement
+export async function sendAppointmentApprovalEmail({
+  appointment,
+  paymentUrl,
+  websiteUrl = 'https://harmonia-naturo.com'
+}: {
+  appointment: {
+    id: string;
+    date: string;
+    time: string;
+    service: string;
+    clientName: string;
+    clientEmail: string;
+  };
+  paymentUrl: string;
+  websiteUrl?: string;
+}) {
+  try {
+    if (!RESEND_API_KEY) {
+      throw new EmailServiceError('RESEND_API_KEY non configurée', 'CONFIG_ERROR');
+    }
+
+    const emailHtml = getAppointmentApprovalEmailHtml({ appointment, paymentUrl, websiteUrl });
+
+    const emailData = {
+      from: FROM_EMAIL,
+      to: [appointment.clientEmail],
+      subject: 'Réservation approuvée - Procédez au paiement - Harmonia',
+      html: emailHtml
+    };
+
+    // En mode développement, simuler l'envoi
+    if (IS_DEVELOPMENT) {
+      console.log('Mode développement : Email d\'approbation client simulé');
+      console.log('Destinataire:', appointment.clientEmail);
+      console.log('Lien de paiement:', paymentUrl);
+      return {
+        success: true,
+        message: 'Email d\'approbation client simulé (mode développement)',
+        data: { id: 'dev-simulation' }
+      };
+    }
+
+    const result = await resend.emails.send(emailData);
+
+    if (result.error) {
+      throw new EmailServiceError(
+        `Erreur lors de l'envoi de l'email d'approbation: ${result.error.message}`,
+        'SEND_ERROR',
+        result.error
+      );
+    }
+
+    return {
+      success: true,
+      message: 'Email d\'approbation envoyé avec succès',
+      data: result.data
+    };
+
+  } catch (error) {
+    if (error instanceof EmailServiceError) {
+      throw error;
+    }
+
+    throw new EmailServiceError(
+      `Erreur inattendue lors de l'envoi de l'email d'approbation: ${error instanceof Error ? error.message : 'Erreur inconnue'}`,
+      'UNKNOWN_ERROR',
+      error
+    );
+  }
+}
+
+// Fonction pour envoyer l'email de refus
+export async function sendAppointmentRejectionEmail({
+  appointment,
+  rejectionReason,
+  websiteUrl = 'https://harmonia-naturo.com'
+}: {
+  appointment: {
+    id: string;
+    date: string;
+    time: string;
+    service: string;
+    clientName: string;
+    clientEmail: string;
+  };
+  rejectionReason: string;
+  websiteUrl?: string;
+}) {
+  try {
+    if (!RESEND_API_KEY) {
+      throw new EmailServiceError('RESEND_API_KEY non configurée', 'CONFIG_ERROR');
+    }
+
+    const emailHtml = getAppointmentRejectionEmailHtml({ appointment, rejectionReason, websiteUrl });
+
+    const emailData = {
+      from: FROM_EMAIL,
+      to: [appointment.clientEmail],
+      subject: 'Information concernant votre demande de réservation - Harmonia',
+      html: emailHtml
+    };
+
+    // En mode développement, simuler l'envoi
+    if (IS_DEVELOPMENT) {
+      console.log('Mode développement : Email de refus client simulé');
+      console.log('Destinataire:', appointment.clientEmail);
+      console.log('Raison du refus:', rejectionReason);
+      return {
+        success: true,
+        message: 'Email de refus client simulé (mode développement)',
+        data: { id: 'dev-simulation' }
+      };
+    }
+
+    const result = await resend.emails.send(emailData);
+
+    if (result.error) {
+      throw new EmailServiceError(
+        `Erreur lors de l'envoi de l'email de refus: ${result.error.message}`,
+        'SEND_ERROR',
+        result.error
+      );
+    }
+
+    return {
+      success: true,
+      message: 'Email de refus envoyé avec succès',
+      data: result.data
+    };
+
+  } catch (error) {
+    if (error instanceof EmailServiceError) {
+      throw error;
+    }
+
+    throw new EmailServiceError(
+      `Erreur inattendue lors de l'envoi de l'email de refus: ${error instanceof Error ? error.message : 'Erreur inconnue'}`,
+      'UNKNOWN_ERROR',
+      error
+    );
   }
 }

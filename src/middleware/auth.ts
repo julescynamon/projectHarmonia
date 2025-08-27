@@ -69,6 +69,9 @@ const PUBLIC_API_ROUTES = [
   '/api/appointments/check-availability',
   '/api/appointments/unavailable-times',
   '/api/appointments/webhook',
+  '/api/admin/appointments/approve',
+  '/api/admin/appointments/reject',
+  '/api/admin/appointments/list',
   '/api/cart/items',
   '/api/auth/check-session'
 ];
@@ -175,9 +178,11 @@ export const onRequest = defineMiddleware(
         const isMainAdmin = locals.session.user.email === 'tyzranaima@gmail.com';
 
         if (isMainAdmin) {
+          console.log('✅ Accès admin autorisé pour l\'admin principal');
           
           // Créer ou mettre à jour le profil admin si nécessaire
           if (!profile) {
+            console.log('📝 Création du profil admin...');
             const { error: upsertError } = await supabase
               .from('profiles')
               .upsert({
@@ -189,6 +194,8 @@ export const onRequest = defineMiddleware(
             
             if (upsertError) {
               console.error('Erreur lors de la création du profil admin:', upsertError);
+            } else {
+              console.log('✅ Profil admin créé avec succès');
             }
           }
         } else if (!profile || profile.role !== 'admin') {

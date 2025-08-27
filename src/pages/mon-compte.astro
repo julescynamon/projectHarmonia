@@ -399,7 +399,8 @@ const userData = user?.user_metadata || {};
               <div class="grid gap-4 sm:gap-6 md:grid-cols-3">
                 <a 
                   href="/admin/boutique"
-                  class="flex flex-col items-center p-6 bg-gray-50 hover:bg-primary/5 rounded-xl transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-primary/20"
+                  class="admin-link flex flex-col items-center p-6 bg-gray-50 hover:bg-primary/5 rounded-xl transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-primary/20"
+                  data-admin-link="boutique"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -410,7 +411,8 @@ const userData = user?.user_metadata || {};
 
                 <a 
                   href="/admin/disponibilites"
-                  class="flex flex-col items-center p-6 bg-gray-50 hover:bg-primary/5 rounded-xl transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-primary/20"
+                  class="admin-link flex flex-col items-center p-6 bg-gray-50 hover:bg-primary/5 rounded-xl transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-primary/20"
+                  data-admin-link="disponibilites"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -421,7 +423,8 @@ const userData = user?.user_metadata || {};
 
                 <a 
                   href="/admin/blog"
-                  class="flex flex-col items-center p-6 bg-gray-50 hover:bg-primary/5 rounded-xl transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-primary/20"
+                  class="admin-link flex flex-col items-center p-6 bg-gray-50 hover:bg-primary/5 rounded-xl transition-all duration-300 hover:shadow-lg border border-gray-100 hover:border-primary/20"
+                  data-admin-link="blog"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -563,4 +566,26 @@ const userData = user?.user_metadata || {};
 
   // Rendre la fonction disponible globalement
   window.downloadFile = downloadFile;
+
+  // Gestion des liens admin
+  document.addEventListener('DOMContentLoaded', function() {
+    const adminLinks = document.querySelectorAll('.admin-link');
+    
+    adminLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const href = this.getAttribute('href');
+        
+        if (!href) {
+          window.toast.show('Lien admin invalide', 'error');
+          return;
+        }
+
+        // Redirection directe vers la page admin
+        console.log('Redirection vers:', href);
+        window.location.href = href;
+      });
+    });
+  });
 </script>

@@ -9,14 +9,17 @@ if (!session?.user?.id) {
     return Astro.redirect('/login?returnTo=/admin/boutique');
 }
 
-// Vérification du rôle admin dans la table profiles
+// Vérification du rôle admin dans la table profiles avec fallback pour l'admin principal
 const { data: profile, error: profileError } = await supabase
     .from('profiles')
     .select('role')
     .eq('id', session.user.id)
     .single();
 
-if (profileError || !profile || profile.role !== 'admin') {
+// Vérification spéciale pour l'admin principal (tyzranaima@gmail.com)
+const isMainAdmin = session.user.email === 'tyzranaima@gmail.com';
+
+if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
     return Astro.redirect('/mon-compte');
 }
 

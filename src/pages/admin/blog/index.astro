@@ -50,14 +50,17 @@ if (!session?.user?.id) {
   return Astro.redirect('/login?returnTo=/admin/blog');
 }
 
-// Vérification du rôle admin
+// Vérification du rôle admin avec fallback pour l'admin principal
 const { data: profile, error: profileError } = await supabase
   .from('profiles')
   .select('role')
   .eq('id', session.user.id)
   .single();
 
-if (profileError || !profile || profile.role !== 'admin') {
+// Vérification spéciale pour l'admin principal (tyzranaima@gmail.com)
+const isMainAdmin = session.user.email === 'tyzranaima@gmail.com';
+
+if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
   console.error('[ADMIN_BLOG] Utilisateur non admin, redirection vers /mon-compte');
   return Astro.redirect('/mon-compte');
 }

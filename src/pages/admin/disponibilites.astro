@@ -12,42 +12,114 @@ if (!session?.user?.id) {
   return Astro.redirect('/login?returnTo=/admin/disponibilites');
 }
 
-// Vérification du rôle admin
+// Vérification du rôle admin avec fallback pour l'admin principal
 const { data: profile, error: profileError } = await supabase
   .from('profiles')
   .select('role')
   .eq('id', session.user.id)
   .single();
 
-if (profileError || !profile || profile.role !== 'admin') {
+// Vérification spéciale pour l'admin principal (tyzranaima@gmail.com)
+const isMainAdmin = session.user.email === 'tyzranaima@gmail.com';
+
+if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
   return Astro.redirect('/mon-compte');
 }
 ---
 
-<MainLayout title="Gestion des disponibilités" description="Gérez vos disponibilités">
+<MainLayout title="Gestion des disponibilités" description="Gérez vos disponibilités et réservations">
   <div class="pt-24">
     <section class="py-20 bg-sage/5">
       <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-6xl mx-auto">
           <Card variant="hover">
             <div class="p-8">
-              <h1 class="font-heading text-3xl text-ebony mb-8">Gestion des disponibilités</h1>
+              <h1 class="font-heading text-3xl text-ebony mb-8">Gestion des disponibilités et réservations</h1>
+              
+              <!-- Navigation par onglets -->
+              <div class="mb-8">
+                <div class="border-b border-sage/20">
+                  <nav class="-mb-px flex space-x-8">
+                    <button id="tab-appointments" class="tab-button active py-2 px-1 border-b-2 border-sage text-sage font-medium">
+                      📋 Demandes en attente
+                    </button>
+                    <button id="tab-availability" class="tab-button py-2 px-1 border-b-2 border-transparent text-ebony/60 hover:text-ebony font-medium">
+                      📅 Périodes bloquées
+                    </button>
+                  </nav>
+                </div>
+              </div>
+
+              <!-- Onglet Demandes en attente -->
+              <div id="appointments-tab" class="tab-content">
+                <div class="mb-6">
+                  <h2 class="font-heading text-2xl text-ebony mb-4">Demandes de réservation en attente</h2>
+                  
+                  <!-- Filtres -->
+                  <div class="bg-white/50 rounded-lg p-4 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                      <div>
+                        <label class="block text-sm font-medium text-ebony mb-2">Statut</label>
+                        <select id="status-filter" class="w-full px-3 py-2 rounded-lg border border-sage/20 text-sm">
+                          <option value="">Tous les statuts</option>
+                          <option value="pending_approval">En attente d'approbation</option>
+                          <option value="pending">En attente de paiement</option>
+                          <option value="confirmed">Confirmé</option>
+                          <option value="refused">Refusé</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-ebony mb-2">Date de début</label>
+                        <input type="date" id="date-from-filter" class="w-full px-3 py-2 rounded-lg border border-sage/20 text-sm">
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-ebony mb-2">Date de fin</label>
+                        <input type="date" id="date-to-filter" class="w-full px-3 py-2 rounded-lg border border-sage/20 text-sm">
+                      </div>
+                      <div>
+                        <label class="block text-sm font-medium text-ebony mb-2">Recherche client</label>
+                        <input type="text" id="client-search" placeholder="Nom ou email..." class="w-full px-3 py-2 rounded-lg border border-sage/20 text-sm">
+                      </div>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center">
+                      <button id="apply-filters" class="bg-sage text-white px-4 py-2 rounded-lg hover:bg-sage/90 transition-colors text-sm">
+                        🔍 Appliquer les filtres
+                      </button>
+                      <button id="clear-filters" class="text-sage hover:text-sage/80 transition-colors text-sm">
+                        ✨ Effacer les filtres
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Liste des réservations -->
+                  <div id="appointments-list" class="space-y-4">
+                    <!-- Les réservations seront chargées ici -->
+                  </div>
+
+                  <!-- Pagination -->
+                  <div id="pagination" class="mt-6 flex justify-center items-center space-x-2">
+                    <!-- La pagination sera générée ici -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Onglet Périodes bloquées -->
+              <div id="availability-tab" class="tab-content hidden">
               
               <div id="calendar-manager" class="space-y-6">
                 <!-- Le calendrier sera injecté ici par le JavaScript -->
               </div>
 
-              <div class="mt-8">
                 <h2 class="font-heading text-2xl text-ebony mb-4">Bloquer une plage horaire</h2>
                 <form id="block-time-form" class="space-y-4">
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label class="block text-sm font-medium text-ebony mb-2">Date de début</label>
-                      <input type="date" name="startDate" class="w-full px-4 py-2 rounded-lg border border-sage/20" required>
+                      <input type="date" name="startDate" id="startDate" class="w-full px-4 py-2 rounded-lg border border-sage/20" required>
                     </div>
                     <div>
                       <label class="block text-sm font-medium text-ebony mb-2">Date de fin</label>
-                      <input type="date" name="endDate" class="w-full px-4 py-2 rounded-lg border border-sage/20" required>
+                      <input type="date" name="endDate" id="endDate" class="w-full px-4 py-2 rounded-lg border border-sage/20" required>
                     </div>
                     <div>
                       <label class="block text-sm font-medium text-ebony mb-2">Heure de début</label>
@@ -73,10 +145,347 @@ if (profileError || !profile || profile.role !== 'admin') {
       </div>
     </section>
   </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </section>
+  </div>
 </MainLayout>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script is:inline define:vars={{ supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL, supabaseKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY }}>
-  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+  // Variables globales
+  let currentPage = 1;
+  let currentFilters = {};
+
+  // Gestion des onglets
+  function initTabs() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const targetId = button.id.replace('tab-', '') + '-tab';
+        
+        // Mettre à jour les boutons
+        tabButtons.forEach(btn => {
+          btn.classList.remove('active', 'border-sage', 'text-sage');
+          btn.classList.add('border-transparent', 'text-ebony/60');
+        });
+        button.classList.add('active', 'border-sage', 'text-sage');
+        button.classList.remove('border-transparent', 'text-ebony/60');
+        
+        // Afficher le contenu correspondant
+        tabContents.forEach(content => {
+          content.classList.add('hidden');
+        });
+        document.getElementById(targetId).classList.remove('hidden');
+        
+        // Charger les données si nécessaire
+        if (targetId === 'appointments-tab') {
+          loadAppointments();
+        } else if (targetId === 'availability-tab') {
+          loadBlockedTimes();
+        }
+      });
+    });
+  }
+
+  // Fonction pour charger les réservations
+  async function loadAppointments(page = 1) {
+    try {
+      const appointmentsList = document.getElementById('appointments-list');
+      appointmentsList.innerHTML = '<div class="text-center py-8"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-sage mx-auto"></div><p class="mt-2 text-ebony/60">Chargement...</p></div>';
+
+      // Construire les paramètres de requête
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: '10'
+      });
+
+      if (currentFilters.status) params.append('status', currentFilters.status);
+      if (currentFilters.dateFrom) params.append('dateFrom', currentFilters.dateFrom);
+      if (currentFilters.dateTo) params.append('dateTo', currentFilters.dateTo);
+      if (currentFilters.client) params.append('client', currentFilters.client);
+
+      const response = await fetch(`/api/admin/appointments/list?${params}`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erreur lors du chargement');
+      }
+
+      displayAppointments(data.data, data.pagination);
+    } catch (error) {
+      console.error('Erreur lors du chargement des réservations:', error);
+      document.getElementById('appointments-list').innerHTML = 
+        '<div class="text-center py-8 text-red-600">Erreur lors du chargement des réservations</div>';
+    }
+  }
+
+  // Fonction pour afficher les réservations
+  function displayAppointments(appointments, pagination) {
+    const appointmentsList = document.getElementById('appointments-list');
+    
+    if (!appointments || appointments.length === 0) {
+      appointmentsList.innerHTML = '<div class="text-center py-8 text-ebony/60">Aucune réservation trouvée</div>';
+      return;
+    }
+
+    const appointmentsHtml = appointments.map(appointment => {
+      const statusBadge = getStatusBadge(appointment.status);
+      const formattedDate = new Date(appointment.date).toLocaleDateString('fr-FR');
+      
+      return `
+        <div class="bg-white/80 rounded-lg p-6 border border-sage/10 hover:shadow-lg transition-shadow">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h3 class="font-heading text-lg text-ebony mb-2">${appointment.client_name}</h3>
+              <p class="text-ebony/60 text-sm">${appointment.client_email}</p>
+            </div>
+            <div class="text-right">
+              ${statusBadge}
+              <p class="text-xs text-ebony/40 mt-1">ID: ${appointment.id.slice(0, 8)}...</p>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div>
+              <span class="text-sm font-medium text-ebony/60">Service:</span>
+              <p class="text-ebony">${appointment.services?.title || 'N/A'}</p>
+            </div>
+            <div>
+              <span class="text-sm font-medium text-ebony/60">Date:</span>
+              <p class="text-ebony">${formattedDate} à ${appointment.time}</p>
+            </div>
+            <div>
+              <span class="text-sm font-medium text-ebony/60">Prix:</span>
+              <p class="text-ebony">${appointment.services?.price || 'N/A'}€</p>
+            </div>
+          </div>
+          
+          ${appointment.reason ? `
+            <div class="mb-4">
+              <span class="text-sm font-medium text-ebony/60">Motif:</span>
+              <p class="text-ebony text-sm">${appointment.reason}</p>
+            </div>
+          ` : ''}
+          
+          <div class="flex justify-end space-x-2">
+            ${appointment.status === 'pending_approval' ? `
+              <button onclick="approveAppointment('${appointment.id}')" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors text-sm">
+                ✅ Approuver
+              </button>
+              <button onclick="rejectAppointment('${appointment.id}')" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors text-sm">
+                ❌ Refuser
+              </button>
+            ` : ''}
+            ${appointment.status === 'pending' ? `
+              <span class="text-orange-600 text-sm font-medium">⏳ En attente de paiement</span>
+            ` : ''}
+            ${appointment.status === 'confirmed' ? `
+              <span class="text-green-600 text-sm font-medium">✅ Confirmé</span>
+            ` : ''}
+            ${appointment.status === 'refused' ? `
+              <span class="text-red-600 text-sm font-medium">❌ Refusé</span>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    appointmentsList.innerHTML = appointmentsHtml;
+    displayPagination(pagination);
+  }
+
+  // Fonction pour obtenir le badge de statut
+  function getStatusBadge(status) {
+    const badges = {
+      'pending_approval': '<span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">⏳ En attente</span>',
+      'pending': '<span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium">💳 En attente de paiement</span>',
+      'confirmed': '<span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">✅ Confirmé</span>',
+      'refused': '<span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">❌ Refusé</span>',
+      'cancelled': '<span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs font-medium">🚫 Annulé</span>'
+    };
+    return badges[status] || '<span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs font-medium">❓ Inconnu</span>';
+  }
+
+  // Fonction pour afficher la pagination
+  function displayPagination(pagination) {
+    const paginationContainer = document.getElementById('pagination');
+    
+    if (!pagination || pagination.totalPages <= 1) {
+      paginationContainer.innerHTML = '';
+      return;
+    }
+
+    let paginationHtml = '';
+    
+    // Bouton précédent
+    if (pagination.hasPrevPage) {
+      paginationHtml += `<button onclick="loadAppointments(${pagination.page - 1})" class="px-3 py-2 text-sage hover:text-sage/80 transition-colors">← Précédent</button>`;
+    }
+    
+    // Pages
+    for (let i = 1; i <= pagination.totalPages; i++) {
+      if (i === pagination.page) {
+        paginationHtml += `<span class="px-3 py-2 bg-sage text-white rounded-lg">${i}</span>`;
+      } else {
+        paginationHtml += `<button onclick="loadAppointments(${i})" class="px-3 py-2 text-ebony/60 hover:text-ebony transition-colors">${i}</button>`;
+      }
+    }
+    
+    // Bouton suivant
+    if (pagination.hasNextPage) {
+      paginationHtml += `<button onclick="loadAppointments(${pagination.page + 1})" class="px-3 py-2 text-sage hover:text-sage/80 transition-colors">Suivant →</button>`;
+    }
+    
+    paginationContainer.innerHTML = paginationHtml;
+  }
+
+  // Fonction pour approuver une réservation
+  window.approveAppointment = async (appointmentId) => {
+    if (!confirm('Êtes-vous sûr de vouloir approuver cette réservation ?')) return;
+    
+    try {
+      const response = await fetch('/api/admin/appointments/approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ appointmentId })
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Erreur lors de l\'approbation');
+      }
+
+      alert('Réservation approuvée avec succès ! Un email avec le lien de paiement a été envoyé au client.');
+      loadAppointments(currentPage);
+    } catch (error) {
+      console.error('Erreur lors de l\'approbation:', error);
+      alert('Erreur lors de l\'approbation : ' + error.message);
+    }
+  };
+
+  // Fonction pour refuser une réservation
+  window.rejectAppointment = async (appointmentId) => {
+    const rejectionReason = prompt('Veuillez indiquer la raison du refus :');
+    if (!rejectionReason) return;
+    
+    if (!confirm('Êtes-vous sûr de vouloir refuser cette réservation ?')) return;
+    
+    try {
+      const response = await fetch('/api/admin/appointments/reject', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          appointmentId, 
+          rejectionReason 
+        })
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Erreur lors du refus');
+      }
+
+      alert('Réservation refusée avec succès ! Un email a été envoyé au client.');
+      loadAppointments(currentPage);
+    } catch (error) {
+      console.error('Erreur lors du refus:', error);
+      alert('Erreur lors du refus : ' + error.message);
+    }
+  };
+
+  // Gestion des filtres
+  function initFilters() {
+    const applyFiltersBtn = document.getElementById('apply-filters');
+    const clearFiltersBtn = document.getElementById('clear-filters');
+    
+    applyFiltersBtn.addEventListener('click', () => {
+      currentFilters = {
+        status: document.getElementById('status-filter').value,
+        dateFrom: document.getElementById('date-from-filter').value,
+        dateTo: document.getElementById('date-to-filter').value,
+        client: document.getElementById('client-search').value
+      };
+      currentPage = 1;
+      loadAppointments(currentPage);
+    });
+    
+    clearFiltersBtn.addEventListener('click', () => {
+      document.getElementById('status-filter').value = '';
+      document.getElementById('date-from-filter').value = '';
+      document.getElementById('date-to-filter').value = '';
+      document.getElementById('client-search').value = '';
+      currentFilters = {};
+      currentPage = 1;
+      loadAppointments(currentPage);
+    });
+  }
+
+  // Définir la date minimale (aujourd'hui)
+  const today = new Date().toISOString().split('T')[0];
+  
+  // Initialiser les champs de date avec la date minimale
+  document.addEventListener('DOMContentLoaded', function() {
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+    
+    if (startDateInput) {
+      startDateInput.min = today;
+      startDateInput.addEventListener('change', function() {
+        // Mettre à jour la date minimale de fin
+        if (endDateInput) {
+          endDateInput.min = this.value;
+        }
+      });
+    }
+    
+    if (endDateInput) {
+      endDateInput.min = today;
+    }
+  });
+
+  // Fonction pour vérifier les chevauchements côté client
+  async function checkOverlaps(startDate, endDate, startTime, endTime) {
+    try {
+      const { data: existingBlocks, error } = await supabaseClient
+        .from('blocked_times')
+        .select('*')
+        .or(`start_date.lte.${endDate},end_date.gte.${startDate}`);
+
+      if (error) throw error;
+
+      if (existingBlocks && existingBlocks.length > 0) {
+        // Vérifier les chevauchements temporels
+        for (const block of existingBlocks) {
+          const newStart = new Date(`${startDate} ${startTime}`);
+          const newEnd = new Date(`${endDate} ${endTime}`);
+          const existingStart = new Date(`${block.start_date} ${block.start_time}`);
+          const existingEnd = new Date(`${block.end_date} ${block.end_time}`);
+
+          // Vérifier si les plages se chevauchent
+          if (newStart < existingEnd && newEnd > existingStart) {
+            return {
+              hasOverlap: true,
+              conflictingBlock: block
+            };
+          }
+        }
+      }
+
+      return { hasOverlap: false };
+    } catch (error) {
+      console.error('Erreur lors de la vérification des chevauchements:', error);
+      throw error;
+    }
+  }
 
   // Gestion du formulaire de blocage
   const form = document.getElementById('block-time-form');
@@ -85,17 +494,40 @@ if (profileError || !profile || profile.role !== 'admin') {
     const formData = new FormData(form);
     
     try {
-      // Vérifier les dates
+      // Récupérer les valeurs du formulaire
       const startDate = formData.get('startDate');
       const endDate = formData.get('endDate');
       const startTime = formData.get('startTime');
       const endTime = formData.get('endTime');
       
-      if (new Date(`${startDate} ${startTime}`) >= new Date(`${endDate} ${endTime}`)) {
+      // Validation côté client
+      const startDateTime = new Date(`${startDate} ${startTime}`);
+      const endDateTime = new Date(`${endDate} ${endTime}`);
+      const now = new Date();
+      
+      // Vérifier que les dates sont futures
+      if (startDateTime <= now) {
+        throw new Error('La date de début doit être dans le futur');
+      }
+      
+      if (endDateTime <= now) {
+        throw new Error('La date de fin doit être dans le futur');
+      }
+      
+      // Vérifier que la date de fin est postérieure à la date de début
+      if (startDateTime >= endDateTime) {
         throw new Error('La date de fin doit être postérieure à la date de début');
       }
       
-      const { data, error } = await supabase
+      // Vérifier les chevauchements
+      const overlapCheck = await checkOverlaps(startDate, endDate, startTime, endTime);
+      if (overlapCheck.hasOverlap) {
+        const conflicting = overlapCheck.conflictingBlock;
+        throw new Error(`Cette plage chevauche une période déjà bloquée (du ${conflicting.start_date} ${conflicting.start_time} au ${conflicting.end_date} ${conflicting.end_time})`);
+      }
+      
+      // Insérer la nouvelle plage bloquée
+      const { data, error } = await supabaseClient
         .from('blocked_times')
         .insert([
           {
@@ -115,6 +547,13 @@ if (profileError || !profile || profile.role !== 'admin') {
       
       alert('Plage horaire bloquée avec succès');
       form.reset();
+      
+      // Réinitialiser les dates minimales
+      const startDateInput = document.getElementById('startDate');
+      const endDateInput = document.getElementById('endDate');
+      if (startDateInput) startDateInput.min = today;
+      if (endDateInput) endDateInput.min = today;
+      
       await loadBlockedTimes(); // Recharger l'affichage
     } catch (error) {
       console.error('Erreur:', error);
@@ -125,7 +564,7 @@ if (profileError || !profile || profile.role !== 'admin') {
   // Charger et afficher les plages bloquées
   async function loadBlockedTimes() {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from('blocked_times')
         .select('*')
         .order('start_date', { ascending: true });
@@ -177,13 +616,14 @@ if (profileError || !profile || profile.role !== 'admin') {
     if (!confirm('Voulez-vous vraiment supprimer cette période ?')) return;
     
     try {
-      const { error } = await supabase
+      const { error } = await supabaseClient
         .from('blocked_times')
         .delete()
         .eq('id', id);
 
       if (error) throw error;
       
+      alert('Période supprimée avec succès');
       await loadBlockedTimes();
     } catch (error) {
       console.error('Erreur:', error);
@@ -191,13 +631,11 @@ if (profileError || !profile || profile.role !== 'admin') {
     }
   };
 
-  // Charger les données initiales
-  loadBlockedTimes();
-</script>
-
-<script is:inline>
-  // Déclaration de la fonction globale pour le navigateur
-  if (!window.deletePeriod) {
-    window.deletePeriod = function() {};
-  }
+  // Initialisation au chargement de la page
+  document.addEventListener('DOMContentLoaded', function() {
+    initTabs();
+    initFilters();
+    loadAppointments(); // Charger les réservations par défaut
+    loadBlockedTimes(); // Charger aussi les périodes bloquées
+  });
 </script>

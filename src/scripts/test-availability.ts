@@ -1,15 +1,14 @@
+// Script de test pour les fonctions de disponibilité (version simplifiée)
 import { createClient } from '@supabase/supabase-js';
-import { Resend } from 'resend';
-import type { Database } from '../types/supabase';
 
-const resend = new Resend(import.meta.env.RESEND_API_KEY);
+// Configuration de test
+const supabaseUrl = process.env.PUBLIC_SUPABASE_URL || 'https://your-project.supabase.co';
+const supabaseKey = process.env.PUBLIC_SUPABASE_ANON_KEY || 'your-anon-key';
 
-const supabase = createClient<Database>(
-  import.meta.env.PUBLIC_SUPABASE_URL,
-  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-);
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-export async function isDayBlocked(date: string): Promise<boolean> {
+// Fonction isDayBlocked simplifiée pour le test
+async function isDayBlocked(date: string): Promise<boolean> {
   try {
     const { data: blockedTimes, error: blockedError } = await supabase
       .from('blocked_times')
@@ -45,7 +44,8 @@ export async function isDayBlocked(date: string): Promise<boolean> {
   }
 }
 
-export async function checkAvailability(date: string, time: string): Promise<boolean> {
+// Fonction checkAvailability simplifiée pour le test
+async function checkAvailability(date: string, time: string): Promise<boolean> {
   try {
     console.log('Vérification de disponibilité pour:', { date, time });
 
@@ -125,71 +125,64 @@ export async function checkAvailability(date: string, time: string): Promise<boo
   }
 }
 
-export async function sendAppointmentNotification(
-  appointment: {
-    date: string;
-    time: string;
-    service: string;
-    clientName: string;
-    clientEmail: string;
-  }
-) {
+// Fonction de test pour isDayBlocked
+async function testIsDayBlocked() {
+  console.log('🧪 Test de la fonction isDayBlocked...');
+  
   try {
-    // Envoyer l'email via Resend
-    await resend.emails.send({
-      from: 'Harmonia <notifications@harmonia-naturo.com>',
-      to: 'naima@harmonia-naturo.com',
-      subject: 'Nouveau rendez-vous',
-      html: `
-        <h2>Nouveau rendez-vous confirmé</h2>
-        <p>Un nouveau rendez-vous a été pris pour :</p>
-        <ul>
-          <li>Date : ${appointment.date}</li>
-          <li>Heure : ${appointment.time}</li>
-          <li>Service : ${appointment.service}</li>
-          <li>Client : ${appointment.clientName}</li>
-          <li>Email : ${appointment.clientEmail}</li>
-        </ul>
-      `,
-    });
-
-    // Générer le lien du calendrier iOS
-    const startDate = new Date(`${appointment.date}T${appointment.time}`);
-    const endDate = new Date(startDate.getTime() + 90 * 60000); // +90 minutes par défaut
-
-    const icsData = {
-      title: `RDV ${appointment.service} - ${appointment.clientName}`,
-      description: `Rendez-vous avec ${appointment.clientName}\nEmail: ${appointment.clientEmail}`,
-      startTime: startDate.toISOString(),
-      endTime: endDate.toISOString(),
-      location: "Cabinet Harmonia"
-    };
-
-    // Créer le lien calendrier iOS
-    const calendarLink = `data:text/calendar;charset=utf8,BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-SUMMARY:${icsData.title}
-DTSTART:${icsData.startTime.replace(/[-:]/g, '').split('.')[0]}Z
-DTEND:${icsData.endTime.replace(/[-:]/g, '').split('.')[0]}Z
-DESCRIPTION:${icsData.description}
-LOCATION:${icsData.location}
-END:VEVENT
-END:VCALENDAR`;
-
-    // Envoyer le lien du calendrier par email
-    await resend.emails.send({
-      from: 'Harmonia <notifications@harmonia-naturo.com>',
-      to: 'naima@harmonia-naturo.com',
-      subject: 'Ajouter le rendez-vous à votre calendrier',
-      html: `
-        <p>Cliquez sur le lien ci-dessous pour ajouter le rendez-vous à votre calendrier :</p>
-        <a href="${calendarLink}">Ajouter au calendrier</a>
-      `,
-    });
-
+    // Test avec une date future
+    const testDate = '2024-12-25';
+    const isBlocked = await isDayBlocked(testDate);
+    
+    console.log(`Date testée: ${testDate}`);
+    console.log(`Journée bloquée: ${isBlocked}`);
+    
+    if (isBlocked) {
+      console.log('✅ La fonction détecte correctement une journée bloquée');
+    } else {
+      console.log('ℹ️ Aucune journée bloquée détectée pour cette date');
+    }
+    
   } catch (error) {
-    console.error('Erreur lors de l\'envoi de la notification:', error);
-    throw error;
+    console.error('❌ Erreur lors du test de isDayBlocked:', error);
   }
 }
+
+// Fonction de test pour checkAvailability
+async function testCheckAvailability() {
+  console.log('\n🧪 Test de la fonction checkAvailability...');
+  
+  try {
+    // Test avec une date et heure futures
+    const testDate = '2024-12-25';
+    const testTime = '14:00';
+    
+    const isAvailable = await checkAvailability(testDate, testTime);
+    
+    console.log(`Date testée: ${testDate}`);
+    console.log(`Heure testée: ${testTime}`);
+    console.log(`Créneau disponible: ${isAvailable}`);
+    
+    if (isAvailable) {
+      console.log('✅ Le créneau est disponible');
+    } else {
+      console.log('ℹ️ Le créneau n\'est pas disponible');
+    }
+    
+  } catch (error) {
+    console.error('❌ Erreur lors du test de checkAvailability:', error);
+  }
+}
+
+// Fonction principale de test
+async function runTests() {
+  console.log('🚀 Démarrage des tests de disponibilité...\n');
+  
+  await testIsDayBlocked();
+  await testCheckAvailability();
+  
+  console.log('\n✅ Tests terminés !');
+}
+
+// Exécuter les tests
+runTests().catch(console.error);

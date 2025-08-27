@@ -1,49 +1,166 @@
 ---
 ---
 
-<section class="py-20 relative overflow-hidden">
-  <!-- Fond avec texture subtile -->
-  <div class="absolute inset-0 bg-gradient-to-b from-beige-50 to-sage-50 opacity-50"></div>
+<section class="py-24 md:py-32 relative overflow-hidden">
+  <!-- Fond complexe avec dégradés -->
+  <div class="absolute inset-0 bg-gradient-to-br from-sage/20 via-cream to-gold/20"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-ebony/10 via-transparent to-transparent"></div>
+  
+  <!-- Éléments décoratifs flottants -->
+  <div class="absolute top-10 left-10 w-32 h-32 bg-sage/10 rounded-full blur-2xl animate-float"></div>
+  <div class="absolute bottom-10 right-10 w-48 h-48 bg-gold/10 rounded-full blur-3xl animate-float-delayed"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-sage/5 to-gold/5 rounded-full blur-3xl"></div>
   
   <div class="container mx-auto px-4 relative">
-    <div class="max-w-3xl mx-auto text-center space-y-12">
-      <!-- Phrase inspirante -->
-      <h2 class="text-3xl md:text-4xl font-playfair text-sage-900 leading-relaxed tracking-wide">
-        " Et si aujourd'hui, vous faisiez le premier pas<br/>
-        vers votre lumière intérieure ? "
-      </h2>
+    <div class="max-w-5xl mx-auto text-center">
+      <!-- En-tête émotionnel -->
+      <div class="mb-16" data-aos="fade-up" data-aos-duration="1000">
+        <div class="inline-block mb-6">
+          <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-lg font-semibold uppercase tracking-wider">
+            Votre moment est venu
+          </span>
+        </div>
+        
+        <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-8 leading-tight">
+          <span class="block mb-2">Et si aujourd'hui</span>
+          <span class="block text-sage">était le jour J ?</span>
+        </h2>
+        
+        <p class="text-xl md:text-2xl text-eucalyptus leading-relaxed max-w-3xl mx-auto font-slogan">
+          Le moment où vous choisissez de faire confiance à votre intuition, 
+          d'écouter votre cœur et de prendre soin de votre essence profonde.
+        </p>
+      </div>
 
-      <!-- Bouton CTA -->
-      <div>
-        <a
-          href="/contact"
-          class="inline-block px-12 py-5 text-lg font-cormorant text-sage-900 bg-gradient-to-r from-amber-100 to-beige-200 rounded-full shadow-lg hover:shadow-xl hover:from-amber-200 hover:to-beige-300 hover:transform hover:-translate-y-1 transition-all duration-300 ease-in-out border border-sage-200"
-        >
-          Commencez votre transformation maintenant
-        </a>
+      <!-- Promesses rassurantes -->
+      <div class="grid md:grid-cols-3 gap-8 mb-16" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
+        {[
+          {
+            icon: "🤝",
+            title: "Accompagnement bienveillant",
+            description: "Un espace sécurisé pour votre transformation"
+          },
+          {
+            icon: "🌱",
+            title: "Résultats durables",
+            description: "Des changements profonds qui s'installent"
+          },
+          {
+            icon: "💫",
+            title: "Approche personnalisée",
+            description: "Chaque parcours est unique, comme vous"
+          }
+        ].map((promise) => (
+          <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-sage/10 hover:shadow-xl transition-all duration-300">
+            <span class="text-3xl mb-4 block">{promise.icon}</span>
+            <h3 class="font-heading text-lg text-ebony font-semibold mb-2">{promise.title}</h3>
+            <p class="text-eucalyptus text-sm">{promise.description}</p>
+          </div>
+        ))}
+      </div>
+
+      <!-- CTA Principal avec urgence douce -->
+      <div class="mb-16" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
+        <div class="bg-white/90 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-2xl border border-sage/20">
+          <h3 class="font-heading text-2xl md:text-3xl text-ebony mb-6">
+            Votre transformation commence par un simple geste
+          </h3>
+          
+          <div class="flex flex-col lg:flex-row gap-6 justify-center items-center">
+            <a
+              href="/rendez-vous"
+              class="group inline-flex items-center gap-3 bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage text-white px-10 py-5 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            >
+              <span>Réserver ma consultation</span>
+              <span class="group-hover:translate-x-1 transition-transform duration-300">→</span>
+            </a>
+            
+            <div class="text-eucalyptus text-sm">
+              ou
+            </div>
+            
+            <a
+              href="/contact"
+              class="inline-flex items-center gap-3 border-2 border-sage text-sage hover:bg-sage hover:text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300"
+            >
+              <span>Poser mes questions</span>
+              <span class="text-sm">💬</span>
+            </a>
+          </div>
+          
+          <!-- Petites garanties -->
+          <div class="flex flex-wrap justify-center gap-6 mt-8 text-sm text-eucalyptus">
+            <div class="flex items-center gap-2">
+              <span class="text-green-500">✓</span>
+              <span>Première consultation découverte</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-green-500">✓</span>
+              <span>Sans engagement</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-green-500">✓</span>
+              <span>Réponse sous 24h</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Citation finale inspirante -->
+      <div class="text-center" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1000">
+        <blockquote class="text-2xl md:text-3xl text-ebony font-light italic leading-relaxed max-w-4xl mx-auto">
+          "Chaque grand voyage commence par un premier pas. 
+          <span class="text-sage font-medium">Faites confiance à votre intuition</span>, 
+          elle vous a menée jusqu'ici."
+        </blockquote>
+        <cite class="block mt-6 text-eucalyptus font-slogan">— Naïma, votre guide holistique</cite>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  /* Import des polices Google Fonts */
-  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
-
-  section {
-    background-image: 
-      radial-gradient(circle at 20% 20%, rgba(156, 163, 175, 0.05) 0%, transparent 200px),
-      radial-gradient(circle at 80% 80%, rgba(156, 163, 175, 0.05) 0%, transparent 200px);
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0px) scale(1); 
+      opacity: 0.7;
+    }
+    50% { 
+      transform: translateY(-20px) scale(1.05); 
+      opacity: 1;
+    }
+  }
+  
+  @keyframes float-delayed {
+    0%, 100% { 
+      transform: translateY(0px) scale(1); 
+      opacity: 0.5;
+    }
+    50% { 
+      transform: translateY(-15px) scale(1.03); 
+      opacity: 0.8;
+    }
   }
 
-  h2 {
-    font-family: 'Dancing Script', serif;
-    letter-spacing: 0.02em;
-    line-height: 1.6;
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
   }
-
-  a {
-    font-family: 'Cormorant Garamond', serif;
-    letter-spacing: 0.05em;
+  
+  .animate-float-delayed {
+    animation: float-delayed 10s ease-in-out infinite;
+    animation-delay: 2s;
+  }
+  
+  /* Effet de brillance sur les boutons */
+  .group:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+    left: 100%;
   }
 </style>

@@ -2,84 +2,116 @@
 import Button from './ui/Button.astro';
 ---
 
-<section class="py-20 relative overflow-hidden">
-  <!-- Motif de fond -->
-  <div class="absolute inset-0 bg-geometric-pattern opacity-5"></div>
+<section class="py-20 md:py-32 bg-gradient-to-b from-white to-cream/30 relative overflow-hidden">
+  <!-- Éléments décoratifs -->
+  <div class="absolute top-0 left-0 w-72 h-72 bg-sage/5 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
+  <div class="absolute inset-0 bg-geometric-pattern opacity-3"></div>
 
-  <div class="container mx-auto px-4">
-    <div class="grid lg:grid-cols-2 gap-12 items-center">
-      <!-- Image -->
-      <div class="relative" data-aos="fade-right" data-aos-offset="40" data-aos-duration="600">
-        <div class="aspect-[4/5] rounded-2xl overflow-hidden">
-          <img
-            src="/images/apropos.webp"
-            alt="Naima Tyzra dans son cabinet"
-            class="w-full h-full object-cover"
-          />
+  <div class="container mx-auto px-4 relative">
+    <div class="grid lg:grid-cols-2 gap-16 xl:gap-20 items-center">
+      <!-- Image avec effets premium -->
+      <div class="relative order-2 lg:order-1" data-aos="fade-right" data-aos-offset="50" data-aos-duration="1000">
+        <div class="relative">
+          <!-- Cadre décoratif -->
+          <div class="absolute -inset-4 bg-gradient-to-r from-sage/20 to-gold/20 rounded-3xl blur-xl"></div>
+          <div class="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
+            <img
+              src="/images/apropos.webp"
+              alt="Naïma, naturopathe et guide holistique"
+              class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+              loading="lazy"
+            />
+            <!-- Overlay subtil -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+          </div>
+          
+          <!-- Badge flottant -->
+          <div class="absolute -bottom-6 -right-6 bg-white rounded-2xl p-6 shadow-xl border border-sage/10">
+            <div class="text-center">
+              <p class="font-heading text-3xl text-sage font-bold">7+</p>
+              <p class="text-xs text-eucalyptus font-medium uppercase tracking-wider">Années d'expérience</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Contenu -->
-      <div data-aos="fade-left" data-aos-offset="40" data-aos-duration="600">
-        <h2 class="font-heading text-4xl md:text-5xl text-ebony mb-6">
-          Une approche naturelle et holistique
-        </h2>
-        <div class="space-y-4 text-eucalyptus mb-8">
-          <p>
-            Je suis Naïma, naturopathe et guide holistique pour les humains et les animaux. Mon approche bienveillante et spirituelle vous accompagne pour retrouver harmonie, énergie et connexion sacrée.
+      <!-- Contenu enrichi -->
+      <div class="order-1 lg:order-2" data-aos="fade-left" data-aos-offset="50" data-aos-duration="1000">
+        <!-- En-tête avec animation -->
+        <div class="mb-8">
+          <div class="inline-block mb-4">
+            <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-lg font-semibold">
+              Votre guide holistique
+            </span>
+          </div>
+          <h2 class="font-heading text-4xl md:text-5xl xl:text-6xl text-ebony mb-6 leading-tight">
+            Une approche du <span class="text-sage">cœur</span> et de l'<span class="text-gold">âme</span>
+          </h2>
+        </div>
+
+        <!-- Storytelling émotionnel -->
+        <div class="space-y-6 text-eucalyptus mb-10 text-lg leading-relaxed">
+          <p class="relative">
+            <span class="absolute -left-4 top-0 text-4xl text-gold/30 font-serif">"</span>
+            Je suis <strong class="text-ebony">Naïma</strong>, et mon chemin m'a menée vers une mission profonde : 
+            <em class="text-sage font-medium">accompagner les êtres humains et animaux vers leur pleine harmonie</em>.
           </p>
           <p>
-            Prenez soin de vous et de vos animaux.
+            Chaque rencontre est unique, chaque être porte en lui une sagesse intérieure que j'aide à révéler. 
+            Mon approche allie <strong class="text-ebony">intuition</strong>, <strong class="text-ebony">expertise</strong> 
+            et <strong class="text-ebony">bienveillance</strong> pour créer un espace de transformation authentique.
           </p>
         </div>
 
-        <!-- Points clés -->
-        <div class="grid sm:grid-cols-2 gap-6 mb-8">
+        <!-- Certifications et expertise -->
+        <div class="grid grid-cols-2 gap-4 mb-10">
           {[
-            {
-              title: 'Approche Personnalisée',
-              description: 'Chaque consultation est unique et adaptée à vos besoins'
-            },
-            {
-              title: 'Méthodes Naturelles',
-              description: 'Utilisation exclusive de techniques et produits naturels'
-            },
-            {
-              title: 'Suivi Régulier',
-              description: 'Accompagnement continu pour atteindre vos objectifs'
-            },
-            {
-              title: 'Formation Continue',
-              description: 'Mise à jour régulière des connaissances et pratiques'
-            }
-          ].map((point, index) => (
-            <div class="flex gap-4" 
-                 data-aos="fade-up" 
-                 data-aos-delay={index * 100} 
-                 data-aos-offset="30"
-                 data-aos-duration="400">
-              <div class="w-12 h-12 shrink-0 rounded-full bg-sage/10 flex items-center justify-center">
-                <span class="material-icons text-eucalyptus">check_circle</span>
-              </div>
-              <div>
-                <h3 class="font-heading text-lg text-ebony mb-1">{point.title}</h3>
-                <p class="text-sm text-eucalyptus">{point.description}</p>
-              </div>
+            { icon: "🌿", title: "Naturopathie", subtitle: "Certifiée FENA" },
+            { icon: "✨", title: "Soins Énergétiques", subtitle: "Formation continue" },
+            { icon: "🐾", title: "Accompagnement Animal", subtitle: "Spécialisation" },
+            { icon: "🌙", title: "Guidance Spirituelle", subtitle: "Intuitive certifiée" }
+          ].map((cert, index) => (
+            <div 
+              class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-sage/10 hover:shadow-xl transition-all duration-300"
+              data-aos="fade-up" 
+              data-aos-delay={index * 100}
+              data-aos-offset="30"
+            >
+              <span class="text-2xl mb-2 block">{cert.icon}</span>
+              <h3 class="font-heading text-sm text-ebony font-semibold">{cert.title}</h3>
+              <p class="text-xs text-eucalyptus">{cert.subtitle}</p>
             </div>
           ))}
         </div>
 
+        <!-- Témoignage court intégré -->
+        <div class="bg-gradient-to-r from-sage/10 to-gold/10 rounded-2xl p-6 mb-10 border-l-4 border-sage">
+          <p class="text-eucalyptus italic mb-3">
+            "Naïma a transformé ma relation avec mon chien et avec moi-même. Son accompagnement va bien au-delà de ce que j'espérais."
+          </p>
+          <p class="text-sm text-ebony font-medium">— Sophie M., cliente depuis 2 ans</p>
+        </div>
+
+        <!-- Actions -->
         <div class="flex flex-col sm:flex-row gap-4">
-          <Button href="/a-propos" size="lg">
-            En savoir plus
+          <Button 
+            href="/a-propos" 
+            size="lg"
+            class="bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage text-white px-8 py-4 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+          >
+            Découvrir mon parcours
           </Button>
-          <Button href="/contact" variant="outline" size="lg">
-            Me contacter
+          <Button 
+            href="/contact" 
+            variant="outline" 
+            size="lg"
+            class="border-2 border-sage text-sage hover:bg-sage hover:text-white px-8 py-4 rounded-2xl transition-all duration-300"
+          >
+            Commencer ensemble
           </Button>
         </div>
       </div>
     </div>
   </div>
-
-
 </section>

@@ -1,0 +1,261 @@
+---
+// src/components/ResultsTestimonials.astro
+import Card from './ui/Card.astro';
+
+interface Testimonial {
+  name: string;
+  role: string;
+  content: string;
+  rating: number;
+  image?: string;
+  category: 'humain' | 'animal';
+  location: string;
+}
+
+const testimonials: Testimonial[] = [
+  {
+    name: 'Sophie Martin',
+    role: 'Maman et propriétaire de Luna',
+    content: 'Naïma a transformé ma relation avec mon chien et avec moi-même. Son accompagnement holistique a apporté une sérénité que je n\'avais jamais connue. Luna est apaisée, et moi aussi.',
+    rating: 5,
+    category: 'animal',
+    location: 'Paris'
+  },
+  {
+    name: 'Marc Dubois',
+    role: 'Entrepreneur',
+    content: 'Grâce aux soins énergétiques de Naïma, j\'ai retrouvé ma vitalité et ma clarté mentale. Son approche bienveillante m\'a aidé à dépasser mes blocages professionnels et personnels.',
+    rating: 5,
+    category: 'humain',
+    location: 'Lyon'
+  },
+  {
+    name: 'Julie Leroux',
+    role: 'Propriétaire de Max',
+    content: 'Mon chien était anxieux et agressif. Après les séances avec Naïma, il est complètement transformé. Plus calme, plus confiant. C\'est magique !',
+    rating: 5,
+    category: 'animal',
+    location: 'Bordeaux'
+  },
+  {
+    name: 'Catherine Rousseau',
+    role: 'Retraitée',
+    content: 'L\'accompagnement naturopathique de Naïma m\'a permis de retrouver une énergie que je croyais perdue. Ses conseils sont précieux et sa présence rassurante.',
+    rating: 5,
+    category: 'humain',
+    location: 'Toulouse'
+  }
+];
+
+const stats = [
+  { number: '500+', label: 'Clients accompagnés', description: 'Humains et animaux réconciliés avec leur bien-être' },
+  { number: '95%', label: 'Taux de satisfaction', description: 'Des résultats mesurables et durables' },
+  { number: '7+', label: 'Années d\'expérience', description: 'Une expertise approfondie et reconnue' },
+  { number: '100%', label: 'Approche naturelle', description: 'Respect total de votre nature profonde' }
+];
+---
+
+<section class="py-20 md:py-32 bg-gradient-to-b from-sage/5 via-white to-cream/20 relative overflow-hidden">
+  <!-- Éléments décoratifs -->
+  <div class="absolute top-10 right-10 w-64 h-64 bg-gold/5 rounded-full blur-3xl animate-pulse"></div>
+  <div class="absolute bottom-10 left-10 w-80 h-80 bg-sage/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+  
+  <div class="container mx-auto px-4 relative">
+    <!-- En-tête -->
+    <div class="text-center max-w-4xl mx-auto mb-20" data-aos="fade-up" data-aos-duration="1000">
+      <div class="inline-block mb-6">
+        <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-lg font-semibold uppercase tracking-wider">
+          Résultats & Témoignages
+        </span>
+      </div>
+      <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-8 leading-tight">
+        Des <span class="text-sage">transformations</span> qui parlent d'elles-mêmes
+      </h2>
+      <p class="font-slogan text-xl text-eucalyptus leading-relaxed">
+        Découvrez comment l'harmonie retrouvée change des vies, humaines et animales
+      </p>
+    </div>
+
+    <!-- Statistiques avec animations -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+      {stats.map((stat, index) => (
+        <div 
+          class="bg-white/80 backdrop-blur-sm rounded-3xl p-6 lg:p-8 text-center shadow-xl border border-sage/10 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"
+          data-aos="fade-up" 
+          data-aos-delay={index * 150}
+          data-aos-duration="800"
+        >
+          <div class="relative mb-4">
+            <div class="text-4xl lg:text-5xl font-heading text-sage font-bold counter" data-target={stat.number}>
+              0
+            </div>
+            <div class="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-gold to-sage rounded-full"></div>
+          </div>
+          <h3 class="font-heading text-lg text-ebony font-semibold mb-2">
+            {stat.label}
+          </h3>
+          <p class="text-sm text-eucalyptus leading-relaxed">
+            {stat.description}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Section témoignages avec carousel effect -->
+    <div class="mb-16">
+      <div class="text-center mb-12" data-aos="fade-up">
+        <h3 class="font-heading text-3xl md:text-4xl text-ebony mb-4">
+          Ils témoignent de leur transformation
+        </h3>
+        <div class="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full"></div>
+      </div>
+
+      <!-- Grille de témoignages -->
+      <div class="grid md:grid-cols-2 gap-8 mb-12">
+        {testimonials.map((testimonial, index) => (
+          <div 
+            data-aos="fade-up" 
+            data-aos-delay={index * 200} 
+            data-aos-duration="800"
+            class="group"
+          >
+            <div class="bg-white rounded-3xl p-8 shadow-xl border border-sage/10 hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-1 h-full flex flex-col">
+              <!-- En-tête du témoignage -->
+              <div class="flex items-start justify-between mb-6">
+                <div class="flex items-center gap-4">
+                  <div class="w-12 h-12 rounded-full bg-gradient-to-r from-sage to-gold flex items-center justify-center shadow-lg">
+                    <span class="text-white font-heading font-bold text-lg">
+                      {testimonial.name.charAt(0)}
+                    </span>
+                  </div>
+                  <div>
+                    <h4 class="font-heading text-lg text-ebony font-semibold">
+                      {testimonial.name}
+                    </h4>
+                    <p class="text-sm text-eucalyptus">
+                      {testimonial.role} • {testimonial.location}
+                    </p>
+                  </div>
+                </div>
+                
+                <!-- Badge catégorie -->
+                <div class={`px-3 py-1 rounded-full text-xs font-semibold ${
+                  testimonial.category === 'humain' 
+                    ? 'bg-sage/10 text-sage' 
+                    : 'bg-gold/10 text-gold'
+                }`}>
+                  {testimonial.category === 'humain' ? '👤 Humain' : '🐾 Animal'}
+                </div>
+              </div>
+
+              <!-- Étoiles -->
+              <div class="flex gap-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <span class={`text-lg ${i < testimonial.rating ? 'text-gold' : 'text-gray-300'}`}>
+                    ★
+                  </span>
+                ))}
+              </div>
+
+              <!-- Contenu -->
+              <div class="flex-grow">
+                <p class="text-eucalyptus leading-relaxed italic mb-4 text-lg">
+                  "{testimonial.content}"
+                </p>
+              </div>
+
+              <!-- Signature -->
+              <div class="border-t border-sage/10 pt-4">
+                <p class="text-sm text-eucalyptus font-medium text-right">
+                  — Témoignage vérifié
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Call to action intégré -->
+    <div class="text-center bg-gradient-to-r from-sage/10 via-white to-gold/10 rounded-3xl p-8 md:p-12 shadow-xl border border-sage/20" data-aos="fade-up" data-aos-duration="1000">
+      <h3 class="font-heading text-3xl md:text-4xl text-ebony mb-6">
+        Prêt(e) à écrire votre propre histoire de transformation ?
+      </h3>
+      <p class="text-lg text-eucalyptus mb-8 max-w-2xl mx-auto">
+        Rejoignez les centaines de personnes qui ont retrouvé harmonie et bien-être grâce à un accompagnement personnalisé.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="/rendez-vous"
+          class="inline-block bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+        >
+          Réserver ma consultation
+        </a>
+        <a
+          href="/contact"
+          class="inline-block border-2 border-sage text-sage hover:bg-sage hover:text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300"
+        >
+          Poser mes questions
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Animation des compteurs
+  function animateCounters() {
+    const counters = document.querySelectorAll('.counter');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const counter = entry.target;
+          const target = counter.getAttribute('data-target');
+          const isPercentage = target?.includes('%') || false;
+          const isPlus = target?.includes('+') || false;
+          const numericValue = parseInt(target?.replace(/[^\d]/g, '') || '0');
+          
+          let current = 0;
+          const increment = numericValue / 50; // 50 steps
+          
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= numericValue) {
+              current = numericValue;
+              clearInterval(timer);
+            }
+            
+            let displayValue = Math.floor(current).toString();
+            if (isPercentage) displayValue += '%';
+            if (isPlus) displayValue += '+';
+            
+            counter.textContent = displayValue;
+          }, 40);
+          
+          observer.unobserve(counter);
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    counters.forEach(counter => observer.observe(counter));
+  }
+
+  // Démarrer l'animation au chargement
+  document.addEventListener('DOMContentLoaded', animateCounters);
+</script>
+
+<style>
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .counter {
+    transition: all 0.3s ease;
+  }
+</style>

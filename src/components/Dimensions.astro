@@ -5,68 +5,202 @@ interface Dimension {
   icon: string;
   buttonText: string;
   buttonLink: string;
+  backgroundImage: string;
+  accentColor: string;
 }
 
 const dimensions: Dimension[] = [
   {
     title: "Santé naturelle",
-    description: "<strong>Revenez à l'essentiel.</strong> Un accompagnement doux et complet pour restaurer l’équilibre naturel du corps et de l’esprit, chez l’humain comme chez l’animal.",
+    description: "Revenez à l'essentiel. Un accompagnement doux et complet pour restaurer l'équilibre naturel du corps et de l'esprit, chez l'humain comme chez l'animal.",
     icon: "🌿",
-    buttonText: "Découvrez le chemin de l'équilibre.",
-    buttonLink: "/a-propos"
+    buttonText: "Découvrez le chemin de l'équilibre",
+    buttonLink: "/a-propos",
+    backgroundImage: "/images/dimensions-sante-naturelle.jpg",
+    accentColor: "sage"
   },
   {
     title: "Rituels et énergie",
-    description: "<strong>Harmonisez les corps et les âmes.</strong> Des rituels profonds et des soins énergétiques pour libérer les tensions, apaiser les émotions et rétablir l'équilibre, chez l’humain comme chez l’animal.",
+    description: "Harmonisez les corps et les âmes. Des rituels profonds et des soins énergétiques pour libérer les tensions, apaiser les émotions et rétablir l'équilibre.",
     icon: "💫",
     buttonText: "Découvrez nos rituels",
-    buttonLink: "/a-propos"
+    buttonLink: "/a-propos",
+    backgroundImage: "/images/dimensions-rituels-energie.jpg",
+    accentColor: "gold"
   },
   {
     title: "Développement spirituel",
-    description: "<strong>Éveillez votre lumière intérieure.</strong> Guidances et rituels pour vous reconnecter à votre essence profonde et marcher sur votre chemin d’âme, en conscience.",
+    description: "Éveillez votre lumière intérieure. Guidances et rituels pour vous reconnecter à votre essence profonde et marcher sur votre chemin d'âme, en conscience.",
     icon: "✨",
     buttonText: "Explorez nos outils spirituels",
-    buttonLink: "/a-propos"
+    buttonLink: "/a-propos",
+    backgroundImage: "/images/dimensions-developpement-spirituel.jpg",
+    accentColor: "eucalyptus"
   }
 ];
 ---
 
-<section class="py-16 bg-cream relative overflow-hidden">
-  <div class="container mx-auto px-4">
-    <div class="text-center max-w-3xl mx-auto mb-12" data-aos="fade-up">
-      <h2 class="font-heading text-3xl sm:text-4xl text-ebony mb-6">
-        Une approche holistique pour vous et vos animaux
+<section class="py-20 md:py-32 bg-gradient-to-b from-cream/50 to-white relative overflow-hidden">
+  <!-- Éléments décoratifs de fond -->
+  <div class="absolute inset-0 bg-nature-pattern opacity-3"></div>
+  <div class="absolute top-10 left-10 w-64 h-64 bg-sage/5 rounded-full blur-3xl animate-pulse"></div>
+  <div class="absolute bottom-10 right-10 w-80 h-80 bg-gold/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+  
+  <div class="container mx-auto px-4 relative">
+    <!-- En-tête éditorial -->
+    <div class="text-center max-w-4xl mx-auto mb-20" data-aos="fade-up" data-aos-duration="1000">
+      <div class="inline-block mb-6">
+        <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-lg font-semibold uppercase tracking-wider">
+          Nos dimensions
+        </span>
+      </div>
+      <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-8 leading-tight">
+        Une approche <span class="text-sage">holistique</span><br/>
+        pour vous et vos animaux
       </h2>
+      <p class="text-xl text-eucalyptus leading-relaxed font-slogan max-w-3xl mx-auto">
+        Trois chemins d'accompagnement, une même vision : révéler votre essence profonde
+      </p>
+      <div class="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-8 relative">
-      {dimensions.map((dimension) => (
+    <!-- Layout Magazine - Cards horizontales -->
+    <div class="space-y-12 lg:space-y-16">
+      {dimensions.map((dimension, index) => (
         <div 
-          class="bg-sage/5 rounded-lg p-8 flex flex-col items-center text-center transition-transform hover:transform hover:-translate-y-1 hover:shadow-lg"
-          data-aos="fade-up"
-          data-aos-delay={dimensions.indexOf(dimension) * 100}
+          class={`group relative overflow-hidden rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-700 ${
+            index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
+          }`}
+          data-aos="fade-up" 
+          data-aos-delay={index * 200}
+          data-aos-duration="1000"
         >
-          <span class="text-4xl mb-4" role="img" aria-label={dimension.title}>
-            {dimension.icon}
-          </span>
-          
-          <h3 class="font-heading text-xl text-ebony mb-3">
-            {dimension.title}
-          </h3>
-          
-          <p set:html={dimension.description} class="text-gray-600 mb-6">
+          <div class={`flex flex-col lg:flex-row ${index % 2 === 0 ? '' : 'lg:flex-row-reverse'} min-h-[500px]`}>
             
-          </p>
-          
-          <a
-            href={dimension.buttonLink}
-            class="inline-block px-6 py-2 bg-sage text-white rounded-full hover:bg-eucalyptus transition-colors duration-300 text-sm"
-          >
-            {dimension.buttonText}
-          </a>
+            <!-- Section Image -->
+            <div class="relative lg:w-1/2 overflow-hidden">
+              <!-- Image réelle -->
+              <img
+                src={dimension.backgroundImage}
+                alt={`Image représentant ${dimension.title.toLowerCase()}`}
+                class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                loading="lazy"
+              />
+              
+              <!-- Icône flottante -->
+              <div class="absolute top-8 left-8 z-20">
+                <div class="w-20 h-20 bg-white/90 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-500">
+                  <span class="text-4xl">{dimension.icon}</span>
+                </div>
+              </div>
+              
+              <!-- Effet parallax sur hover -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            </div>
+
+            <!-- Section Contenu -->
+            <div class={`lg:w-1/2 bg-white relative flex flex-col justify-center p-8 lg:p-12 xl:p-16`}>
+              
+              <!-- Accent décoratif -->
+              <div class={`absolute top-0 ${index % 2 === 0 ? 'left-0' : 'right-0'} w-2 h-full bg-gradient-to-b ${
+                dimension.accentColor === 'sage' ? 'from-sage to-eucalyptus' :
+                dimension.accentColor === 'gold' ? 'from-gold to-sage' :
+                'from-eucalyptus to-sage'
+              }`}></div>
+              
+              <div class="relative z-10">
+                <!-- Catégorie -->
+                <div class="mb-6">
+                  <span class={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${
+                    dimension.accentColor === 'sage' ? 'bg-sage/10 text-sage' :
+                    dimension.accentColor === 'gold' ? 'bg-gold/10 text-gold' :
+                    'bg-eucalyptus/10 text-eucalyptus'
+                  }`}>
+                    Dimension {index + 1}
+                  </span>
+                </div>
+                
+                <!-- Titre -->
+                <h3 class="font-heading text-3xl lg:text-4xl xl:text-5xl text-ebony mb-6 leading-tight group-hover:text-sage transition-colors duration-500">
+                  {dimension.title}
+                </h3>
+                
+                <!-- Description -->
+                <p class="text-lg lg:text-xl text-eucalyptus leading-relaxed mb-8 font-slogan">
+                  {dimension.description}
+                </p>
+                
+                <!-- CTA avec effet sophistiqué -->
+                <div class="flex items-center">
+                  <a
+                    href={dimension.buttonLink}
+                    class={`group/button inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${
+                      dimension.accentColor === 'sage' ? 'bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage' :
+                      dimension.accentColor === 'gold' ? 'bg-gradient-to-r from-gold to-sage hover:from-sage hover:to-gold' :
+                      'bg-gradient-to-r from-eucalyptus to-sage hover:from-sage hover:to-eucalyptus'
+                    } text-white`}
+                  >
+                    <span>{dimension.buttonText}</span>
+                    <span class="group-hover/button:translate-x-1 transition-transform duration-300">→</span>
+                  </a>
+                </div>
+              </div>
+              
+              <!-- Effet de brillance -->
+              <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              </div>
+            </div>
+          </div>
         </div>
       ))}
     </div>
+
+    <!-- Call to action global -->
+    <div class="text-center mt-20" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1000">
+      <div class="bg-gradient-to-r from-sage/10 via-white to-gold/10 rounded-3xl p-8 lg:p-12 shadow-xl border border-sage/20">
+        <h3 class="font-heading text-2xl lg:text-3xl text-ebony mb-6">
+          Prêt(e) à explorer votre chemin ?
+        </h3>
+        <p class="text-lg text-eucalyptus mb-8 max-w-2xl mx-auto font-slogan">
+          Chaque dimension peut être explorée individuellement ou dans une approche globale personnalisée.
+        </p>
+        <a
+          href="/accompagnements/accompagnement-personalise"
+          class="inline-flex items-center gap-3 bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+        >
+          <span>Découvrir l'accompagnement personnalisé</span>
+          <span class="text-xl">✨</span>
+        </a>
+      </div>
+    </div>
   </div>
 </section>
+
+<style>
+  .bg-nature-pattern {
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(139, 146, 134, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(139, 146, 134, 0.1) 0%, transparent 50%);
+  }
+
+  /* Effet de profondeur sur les cartes */
+  .group:hover {
+    transform: translateY(-8px);
+  }
+  
+  /* Animation parallax subtile */
+  @keyframes float-gentle {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+  }
+  
+  .animate-float-gentle {
+    animation: float-gentle 6s ease-in-out infinite;
+  }
+  
+  /* Effet de glow sur hover */
+  .shadow-3xl {
+    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+  }
+</style>

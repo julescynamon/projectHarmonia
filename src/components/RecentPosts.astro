@@ -20,66 +20,111 @@ function formatDate(dateStr: string) {
 }
 ---
 
-<section class="py-12 sm:py-20 bg-sage/5 relative overflow-hidden">
-  <!-- Motifs de fond -->
-  <div class="absolute inset-0 bg-nature-pattern opacity-5"></div>
+<section class="py-20 md:py-32 bg-gradient-to-b from-white via-cream/30 to-sage/10 relative overflow-hidden">
+  <!-- Éléments décoratifs améliorés -->
+  <div class="absolute inset-0 bg-nature-pattern opacity-3"></div>
+  <div class="absolute top-10 right-10 w-72 h-72 bg-gold/5 rounded-full blur-3xl animate-pulse"></div>
+  <div class="absolute bottom-10 left-10 w-80 h-80 bg-sage/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
   
-  <div class="container mx-auto px-4">
-    <!-- En-tête -->
-    <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16" data-aos="fade-up" data-aos-offset="40" data-aos-duration="500">
-      <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl text-ebony mb-4 sm:mb-6">
-        Derniers Articles
+  <div class="container mx-auto px-4 relative">
+    <!-- En-tête premium -->
+    <div class="text-center max-w-4xl mx-auto mb-20" data-aos="fade-up" data-aos-duration="1000">
+      <div class="inline-block mb-6">
+        <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-lg font-semibold uppercase tracking-wider">
+          Le Blog Harmonia et Vita
+        </span>
+      </div>
+      <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-8 leading-tight">
+        Derniers <span class="text-sage">Articles</span> & <span class="text-gold">Conseils</span>
       </h2>
-      <p class="font-slogan text-base sm:text-lg text-eucalyptus">
+      <p class="text-xl text-eucalyptus leading-relaxed font-slogan max-w-3xl mx-auto">
         Découvrez mes derniers conseils, actualités et réflexions sur la naturopathie et le bien-être naturel.
       </p>
+      <div class="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
     </div>
 
-    <!-- Grille d'articles -->
+    <!-- Grille d'articles premium -->
     {recentPosts && recentPosts.length > 0 ? (
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 relative">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 relative">
         {recentPosts.map((post, index) => (
           <div 
             data-aos="fade-up" 
-            data-aos-delay={index * 50} 
-            data-aos-offset="15"
-            data-aos-duration="600"
-            class="relative post-card opacity-0 transition-opacity duration-500"
+            data-aos-delay={index * 200} 
+            data-aos-offset="30"
+            data-aos-duration="800"
+            class="group relative post-card opacity-0 transition-all duration-500"
           >
-            <Card
-              variant="hover"
-              title={post.title}
-              description={post.summary}
-              image={post.image_url}
-              date={formatDate(post.created_at)}
-              category={post.category}
-              url={`/blog/${post.slug}`}
-              class="h-full backdrop-blur-sm bg-white/80"
-            />
+            <!-- Effet de glow au fond -->
+            <div class="absolute -inset-1 bg-gradient-to-r from-sage/20 to-gold/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
+            
+            <div class="relative">
+              <Card
+                variant="hover"
+                title={post.title}
+                description={post.summary}
+                image={post.image_url}
+                date={formatDate(post.created_at)}
+                category={post.category}
+                url={`/blog/${post.slug}`}
+                class="h-full bg-white/95 backdrop-blur-sm border border-sage/10 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2"
+              />
+              
+              <!-- Badge numéroté -->
+              <div class="absolute -top-4 -right-4 w-10 h-10 bg-gradient-to-r from-sage to-gold rounded-full flex items-center justify-center shadow-lg z-10">
+                <span class="text-white font-bold text-sm">{index + 1}</span>
+              </div>
+            </div>
           </div>
         ))}
       </div>
     ) : (
-      <div class="text-center py-12 bg-white/80 backdrop-blur-sm rounded-2xl border border-sage/10 shadow-sm" data-aos="fade-up">
-        <div class="p-8">
-          <span class="text-5xl mb-6 block">🌿</span>
-          <p class="text-xl text-eucalyptus mb-4 font-slogan">Les premiers articles arrivent bientôt, un peu de patience 🌿</p>
-          <p class="text-gray-600">En attendant, n'hésitez pas à explorer les autres sections du site.</p>
+      <div class="text-center py-16 bg-gradient-to-r from-sage/10 via-white to-gold/10 rounded-3xl border border-sage/20 shadow-xl" data-aos="fade-up" data-aos-duration="1000">
+        <div class="p-12">
+          <!-- Icône animée -->
+          <div class="relative mb-8">
+            <div class="w-24 h-24 bg-gradient-to-r from-sage to-gold rounded-full flex items-center justify-center mx-auto shadow-xl animate-pulse">
+              <span class="text-4xl">🌿</span>
+            </div>
+            <div class="absolute -inset-2 bg-gradient-to-r from-sage/20 to-gold/20 rounded-full blur-xl animate-pulse"></div>
+          </div>
+          
+          <h3 class="font-heading text-2xl text-ebony mb-4">Articles en préparation</h3>
+          <p class="text-xl text-eucalyptus mb-6 font-slogan">Les premiers articles arrivent bientôt, un peu de patience 🌿</p>
+          <p class="text-eucalyptus/80">En attendant, n'hésitez pas à explorer les autres sections du site.</p>
+          
+          <!-- Mini CTA -->
+          <div class="mt-8">
+            <a 
+              href="/contact" 
+              class="inline-flex items-center gap-2 bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage text-white px-6 py-3 rounded-2xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+            >
+              <span>Être notifié(e)</span>
+              <span>📧</span>
+            </a>
+          </div>
         </div>
       </div>
     )}
 
-    <!-- Call to action -->
-    <div class="text-center mt-12 sm:mt-16" data-aos="fade-up" data-aos-offset="15" data-aos-duration="400">
-      <Button href="/blog" size="lg" class="w-full sm:w-auto">
-        Voir tous les articles
-      </Button>
+    <!-- Call to action premium -->
+    <div class="text-center mt-20" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+      <div class="bg-gradient-to-r from-sage/10 via-white to-gold/10 rounded-3xl p-8 lg:p-12 shadow-xl border border-sage/20">
+        <h3 class="font-heading text-2xl lg:text-3xl text-ebony mb-6">
+          Explorez tous nos articles
+        </h3>
+        <p class="text-lg text-eucalyptus mb-8 max-w-2xl mx-auto font-slogan">
+          Découvrez une mine de conseils, d'actualités et de réflexions pour votre bien-être et celui de vos animaux.
+        </p>
+        <Button 
+          href="/blog" 
+          size="lg" 
+          class="bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+        >
+          Voir tous les articles
+        </Button>
+      </div>
     </div>
   </div>
-
-  <!-- Éléments décoratifs -->
-  <div class="absolute bottom-0 right-0 w-48 sm:w-64 h-48 sm:h-64 bg-geometric-pattern opacity-10 transform rotate-45"></div>
-  <div class="absolute top-0 left-0 w-32 sm:w-40 h-32 sm:h-40 bg-nature-pattern opacity-5 transform -rotate-12"></div>
 </section>
 
 <script>

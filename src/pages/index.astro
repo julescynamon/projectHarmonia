@@ -1,13 +1,12 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import Hero from '../components/Hero.astro';
-import RecentPosts from '../components/RecentPosts.astro';
-import About from '../components/About.astro';
-import Testimonials from '../components/Testimonials.astro';
 import Dimensions from '../components/Dimensions.astro';
+import About from '../components/About.astro';
+import ResultsTestimonials from '../components/ResultsTestimonials.astro';
+import RecentPosts from '../components/RecentPosts.astro';
 import FinalCTA from '../components/FinalCTA.astro';
 import { pageSEO } from '../lib/seo';
-
 
 const seo = pageSEO.home;
 ---
@@ -17,29 +16,34 @@ const seo = pageSEO.home;
   description={seo.description}
   image={seo.image}
 >
-  <!-- Hero avec Fleur de Vie en arrière-plan -->
+  <!-- Hero Section - Déjà parfait -->
   <div class="relative">
     <Hero />
   </div>
 
-  <!-- Dimensions avec Fleur de Vie en arrière-plan -->
+  <!-- Dimensions - Section originale remise -->
   <div class="relative">
     <Dimensions />
   </div>
 
-    <!-- Testimonials avec Fleur de Vie en arrière-plan -->
+  <!-- À Propos - Refonte complète avec storytelling -->
   <div class="relative">
-    <Testimonials />
+    <About />
   </div>
 
-    <About />
+  <!-- Résultats & Témoignages - Fusion stats + témoignages -->
+  <div class="relative">
+    <ResultsTestimonials />
+  </div>
   
-  <!-- Derniers articles avec Fleur de Vie en arrière-plan -->
+  <!-- Articles de blog - Section conservée intégralement -->
   <div class="relative">
     <RecentPosts />
   </div>
   
-  <!-- Section d'appel à l'action finale -->
-  <FinalCTA />
+  <!-- CTA Final - Refonte ultra-impactante -->
+  <div class="relative">
+    <FinalCTA />
+  </div>
 
 </MainLayout>

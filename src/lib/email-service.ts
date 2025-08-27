@@ -212,7 +212,7 @@ export async function sendNewArticleNotification(
 export async function sendAppointmentNotificationEmail({
   appointment,
   service,
-  adminEmail = 'naima@harmonia-naturo.com'
+  adminEmail = 'tyzranaima@gmail.com'
 }: {
   appointment: {
     id: string;
@@ -237,7 +237,8 @@ export async function sendAppointmentNotificationEmail({
     const emailHtml = getAppointmentNotificationEmailHtml({
       appointment,
       service,
-      adminEmail
+      adminEmail,
+      websiteUrl: WEBSITE_URL
     });
 
     const emailData = {

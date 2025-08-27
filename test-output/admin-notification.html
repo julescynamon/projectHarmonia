@@ -1,33 +1,4 @@
-export function getAppointmentNotificationEmailHtml({
-  appointment,
-  service,
-  adminEmail = 'tyzranaima@gmail.com',
-  websiteUrl = 'https://harmonia-naturo.com'
-}: {
-  appointment: {
-    id: string;
-    date: string;
-    time: string;
-    client_name: string;
-    client_email: string;
-    reason?: string;
-  };
-  service: {
-    title: string;
-    price: number;
-    duration: string;
-  };
-  adminEmail?: string;
-  websiteUrl?: string;
-}) {
-  const formattedDate = new Date(appointment.date).toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
 
-  return `
     <!DOCTYPE html>
     <html lang="fr">
     <head>
@@ -94,39 +65,39 @@ export function getAppointmentNotificationEmailHtml({
         
         <div class="appointment-details">
           <h3>Informations client</h3>
-          <p><strong>Nom :</strong> ${appointment.client_name}</p>
-          <p><strong>Email :</strong> ${appointment.client_email}</p>
+          <p><strong>Nom :</strong> Marie Dupont</p>
+          <p><strong>Email :</strong> marie.dupont@example.com</p>
           
           <h3>Détails du rendez-vous</h3>
-          <p><strong>Service :</strong> ${service.title}</p>
-          <p><strong>Date :</strong> ${formattedDate}</p>
-          <p><strong>Heure :</strong> ${appointment.time}</p>
-          <p><strong>Durée :</strong> ${service.duration}</p>
-          <p><strong>Prix :</strong> ${service.price}€</p>
+          <p><strong>Service :</strong> Naturopathie Humaine – Première consultation</p>
+          <p><strong>Date :</strong> jeudi 15 février 2024</p>
+          <p><strong>Heure :</strong> 14:00</p>
+          <p><strong>Durée :</strong> 1h30-2h</p>
+          <p><strong>Prix :</strong> 150€</p>
           
-          ${appointment.reason ? `
+          
           <h3>Motif de consultation</h3>
           <p style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; font-style: italic;">
-            ${appointment.reason}
+            Consultation pour des problèmes de sommeil et de stress au travail
           </p>
-          ` : ''}
+          
         </div>
         
         <h3>Actions requises</h3>
         <p>Veuillez examiner cette demande et prendre une décision :</p>
         
         <div style="margin: 20px 0;">
-          <a href="${websiteUrl}/admin/disponibilites" class="button" style="background-color: #4CAF50; margin-right: 10px;">
+          <a href="https://harmonia-naturo.com/admin/disponibilites" class="button" style="background-color: #4CAF50; margin-right: 10px;">
             📅 Gérer les disponibilités
           </a>
           
-          <a href="mailto:${appointment.client_email}?subject=Confirmation de réservation - ${formattedDate} ${appointment.time}" class="button">
+          <a href="mailto:marie.dupont@example.com?subject=Confirmation de réservation - jeudi 15 février 2024 14:00" class="button">
             📧 Répondre au client
           </a>
         </div>
         
         <p style="margin-top: 20px; font-size: 14px; color: #666;">
-          <strong>ID de réservation :</strong> ${appointment.id}
+          <strong>ID de réservation :</strong> test-123
         </p>
       </div>
       
@@ -136,5 +107,4 @@ export function getAppointmentNotificationEmailHtml({
       </div>
     </body>
     </html>
-  `;
-}
+  

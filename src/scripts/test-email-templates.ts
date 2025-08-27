@@ -57,8 +57,6 @@ function generateTestEmails() {
 }
 
 // Exécuter le test
-if (require.main === module) {
-  generateTestEmails();
-}
+generateTestEmails();
 
 export { generateTestEmails };

@@ -1,23 +1,20 @@
 import { Resend } from 'resend';
+import { getConfirmationEmailHtml } from './emails/confirmation-email';
 import { getNewArticleEmailTemplate } from './emails/new-article-template';
+import { getAppointmentNotificationEmailHtml } from './emails/appointment-notification';
+import { getAppointmentConfirmationEmailHtml } from './emails/appointment-confirmation';
 
+// Configuration
 const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
-const FROM_EMAIL = import.meta.env.FROM_EMAIL || 'onboarding@resend.dev';
-const WEBSITE_URL = import.meta.env.WEBSITE_URL || 'http://localhost:4321';
+const FROM_EMAIL = import.meta.env.FROM_EMAIL || 'notifications@harmonia-naturo.com';
+const WEBSITE_URL = import.meta.env.WEBSITE_URL || 'https://harmonia-naturo.com';
 const WEBSITE_NAME = import.meta.env.WEBSITE_NAME || 'Harmonia';
-const IS_DEVELOPMENT = import.meta.env.DEV;
+const IS_DEVELOPMENT = import.meta.env.NODE_ENV === 'development';
 
-if (!RESEND_API_KEY) {
-  throw new Error('RESEND_API_KEY n\'est pas définie dans les variables d\'environnement');
-}
-
-if (!FROM_EMAIL) {
-  throw new Error('FROM_EMAIL is not defined in environment variables');
-}
-
+// Initialisation de Resend
 const resend = new Resend(RESEND_API_KEY);
 
-// Classe d'erreur personnalisée pour les emails
+// Classe d'erreur personnalisée
 class EmailServiceError extends Error {
   constructor(
     message: string,
@@ -38,6 +35,7 @@ const ERROR_CODES = {
   UNKNOWN_ERROR: 'UNKNOWN_ERROR'
 } as const;
 
+// Fonction pour envoyer l'email de confirmation newsletter
 export async function sendConfirmationEmail(email: string, token: string) {
   try {
     if (!RESEND_API_KEY) {
@@ -50,8 +48,7 @@ export async function sendConfirmationEmail(email: string, token: string) {
       from: FROM_EMAIL,
       to: [email],
       subject: `Confirmez votre inscription à la newsletter ${WEBSITE_NAME}`,
-      html: getConfirmationEmailTemplate({
-        email,
+      html: getConfirmationEmailHtml({
         confirmationUrl,
         websiteName: WEBSITE_NAME,
         websiteUrl: WEBSITE_URL
@@ -96,6 +93,7 @@ export async function sendConfirmationEmail(email: string, token: string) {
   }
 }
 
+// Fonction pour envoyer les notifications d'articles
 export async function sendNewArticleNotification(
   subscribers: Array<{ email: string }>,
   article: {
@@ -106,7 +104,6 @@ export async function sendNewArticleNotification(
     category?: string;
   }
 ) {
-  console.log(`Sending article notification to ${subscribers.length} subscribers`);
   const articleUrl = `${WEBSITE_URL}/blog/${article.slug}`;
   
   try {
@@ -199,25 +196,174 @@ export async function sendNewArticleNotification(
   } catch (error) {
     console.error('Error sending article notifications:', error);
     
-    // Si c'est déjà une EmailServiceError, on la relance
     if (error instanceof EmailServiceError) {
       throw error;
     }
     
-    // Sinon, on crée une nouvelle erreur avec le type approprié
-    if (error instanceof Error) {
-      if (error.message.includes('network') || error.message.includes('timeout')) {
-        throw new EmailServiceError(
-          'Erreur de connexion lors de l\'envoi des notifications',
-          ERROR_CODES.NETWORK_ERROR,
-          error
-        );
-      }
-    }
-    
     throw new EmailServiceError(
-      'Une erreur inattendue s\'est produite lors de l\'envoi des notifications',
+      `Erreur inattendue lors de l'envoi des notifications d'article: ${error instanceof Error ? error.message : 'Erreur inconnue'}`,
       ERROR_CODES.UNKNOWN_ERROR,
+      error
+    );
+  }
+}
+
+// Fonction pour envoyer l'email de notification admin pour une réservation
+export async function sendAppointmentNotificationEmail({
+  appointment,
+  service,
+  adminEmail = 'naima@harmonia-naturo.com'
+}: {
+  appointment: {
+    id: string;
+    date: string;
+    time: string;
+    client_name: string;
+    client_email: string;
+    reason?: string;
+  };
+  service: {
+    title: string;
+    price: number;
+    duration: string;
+  };
+  adminEmail?: string;
+}) {
+  try {
+    if (!RESEND_API_KEY) {
+      throw new EmailServiceError('RESEND_API_KEY non configurée', 'CONFIG_ERROR');
+    }
+
+    const emailHtml = getAppointmentNotificationEmailHtml({
+      appointment,
+      service,
+      adminEmail
+    });
+
+    const emailData = {
+      from: FROM_EMAIL,
+      to: [adminEmail],
+      subject: `Nouvelle demande de réservation - ${appointment.client_name}`,
+      html: emailHtml
+    };
+
+    // En mode développement, simuler l'envoi
+    if (IS_DEVELOPMENT) {
+      console.log('Mode développement : Email de notification admin simulé');
+      console.log('Destinataire:', adminEmail);
+      console.log('Client:', appointment.client_name);
+      return {
+        success: true,
+        message: 'Email de notification admin simulé (mode développement)',
+        data: { id: 'dev-simulation' }
+      };
+    }
+
+    const result = await resend.emails.send(emailData);
+
+    if (result.error) {
+      throw new EmailServiceError(
+        `Erreur lors de l'envoi de l'email de notification admin: ${result.error.message}`,
+        'SEND_ERROR',
+        result.error
+      );
+    }
+
+    return {
+      success: true,
+      message: 'Email de notification admin envoyé avec succès',
+      data: result.data
+    };
+
+  } catch (error) {
+    if (error instanceof EmailServiceError) {
+      throw error;
+    }
+
+    throw new EmailServiceError(
+      `Erreur inattendue lors de l'envoi de l'email de notification admin: ${error instanceof Error ? error.message : 'Erreur inconnue'}`,
+      'UNKNOWN_ERROR',
+      error
+    );
+  }
+}
+
+// Fonction pour envoyer l'email de confirmation client pour une réservation
+export async function sendAppointmentConfirmationEmail({
+  appointment,
+  service,
+  contactEmail = 'naima@harmonia-naturo.com'
+}: {
+  appointment: {
+    id: string;
+    date: string;
+    time: string;
+    client_name: string;
+    client_email: string;
+    reason?: string;
+  };
+  service: {
+    title: string;
+    price: number;
+    duration: string;
+  };
+  contactEmail?: string;
+}) {
+  try {
+    if (!RESEND_API_KEY) {
+      throw new EmailServiceError('RESEND_API_KEY non configurée', 'CONFIG_ERROR');
+    }
+
+    const emailHtml = getAppointmentConfirmationEmailHtml({
+      appointment,
+      service,
+      contactEmail,
+      websiteUrl: WEBSITE_URL
+    });
+
+    const emailData = {
+      from: FROM_EMAIL,
+      to: [appointment.client_email],
+      subject: 'Confirmation de votre demande de réservation - Harmonia',
+      html: emailHtml
+    };
+
+    // En mode développement, simuler l'envoi
+    if (IS_DEVELOPMENT) {
+      console.log('Mode développement : Email de confirmation client simulé');
+      console.log('Destinataire:', appointment.client_email);
+      console.log('Client:', appointment.client_name);
+      return {
+        success: true,
+        message: 'Email de confirmation client simulé (mode développement)',
+        data: { id: 'dev-simulation' }
+      };
+    }
+
+    const result = await resend.emails.send(emailData);
+
+    if (result.error) {
+      throw new EmailServiceError(
+        `Erreur lors de l'envoi de l'email de confirmation client: ${result.error.message}`,
+        'SEND_ERROR',
+        result.error
+      );
+    }
+
+    return {
+      success: true,
+      message: 'Email de confirmation client envoyé avec succès',
+      data: result.data
+    };
+
+  } catch (error) {
+    if (error instanceof EmailServiceError) {
+      throw error;
+    }
+
+    throw new EmailServiceError(
+      `Erreur inattendue lors de l'envoi de l'email de confirmation client: ${error instanceof Error ? error.message : 'Erreur inconnue'}`,
+      'UNKNOWN_ERROR',
       error
     );
   }

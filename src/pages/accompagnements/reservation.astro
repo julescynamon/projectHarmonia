@@ -342,7 +342,6 @@ const steps = [
                   id="date" 
                   name="date" 
                   required
-                  min={new Date().toISOString().split('T')[0]}
                   class="w-full p-4 border-2 border-sage/20 rounded-xl focus:ring-2 focus:ring-sage focus:border-sage transition-all duration-300 bg-white/50 backdrop-blur-sm"
                 >
               </div>
@@ -415,6 +414,37 @@ const steps = [
 </MainLayout>
 
 <script>
+  // Fonction pour logger les erreurs côté client
+  function logClientError(error: any, context: string) {
+    const errorData = {
+      type: 'client_error',
+      context,
+      error: error.message || error,
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      url: window.location.href,
+      referrer: document.referrer
+    };
+    
+    console.error('Erreur client détectée:', errorData);
+    
+    // Ici on pourrait envoyer les erreurs à un service de monitoring
+    // fetch('/api/logs/client-error', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(errorData)
+    // }).catch(console.error);
+  }
+
+  // Définir la date minimale au chargement de la page
+  document.addEventListener('DOMContentLoaded', function() {
+    const dateInput = document.getElementById('date');
+    if (dateInput && dateInput instanceof HTMLInputElement) {
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.min = today;
+    }
+  });
+
   // Animation typewriter pour le hero
   function typeWriterHero(element, text, speed = 80) {
     let i = 0;
@@ -444,22 +474,28 @@ const steps = [
   const dateInput = document.getElementById('date');
   const timeSlots = document.getElementById('timeSlots');
 
-  // Fonction pour vérifier la disponibilité
-  async function checkAvailability(date, time) {
+  // Fonction pour récupérer les horaires indisponibles pour une date
+  async function getUnavailableTimes(date: string): Promise<string[]> {
     try {
-      const response = await fetch('/api/appointments/check-availability', {
+      const response = await fetch('/api/appointments/unavailable-times', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ date, time })
+        body: JSON.stringify({ date })
       });
       
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${response.status} ${response.statusText}`);
+      }
+      
       const data = await response.json();
-      return data.available;
+      return data.unavailableTimes || [];
     } catch (error) {
-      console.error('Erreur lors de la vérification:', error);
-      return true; // En cas d'erreur, on suppose disponible
+      logClientError(error, `getUnavailableTimes - date: ${date}`);
+      
+      // En cas d'erreur, on considère tous les créneaux comme indisponibles par sécurité
+      return ['09:00', '10:30', '12:00', '14:00', '15:30', '17:00'];
     }
   }
 
@@ -468,20 +504,49 @@ const steps = [
     const date = dateInput.value;
     if (!date) return;
 
-    const timeInputs = timeSlots.querySelectorAll('input[type="radio"]');
+    const timeInputs = timeSlots.querySelectorAll('input[type="radio"]') as NodeListOf<HTMLInputElement>;
+    
+    // Récupérer tous les horaires indisponibles en une seule requête
+    const unavailableTimes = await getUnavailableTimes(date);
+    
+    let hasError = false;
+    let allDisabled = true;
     
     for (const input of timeInputs) {
       const time = input.value;
-      const isAvailable = await checkAvailability(date, time);
+      const isAvailable = !unavailableTimes.includes(time);
       
       const label = input.parentElement;
       if (isAvailable) {
         label.classList.remove('opacity-50', 'cursor-not-allowed');
         input.disabled = false;
+        allDisabled = false;
       } else {
         label.classList.add('opacity-50', 'cursor-not-allowed');
         input.disabled = true;
+        hasError = true;
       }
+    }
+    
+    // Afficher un message d'erreur si tous les créneaux sont indisponibles
+    if (hasError && allDisabled) {
+      const errorMessage = document.createElement('div');
+      errorMessage.className = 'mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm';
+      errorMessage.innerHTML = `
+        <div class="flex items-center">
+          <span class="material-icons mr-2 text-red-500">warning</span>
+          <span>Impossible de vérifier la disponibilité des créneaux. Veuillez réessayer ou nous contacter.</span>
+        </div>
+      `;
+      
+      // Supprimer les messages d'erreur précédents
+      const existingError = timeSlots.parentElement.querySelector('.bg-red-50');
+      if (existingError) {
+        existingError.remove();
+      }
+      
+      // Ajouter le message d'erreur après la section des créneaux
+      timeSlots.parentElement.appendChild(errorMessage);
     }
   }
 
@@ -501,11 +566,11 @@ const steps = [
       e.preventDefault();
       
       const selectedDate = dateInput.value;
-      const selectedTime = form.querySelector('input[name="time"]:checked')?.value;
-      const selectedService = form.querySelector('input[name="service"]:checked')?.value;
-      const clientName = form.querySelector('input[name="name"]')?.value;
-      const clientEmail = form.querySelector('input[name="email"]')?.value;
-      const reason = form.querySelector('textarea[name="reason"]')?.value;
+      const selectedTime = (form.querySelector('input[name="time"]:checked') as HTMLInputElement)?.value;
+      const selectedService = (form.querySelector('input[name="service"]:checked') as HTMLInputElement)?.value;
+      const clientName = (form.querySelector('input[name="name"]') as HTMLInputElement)?.value;
+      const clientEmail = (form.querySelector('input[name="email"]') as HTMLInputElement)?.value;
+      const reason = (form.querySelector('textarea[name="reason"]') as HTMLTextAreaElement)?.value;
       
       if (!selectedDate || !selectedTime || !selectedService || !clientName || !clientEmail) {
         alert('Veuillez remplir tous les champs du formulaire');
@@ -514,7 +579,8 @@ const steps = [
 
       try {
         // Vérifier une dernière fois la disponibilité
-        const isAvailable = await checkAvailability(selectedDate, selectedTime);
+        const unavailableTimes = await getUnavailableTimes(selectedDate);
+        const isAvailable = !unavailableTimes.includes(selectedTime);
         
         if (!isAvailable) {
           alert('Désolé, ce créneau n\'est plus disponible. Veuillez en choisir un autre.');
@@ -539,9 +605,12 @@ const steps = [
 
         const data = await response.json();
         
-        if (response.ok && data.checkoutUrl) {
-          // Rediriger vers Stripe
-          window.location.href = data.checkoutUrl;
+        if (response.ok && data.success) {
+          // Afficher un message de succès
+          alert('Votre demande de réservation a été enregistrée avec succès ! Vous recevrez un email de confirmation dans quelques instants.');
+          
+          // Rediriger vers une page de confirmation ou recharger la page
+          window.location.href = '/accompagnements/reservation?success=true';
         } else {
           throw new Error(data.error || 'Erreur lors de la création du rendez-vous');
         }

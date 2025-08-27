@@ -1,22 +1,18 @@
 import type { APIRoute } from 'astro';
-import Stripe from 'stripe';
-
-const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2023-10-16'
-});
+import { sendAppointmentNotificationEmail, sendAppointmentConfirmationEmail } from '../../../lib/email-service';
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const { date, time, serviceId, email, name, reason } = body;
     const supabase = locals.supabase;
-    // Vérifier à nouveau la disponibilité
+    // Vérifier à nouveau la disponibilité (pending_approval, pending ou confirmed)
     const { data: existingAppointments, error: availabilityError } = await supabase
       .from('appointments')
       .select('*')
       .eq('date', date)
       .eq('time', time)
-      .eq('status', 'confirmed');
+      .in('status', ['pending_approval', 'pending', 'confirmed']);
 
     if (existingAppointments && existingAppointments.length > 0) {
       return new Response(
@@ -52,48 +48,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
 
 
-    // Créer la session Stripe
-
-
-    const sessionConfig = {
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'eur',
-            product_data: {
-              name: service.title,
-              description: `Rendez-vous le ${date} à ${time}`,
-            },
-            unit_amount: service.price * 100,
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      success_url: `${import.meta.env.PUBLIC_SITE_URL}/rendez-vous/confirmation?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${import.meta.env.PUBLIC_SITE_URL}/rendez-vous`,
-      customer_email: email,
-      metadata: {
-        appointment_date: date,
-        appointment_time: time,
-        service_id: serviceId,
-        client_name: name,
-        client_email: email,
-        reason: reason || ''
-      }
-    };
-    
-    const session = await stripe.checkout.sessions.create(sessionConfig);
-
+    // Créer le rendez-vous avec statut pending_approval
     const appointmentData = {
       date,
       time,
       service_id: serviceId,
       client_email: email,
       client_name: name,
-      status: 'pending',
-      stripe_session_id: session.id
+      reason: reason || null,
+      status: 'pending_approval'
     };
     
     const { data: appointment, error } = await supabase
@@ -114,10 +77,55 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
+    // Envoyer l'email de notification à l'administrateur
+    try {
+      await sendAppointmentNotificationEmail({
+        appointment: {
+          id: appointment.id,
+          date: appointment.date,
+          time: appointment.time,
+          client_name: appointment.client_name,
+          client_email: appointment.client_email,
+          reason: appointment.reason
+        },
+        service: {
+          title: service.title,
+          price: service.price,
+          duration: service.duration || '1h'
+        }
+      });
+    } catch (emailError) {
+      console.error('Erreur lors de l\'envoi de l\'email admin:', emailError);
+      // On continue même si l'email échoue
+    }
+
+    // Envoyer l'email de confirmation au client
+    try {
+      await sendAppointmentConfirmationEmail({
+        appointment: {
+          id: appointment.id,
+          date: appointment.date,
+          time: appointment.time,
+          client_name: appointment.client_name,
+          client_email: appointment.client_email,
+          reason: appointment.reason
+        },
+        service: {
+          title: service.title,
+          price: service.price,
+          duration: service.duration || '1h'
+        }
+      });
+    } catch (emailError) {
+      console.error('Erreur lors de l\'envoi de l\'email client:', emailError);
+      // On continue même si l'email échoue
+    }
+
     return new Response(
       JSON.stringify({
-        checkoutUrl: session.url,
+        success: true,
         appointmentId: appointment.id,
+        message: 'Votre demande de réservation a été enregistrée. Vous recevrez un email de confirmation.'
       }),
       { status: 200 }
     );
@@ -128,12 +136,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     if (error instanceof Error) {
       errorDetails = error.message;
-      // Si c'est une erreur Stripe
-      if ('type' in error) {
-        const stripeError = error as any;
-        errorMessage = `Erreur Stripe: ${stripeError.type}`;
-        errorDetails = stripeError.message;
-      }
     } else {
       errorDetails = String(error);
     }

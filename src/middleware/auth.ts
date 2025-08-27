@@ -67,6 +67,7 @@ const PUBLIC_API_ROUTES = [
   '/api/create-appointment',
   '/api/appointments/create',
   '/api/appointments/check-availability',
+  '/api/appointments/unavailable-times',
   '/api/appointments/webhook',
   '/api/cart/items',
   '/api/auth/check-session'

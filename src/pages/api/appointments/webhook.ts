@@ -33,9 +33,39 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const session = event.data.object;
     const supabase = locals.supabase;
 
+    // Vérifier si le rendez-vous existe et n'est pas déjà confirmé
+    const { data: existingAppointment, error: checkError } = await supabase
+      .from('appointments')
+      .select('*, services(title)')
+      .eq('stripe_session_id', session.id)
+      .single();
+
+    if (checkError || !existingAppointment) {
+      console.error('Rendez-vous non trouvé:', checkError);
+      return new Response(JSON.stringify({ error: 'Rendez-vous non trouvé' }), { status: 404 });
+    }
+
+    // Vérifier si le créneau n'est pas déjà pris par un autre rendez-vous confirmé
+    const { data: conflictingAppointments, error: conflictError } = await supabase
+      .from('appointments')
+      .select('*')
+      .eq('date', existingAppointment.date)
+      .eq('time', existingAppointment.time)
+      .eq('status', 'confirmed')
+      .neq('id', existingAppointment.id);
+
+    if (conflictError) {
+      console.error('Erreur lors de la vérification des conflits:', conflictError);
+      return new Response(JSON.stringify({ error: 'Erreur lors de la vérification des conflits' }), { status: 500 });
+    }
+
+    if (conflictingAppointments && conflictingAppointments.length > 0) {
+      console.error('Conflit de créneau détecté, annulation du paiement');
+      // Ici on pourrait annuler le paiement Stripe si nécessaire
+      return new Response(JSON.stringify({ error: 'Conflit de créneau détecté' }), { status: 409 });
+    }
 
     // Mettre à jour le statut du rendez-vous
-
     const { data: appointment, error } = await supabase
       .from('appointments')
       .update({ 

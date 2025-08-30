@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation Approuvée</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        .title {
+            color: #28a745;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #6c757d;
+            font-size: 16px;
+        }
+        .content {
+            margin-bottom: 30px;
+        }
+        .appointment-details {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 5px 0;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .detail-value {
+            color: #6c757d;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            transition: background-color 0.3s;
+        }
+        .cta-button:hover {
+            background-color: #218838;
+        }
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #28a745;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .contact-info {
+            background-color: #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌿 Harmonia</div>
+            <h1 class="title">Réservation Approuvée !</h1>
+            <p class="subtitle">Votre demande de consultation a été acceptée</p>
+        </div>
+
+        <div class="content">
+            <p>Bonjour <strong>{{clientName}}</strong>,</p>
+            
+            <p>Nous avons le plaisir de vous informer que votre demande de réservation a été <strong>approuvée</strong> !</p>
+            
+            <div class="appointment-details">
+                <h3 style="margin-top: 0; color: #495057;">Détails de votre réservation :</h3>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Service :</span>
+                    <span class="detail-value">{{service}}</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Date :</span>
+                    <span class="detail-value">{{date}}</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Heure :</span>
+                    <span class="detail-value">{{time}}</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Montant :</span>
+                    <span class="detail-value price">{{price}}€</span>
+                </div>
+            </div>
+
+            <p>Pour finaliser votre réservation, veuillez procéder au paiement en cliquant sur le bouton ci-dessous :</p>
+            
+            <div style="text-align: center;">
+                <a href="{{paymentUrl}}" class="cta-button">
+                    💳 Procéder au Paiement
+                </a>
+            </div>
+
+            <div class="contact-info">
+                <p style="margin: 0;"><strong>Important :</strong></p>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li>Le paiement doit être effectué dans les 24h pour confirmer votre réservation</li>
+                    <li>Vous recevrez une confirmation par email après le paiement</li>
+                    <li>En cas de problème, n'hésitez pas à nous contacter</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🌿 <strong>Harmonia</strong> - Votre bien-être naturel</p>
+            <p>📧 contact@harmonia.fr | 📞 01 23 45 67 89</p>
+            <p>📍 123 Rue de la Santé, 75001 Paris</p>
+            <p style="font-size: 12px; margin-top: 15px;">
+                Cet email a été envoyé automatiquement. Merci de ne pas y répondre directement.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

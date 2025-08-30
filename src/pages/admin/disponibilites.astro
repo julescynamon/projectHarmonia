@@ -138,13 +138,38 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
                     Bloquer cette plage
                   </button>
                 </form>
+
+                <!-- Séparateur -->
+                <div class="my-8 border-t border-sage/20"></div>
+
+                <!-- Formulaire pour bloquer des jours entiers (vacances) -->
+                <h2 class="font-heading text-2xl text-ebony mb-4">Bloquer des jours entiers (Vacances)</h2>
+                <form id="block-day-form" class="space-y-4">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-sm font-medium text-ebony mb-2">Date de début</label>
+                      <input type="date" name="startDate" id="vacationStartDate" class="w-full px-4 py-2 rounded-lg border border-sage/20" required>
+                    </div>
+                    <div>
+                      <label class="block text-sm font-medium text-ebony mb-2">Date de fin</label>
+                      <input type="date" name="endDate" id="vacationEndDate" class="w-full px-4 py-2 rounded-lg border border-sage/20" required>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-ebony mb-2">Raison (ex: Vacances, Congés, etc.)</label>
+                    <input type="text" name="reason" class="w-full px-4 py-2 rounded-lg border border-sage/20" placeholder="Vacances d'été" required>
+                  </div>
+                  <button type="submit" class="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors">
+                    🏖️ Bloquer ces jours (Vacances)
+                  </button>
+                </form>
               </div>
             </div>
           </Card>
         </div>
       </div>
     </section>
-  </div>
+              </div>
             </div>
           </Card>
         </div>
@@ -153,13 +178,22 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
   </div>
 </MainLayout>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script is:inline define:vars={{ supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL, supabaseKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY }}>
-  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+<script>
+  import { createClient } from '@supabase/supabase-js';
+  
+  // Initialisation du client Supabase côté client
+  const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+  const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+  const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
   // Variables globales
   let currentPage = 1;
-  let currentFilters = {};
+  let currentFilters: {
+    status?: string;
+    dateFrom?: string;
+    dateTo?: string;
+    client?: string;
+  } = {};
 
   // Gestion des onglets
   function initTabs() {
@@ -186,16 +220,16 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
         
         // Charger les données si nécessaire
         if (targetId === 'appointments-tab') {
-          loadAppointments();
+          (window as any).loadAppointments();
         } else if (targetId === 'availability-tab') {
-          loadBlockedTimes();
+          (window as any).loadBlockedTimes();
         }
       });
     });
   }
 
   // Fonction pour charger les réservations
-  async function loadAppointments(page = 1) {
+  (window as any).loadAppointments = async function(page = 1) {
     try {
       const appointmentsList = document.getElementById('appointments-list');
       appointmentsList.innerHTML = '<div class="text-center py-8"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-sage mx-auto"></div><p class="mt-2 text-ebony/60">Chargement...</p></div>';
@@ -347,7 +381,7 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
   }
 
   // Fonction pour approuver une réservation
-  window.approveAppointment = async (appointmentId) => {
+  (window as any).approveAppointment = async (appointmentId) => {
     if (!confirm('Êtes-vous sûr de vouloir approuver cette réservation ?')) return;
     
     try {
@@ -364,7 +398,7 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
       }
 
       alert('Réservation approuvée avec succès ! Un email avec le lien de paiement a été envoyé au client.');
-      loadAppointments(currentPage);
+      (window as any).loadAppointments(currentPage);
     } catch (error) {
       console.error('Erreur lors de l\'approbation:', error);
       alert('Erreur lors de l\'approbation : ' + error.message);
@@ -372,7 +406,7 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
   };
 
   // Fonction pour refuser une réservation
-  window.rejectAppointment = async (appointmentId) => {
+  (window as any).rejectAppointment = async (appointmentId) => {
     const rejectionReason = prompt('Veuillez indiquer la raison du refus :');
     if (!rejectionReason) return;
     
@@ -395,7 +429,7 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
       }
 
       alert('Réservation refusée avec succès ! Un email a été envoyé au client.');
-      loadAppointments(currentPage);
+      (window as any).loadAppointments(currentPage);
     } catch (error) {
       console.error('Erreur lors du refus:', error);
       alert('Erreur lors du refus : ' + error.message);
@@ -415,7 +449,7 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
         client: document.getElementById('client-search').value
       };
       currentPage = 1;
-      loadAppointments(currentPage);
+      (window as any).loadAppointments(currentPage);
     });
     
     clearFiltersBtn.addEventListener('click', () => {
@@ -425,7 +459,7 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
       document.getElementById('client-search').value = '';
       currentFilters = {};
       currentPage = 1;
-      loadAppointments(currentPage);
+      (window as any).loadAppointments(currentPage);
     });
   }
 
@@ -488,7 +522,7 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
   }
 
   // Gestion du formulaire de blocage
-  const form = document.getElementById('block-time-form');
+  const form = document.getElementById('block-time-form') as HTMLFormElement;
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const formData = new FormData(form);
@@ -554,15 +588,101 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
       if (startDateInput) startDateInput.min = today;
       if (endDateInput) endDateInput.min = today;
       
-      await loadBlockedTimes(); // Recharger l'affichage
+      await (window as any).loadBlockedTimes(); // Recharger l'affichage
     } catch (error) {
       console.error('Erreur:', error);
       alert(error instanceof Error ? error.message : 'Erreur lors du blocage de la plage horaire');
     }
   });
 
+  // Gestion du formulaire de blocage de jours entiers (vacances)
+  const vacationForm = document.getElementById('block-day-form') as HTMLFormElement;
+  vacationForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(vacationForm);
+    
+    try {
+      // Récupérer les valeurs du formulaire
+      const startDate = formData.get('startDate');
+      const endDate = formData.get('endDate');
+      const reason = formData.get('reason');
+      
+      // Validation côté client
+      const startDateTime = new Date(startDate as string);
+      const endDateTime = new Date(endDate as string);
+      const now = new Date();
+      
+      // Vérifier que les dates sont futures
+      if (startDateTime <= now) {
+        throw new Error('La date de début doit être dans le futur');
+      }
+      
+      if (endDateTime <= now) {
+        throw new Error('La date de fin doit être dans le futur');
+      }
+      
+      // Vérifier que la date de fin est postérieure à la date de début
+      if (startDateTime >= endDateTime) {
+        throw new Error('La date de fin doit être postérieure à la date de début');
+      }
+      
+      // Vérifier les chevauchements pour les jours entiers
+      const { data: existingBlocks, error: overlapError } = await supabaseClient
+        .from('blocked_times')
+        .select('*')
+        .or(`start_date.lte.${endDate},end_date.gte.${startDate}`);
+
+      if (overlapError) throw overlapError;
+
+      if (existingBlocks && existingBlocks.length > 0) {
+        // Vérifier les chevauchements de dates
+        for (const block of existingBlocks) {
+          const blockStart = new Date(block.start_date);
+          const blockEnd = new Date(block.end_date);
+          
+          if (startDateTime <= blockEnd && endDateTime >= blockStart) {
+            throw new Error(`Cette période chevauche une période déjà bloquée (du ${block.start_date} au ${block.end_date})`);
+          }
+        }
+      }
+      
+      // Insérer le blocage de jours entiers
+      const { data, error } = await supabaseClient
+        .from('blocked_times')
+        .insert([
+          {
+            start_date: startDate,
+            end_date: endDate,
+            start_time: '00:00', // Journée entière
+            end_time: '23:59',   // Journée entière
+            reason: reason || 'Vacances'
+          }
+        ])
+        .select();
+
+      if (error) {
+        console.error('Erreur Supabase:', error);
+        throw error;
+      }
+      
+      alert(`Période de vacances bloquée avec succès du ${startDate} au ${endDate}`);
+      vacationForm.reset();
+      
+      // Réinitialiser les dates minimales
+      const vacationStartInput = document.getElementById('vacationStartDate');
+      const vacationEndInput = document.getElementById('vacationEndDate');
+      if (vacationStartInput) vacationStartInput.min = today;
+      if (vacationEndInput) vacationEndInput.min = today;
+      
+      await (window as any).loadBlockedTimes(); // Recharger l'affichage
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert(error instanceof Error ? error.message : 'Erreur lors du blocage de la période de vacances');
+    }
+  });
+
   // Charger et afficher les plages bloquées
-  async function loadBlockedTimes() {
+  (window as any).loadBlockedTimes = async function() {
     try {
       const { data, error } = await supabaseClient
         .from('blocked_times')
@@ -584,23 +704,33 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
           ${data.length === 0 ? 
             '<p class="text-sage">Aucune période bloquée</p>' :
             `<div class="grid gap-4">
-              ${data.map(period => `
-                <div class="p-4 bg-sage/5 rounded-lg">
-                  <div class="flex justify-between items-start">
-                    <div>
-                      <p class="font-medium">Du ${new Date(period.start_date).toLocaleDateString()} à ${period.start_time}</p>
-                      <p class="font-medium">Au ${new Date(period.end_date).toLocaleDateString()} à ${period.end_time}</p>
-                      ${period.reason ? `<p class="text-sage mt-2">${period.reason}</p>` : ''}
+              ${data.map(period => {
+                const isFullDay = period.start_time === '00:00' && period.end_time === '23:59';
+                const badgeClass = isFullDay ? 'bg-orange-100 text-orange-800' : 'bg-sage/10 text-sage';
+                const badgeText = isFullDay ? '🏖️ Vacances' : '⏰ Créneau';
+                
+                return `
+                  <div class="p-4 ${isFullDay ? 'bg-orange-50 border border-orange-200' : 'bg-sage/5'} rounded-lg">
+                    <div class="flex justify-between items-start">
+                      <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                          <span class="px-2 py-1 rounded-full text-xs font-medium ${badgeClass}">${badgeText}</span>
+                        </div>
+                        <p class="font-medium">Du ${new Date(period.start_date).toLocaleDateString()} ${isFullDay ? '' : `à ${period.start_time}`}</p>
+                        <p class="font-medium">Au ${new Date(period.end_date).toLocaleDateString()} ${isFullDay ? '' : `à ${period.end_time}`}</p>
+                        ${period.reason ? `<p class="text-sage mt-2 font-medium">${period.reason}</p>` : ''}
+                      </div>
+                      <button 
+                        class="text-red-500 hover:text-red-700 transition-colors ml-4"
+                        onclick="deletePeriod('${period.id}')"
+                        title="Supprimer cette période"
+                      >
+                        🗑️
+                      </button>
                     </div>
-                    <button 
-                      class="text-red-500 hover:text-red-700 transition-colors"
-                      onclick="deletePeriod('${period.id}')"
-                    >
-                      Supprimer
-                    </button>
                   </div>
-                </div>
-              `).join('')}
+                `;
+              }).join('')}
             </div>`
           }
         </div>
@@ -624,7 +754,7 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
       if (error) throw error;
       
       alert('Période supprimée avec succès');
-      await loadBlockedTimes();
+      await (window as any).loadBlockedTimes();
     } catch (error) {
       console.error('Erreur:', error);
       alert('Erreur lors de la suppression de la période');
@@ -635,7 +765,13 @@ if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
   document.addEventListener('DOMContentLoaded', function() {
     initTabs();
     initFilters();
-    loadAppointments(); // Charger les réservations par défaut
-    loadBlockedTimes(); // Charger aussi les périodes bloquées
+    (window as any).loadAppointments(); // Charger les réservations par défaut
+    (window as any).loadBlockedTimes(); // Charger aussi les périodes bloquées
+    
+    // Initialiser les dates minimales pour le formulaire de vacances
+    const vacationStartInput = document.getElementById('vacationStartDate');
+    const vacationEndInput = document.getElementById('vacationEndDate');
+    if (vacationStartInput) vacationStartInput.min = today;
+    if (vacationEndInput) vacationEndInput.min = today;
   });
 </script>

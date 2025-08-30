@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation Refusée</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #dc3545;
+            margin-bottom: 10px;
+        }
+        .title {
+            color: #dc3545;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #6c757d;
+            font-size: 16px;
+        }
+        .content {
+            margin-bottom: 30px;
+        }
+        .appointment-details {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 5px 0;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .detail-value {
+            color: #6c757d;
+        }
+        .rejection-reason {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .rejection-reason h3 {
+            color: #721c24;
+            margin-top: 0;
+        }
+        .alternatives {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .alternatives h3 {
+            color: #0c5460;
+            margin-top: 0;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            transition: background-color 0.3s;
+        }
+        .cta-button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .contact-info {
+            background-color: #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌿 Harmonia</div>
+            <h1 class="title">Réservation Refusée</h1>
+            <p class="subtitle">Nous ne pouvons malheureusement pas honorer votre demande</p>
+        </div>
+
+        <div class="content">
+            <p>Bonjour <strong>{{clientName}}</strong>,</p>
+            
+            <p>Nous regrettons de vous informer que nous ne pouvons malheureusement pas honorer votre demande de réservation pour le moment.</p>
+            
+            <div class="appointment-details">
+                <h3 style="margin-top: 0; color: #495057;">Détails de votre demande :</h3>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Service :</span>
+                    <span class="detail-value">{{service}}</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Date :</span>
+                    <span class="detail-value">{{date}}</span>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="detail-label">Heure :</span>
+                    <span class="detail-value">{{time}}</span>
+                </div>
+            </div>
+
+            <div class="rejection-reason">
+                <h3>📋 Motif du refus :</h3>
+                <p>{{rejectionReason}}</p>
+            </div>
+
+            <div class="alternatives">
+                <h3>💡 Alternatives proposées :</h3>
+                <ul>
+                    <li><strong>Autres créneaux disponibles :</strong> Consultez notre calendrier en ligne pour voir les disponibilités</li>
+                    <li><strong>Services alternatifs :</strong> Nous proposons d'autres types de consultations qui pourraient vous convenir</li>
+                    <li><strong>Consultation à distance :</strong> Possibilité de consultation en visioconférence</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="{{siteUrl}}/rendez-vous" class="cta-button">
+                    📅 Prendre un Nouveau Rendez-vous
+                </a>
+            </div>
+
+            <div class="contact-info">
+                <p style="margin: 0;"><strong>Besoin d'aide ?</strong></p>
+                <p style="margin: 10px 0;">N'hésitez pas à nous contacter pour discuter d'autres options ou pour toute question :</p>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                    <li>📧 Par email : contact@harmonia.fr</li>
+                    <li>📞 Par téléphone : 01 23 45 67 89</li>
+                    <li>💬 Via notre formulaire de contact</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🌿 <strong>Harmonia</strong> - Votre bien-être naturel</p>
+            <p>📧 contact@harmonia.fr | 📞 01 23 45 67 89</p>
+            <p>📍 123 Rue de la Santé, 75001 Paris</p>
+            <p style="font-size: 12px; margin-top: 15px;">
+                Cet email a été envoyé automatiquement. Merci de ne pas y répondre directement.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

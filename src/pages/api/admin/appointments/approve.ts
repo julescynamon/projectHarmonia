@@ -1,10 +1,9 @@
 // src/pages/api/admin/appointments/approve.ts
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
+import { sendAppointmentApprovalEmail } from '../../../../lib/email-service';
 
-const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
-});
+const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY);
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
@@ -17,14 +16,17 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    // Vérification du rôle admin
+    // Vérification du rôle admin avec fallback pour l'admin principal
     const { data: profile, error: profileError } = await locals.supabase
       .from('profiles')
       .select('role')
       .eq('id', session.user.id)
       .single();
 
-    if (profileError || !profile || profile.role !== 'admin') {
+    // Vérification spéciale pour l'admin principal (tyzranaima@gmail.com)
+    const isMainAdmin = session.user.email === 'tyzranaima@gmail.com';
+
+    if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
       return new Response(
         JSON.stringify({ error: 'Accès refusé' }),
         { status: 403 }
@@ -32,11 +34,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // Récupération des données de la requête
-    const { appointmentId, adminNotes } = await request.json();
+    const { appointmentId } = await request.json();
 
     if (!appointmentId) {
       return new Response(
-        JSON.stringify({ error: 'ID de réservation requis' }),
+        JSON.stringify({ error: 'ID de réservation manquant' }),
         { status: 400 }
       );
     }
@@ -52,76 +54,56 @@ export const POST: APIRoute = async ({ request, locals }) => {
         )
       `)
       .eq('id', appointmentId)
-      .eq('status', 'pending_approval')
       .single();
 
     if (appointmentError || !appointment) {
       return new Response(
-        JSON.stringify({ error: 'Réservation non trouvée ou déjà traitée' }),
+        JSON.stringify({ error: 'Réservation non trouvée' }),
         { status: 404 }
       );
     }
 
-    // Vérification de la disponibilité du créneau
-    const { data: conflictingAppointments, error: conflictError } = await locals.supabase
-      .from('appointments')
-      .select('id')
-      .eq('date', appointment.date)
-      .eq('time', appointment.time)
-      .in('status', ['pending', 'confirmed'])
-      .neq('id', appointmentId);
-
-    if (conflictError) {
-      console.error('Erreur lors de la vérification des conflits:', conflictError);
+    // Vérification que la réservation est en attente d'approbation
+    if (appointment.status !== 'pending_approval') {
       return new Response(
-        JSON.stringify({ error: 'Erreur lors de la vérification de disponibilité' }),
-        { status: 500 }
-      );
-    }
-
-    if (conflictingAppointments && conflictingAppointments.length > 0) {
-      return new Response(
-        JSON.stringify({ error: 'Ce créneau n\'est plus disponible' }),
-        { status: 409 }
+        JSON.stringify({ error: 'Cette réservation ne peut pas être approuvée' }),
+        { status: 400 }
       );
     }
 
     // Création de la session Stripe
-    const sessionConfig = {
+    const sessionStripe = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
           price_data: {
             currency: 'eur',
             product_data: {
-              name: appointment.services.title,
+              name: appointment.services?.title || 'Consultation',
               description: `Réservation du ${appointment.date} à ${appointment.time}`,
             },
-            unit_amount: Math.round(parseFloat(appointment.services.price) * 100), // Stripe utilise les centimes
+            unit_amount: Math.round((appointment.services?.price || 0) * 100), // Conversion en centimes
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: `${import.meta.env.WEBSITE_URL}/accompagnements/reservation?success=true&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${import.meta.env.WEBSITE_URL}/accompagnements/reservation?cancelled=true`,
+      success_url: `${import.meta.env.PUBLIC_SITE_URL}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${import.meta.env.PUBLIC_SITE_URL}/rendez-vous`,
       metadata: {
-        appointment_id: appointmentId,
-        client_email: appointment.client_email,
-        client_name: appointment.client_name,
+        appointmentId: appointment.id,
+        clientEmail: appointment.client_email,
+        clientName: appointment.client_name,
       },
-    };
-
-    const stripeSession = await stripe.checkout.sessions.create(sessionConfig);
+    });
 
     // Mise à jour du statut de la réservation
     const { error: updateError } = await locals.supabase
       .from('appointments')
-      .update({
+      .update({ 
         status: 'pending',
-        stripe_session_id: stripeSession.id,
-        admin_notes: adminNotes || null,
-        updated_at: new Date().toISOString(),
+        stripe_session_id: sessionStripe.id,
+        approved_at: new Date().toISOString()
       })
       .eq('id', appointmentId);
 
@@ -133,31 +115,27 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    // Envoi de l'email de confirmation au client
+    // Envoi de l'email d'approbation
     try {
-      const { sendAppointmentApprovalEmail } = await import('../../../lib/email-service');
       await sendAppointmentApprovalEmail({
-        appointment: {
-          id: appointment.id,
-          date: appointment.date,
-          time: appointment.time,
-          service: appointment.services.title,
-          clientName: appointment.client_name,
-          clientEmail: appointment.client_email,
-        },
-        paymentUrl: stripeSession.url,
+        clientName: appointment.client_name,
+        clientEmail: appointment.client_email,
+        date: appointment.date,
+        time: appointment.time,
+        service: appointment.services?.title || 'Consultation',
+        paymentUrl: sessionStripe.url,
+        price: appointment.services?.price || 0
       });
     } catch (emailError) {
       console.error('Erreur lors de l\'envoi de l\'email:', emailError);
-      // Ne pas faire échouer la requête si l'email échoue
+      // On continue même si l'email échoue
     }
 
     return new Response(
       JSON.stringify({
         success: true,
         message: 'Réservation approuvée avec succès',
-        paymentUrl: stripeSession.url,
-        appointmentId: appointment.id,
+        paymentUrl: sessionStripe.url
       }),
       { status: 200 }
     );

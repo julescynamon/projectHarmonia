@@ -8,7 +8,7 @@ import Card from '../components/ui/Card.astro';
 const seo = pageSEO.contact;
 
 const contactInfo = {
-  address: '2063 route de cabaresse, 30760 Salazac',
+  address: '30760 Salazac',
   email: 'tyzranaima@gmail.com',
   phone: '06 67 22 97 43',
   hours: [
@@ -356,9 +356,9 @@ const contactInfo = {
             Séances par visioconférence ou téléphone pour tous mes accompagnements.
           </p>
           <div class="text-center">
-            <Button href="/rendez-vous" class="bg-sage text-white hover:bg-eucalyptus">
-              Prendre rendez-vous
-            </Button>
+            <p class="text-eucalyptus text-center leading-relaxed">
+              Découvrez nos accompagnements et prenez rendez-vous directement sur les pages dédiées.
+            </p>
           </div>
         </div>
 
@@ -419,7 +419,7 @@ const contactInfo = {
   <section class="py-20 md:py-32 bg-gradient-to-r from-sage/10 via-gold/5 to-sage/10 relative overflow-hidden">
     <!-- Éléments décoratifs -->
     <div class="absolute inset-0 bg-geometric-pattern opacity-5"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] opacity-10">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] opacity-80">
       <img
         src="/images/sacred-geometry.svg"
         alt=""
@@ -440,13 +440,7 @@ const contactInfo = {
         </div>
         
         <div class="flex flex-col sm:flex-row gap-6 justify-center" data-aos="fade-up" data-aos-delay="300" data-aos-duration="800">
-          <Button 
-            href="/rendez-vous" 
-            size="lg"
-            class="bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage text-white px-12 py-5 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-          >
-            Prendre rendez-vous
-          </Button>
+          
           <Button 
             href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}
             variant="outline" 

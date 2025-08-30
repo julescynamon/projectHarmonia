@@ -1,5 +1,6 @@
 // src/pages/api/admin/appointments/reject.ts
 import type { APIRoute } from 'astro';
+import { sendAppointmentRejectionEmail } from '../../../../lib/email-service';
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
@@ -12,14 +13,17 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    // Vérification du rôle admin
+    // Vérification du rôle admin avec fallback pour l'admin principal
     const { data: profile, error: profileError } = await locals.supabase
       .from('profiles')
       .select('role')
       .eq('id', session.user.id)
       .single();
 
-    if (profileError || !profile || profile.role !== 'admin') {
+    // Vérification spéciale pour l'admin principal (tyzranaima@gmail.com)
+    const isMainAdmin = session.user.email === 'tyzranaima@gmail.com';
+
+    if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
       return new Response(
         JSON.stringify({ error: 'Accès refusé' }),
         { status: 403 }
@@ -27,11 +31,18 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // Récupération des données de la requête
-    const { appointmentId, rejectionReason, adminNotes } = await request.json();
+    const { appointmentId, rejectionReason } = await request.json();
 
     if (!appointmentId) {
       return new Response(
-        JSON.stringify({ error: 'ID de réservation requis' }),
+        JSON.stringify({ error: 'ID de réservation manquant' }),
+        { status: 400 }
+      );
+    }
+
+    if (!rejectionReason) {
+      return new Response(
+        JSON.stringify({ error: 'Motif de refus manquant' }),
         { status: 400 }
       );
     }
@@ -42,28 +53,35 @@ export const POST: APIRoute = async ({ request, locals }) => {
       .select(`
         *,
         services (
-          title
+          title,
+          price
         )
       `)
       .eq('id', appointmentId)
-      .eq('status', 'pending_approval')
       .single();
 
     if (appointmentError || !appointment) {
       return new Response(
-        JSON.stringify({ error: 'Réservation non trouvée ou déjà traitée' }),
+        JSON.stringify({ error: 'Réservation non trouvée' }),
         { status: 404 }
+      );
+    }
+
+    // Vérification que la réservation est en attente d'approbation
+    if (appointment.status !== 'pending_approval') {
+      return new Response(
+        JSON.stringify({ error: 'Cette réservation ne peut pas être refusée' }),
+        { status: 400 }
       );
     }
 
     // Mise à jour du statut de la réservation
     const { error: updateError } = await locals.supabase
       .from('appointments')
-      .update({
+      .update({ 
         status: 'refused',
-        admin_notes: adminNotes || null,
-        rejection_reason: rejectionReason || null,
-        updated_at: new Date().toISOString(),
+        rejection_reason: rejectionReason,
+        rejected_at: new Date().toISOString()
       })
       .eq('id', appointmentId);
 
@@ -75,30 +93,25 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    // Envoi de l'email de refus au client
+    // Envoi de l'email de refus
     try {
-      const { sendAppointmentRejectionEmail } = await import('../../../lib/email-service');
       await sendAppointmentRejectionEmail({
-        appointment: {
-          id: appointment.id,
-          date: appointment.date,
-          time: appointment.time,
-          service: appointment.services.title,
-          clientName: appointment.client_name,
-          clientEmail: appointment.client_email,
-        },
-        rejectionReason: rejectionReason || 'Aucune raison spécifiée',
+        clientName: appointment.client_name,
+        clientEmail: appointment.client_email,
+        date: appointment.date,
+        time: appointment.time,
+        service: appointment.services?.title || 'Consultation',
+        rejectionReason: rejectionReason
       });
     } catch (emailError) {
       console.error('Erreur lors de l\'envoi de l\'email:', emailError);
-      // Ne pas faire échouer la requête si l'email échoue
+      // On continue même si l'email échoue
     }
 
     return new Response(
       JSON.stringify({
         success: true,
-        message: 'Réservation refusée avec succès',
-        appointmentId: appointment.id,
+        message: 'Réservation refusée avec succès'
       }),
       { status: 200 }
     );

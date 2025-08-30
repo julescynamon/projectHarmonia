@@ -451,31 +451,46 @@ ${sanitizedData.message}
 
 // Fonction pour envoyer l'email d'approbation avec lien de paiement
 export async function sendAppointmentApprovalEmail({
-  appointment,
+  clientName,
+  clientEmail,
+  date,
+  time,
+  service,
   paymentUrl,
-  websiteUrl = 'https://harmonia-naturo.com'
+  price
 }: {
-  appointment: {
-    id: string;
-    date: string;
-    time: string;
-    service: string;
-    clientName: string;
-    clientEmail: string;
-  };
+  clientName: string;
+  clientEmail: string;
+  date: string;
+  time: string;
+  service: string;
   paymentUrl: string;
-  websiteUrl?: string;
+  price: number;
 }) {
   try {
     if (!RESEND_API_KEY) {
       throw new EmailServiceError('RESEND_API_KEY non configurée', 'CONFIG_ERROR');
     }
 
-    const emailHtml = getAppointmentApprovalEmailHtml({ appointment, paymentUrl, websiteUrl });
+    // Lecture du template HTML
+    const fs = await import('fs/promises');
+    const path = await import('path');
+    const templatePath = path.join(process.cwd(), 'src', 'emails', 'appointment-approved.html');
+    let emailHtml = await fs.readFile(templatePath, 'utf-8');
+
+    // Remplacement des variables
+    emailHtml = emailHtml
+      .replace(/{{clientName}}/g, clientName)
+      .replace(/{{clientEmail}}/g, clientEmail)
+      .replace(/{{date}}/g, date)
+      .replace(/{{time}}/g, time)
+      .replace(/{{service}}/g, service)
+      .replace(/{{paymentUrl}}/g, paymentUrl)
+      .replace(/{{price}}/g, price.toString());
 
     const emailData = {
       from: FROM_EMAIL,
-      to: [appointment.clientEmail],
+      to: [clientEmail],
       subject: 'Réservation approuvée - Procédez au paiement - Harmonia',
       html: emailHtml
     };
@@ -483,7 +498,7 @@ export async function sendAppointmentApprovalEmail({
     // En mode développement, simuler l'envoi
     if (IS_DEVELOPMENT) {
       console.log('Mode développement : Email d\'approbation client simulé');
-      console.log('Destinataire:', appointment.clientEmail);
+      console.log('Destinataire:', clientEmail);
       console.log('Lien de paiement:', paymentUrl);
       return {
         success: true,
@@ -523,31 +538,44 @@ export async function sendAppointmentApprovalEmail({
 
 // Fonction pour envoyer l'email de refus
 export async function sendAppointmentRejectionEmail({
-  appointment,
-  rejectionReason,
-  websiteUrl = 'https://harmonia-naturo.com'
+  clientName,
+  clientEmail,
+  date,
+  time,
+  service,
+  rejectionReason
 }: {
-  appointment: {
-    id: string;
-    date: string;
-    time: string;
-    service: string;
-    clientName: string;
-    clientEmail: string;
-  };
+  clientName: string;
+  clientEmail: string;
+  date: string;
+  time: string;
+  service: string;
   rejectionReason: string;
-  websiteUrl?: string;
 }) {
   try {
     if (!RESEND_API_KEY) {
       throw new EmailServiceError('RESEND_API_KEY non configurée', 'CONFIG_ERROR');
     }
 
-    const emailHtml = getAppointmentRejectionEmailHtml({ appointment, rejectionReason, websiteUrl });
+    // Lecture du template HTML
+    const fs = await import('fs/promises');
+    const path = await import('path');
+    const templatePath = path.join(process.cwd(), 'src', 'emails', 'appointment-rejected.html');
+    let emailHtml = await fs.readFile(templatePath, 'utf-8');
+
+    // Remplacement des variables
+    emailHtml = emailHtml
+      .replace(/{{clientName}}/g, clientName)
+      .replace(/{{clientEmail}}/g, clientEmail)
+      .replace(/{{date}}/g, date)
+      .replace(/{{time}}/g, time)
+      .replace(/{{service}}/g, service)
+      .replace(/{{rejectionReason}}/g, rejectionReason)
+      .replace(/{{siteUrl}}/g, 'https://harmonia-naturo.com');
 
     const emailData = {
       from: FROM_EMAIL,
-      to: [appointment.clientEmail],
+      to: [clientEmail],
       subject: 'Information concernant votre demande de réservation - Harmonia',
       html: emailHtml
     };
@@ -555,7 +583,7 @@ export async function sendAppointmentRejectionEmail({
     // En mode développement, simuler l'envoi
     if (IS_DEVELOPMENT) {
       console.log('Mode développement : Email de refus client simulé');
-      console.log('Destinataire:', appointment.clientEmail);
+      console.log('Destinataire:', clientEmail);
       console.log('Raison du refus:', rejectionReason);
       return {
         success: true,

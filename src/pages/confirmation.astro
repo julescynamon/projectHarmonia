@@ -20,7 +20,7 @@ if (!sessionId) {
   return Astro.redirect('/rendez-vous');
 }
 
-let error = null;
+let error: string | null = null;
 let success = false;
 
 try {
@@ -52,6 +52,12 @@ try {
     return;
   }
 
+  // Vérification que les données essentielles sont présentes
+  if (!appointment.date || !appointment.time || !appointment.client_name || !appointment.client_email) {
+    error = 'Données de rendez-vous incomplètes';
+    return;
+  }
+
   // Mettre à jour le statut du rendez-vous
   const { error: updateError } = await supabase
     .from('appointments')
@@ -64,60 +70,70 @@ try {
   }
 
 
+  // Déterminer le nom du service de manière sécurisée
+  let serviceName = 'Service non spécifié';
+  if (appointment.services && appointment.services.title) {
+    serviceName = appointment.services.title;
+  } else if (appointment.service_id) {
+    serviceName = appointment.service_id;
+  }
+
+  console.log('Appointment data:', {
+    appointment,
+    services: appointment.services,
+    service_id: appointment.service_id,
+    serviceName
+  });
+
   await sendAppointmentNotification({
     date: appointment.date,
     time: appointment.time,
-    service: appointment.services?.title || appointment.service_id,
+    service: serviceName,
     clientName: appointment.client_name,
-    clientEmail: appointment.client_email,
-    reason: appointment.reason
+    clientEmail: appointment.client_email
   });
 
   success = true;
 
 } catch (e) {
-  error = 'Une erreur est survenue';
+  console.error('Erreur dans confirmation.astro:', e);
+  error = 'Une erreur est survenue lors de la confirmation du rendez-vous';
+}
+
+// S'assurer que error est défini
+if (!error) {
+  error = null;
 }
 ---
 
-<MainLayout title={seo.title} description={seo.description}>
-  <div class="pt-24">
-    <section class="py-20 bg-sage/5">
-      <div class="container mx-auto px-4">
-        <div class="max-w-3xl mx-auto text-center">
-          {success ? (
-            <>
-              <h1 class="font-heading text-4xl md:text-5xl text-ebony mb-6">
-                Merci pour votre réservation !
-              </h1>
-              <p class="text-lg text-eucalyptus mb-8">
-                Votre rendez-vous a été confirmé. Vous recevrez bientôt un email de confirmation avec tous les détails.
-              </p>
-              <a
-                href="/"
-                class="inline-block bg-eucalyptus text-white px-8 py-3 rounded-lg hover:bg-eucalyptus/90 transition-colors"
-              >
-                Retour à l'accueil
-              </a>
-            </>
-          ) : (
-            <>
-              <h1 class="font-heading text-4xl md:text-5xl text-ebony mb-6">
-                Une erreur est survenue
-              </h1>
-              <p class="text-lg text-red-500 mb-8">
-                {error || 'Nous n\'avons pas pu trouver votre rendez-vous. Veuillez réessayer ou nous contacter.'}
-              </p>
-              <a
-                href="/rendez-vous"
-                class="inline-block bg-eucalyptus text-white px-8 py-3 rounded-lg hover:bg-eucalyptus/90 transition-colors"
-              >
-                Retour à la prise de rendez-vous
-              </a>
-            </>
-          )}
-        </div>
-      </div>
-    </section>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmation de réservation - Harmonia</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f5f5f5; }
+    .container { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 10px; text-align: center; }
+    .success { color: #28a745; }
+    .error { color: #dc3545; }
+    .btn { display: inline-block; padding: 12px 24px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    {success ? (
+      <>
+        <h1 class="success">Merci pour votre réservation !</h1>
+        <p>Votre rendez-vous a été confirmé. Vous recevrez bientôt un email de confirmation avec tous les détails.</p>
+        <a href="/" class="btn">Retour à l'accueil</a>
+      </>
+    ) : (
+      <>
+        <h1 class="error">Une erreur est survenue</h1>
+        <p>{error ? error : 'Nous n\'avons pas pu trouver votre rendez-vous. Veuillez réessayer ou nous contacter.'}</p>
+        <a href="/rendez-vous" class="btn">Retour à la prise de rendez-vous</a>
+      </>
+    )}
   </div>
-</MainLayout>
+</body>
+</html>

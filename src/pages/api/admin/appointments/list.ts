@@ -12,14 +12,17 @@ export const GET: APIRoute = async ({ url, locals }) => {
       );
     }
 
-    // Vérification du rôle admin
+    // Vérification du rôle admin avec fallback pour l'admin principal
     const { data: profile, error: profileError } = await locals.supabase
       .from('profiles')
       .select('role')
       .eq('id', session.user.id)
       .single();
 
-    if (profileError || !profile || profile.role !== 'admin') {
+    // Vérification spéciale pour l'admin principal (tyzranaima@gmail.com)
+    const isMainAdmin = session.user.email === 'tyzranaima@gmail.com';
+
+    if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
       return new Response(
         JSON.stringify({ error: 'Accès refusé' }),
         { status: 403 }

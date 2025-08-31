@@ -1,12 +1,14 @@
 ---
-import Button from './ui/Button.astro';
+// src/components/About.astro
 ---
 
 <section class="py-20 md:py-32 bg-gradient-to-b from-white to-cream/30 relative overflow-hidden">
   <!-- Éléments décoratifs -->
   <div class="absolute top-0 left-0 w-72 h-72 bg-sage/5 rounded-full blur-3xl"></div>
   <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
-  <div class="absolute inset-0 bg-geometric-pattern opacity-3"></div>
+  <div class="absolute inset-0 opacity-3">
+    <img src="/images/sacred-geometry.svg" alt="Geometric pattern" class="w-full h-full object-cover bg-gradient-to-r from-sage/20 to-gold/20 bg-clip-content">
+  </div>
 
   <div class="container mx-auto px-4 relative">
     <div class="grid lg:grid-cols-2 gap-16 xl:gap-20 items-center">
@@ -17,7 +19,7 @@ import Button from './ui/Button.astro';
           <div class="absolute -inset-4 bg-gradient-to-r from-sage/20 to-gold/20 rounded-3xl blur-xl"></div>
           <div class="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
             <img
-              src="/images/apropos.webp"
+              src="/images/apropos2.jpg"
               alt="Naïma, naturopathe et guide holistique"
               class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
               loading="lazy"
@@ -26,13 +28,7 @@ import Button from './ui/Button.astro';
             <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
           </div>
           
-          <!-- Badge flottant -->
-          <div class="absolute -bottom-6 -right-6 bg-white rounded-2xl p-6 shadow-xl border border-sage/10">
-            <div class="text-center">
-              <p class="font-heading text-3xl text-sage font-bold">7+</p>
-              <p class="text-xs text-eucalyptus font-medium uppercase tracking-wider">Années d'expérience</p>
-            </div>
-          </div>
+
         </div>
       </div>
 
@@ -42,75 +38,32 @@ import Button from './ui/Button.astro';
         <div class="mb-8">
           <div class="inline-block mb-4">
             <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-lg font-semibold">
-              Votre guide holistique
+              L'esprit de la Maison Sattvaïa
             </span>
           </div>
           <h2 class="font-heading text-4xl md:text-5xl xl:text-6xl text-ebony mb-6 leading-tight">
-            Une approche du <span class="text-sage">cœur</span> et de l'<span class="text-gold">âme</span>
+            Qui sommes-nous ?  
           </h2>
         </div>
 
-        <!-- Storytelling émotionnel -->
-        <div class="space-y-6 text-eucalyptus mb-10 text-lg leading-relaxed">
-          <p class="relative">
-            <span class="absolute -left-4 top-0 text-4xl text-gold/30 font-serif">"</span>
-            Je suis <strong class="text-ebony">Naïma</strong>, et mon chemin m'a menée vers une mission profonde : 
-            <em class="text-sage font-medium">accompagner les êtres humains et animaux vers leur pleine harmonie</em>.
+        <!-- Contenu principal -->
+        <div class="space-y-8 text-ebony mb-10 text-xl leading-relaxed">
+          <p>
+            À La Maison Sattvaïa, chaque être est accueilli dans sa globalité humain comme animal. Notre vision est simple : le corps, l'énergie et l'âme ne sont pas séparés, mais intimement liés. Ici, la <strong>naturopathie</strong>, les <strong>soins énergétiques</strong> et la <strong>guidance spirituelle</strong> s'unissent pour offrir un accompagnement unique, où la science du naturel rencontre la sagesse du subtil.
           </p>
           <p>
-            Chaque rencontre est unique, chaque être porte en lui une sagesse intérieure que j'aide à révéler. 
-            Mon approche allie <strong class="text-ebony">intuition</strong>, <strong class="text-ebony">expertise</strong> 
-            et <strong class="text-ebony">bienveillance</strong> pour créer un espace de transformation authentique.
+            Ce qui nous distingue ? Une approche profondément <strong>humaine et respectueuse</strong>, qui ne se limite pas à soulager des symptômes, mais qui vous guide vers une véritable transformation intérieure et un mieux-être durable.
+          </p>
+          <p>
+            La Maison Sattvaïa est plus qu'un espace de soins : c'est un lieu de <strong>reconnexion à votre essence</strong>, de douceur et d'écoute, où l'harmonie se construit pas à pas, dans la lumière et la simplicité.
           </p>
         </div>
 
-        <!-- Certifications et expertise -->
-        <div class="grid grid-cols-2 gap-4 mb-10">
-          {[
-            { icon: "🌿", title: "Naturopathie", subtitle: "Certifiée FENA" },
-            { icon: "✨", title: "Soins Énergétiques", subtitle: "Formation continue" },
-            { icon: "🐾", title: "Accompagnement Animal", subtitle: "Spécialisation" },
-            { icon: "🌙", title: "Guidance Spirituelle", subtitle: "Intuitive certifiée" }
-          ].map((cert, index) => (
-            <div 
-              class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-sage/10 hover:shadow-xl transition-all duration-300"
-              data-aos="fade-up" 
-              data-aos-delay={index * 100}
-              data-aos-offset="30"
-            >
-              <span class="text-2xl mb-2 block">{cert.icon}</span>
-              <h3 class="font-heading text-sm text-ebony font-semibold">{cert.title}</h3>
-              <p class="text-xs text-eucalyptus">{cert.subtitle}</p>
-            </div>
-          ))}
-        </div>
 
-        <!-- Témoignage court intégré -->
-        <div class="bg-gradient-to-r from-sage/10 to-gold/10 rounded-2xl p-6 mb-10 border-l-4 border-sage">
-          <p class="text-eucalyptus italic mb-3">
-            "Naïma a transformé ma relation avec mon chien et avec moi-même. Son accompagnement va bien au-delà de ce que j'espérais."
-          </p>
-          <p class="text-sm text-ebony font-medium">— Sophie M., cliente depuis 2 ans</p>
-        </div>
 
-        <!-- Actions -->
-        <div class="flex flex-col sm:flex-row gap-4">
-          <Button 
-            href="/a-propos" 
-            size="lg"
-            class="bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage text-white px-8 py-4 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-          >
-            Découvrir mon parcours
-          </Button>
-          <Button 
-            href="/contact" 
-            variant="outline" 
-            size="lg"
-            class="border-2 border-sage text-sage hover:bg-sage hover:text-white px-8 py-4 rounded-2xl transition-all duration-300"
-          >
-            Commencer ensemble
-          </Button>
-        </div>
+
+
+
       </div>
     </div>
   </div>

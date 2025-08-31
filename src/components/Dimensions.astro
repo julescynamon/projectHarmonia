@@ -3,37 +3,29 @@ interface Dimension {
   title: string;
   description: string;
   icon: string;
-  buttonText: string;
-  buttonLink: string;
   backgroundImage: string;
   accentColor: string;
 }
 
 const dimensions: Dimension[] = [
   {
-    title: "Santé naturelle",
-    description: "Revenez à l'essentiel. Un accompagnement doux et complet pour restaurer l'équilibre naturel du corps et de l'esprit, chez l'humain comme chez l'animal.",
-    icon: "🌿",
-    buttonText: "Découvrez le chemin de l'équilibre",
-    buttonLink: "/a-propos",
+    title: "Dimension du Corps",
+    description: "La Maison Sattvaïa prend soin du corps, humain comme animal, à travers la naturopathie et les approches naturelles. Alimentation, hygiène de vie, plantes et pratiques douces deviennent des alliés pour restaurer l'équilibre, renforcer la vitalité et soutenir un bien-être global. Un corps en harmonie est la première porte vers la paix intérieure.",
+    icon: "healing",
     backgroundImage: "/images/dimensions-sante-naturelle.jpg",
     accentColor: "sage"
   },
   {
-    title: "Rituels et énergie",
-    description: "Harmonisez les corps et les âmes. Des rituels profonds et des soins énergétiques pour libérer les tensions, apaiser les émotions et rétablir l'équilibre.",
-    icon: "💫",
-    buttonText: "Découvrez nos rituels",
-    buttonLink: "/a-propos",
+    title: "Dimension de l'Énergie",
+    description: "L'énergie est le souffle de vie. Par les soins énergétiques et chamaniques, La Maison Sattvaïa libère les blocages, réaccorde les vibrations et favorise la circulation fluide de l'énergie. Quand l'énergie circule librement, l'être retrouve paix, clarté et force intérieure.",
+    icon: "self_improvement",
     backgroundImage: "/images/dimensions-rituels-energie.jpg",
     accentColor: "gold"
   },
   {
-    title: "Développement spirituel",
-    description: "Éveillez votre lumière intérieure. Guidances et rituels pour vous reconnecter à votre essence profonde et marcher sur votre chemin d'âme, en conscience.",
-    icon: "✨",
-    buttonText: "Explorez nos outils spirituels",
-    buttonLink: "/a-propos",
+    title: "Dimension de l'Âme",
+    description: "Au-delà du corps et de l'énergie, La Maison Sattvaïa est un espace de guidance et de reconnexion spirituelle. Lectures d'âme, numérologie karmique et accompagnements personnalisés ouvrent des chemins de conscience et de transformation profonde. C'est une invitation à retrouver la lumière de son essence et à marcher aligné avec sa mission de vie.",
+    icon: "psychology",
     backgroundImage: "/images/dimensions-developpement-spirituel.jpg",
     accentColor: "eucalyptus"
   }
@@ -55,17 +47,17 @@ const dimensions: Dimension[] = [
         </span>
       </div>
       <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-8 leading-tight">
-        Une approche <span class="text-sage">holistique</span><br/>
-        pour vous et vos animaux
+        Un lieu de reconnexion <span class="text-sage">holistique</span><br/>
+        pour l'humain et l'animal
       </h2>
       <p class="text-xl text-eucalyptus leading-relaxed font-slogan max-w-3xl mx-auto">
-        Trois chemins d'accompagnement, une même vision : révéler votre essence profonde
+        Trois chemins d'accompagnement, une même essence : retrouver l'harmonie et révéler la lumière intérieure.
       </p>
       <div class="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
     </div>
 
     <!-- Layout Magazine - Cards horizontales -->
-    <div class="space-y-12 lg:space-y-16">
+    <div class="space-y-8 lg:space-y-12">
       {dimensions.map((dimension, index) => (
         <div 
           class={`group relative overflow-hidden rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-700 ${
@@ -75,7 +67,7 @@ const dimensions: Dimension[] = [
           data-aos-delay={index * 200}
           data-aos-duration="1000"
         >
-          <div class={`flex flex-col lg:flex-row ${index % 2 === 0 ? '' : 'lg:flex-row-reverse'} min-h-[500px]`}>
+          <div class={`flex flex-col lg:flex-row ${index % 2 === 0 ? '' : 'lg:flex-row-reverse'} min-h-[400px]`}>
             
             <!-- Section Image -->
             <div class="relative lg:w-1/2 overflow-hidden">
@@ -87,19 +79,14 @@ const dimensions: Dimension[] = [
                 loading="lazy"
               />
               
-              <!-- Icône flottante -->
-              <div class="absolute top-8 left-8 z-20">
-                <div class="w-20 h-20 bg-white/90 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-500">
-                  <span class="text-4xl">{dimension.icon}</span>
-                </div>
-              </div>
+
               
               <!-- Effet parallax sur hover -->
               <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
             </div>
 
             <!-- Section Contenu -->
-            <div class={`lg:w-1/2 bg-white relative flex flex-col justify-center p-8 lg:p-12 xl:p-16`}>
+            <div class={`lg:w-1/2 bg-white relative flex flex-col justify-center p-6 lg:p-10 xl:p-12`}>
               
               <!-- Accent décoratif -->
               <div class={`absolute top-0 ${index % 2 === 0 ? 'left-0' : 'right-0'} w-2 h-full bg-gradient-to-b ${
@@ -109,41 +96,15 @@ const dimensions: Dimension[] = [
               }`}></div>
               
               <div class="relative z-10">
-                <!-- Catégorie -->
-                <div class="mb-6">
-                  <span class={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${
-                    dimension.accentColor === 'sage' ? 'bg-sage/10 text-sage' :
-                    dimension.accentColor === 'gold' ? 'bg-gold/10 text-gold' :
-                    'bg-eucalyptus/10 text-eucalyptus'
-                  }`}>
-                    Dimension {index + 1}
-                  </span>
-                </div>
-                
                 <!-- Titre -->
-                <h3 class="font-heading text-3xl lg:text-4xl xl:text-5xl text-ebony mb-6 leading-tight group-hover:text-sage transition-colors duration-500">
+                <h3 class="font-heading text-3xl lg:text-4xl xl:text-5xl mb-6 leading-tight bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent">
                   {dimension.title}
                 </h3>
                 
                 <!-- Description -->
-                <p class="text-lg lg:text-xl text-eucalyptus leading-relaxed mb-8 font-slogan">
+                <p class="text-lg lg:text-xl text-ebony leading-relaxed font-slogan">
                   {dimension.description}
                 </p>
-                
-                <!-- CTA avec effet sophistiqué -->
-                <div class="flex items-center">
-                  <a
-                    href={dimension.buttonLink}
-                    class={`group/button inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${
-                      dimension.accentColor === 'sage' ? 'bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage' :
-                      dimension.accentColor === 'gold' ? 'bg-gradient-to-r from-gold to-sage hover:from-sage hover:to-gold' :
-                      'bg-gradient-to-r from-eucalyptus to-sage hover:from-sage hover:to-eucalyptus'
-                    } text-white`}
-                  >
-                    <span>{dimension.buttonText}</span>
-                    <span class="group-hover/button:translate-x-1 transition-transform duration-300">→</span>
-                  </a>
-                </div>
               </div>
               
               <!-- Effet de brillance -->
@@ -156,24 +117,7 @@ const dimensions: Dimension[] = [
       ))}
     </div>
 
-    <!-- Call to action global -->
-    <div class="text-center mt-20" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1000">
-      <div class="bg-gradient-to-r from-sage/10 via-white to-gold/10 rounded-3xl p-8 lg:p-12 shadow-xl border border-sage/20">
-        <h3 class="font-heading text-2xl lg:text-3xl text-ebony mb-6">
-          Prêt(e) à explorer votre chemin ?
-        </h3>
-        <p class="text-lg text-eucalyptus mb-8 max-w-2xl mx-auto font-slogan">
-          Chaque dimension peut être explorée individuellement ou dans une approche globale personnalisée.
-        </p>
-        <a
-          href="/accompagnements/accompagnement-personalise"
-          class="inline-flex items-center gap-3 bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage text-white px-8 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-        >
-          <span>Découvrir l'accompagnement personnalisé</span>
-          <span class="text-xl">✨</span>
-        </a>
-      </div>
-    </div>
+    
   </div>
 </section>
 

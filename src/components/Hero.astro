@@ -5,7 +5,7 @@ import Button from './ui/Button.astro';
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
   <!-- Background avec overlay et effet parallax -->
   <div class="absolute inset-0 z-0">
-    <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/30 z-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/10 z-10"></div>
     <img
       src="/images/herobg.jpg"
       alt="Background Nature"
@@ -32,58 +32,20 @@ import Button from './ui/Button.astro';
   <div class="container mx-auto px-4 relative z-20">
     <div class="max-w-6xl mx-auto">
       <!-- En-tête -->
-      <div class="text-center mb-16 motion-safe:animate-fade-in">
-        <h1 class="font-heading text-5xl md:text-7xl text-white mb-6 tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
-          HARMONIA ET VITA
+      <div class="text-center mb-16">
+        <h1 class="font-heading text-5xl md:text-7xl text-white mb-24 tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)] animate-title-fade-in">
+          La Maison SATTVAÏA
         </h1>
-        <p class="font-slogan text-xl md:text-2xl text-white mb-12 max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)]">
-          Un équilibre entre nature, vie et lien sacré
+        <p class="font-slogan text-xl md:text-2xl text-white mb-12 max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] animate-subtitle-fade-in">
+          un sanctuaire de lumière pour l'humain et l'animal
         </p>
-        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
-          <Button 
-            href="/services" 
-            class="transform hover:scale-105 transition-transform duration-300 bg-gradient-to-r from-gold/90 to-gold hover:from-gold hover:to-gold/90 text-white px-8 py-4 rounded-full text-lg shadow-lg hover:shadow-xl"
-          >
-          Découvrir nos services
-            
-          </Button>
-          <Button 
-            href="/rendez-vous" 
-            variant="outline"
-            class="border-2 border-white/80 text-white hover:bg-white/10 px-8 py-4 rounded-full text-lg transition-colors duration-300"
-          >
-            Commencer votre voyage
-          </Button>
-        </div>
       </div>
 
       <!-- Citation inspirante -->
-      <div class="text-center mb-24 motion-safe:animate-fade-in-delayed">
-        <blockquote class="text-2xl md:text-3xl text-white italic font-light max-w-3xl mx-auto leading-relaxed">
-          "Je choisis aujourd'hui de me reconnecter à mon énergie intérieure."
+      <div class="text-center mb-24">
+        <blockquote class="text-2xl md:text-3xl text-white italic font-light max-w-3xl mx-auto leading-relaxed animate-quote-fade-in">
+          "Un lieu de reconnexion où corps, énergie et âme retrouvent équilibre, harmonie et clarté intérieure."
         </blockquote>
-      </div>
-
-      <!-- Stats avec effet de verre -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8" data-aos="fade-up" data-aos-duration="800">
-        {[
-          { number: '10+', label: 'Années d\'expérience' },
-          { number: '1000+', label: 'Clients satisfaits' },
-          { number: '50+', label: 'Formations suivies' },
-          { number: '100%', label: 'Naturel' }
-        ].map((stat) => (
-          <div class="group relative overflow-hidden rounded-2xl backdrop-blur-sm transition-all duration-500 hover:transform hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 border border-white/20 rounded-2xl"></div>
-            <div class="relative p-6 text-center">
-              <p class="font-heading text-4xl text-white mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
-                {stat.number}
-              </p>
-              <p class="text-white/90 text-sm uppercase tracking-wider font-medium">
-                {stat.label}
-              </p>
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   </div>
@@ -111,15 +73,37 @@ import Button from './ui/Button.astro';
     to { transform: translate(-50%, -50%) rotate(360deg); }
   }
 
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes title-fade-in {
+    0% { 
+      opacity: 0; 
+      transform: translateY(30px) scale(0.95); 
+    }
+    100% { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+    }
   }
 
-  @keyframes fade-in-delayed {
-    0% { opacity: 0; transform: translateY(20px); }
-    50% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
+  @keyframes subtitle-fade-in {
+    0% { 
+      opacity: 0; 
+      transform: translateY(25px) scale(0.98); 
+    }
+    100% { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+    }
+  }
+
+  @keyframes quote-fade-in {
+    0% { 
+      opacity: 0; 
+      transform: translateY(20px) scale(0.99); 
+    }
+    100% { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+    }
   }
 
   @keyframes wave {
@@ -136,12 +120,19 @@ import Button from './ui/Button.astro';
     animation: slow-spin 60s infinite linear;
   }
 
-  .animate-fade-in {
-    animation: fade-in 1.5s ease-out forwards;
+  .animate-title-fade-in {
+    opacity: 0;
+    animation: title-fade-in 1.2s ease-out forwards;
   }
 
-  .animate-fade-in-delayed {
-    animation: fade-in-delayed 2s ease-out forwards;
+  .animate-subtitle-fade-in {
+    opacity: 0;
+    animation: subtitle-fade-in 1.2s ease-out 0.8s forwards;
+  }
+
+  .animate-quote-fade-in {
+    opacity: 0;
+    animation: quote-fade-in 1.2s ease-out 1.6s forwards;
   }
 
   .animate-wave {

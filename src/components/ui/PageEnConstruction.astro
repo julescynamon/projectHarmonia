@@ -1,0 +1,98 @@
+---
+// src/components/ui/PageEnConstruction.astro
+import MainLayout from '../../layouts/MainLayout.astro';
+import Button from './Button.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+  serviceType: string;
+  contactMessage?: string;
+}
+
+const { 
+  title, 
+  description, 
+  serviceType,
+  contactMessage = "N'hésitez pas à nous contacter pour plus d'informations sur ce service."
+} = Astro.props;
+
+const seo = {
+  title: `${title} - Naima Tyzra`,
+  description: description
+};
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <div class="pt-24">
+    <!-- Hero Section -->
+    <section class="py-20 bg-gradient-to-b from-cream to-white relative overflow-hidden">
+      <!-- Image de fond -->
+      <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('/images/philosophie-sattvaia.jpg');"></div>
+      
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-4xl mx-auto text-center" data-aos="fade-up">
+          <div class="mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gold/10 rounded-full mb-6">
+              <svg class="w-10 h-10 text-gold" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+          </div>
+          
+          <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-white mb-6 drop-shadow-lg">
+            {title}
+          </h1>
+          
+          <div class="bg-white/20 backdrop-blur-md rounded-2xl p-8 mb-8 border border-white/30 shadow-xl">
+            <div class="flex items-center justify-center mb-4">
+              <div class="flex space-x-1">
+                <div class="w-2 h-2 bg-gold rounded-full animate-pulse"></div>
+                <div class="w-2 h-2 bg-gold rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+                <div class="w-2 h-2 bg-gold rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+              </div>
+            </div>
+            
+            <h2 class="font-heading text-2xl md:text-3xl text-white mb-4 drop-shadow-md">
+              Page en cours de construction
+            </h2>
+            
+            <p class="font-slogan text-lg text-white/90 mb-6 drop-shadow-sm">
+              Nous travaillons actuellement sur cette page pour vous offrir une expérience complète et détaillée.
+            </p>
+            
+            <p class="text-base text-white/80 mb-8 drop-shadow-sm">
+              {contactMessage}
+            </p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center" data-aos="fade-up" data-aos-delay="100">
+            <Button href="/contact" variant="primary" class="w-full sm:w-auto">
+              Nous contacter
+            </Button>
+            <Button href="/" variant="secondary" class="w-full sm:w-auto">
+              Retour à l'accueil
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+
+  </div>
+</MainLayout>
+
+<style>
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+</style>

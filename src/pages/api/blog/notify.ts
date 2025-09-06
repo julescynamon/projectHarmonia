@@ -26,7 +26,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Récupérer l'article
     const { data: article, error: articleError } = await supabase
-      .from('blog_posts')
+      .from('posts')
       .select('*')
       .eq('slug', slug)
       .single();
@@ -111,7 +111,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Marquer l'article comme notifié
     const { error: updateError } = await supabase
-      .from('blog_posts')
+      .from('posts')
       .update({ notification_sent: true })
       .eq('slug', slug);
 

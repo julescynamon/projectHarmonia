@@ -567,25 +567,6 @@ const userData = user?.user_metadata || {};
   // Rendre la fonction disponible globalement
   window.downloadFile = downloadFile;
 
-  // Gestion des liens admin
-  document.addEventListener('DOMContentLoaded', function() {
-    const adminLinks = document.querySelectorAll('.admin-link');
-    
-    adminLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        const href = this.getAttribute('href');
-        
-        if (!href) {
-          window.toast.show('Lien admin invalide', 'error');
-          return;
-        }
-
-        // Redirection directe vers la page admin
-        console.log('Redirection vers:', href);
-        window.location.href = href;
-      });
-    });
-  });
+  // Gestion des liens admin - DÉSACTIVÉE pour permettre la navigation normale
+  // Les liens admin fonctionnent maintenant directement sans JavaScript
 </script>

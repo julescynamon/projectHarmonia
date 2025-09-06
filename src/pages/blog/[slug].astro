@@ -1,7 +1,7 @@
 ---
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 import { supabase } from '../../lib/supabase';
-import { getPublicImageUrl } from '../../utils/supabaseStorage';
+import { ImageUploadService } from '../../lib/image-upload-service';
 
 // Désactiver le prerendering pour permettre l'envoi de notifications
 export const prerender = false;
@@ -9,11 +9,12 @@ export const prerender = false;
 // Récupérer le post en fonction du slug
 const { slug } = Astro.params;
 
-// Récupérer l'article depuis Supabase
+// Récupérer l'article depuis la nouvelle table posts
 const { data: post, error } = await supabase
-  .from('blog_posts')
+  .from('posts')
   .select('*')
   .eq('slug', slug)
+  .eq('status', 'published')
   .single();
 
 if (error || !post) {
@@ -21,17 +22,399 @@ if (error || !post) {
   return Astro.redirect('/404');
 }
 
-// Générer l'URL publique de l'image
-const imageUrl = await getPublicImageUrl('blog', post.image_url);
+// Utiliser l'image de couverture si disponible
+const imageUrl = post.cover_url || null;
 ---
 
 <BlogPostLayout 
-  title={post.title}
-  description={post.summary}
+  title={post.seo_title || post.title}
+  description={post.seo_description || post.excerpt}
   image={imageUrl}
-  category={post.category}
-  date={post.created_at}
-  author={post.author || 'Harmonia'}
+  category={post.tags?.[0] || 'Article'}
+  date={post.published_at || post.created_at}
+  author="Naïma"
 >
-  <div class="prose prose-lg max-w-none prose-headings:font-serif prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-p:text-gray-600 prose-a:text-sage hover:prose-a:text-sage-600 prose-img:rounded-xl prose-img:shadow-soft" set:html={post.content} />
+  <!-- Tags de l'article (optionnel) -->
+  {post.tags && post.tags.length > 0 && (
+    <div class="mb-8 text-center">
+      <div class="flex justify-center space-x-2">
+        {post.tags.map((tag) => (
+          <span class="px-3 py-1 bg-sage-100 text-sage-800 rounded-full text-sm">
+            {tag}
+          </span>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <!-- Contenu de l'article -->
+  <div class="prose prose-lg max-w-none prose-headings:font-serif prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-p:text-gray-600 prose-a:text-sage hover:prose-a:text-sage-600 prose-img:rounded-xl prose-img:shadow-soft">
+    <div id="article-content" class="tip-tap-content article-display-content"></div>
+  </div>
+
+  <style>
+    /* Styles spécifiques pour l'affichage du contenu des articles */
+    #article-content.article-display-content h1 {
+      font-family: "Playfair Display", serif !important;
+      font-size: 5.5rem !important;
+      font-weight: 700 !important;
+      color: #1f2937 !important;
+      margin-top: 2.5rem !important;
+      margin-bottom: 1.5rem !important;
+      line-height: 1.2 !important;
+      border-bottom: 3px solid #4a6741 !important;
+      padding-bottom: 0.75rem !important;
+    }
+
+    #article-content.article-display-content h2 {
+      font-family: "Playfair Display", serif !important;
+      font-size: 2rem !important;
+      font-weight: 600 !important;
+      color: #374151 !important;
+      margin-top: 2rem !important;
+      margin-bottom: 1rem !important;
+      line-height: 1.3 !important;
+      border-left: 4px solid #4a6741 !important;
+      padding-left: 1rem !important;
+    }
+
+    .article-display-content h3 {
+      font-family: "Playfair Display", serif !important;
+      font-size: 1.5rem !important;
+      font-weight: 600 !important;
+      color: #4b5563 !important;
+      margin-top: 1.5rem !important;
+      margin-bottom: 0.75rem !important;
+      line-height: 1.4 !important;
+      background-color: #f9fafb;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+    }
+
+    .article-display-content p {
+      font-size: 1.125rem !important;
+      line-height: 1.7 !important;
+      color: #4b5563 !important;
+      margin-bottom: 1.25rem !important;
+    }
+
+    .article-display-content strong,
+    .article-display-content b {
+      font-weight: 700 !important;
+      color: #1f2937 !important;
+      font-family: inherit !important;
+    }
+
+    .article-display-content em {
+      font-style: italic !important;
+      color: #6b7280 !important;
+    }
+
+    .article-display-content u {
+      text-decoration: underline !important;
+      text-decoration-color: #4a6741 !important;
+      text-decoration-thickness: 2px !important;
+    }
+
+    .article-display-content blockquote {
+      border-left: 4px solid #4a6741 !important;
+      padding-left: 1rem !important;
+      font-style: italic !important;
+      color: #6b7280 !important;
+      margin: 1.5rem 0 !important;
+      background-color: #f9fafb;
+      padding: 1rem;
+      border-radius: 0.25rem;
+    }
+
+    .article-display-content ul,
+    .article-display-content ol {
+      margin: 1rem 0 !important;
+      padding-left: 1.5rem !important;
+    }
+
+    .article-display-content li {
+      margin-bottom: 0.5rem !important;
+      color: #4b5563 !important;
+    }
+
+    .article-display-content ul li::marker {
+      color: #4a6741;
+    }
+
+    .article-display-content img,
+    .article-display-content-img {
+      max-width: 100% !important;
+      width: 600px !important;
+      height: auto !important;
+      border-radius: 0.5rem !important;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+      margin: 1rem auto !important;
+      display: block !important;
+    }
+
+    .article-display-content a {
+      color: #4a6741 !important;
+      text-decoration: underline !important;
+    }
+
+    /* Désactiver les styles TipTap génériques pour cette section */
+    #article-content.tip-tap-content h1,
+    #article-content.tip-tap-content h2,
+    #article-content.tip-tap-content h3 {
+      all: unset !important;
+    }
+
+    /* Forcer les styles de formatage de texte */
+    #article-content.tip-tap-content strong,
+    #article-content.tip-tap-content b,
+    #article-content strong,
+    #article-content b {
+      font-weight: 700 !important;
+      color: #1f2937 !important;
+      font-family: inherit !important;
+    }
+
+    #article-content.tip-tap-content em,
+    #article-content.tip-tap-content i {
+      font-style: italic !important;
+      color: #6b7280 !important;
+    }
+
+    #article-content.tip-tap-content u {
+      text-decoration: underline !important;
+      text-decoration-color: #4a6741 !important;
+      text-decoration-thickness: 2px !important;
+    }
+
+    /* Styles pour les classes spécifiques */
+    .article-h2 {
+      font-family: "Playfair Display", serif !important;
+      font-size: 2.5rem !important;
+      font-weight: 700 !important;
+      color: #1f2937 !important;
+      margin-top: 2.5rem !important;
+      margin-bottom: 1.5rem !important;
+      line-height: 1.2 !important;
+      border-bottom: 3px solid #4a6741 !important;
+      padding-bottom: 0.75rem !important;
+      display: block !important;
+    }
+
+    .article-h3 {
+      font-family: "Playfair Display", serif !important;
+      font-size: 1.75rem !important;
+      font-weight: 600 !important;
+      color: #374151 !important;
+      margin-top: 2rem !important;
+      margin-bottom: 1rem !important;
+      line-height: 1.3 !important;
+      border-left: 4px solid #4a6741 !important;
+      padding-left: 1rem !important;
+      display: block !important;
+    }
+
+    .article-h4 {
+      font-family: "Playfair Display", serif !important;
+      font-size: 1.25rem !important;
+      font-weight: 600 !important;
+      color: #4b5563 !important;
+      margin-top: 1.5rem !important;
+      margin-bottom: 0.75rem !important;
+      line-height: 1.4 !important;
+      background-color: #f9fafb !important;
+      padding: 0.5rem 1rem !important;
+      border-radius: 0.25rem !important;
+      display: block !important;
+    }
+
+    /* Forcer l'application des styles même avec des sélecteurs plus forts */
+    h2.article-h2,
+    h3.article-h3,
+    h4.article-h4 {
+      all: unset !important;
+    }
+
+    h2.article-h2 {
+      font-family: "Playfair Display", serif !important;
+      font-size: 2.5rem !important;
+      font-weight: 700 !important;
+      color: #1f2937 !important;
+      margin-top: 2.5rem !important;
+      margin-bottom: 1.5rem !important;
+      line-height: 1.2 !important;
+      border-bottom: 3px solid #4a6741 !important;
+      padding-bottom: 0.75rem !important;
+      display: block !important;
+    }
+
+    h3.article-h3 {
+      font-family: "Playfair Display", serif !important;
+      font-size: 1.75rem !important;
+      font-weight: 600 !important;
+      color: #374151 !important;
+      margin-top: 2rem !important;
+      margin-bottom: 1rem !important;
+      line-height: 1.3 !important;
+      border-left: 4px solid #4a6741 !important;
+      padding-left: 1rem !important;
+      display: block !important;
+    }
+
+    h4.article-h4 {
+      font-family: "Playfair Display", serif !important;
+      font-size: 1.25rem !important;
+      font-weight: 600 !important;
+      color: #4b5563 !important;
+      margin-top: 1.5rem !important;
+      margin-bottom: 0.75rem !important;
+      line-height: 1.4 !important;
+      background-color: #f9fafb !important;
+      padding: 0.5rem 1rem !important;
+      border-radius: 0.25rem !important;
+      display: block !important;
+    }
+  </style>
+
+  <!-- Script pour rendre le contenu TipTap -->
+  <script define:vars={{ postContent: JSON.stringify(post.content) }}>
+    // Fonction pour rendre le contenu TipTap en HTML
+    function renderTipTapContent(content) {
+      const container = document.getElementById('article-content');
+      if (!container || !content) return;
+
+      // Convertir le JSON TipTap en HTML
+      const html = convertTipTapToHTML(content);
+      container.innerHTML = html;
+
+      // Rendre les images responsives
+      makeImagesResponsive(container);
+    }
+
+    // Convertir le contenu TipTap en HTML
+    function convertTipTapToHTML(content) {
+      if (typeof content === 'string') return content;
+      
+      let html = '';
+      
+      if (content.content) {
+        for (const node of content.content) {
+          html += renderNode(node);
+        }
+      }
+      
+      return html;
+    }
+
+    // Rendre un nœud TipTap
+    function renderNode(node) {
+      if (node.type === 'text') {
+        let text = node.text || '';
+        
+        // Appliquer les marques (gras, italique, etc.)
+        if (node.marks) {
+          console.log('Marks trouvées pour le texte:', node.text, node.marks);
+          for (const mark of node.marks) {
+            switch (mark.type) {
+              case 'bold':
+                console.log('Application du gras pour:', node.text);
+                text = `<strong style="font-weight: 700 !important; color: #1f2937 !important;">${text}</strong>`;
+                break;
+              case 'italic':
+                console.log('Application de l\'italique pour:', node.text);
+                text = `<em style="font-style: italic !important; color: #6b7280 !important;">${text}</em>`;
+                break;
+              case 'underline':
+                console.log('Application du souligné pour:', node.text);
+                text = `<u style="text-decoration: underline !important; text-decoration-color: #4a6741 !important; text-decoration-thickness: 2px !important;">${text}</u>`;
+                break;
+              case 'link':
+                console.log('Application du lien pour:', node.text);
+                text = `<a href="${mark.attrs?.href || '#'}" class="text-sage hover:text-sage-600 underline">${text}</a>`;
+                break;
+            }
+          }
+        }
+        
+        return text;
+      }
+      
+      if (node.type === 'paragraph') {
+        const content = node.content ? node.content.map(renderNode).join('') : '';
+        const align = node.attrs?.textAlign || 'left';
+        return `<p class="text-${align}">${content}</p>`;
+      }
+      
+      if (node.type === 'heading') {
+        const level = node.attrs?.level || 1;
+        const content = node.content ? node.content.map(renderNode).join('') : '';
+        const align = node.attrs?.textAlign || 'left';
+        // Éviter les H1 dans le contenu de l'article pour ne pas entrer en conflit avec le titre principal
+        const adjustedLevel = level === 1 ? 2 : level;
+        const cssClass = adjustedLevel === 2 ? 'article-h2' : adjustedLevel === 3 ? 'article-h3' : 'article-h4';
+        return `<h${adjustedLevel} class="text-${align} ${cssClass}">${content}</h${adjustedLevel}>`;
+      }
+      
+      if (node.type === 'bulletList') {
+        const content = node.content ? node.content.map(renderNode).join('') : '';
+        return `<ul>${content}</ul>`;
+      }
+      
+      if (node.type === 'orderedList') {
+        const content = node.content ? node.content.map(renderNode).join('') : '';
+        return `<ol>${content}</ol>`;
+      }
+      
+      if (node.type === 'listItem') {
+        const content = node.content ? node.content.map(renderNode).join('') : '';
+        return `<li>${content}</li>`;
+      }
+      
+      if (node.type === 'blockquote') {
+        const content = node.content ? node.content.map(renderNode).join('') : '';
+        return `<blockquote class="border-l-4 border-sage pl-4 italic text-gray-700">${content}</blockquote>`;
+      }
+      
+      if (node.type === 'image') {
+        const src = node.attrs?.src || '';
+        const alt = node.attrs?.alt || '';
+        const title = node.attrs?.title || '';
+        const align = node.attrs?.dataAlign || 'center';
+        
+        return `
+          <figure class="my-6 text-${align}">
+            <img src="${src}" alt="${alt}" title="${title}" class="article-display-content-img" />
+          </figure>
+        `;
+      }
+      
+      if (node.content) {
+        return node.content.map(renderNode).join('');
+      }
+      
+      return '';
+    }
+
+    // Rendre les images responsives
+    function makeImagesResponsive(container) {
+      const images = container.querySelectorAll('img');
+      images.forEach(img => {
+        const src = img.src;
+        if (src && src.includes('supabase.co')) {
+          // Générer des URLs responsives pour Supabase
+          const widths = [480, 768, 1200, 1600];
+          const srcset = widths.map(w => `${src}?width=${w}&quality=80&resize=contain`).join(', ');
+          img.srcset = srcset;
+          img.sizes = '(max-width: 480px) 480px, (max-width: 768px) 768px, (max-width: 1200px) 1200px, 1600px';
+        }
+      });
+    }
+
+    // Rendre le contenu quand la page est chargée
+    document.addEventListener('DOMContentLoaded', () => {
+      const content = JSON.parse(postContent);
+      console.log('Contenu TipTap reçu:', content);
+      renderTipTapContent(content);
+    });
+  </script>
 </BlogPostLayout>

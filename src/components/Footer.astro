@@ -1,4 +1,5 @@
 ---
+// src/components/Footer.astro
 const currentYear = new Date().getFullYear();
 
 const links = {
@@ -13,7 +14,6 @@ const links = {
   information: [
     { href: '/a-propos', label: 'À Propos' },
     { href: '/blog', label: 'Blog' },
-    
     { href: '/contact', label: 'Contact' }
   ],
   legal: [
@@ -24,7 +24,7 @@ const links = {
 };
 
 const contact = {
-  address: '2063 route de cabaresse, 30760 Salazac',
+  address: '30760 Salazac',
   email: 'tyzranaima@gmail.com',
   phone: '07 67 22 97 43',
   social: [
@@ -35,87 +35,111 @@ const contact = {
 };
 ---
 
-<footer class="bg-sage/10 relative mt-20 w-full z-10">
-  <!-- Motif de fond -->
-  <div class="absolute inset-0 bg-geometric-pattern opacity-5"></div>
+<footer class="relative mt-20 w-full z-10 overflow-hidden">
+  <!-- Arrière-plan sophistiqué avec dégradé -->
+  <div class="absolute inset-0 bg-gradient-to-br from-cream via-sage/5 to-gold/10"></div>
   
-  <div class="container mx-auto px-4">
-    <!-- Section principale -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 pt-8 pb-12">
-      <!-- À propos -->
-      <div>
-        <div class="mb-4">
-          <img src="/images/logo.svg" alt="Naima Tyzra" class="h-12 w-auto" />
+  <!-- Éléments décoratifs flous comme dans les autres sections -->
+  <div class="absolute top-0 left-0 w-96 h-96 bg-sage/20 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-0 right-0 w-80 h-80 bg-gold/20 rounded-full blur-3xl"></div>
+  <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-cream/30 rounded-full blur-3xl"></div>
+  
+  <!-- Motif géométrique subtil -->
+  <div class="absolute inset-0 bg-geometric-pattern opacity-3"></div>
+  
+  
+  <div class="container mx-auto px-4 relative z-30">
+    <!-- Section principale avec espacement harmonisé -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 pt-16 pb-12 items-stretch">
+      <!-- À propos avec design premium -->
+      <div class="flex flex-col" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+        <div class="relative flex-1 flex flex-col">
+          <!-- Cadre décoratif subtil -->
+          <div class="absolute -inset-2 bg-gradient-to-r from-sage/10 to-gold/10 rounded-2xl blur-lg"></div>
+          <div class="relative bg-white/40 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/30 flex-1 flex flex-col justify-center">
+            <div class="mb-6">
+              <img src="/images/logo.svg" alt="La Maison Sattvaïa" class="h-14 w-auto mx-auto" />
+            </div>
+            <p class="text-ebony text-sm leading-relaxed text-center">
+              Un espace né d'un chemin de vie pour guider humains et animaux vers l'harmonie du corps, de l'énergie et de l'âme.
+            </p>
+          </div>
         </div>
-        <p class="text-eucalyptus mb-4">
-          Naturopathe certifiée, je vous accompagne vers un meilleur équilibre de vie grâce à des méthodes naturelles et personnalisées.
-        </p>
       </div>
 
-      <!-- Services -->
-      <div>
-        <h3 class="font-heading text-xl text-ebony mb-4">Services</h3>
-        <ul class="space-y-2">
-          {links.services.map(({ href, label }) => (
-            <li>
-              <a href={href} class="text-eucalyptus hover:text-gold transition-colors">
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
+      <!-- Information avec animation -->
+      <div class="flex flex-col" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+        <div class="relative flex-1 flex flex-col">
+          <div class="absolute -inset-2 bg-gradient-to-r from-sage/10 to-gold/10 rounded-2xl blur-lg"></div>
+          <div class="relative bg-white/40 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/30 flex-1 flex flex-col justify-center">
+            <h3 class="font-heading text-xl text-ebony mb-6 text-center">Information</h3>
+            <ul class="space-y-3">
+              {links.information.map(({ href, label }) => (
+                <li>
+                  <a href={href} class="group flex items-center text-ebony hover:text-sage transition-all duration-300 text-sm">
+                    <span class="w-2 h-2 bg-gold rounded-full mr-3 group-hover:bg-sage transition-colors duration-300"></span>
+                    <span class="group-hover:translate-x-1 transition-transform duration-300">{label}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
 
-      <!-- Information -->
-      <div>
-        <h3 class="font-heading text-xl text-ebony mb-4">Information</h3>
-        <ul class="space-y-2">
-          {links.information.map(({ href, label }) => (
-            <li>
-              <a href={href} class="text-eucalyptus hover:text-gold transition-colors">
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <!-- Contact -->
-      <div>
-        <h3 class="font-heading text-xl text-ebony mb-4">Contact</h3>
-        <ul class="space-y-3">
-          <li class="flex gap-3 text-eucalyptus">
-            <span class="material-icons">location_on</span>
-            <span>{contact.address}</span>
-          </li>
-          <li>
-            <a href={`mailto:${contact.email}`} class="flex gap-3 text-eucalyptus hover:text-gold transition-colors">
-              <span class="material-icons">email</span>
-              <span>{contact.email}</span>
-            </a>
-          </li>
-          <li>
-            <a href={`tel:${contact.phone.replace(/\s/g, '')}`} class="flex gap-3 text-eucalyptus hover:text-gold transition-colors">
-              <span class="material-icons">phone</span>
-              <span>{contact.phone}</span>
-            </a>
-          </li>
-        </ul>
+      <!-- Contact avec design premium -->
+      <div class="flex flex-col" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+        <div class="relative flex-1 flex flex-col">
+          <div class="absolute -inset-2 bg-gradient-to-r from-sage/10 to-gold/10 rounded-2xl blur-lg"></div>
+          <div class="relative bg-white/40 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/30 flex-1 flex flex-col justify-center">
+            <h3 class="font-heading text-xl text-ebony mb-6 text-center">Contact</h3>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3 text-ebony text-sm">
+                <span class="material-icons text-gold text-lg mt-0.5">location_on</span>
+                <span class="leading-relaxed">{contact.address}</span>
+              </li>
+              <li>
+                <a href={`mailto:${contact.email}`} class="group flex items-center gap-3 text-ebony hover:text-sage transition-all duration-300 text-sm">
+                  <span class="material-icons text-gold group-hover:text-sage transition-colors duration-300">email</span>
+                  <span class="group-hover:translate-x-1 transition-transform duration-300">{contact.email}</span>
+                </a>
+              </li>
+              <li>
+                <a href={`tel:${contact.phone.replace(/\s/g, '')}`} class="group flex items-center gap-3 text-ebony hover:text-sage transition-all duration-300 text-sm">
+                  <span class="material-icons text-gold group-hover:text-sage transition-colors duration-300">phone</span>
+                  <span class="group-hover:translate-x-1 transition-transform duration-300">{contact.phone}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Séparateur -->
-    <div class="border-t border-sage/20 py-4 mt-4"></div>
+    <!-- Séparateur élégant -->
+    <div class="relative py-8">
+      <div class="absolute inset-0 flex items-center">
+        <div class="w-full border-t border-gradient-to-r from-transparent via-sage/30 to-transparent"></div>
+      </div>
+      <div class="relative flex justify-center">
+        <div class="w-16 h-1 bg-gradient-to-r from-gold to-sage rounded-full"></div>
+      </div>
+    </div>
 
-    <!-- Section bas de page -->
-    <div class="py-4 flex flex-col md:flex-row justify-between items-center gap-4">
-      <p class="text-eucalyptus text-sm">
-        &copy; {currentYear} Naima Tyzra. Tous droits réservés.
-      </p>
-      <ul class="flex flex-wrap gap-6 text-sm">
+    <!-- Section bas de page avec design harmonisé -->
+    <div class="py-8 flex flex-col md:flex-row justify-between items-center gap-6" data-aos="fade-up" data-aos-duration="600" data-aos-delay="500">
+      <div class="text-center md:text-left">
+        <p class="text-ebony text-sm font-medium">
+          &copy; {currentYear} La Maison Sattvaïa. Tous droits réservés.
+        </p>
+        <p class="text-ebony/70 text-xs mt-1">
+          Un espace d'harmonie et de guérison
+        </p>
+      </div>
+      <ul class="flex flex-wrap justify-center md:justify-end gap-6 text-sm">
         {links.legal.map(({ href, label }) => (
           <li>
-            <a href={href} class="text-eucalyptus hover:text-gold transition-colors">
+            <a href={href} class="text-ebony/70 hover:text-sage transition-colors duration-300 text-xs">
               {label}
             </a>
           </li>
@@ -123,24 +147,18 @@ const contact = {
       </ul>
     </div>
   </div>
-
-  <!-- Vague décorative -->
-  <div class="absolute top-0 left-0 w-full rotate-180 vague-decorative">
-    <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#F4F1ED"/>
-    </svg>
-  </div>
 </footer>
 
 <style>
+  /* Styles pour le nouveau footer harmonisé */
+  footer {
+    position: relative;
+    z-index: 10;
+  }
+
   /* Suppression du soulignement pour les icônes sociales */
   .flex.gap-4 a {
     text-decoration: none !important;
-  }
-
-  .vague-decorative {
-    z-index: -1 !important;
-    pointer-events: none !important;
   }
 
   /* S'assurer que les liens sont cliquables */
@@ -148,5 +166,60 @@ const contact = {
     position: relative;
     z-index: 10;
     cursor: pointer;
+  }
+
+  /* Animation pour les éléments décoratifs */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+  }
+
+  /* Effet de flottement subtil pour les éléments décoratifs */
+  .absolute.top-0.left-0 {
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .absolute.bottom-0.right-0 {
+    animation: float 10s ease-in-out infinite reverse;
+  }
+
+  .absolute.top-1\/2.left-1\/2 {
+    animation: float 12s ease-in-out infinite;
+  }
+
+  /* Amélioration des transitions */
+  .group:hover .group-hover\:translate-x-1 {
+    transform: translateX(0.25rem);
+  }
+
+  /* Effet de glassmorphism pour les cartes */
+  .backdrop-blur-sm {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Amélioration du contraste pour l'accessibilité */
+  @media (prefers-reduced-motion: reduce) {
+    .absolute.top-0.left-0,
+    .absolute.bottom-0.right-0,
+    .absolute.top-1\/2.left-1\/2 {
+      animation: none;
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    .grid {
+      gap: 1.5rem;
+    }
+    
+    .relative.bg-white\/40 {
+      padding: 1rem;
+    }
   }
 </style>

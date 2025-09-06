@@ -21,7 +21,7 @@ const createAdminClient = () => {
 
 // Fonction spécifique pour l'insertion d'articles
 const insertArticle = async (data: any) => {
-  const response = await fetch(`${supabaseUrl}/rest/v1/blog_posts`, {
+      const response = await fetch(`${supabaseUrl}/rest/v1/posts`, {
     method: 'POST',
     headers: {
       'apikey': supabaseServiceKey,
@@ -132,7 +132,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     
     while (true) {
       const { data: existingPost } = await adminClient
-        .from('blog_posts')
+        .from('posts')
         .select('id')
         .eq('slug', slug)
         .single();

@@ -15,11 +15,6 @@ const contactInfo = {
     { days: 'Lundi - Vendredi', time: '9h00 - 19h00' },
     { days: 'Samedi', time: '9h00 - 13h00' },
     { days: 'Dimanche', time: 'Fermé' }
-  ],
-  social: [
-    { platform: 'Facebook', url: 'https://facebook.com/naimatyzra', icon: 'facebook' },
-    { platform: 'Instagram', url: 'https://instagram.com/naimatyzra', icon: 'instagram' },
-    { platform: 'LinkedIn', url: 'https://linkedin.com/in/naimatyzra', icon: 'linkedin' }
   ]
 };
 ---
@@ -42,69 +37,21 @@ const contactInfo = {
       <div class="max-w-5xl mx-auto text-center">
         <!-- En-tête centré -->
         <div class="motion-safe:animate-fade-in">
-          <div class="inline-block mb-6">
-            <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-xl font-semibold uppercase tracking-wider">
-              Entrons en contact
+          <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+            Entrer en contact avec <span class="text-sage">La Maison Sattvaïa</span>
+          </h1>
+          
+          <div class="inline-block mb-8">
+            <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-2xl md:text-3xl font-semibold uppercase tracking-wider">
+              Un premier pas vers l'harmonie
             </span>
           </div>
           
-          <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl mb-8 leading-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
-            Contactez-moi
-            <span class="block text-sage mt-4 text-3xl md:text-4xl lg:text-5xl">Pour votre bien-être</span>
-          </h1>
-          
           <p class="font-slogan text-xl md:text-2xl mb-12 text-white/90 leading-relaxed max-w-4xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] italic" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
-            "Je serai ravie de répondre à vos questions et de vous accompagner dans votre démarche de bien-être."
+            "Nous répondrons avec joie à vos questions et vous guiderons avec bienveillance, où que vous soyez."
           </p>
         </div>
         
-        <!-- Informations rapides -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
-          <div class="group relative overflow-hidden rounded-2xl backdrop-blur-sm transition-all duration-500 hover:transform hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 border border-white/20 rounded-2xl"></div>
-            <div class="relative p-6 text-center">
-              <div class="w-12 h-12 rounded-full bg-sage/20 flex items-center justify-center mx-auto mb-4">
-                <span class="material-icons text-sage text-2xl">phone</span>
-              </div>
-              <p class="font-heading text-lg text-white mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
-                {contactInfo.phone}
-              </p>
-              <p class="text-white/70 text-sm uppercase tracking-wider">
-                Téléphone
-              </p>
-            </div>
-          </div>
-          
-          <div class="group relative overflow-hidden rounded-2xl backdrop-blur-sm transition-all duration-500 hover:transform hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 border border-white/20 rounded-2xl"></div>
-            <div class="relative p-6 text-center">
-              <div class="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center mx-auto mb-4">
-                <span class="material-icons text-gold text-2xl">email</span>
-              </div>
-              <p class="font-heading text-lg text-white mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] break-all">
-                {contactInfo.email}
-              </p>
-              <p class="text-white/70 text-sm uppercase tracking-wider">
-                Email
-              </p>
-            </div>
-          </div>
-          
-          <div class="group relative overflow-hidden rounded-2xl backdrop-blur-sm transition-all duration-500 hover:transform hover:scale-105">
-            <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 border border-white/20 rounded-2xl"></div>
-            <div class="relative p-6 text-center">
-              <div class="w-12 h-12 rounded-full bg-eucalyptus/20 flex items-center justify-center mx-auto mb-4">
-                <span class="material-icons text-eucalyptus text-2xl">location_on</span>
-              </div>
-              <p class="font-heading text-lg text-white mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
-                Salazac, Gard
-              </p>
-              <p class="text-white/70 text-sm uppercase tracking-wider">
-                Localisation
-              </p>
-            </div>
-          </div>
-        </div>
 
         <!-- Actions hero -->
         <div class="flex flex-col sm:flex-row gap-6 justify-center items-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="1000">
@@ -340,7 +287,7 @@ const contactInfo = {
       </div>
 
       <!-- Moyens de contact -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+      <div class="grid md:grid-cols-3 gap-8 mb-16">
         <!-- Consultation à distance -->
         <div 
           class="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-sage/10 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group"
@@ -353,16 +300,12 @@ const contactInfo = {
           </div>
           <h3 class="font-heading text-2xl text-ebony mb-4 text-center">Consultation à distance</h3>
           <p class="text-eucalyptus text-center leading-relaxed mb-6">
-            Séances par visioconférence ou téléphone pour tous mes accompagnements.
+            Séances par visio ou téléphone, partout en France.
           </p>
-          <div class="text-center">
-            <p class="text-eucalyptus text-center leading-relaxed">
-              Découvrez nos accompagnements et prenez rendez-vous directement sur les pages dédiées.
-            </p>
-          </div>
+          
         </div>
 
-        <!-- Urgences -->
+        <!-- Déplacements à domicile -->
         <div 
           class="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-sage/10 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group"
           data-aos="fade-up" 
@@ -370,45 +313,44 @@ const contactInfo = {
           data-aos-duration="800"
         >
           <div class="bg-gradient-to-r from-gold/10 to-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-            <span class="material-icons text-gold text-3xl">phone</span>
+            <span class="material-icons text-gold text-3xl">directions_car</span>
           </div>
-          <h3 class="font-heading text-2xl text-ebony mb-4 text-center">Contact direct</h3>
-          <p class="text-eucalyptus text-center leading-relaxed mb-6">
-            Pour toute question ou demande d'information, n'hésitez pas à m'appeler.
+          <h3 class="font-heading text-2xl text-ebony mb-4 text-center">Déplacements à domicile</h3>
+          <p class="text-eucalyptus text-center leading-relaxed mb-4">
+            Possibilité de me déplacer dans le Gard, l'Ardèche, la Drôme et le Vaucluse (rayon 70 km autour de Salazac).
           </p>
-          <div class="text-center">
-            <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} class="inline-block bg-gold text-white hover:bg-sage px-6 py-3 rounded-full transition-colors duration-300">
-              {contactInfo.phone}
-            </a>
-          </div>
+          <p class="text-eucalyptus/70 text-sm text-center italic">
+            Frais éventuels - voir conditions sur les pages dédiées.
+          </p>
         </div>
 
-        <!-- Réseaux sociaux -->
+        <!-- Contact direct -->
         <div 
-          class="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-sage/10 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group md:col-span-2 lg:col-span-1"
+          class="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-sage/10 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group"
           data-aos="fade-up" 
           data-aos-delay="600"
           data-aos-duration="800"
         >
           <div class="bg-gradient-to-r from-eucalyptus/10 to-gold/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-            <span class="material-icons text-eucalyptus text-3xl">share</span>
+            <span class="material-icons text-eucalyptus text-3xl">phone</span>
           </div>
-          <h3 class="font-heading text-2xl text-ebony mb-4 text-center">Suivez-moi</h3>
+          <h3 class="font-heading text-2xl text-ebony mb-4 text-center">Contact direct</h3>
           <p class="text-eucalyptus text-center leading-relaxed mb-6">
-            Retrouvez mes conseils et actualités sur les réseaux sociaux.
+            Pour toute question ou demande d'information, je suis disponible par téléphone ou par email.
           </p>
-          <div class="flex justify-center space-x-4">
-            {contactInfo.social.map((social) => (
-              <a 
-                href={social.url} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="w-12 h-12 rounded-full bg-gradient-to-r from-sage to-eucalyptus flex items-center justify-center text-white hover:scale-110 transition-transform duration-300"
-                aria-label={social.platform}
-              >
-                <span class="material-icons text-lg">{social.icon}</span>
+          <div class="space-y-3 text-center">
+            <div class="flex items-center justify-center gap-2">
+              <span class="material-icons text-sage text-lg">phone</span>
+              <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} class="text-eucalyptus hover:text-gold transition-colors font-medium">
+                {contactInfo.phone}
               </a>
-            ))}
+            </div>
+            <div class="flex items-center justify-center gap-2">
+              <span class="material-icons text-sage text-lg">email</span>
+              <a href={`mailto:${contactInfo.email}`} class="text-eucalyptus hover:text-gold transition-colors font-medium break-all">
+                {contactInfo.email}
+              </a>
+            </div>
           </div>
         </div>
       </div>

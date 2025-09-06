@@ -53,15 +53,17 @@ const categorySlug = category?.toLowerCase() || 'non-categorise';
         </header>
 
         <!-- Image principale -->
-        <figure class="article-image mb-12" data-aos="fade-up">
-          <img
-            src={image}
-            alt={title}
-            itemprop="image"
-            class="w-full aspect-[16/9] object-cover rounded-xl shadow-soft"
-            loading="eager"
-          />
-        </figure>
+        {image && (
+          <figure class="article-image mb-12" data-aos="fade-up">
+            <img
+              src={image}
+              alt={title}
+              itemprop="image"
+              class="w-full aspect-[16/9] object-cover rounded-xl shadow-soft"
+              loading="eager"
+            />
+          </figure>
+        )}
 
         <!-- Contenu de l'article -->
         <div class="article-content prose prose-lg mx-auto" itemprop="articleBody" data-aos="fade-up">

@@ -27,64 +27,78 @@ const {
 const imageUrl = image?.startsWith('blog/') ? await getPublicImageUrl('blog', image) : image;
 
 const variants = {
-  default: 'bg-white shadow-sm',
-  hover: 'bg-white shadow-sm hover:shadow-xl hover:-translate-y-1',
-  feature: 'bg-cream border border-gold/20 shadow-sm'
+  default: 'bg-white shadow-soft border-sage/10',
+  hover: 'bg-white shadow-soft hover:shadow-xl hover:-translate-y-2 border-sage/10 hover:border-sage/30',
+  feature: 'bg-cream border-gold/30 shadow-soft'
 };
 
-const baseClasses = 'rounded-2xl transition-all duration-300 border border-sage/10 overflow-hidden';
+const baseClasses = 'rounded-3xl transition-all duration-500 border overflow-hidden group';
 const classes = `${baseClasses} ${variants[variant]} ${className}`;
 ---
 
 <article class={classes} itemscope itemtype="https://schema.org/BlogPosting">
   {image && (
-    <a href={url} class="block relative aspect-[16/9] overflow-hidden group">
+    <a href={url} class="block relative aspect-[16/9] overflow-hidden">
+      <!-- Overlay subtil au hover -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
+      
       <img
         src={imageUrl}
         alt={title}
-        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        loading="lazy"
       />
+      
       {category && (
-        <div class="absolute top-4 left-4">
-          <span class="bg-sage/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm">
+        <div class="absolute top-4 left-4 z-20">
+          <span class="bg-gradient-to-r from-sage to-gold text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg shadow-sage/25 backdrop-blur-sm">
             {category}
           </span>
         </div>
       )}
+      
+      <!-- Icône de lecture au hover -->
+      <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 z-20">
+        <div class="w-16 h-16 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-sage" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </div>
+      </div>
     </a>
   )}
   
-  <div class="p-6">
+  <div class="p-8">
     {date && (
-      <div class="mb-2">
-        <time datetime={date} class="text-sm text-gray-600">
+      <div class="mb-4">
+        <time datetime={date} class="text-sm text-eucalyptus/70 font-slogan uppercase tracking-wider">
           {date}
         </time>
       </div>
     )}
     
     {title && (
-      <h3 class="text-xl font-semibold mb-2" itemprop="headline">
-        <a href={url} class="hover:text-sage transition-colors" itemprop="url">
+      <h3 class="text-xl md:text-2xl font-heading font-bold mb-4 text-ebony leading-tight" itemprop="headline">
+        <a href={url} class="hover:text-sage transition-colors duration-300 group-hover:text-sage" itemprop="url">
           {title}
         </a>
       </h3>
     )}
     
     {description && (
-      <p class="text-gray-600 mb-4" itemprop="description">
+      <p class="text-eucalyptus leading-relaxed mb-6 font-slogan" itemprop="description">
         {description}
       </p>
     )}
     
     {url && (
-      <div class="mt-4">
+      <div class="mt-6">
         <a 
           href={url} 
-          class="inline-flex items-center px-4 py-2 border border-sage text-sage hover:bg-sage hover:text-white transition-colors duration-200 ease-in-out rounded-lg text-sm font-medium"
+          class="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-sage to-gold text-white hover:from-sage-600 hover:to-gold-600 transition-all duration-300 ease-in-out rounded-full text-sm font-medium font-slogan shadow-lg shadow-sage/25 hover:shadow-xl hover:shadow-sage/30 transform hover:scale-105"
         >
           Lire l'article
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
           </svg>
         </a>
@@ -93,11 +107,10 @@ const classes = `${baseClasses} ${variants[variant]} ${className}`;
     
     <slot />
   </div>
-</div>
+</article>
 
 <style>
-  div {
-    position: relative;
-    backdrop-filter: blur(10px);
+  .shadow-soft {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   }
 </style>

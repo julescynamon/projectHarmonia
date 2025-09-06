@@ -3,11 +3,12 @@ import Card from './ui/Card.astro';
 import Button from './ui/Button.astro';
 import { supabase } from '../lib/supabase';
 
-// Récupérer les 3 derniers articles de blog
+// Récupérer les 3 derniers articles publiés
 const { data: recentPosts, error } = await supabase
-  .from('blog_posts')
+  .from('posts')
   .select('*')
-  .order('created_at', { ascending: false })
+  .eq('status', 'published')
+  .order('published_at', { ascending: false })
   .limit(3);
 
 // Fonction pour formater la date
@@ -61,8 +62,8 @@ function formatDate(dateStr: string) {
               <Card
                 variant="hover"
                 title={post.title}
-                description={post.summary}
-                image={post.image_url}
+                description={post.excerpt}
+                image={post.cover_url}
                 date={formatDate(post.created_at)}
                 category={post.category}
                 url={`/blog/${post.slug}`}

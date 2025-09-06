@@ -5,6 +5,7 @@ import Button from '../../components/ui/Button.astro';
 import Card from '../../components/ui/Card.astro';
 import NewsletterForm from '../../components/NewsletterForm.astro';
 import { supabase } from '../../lib/supabase';
+import { BLOG_CATEGORIES } from '../../lib/constants';
 
 // Désactiver le prerendering pour une mise à jour dynamique
 export const prerender = false;
@@ -17,9 +18,10 @@ const category = Astro.url.searchParams.get('category');
 
 // Construire la requête Supabase
 let query = supabase
-  .from('blog_posts')
+  .from('posts')
   .select('*')
-  .order('created_at', { ascending: false });
+  .eq('status', 'published')
+  .order('published_at', { ascending: false });
 
 // Filtrer par catégorie si spécifiée
 if (category) {
@@ -33,15 +35,8 @@ if (error) {
 }
 
 // Catégories uniques pour le filtre
-// Liste statique des catégories disponibles
-const categories = [
-  { id: 'actualites', label: 'Actualités' },
-  { id: 'conseils', label: 'Conseils' },
-  { id: 'evenements', label: 'Événements' },
-  { id: 'bien_etre', label: 'Bien-être' },
-  { id: 'nutrition', label: 'Nutrition' },
-  { id: 'naturopathie', label: 'Naturopathie' }
-];
+// Utilisation des constantes centralisées
+const categories = BLOG_CATEGORIES;
 
 // Formater la date
 function formatDate(dateStr: string) {
@@ -54,90 +49,186 @@ function formatDate(dateStr: string) {
 ---
 
 <MainLayout title={seo.title} description={seo.description}>
-  <div class="pt-24">
-    <!-- Hero Section -->
-    <section class="py-20 bg-sage/5 relative overflow-hidden">
-      <!-- Motifs de fond -->
-      <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-br from-sage/10 to-transparent"></div>
+  <!-- Hero Section Impact -->
+  <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background avec image et overlay -->
+    <div class="absolute inset-0">
+      <img 
+        src="/images/herobg.jpg" 
+        alt="Blog Harmonia - Articles naturopathie et bien-être"
+        class="w-full h-full object-cover scale-110 transform motion-safe:animate-subtle-zoom"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-ebony/80 via-ebony/60 to-ebony/40"></div>
+    </div>
+    
+    <!-- Éléments décoratifs -->
+    <div class="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] opacity-20 motion-safe:animate-slow-spin">
+        <img
+          src="/images/sacred-geometry.svg"
+          alt=""
+          class="w-full h-full"
+          loading="eager"
+        />
       </div>
-      
-      <div class="container mx-auto px-4 relative z-10">
-        <div class="max-w-3xl mx-auto text-center">
-          <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
-            Blog Harmonia
+    </div>
+    
+    <!-- Contenu principal centré -->
+    <div class="container mx-auto px-4 relative z-20 flex flex-col justify-center min-h-screen">
+      <div class="max-w-5xl mx-auto text-center">
+        <!-- En-tête centré -->
+        <div class="motion-safe:animate-fade-in">
+          <div class="inline-block mb-6">
+            <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-xl font-semibold uppercase tracking-wider">
+              Le Blog Harmonia et Vita
+            </span>
+          </div>
+          
+          <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl mb-8 leading-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+            Découvrez nos
+            <span class="block text-sage mt-4 text-3xl md:text-4xl lg:text-5xl">Articles & Conseils</span>
           </h1>
-          <p class="text-xl text-gray-600 mb-8">
-            Découvrez nos articles sur la naturopathie, le bien-être et la santé naturelle
+          
+          <p class="font-slogan text-xl md:text-2xl mb-12 text-white/90 leading-relaxed max-w-4xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] italic" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+            "Conseils experts en naturopathie, recettes bien-être et actualités pour votre santé naturelle."
+          </p>
+        </div>
+        
+      </div>
+    </div>
+    
+    <!-- Transition brush effect -->
+    <div class="absolute bottom-0 left-0 w-full z-30 transition-divider">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent to-cream"></div>
+      <img 
+        src="/images/brush-divider.svg" 
+        alt=""
+        class="w-full h-auto min-h-[80px] object-cover transform motion-safe:animate-wave"
+        loading="lazy"
+      />
+    </div>
+  </section>
+
+  <!-- Section Articles -->
+  <section class="py-20 md:py-32 bg-gradient-to-b from-cream to-white relative overflow-hidden">
+    <!-- Éléments décoratifs -->
+    <div class="absolute top-0 left-0 w-72 h-72 bg-sage/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
+    <div class="absolute inset-0 opacity-3">
+      <img src="/images/sacred-geometry.svg" alt="Geometric pattern" class="w-full h-full object-cover bg-gradient-to-r from-sage/20 to-gold/20 bg-clip-content">
+    </div>
+    
+    <div class="container mx-auto px-4 relative">
+      <!-- En-tête de section -->
+      <div class="text-center max-w-4xl mx-auto mb-20" data-aos="fade-up" data-aos-duration="1000">
+        <div class="inline-block mb-6">
+          <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-lg font-semibold uppercase tracking-wider">
+            Explorez nos articles
+          </span>
+        </div>
+        <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-8 leading-tight">
+          Découvrez nos <span class="text-sage">Conseils</span> & <span class="text-gold">Actualités</span>
+        </h2>
+        <p class="text-xl text-eucalyptus leading-relaxed font-slogan max-w-3xl mx-auto">
+          Une sélection d'articles experts pour vous accompagner dans votre démarche de bien-être naturel.
+        </p>
+        <div class="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
+      </div>
+
+      <!-- Filtres premium -->
+      <div class="mb-16 flex flex-wrap justify-center gap-4" id="category-filters" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+        <a 
+          href="/blog"
+          class={`group relative overflow-hidden px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 transform hover:scale-105 hover:-translate-y-1
+            ${!category ? 
+              'bg-gradient-to-r from-sage to-gold text-white shadow-lg shadow-sage/25' : 
+              'bg-white text-ebony border-2 border-sage/20 hover:border-sage hover:shadow-md'}`}
+        >
+          <span class="relative z-10">Tous les articles</span>
+          {!category && (
+            <div class="absolute inset-0 bg-gradient-to-r from-sage to-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          )}
+        </a>
+        {categories.map(cat => (
+          <a
+            href={`/blog?category=${cat.id}`}
+            class={`group relative overflow-hidden px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 transform hover:scale-105 hover:-translate-y-1
+              ${category === cat.id ? 
+                'bg-gradient-to-r from-sage to-gold text-white shadow-lg shadow-sage/25' : 
+                'bg-white text-ebony border-2 border-sage/20 hover:border-sage hover:shadow-md'}`}
+          >
+            <span class="relative z-10">{cat.label}</span>
+            {category === cat.id && (
+              <div class="absolute inset-0 bg-gradient-to-r from-sage to-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            )}
+          </a>
+        ))}
+      </div>
+
+      <!-- Grille d'articles premium -->
+      {posts && posts.length > 0 ? (
+        <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          {posts?.map((post, index) => (
+            <div class="post-card opacity-0 transition-all duration-700 transform translate-y-8 hover:-translate-y-2" data-aos="fade-up" data-aos-duration="800" data-aos-delay={index * 100}>
+              <Card
+                variant="hover"
+                title={post.title}
+                description={post.excerpt}
+                image={post.cover_url}
+                date={formatDate(post.created_at)}
+                category={post.category}
+                url={`/blog/${post.slug}`}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-20" data-aos="fade-up" data-aos-duration="800">
+          <div class="w-24 h-24 bg-sage/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="material-icons text-sage text-4xl">article</span>
+          </div>
+          <h3 class="text-2xl font-heading text-ebony mb-4">Aucun article disponible</h3>
+          <p class="text-lg text-eucalyptus max-w-md mx-auto">
+            Nous préparons actuellement de nouveaux articles pour vous. Revenez bientôt !
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Newsletter Section Premium -->
+  <section class="py-20 md:py-32 bg-gradient-to-br from-sage/5 via-cream/30 to-gold/5 relative overflow-hidden">
+    <!-- Éléments décoratifs -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-sage/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 bg-gold/10 rounded-full blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 relative">
+      <div class="max-w-4xl mx-auto text-center" data-aos="fade-up" data-aos-duration="1000">
+        <!-- En-tête premium -->
+        <div class="inline-block mb-6">
+          <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-lg font-semibold uppercase tracking-wider">
+            Restez connecté
+          </span>
+        </div>
+        
+        <h2 class="font-heading text-4xl md:text-5xl text-ebony mb-8 leading-tight">
+          Recevez nos <span class="text-sage">Conseils</span> & <span class="text-gold">Actualités</span>
+        </h2>
+        
+        <p class="text-xl text-eucalyptus leading-relaxed font-slogan max-w-3xl mx-auto mb-12">
+          Conseils experts en naturopathie, recettes bien-être et actualités directement dans votre boîte mail.
+        </p>
+        
+        <!-- Formulaire newsletter avec design premium -->
+        <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-xl shadow-sage/10 border border-white/20">
+          <NewsletterForm />
+          <p class="text-sm text-eucalyptus/70 mt-6 font-slogan">
+            En vous inscrivant, vous acceptez de recevoir nos newsletters. Vous pourrez vous désinscrire à tout moment.
           </p>
         </div>
       </div>
-    </section>
-
-    <!-- Section Articles -->
-    <section class="py-16">
-      <div class="container mx-auto px-4">
-        <!-- Filtres -->
-        <div class="mb-12 flex flex-wrap justify-center gap-4" id="category-filters">
-          <a 
-            href="/blog"
-            class={`inline-flex items-center px-4 py-2 border rounded-md text-sm font-medium transition-colors
-              ${!category ? 
-                'border-sage bg-sage text-white hover:bg-sage-600' : 
-                'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}`}
-          >
-            Tous
-          </a>
-          {categories.map(cat => (
-            <a
-              href={`/blog?category=${cat.id}`}
-              class={`inline-flex items-center px-4 py-2 border rounded-md text-sm font-medium transition-colors
-                ${category === cat.id ? 
-                  'border-sage bg-sage text-white hover:bg-sage-600' : 
-                  'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'}`}
-            >
-              {cat.label}
-            </a>
-          ))}
-        </div>
-
-        <!-- Grille d'articles -->
-        {posts && posts.length > 0 ? (
-          <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts?.map(post => (
-              <div class="post-card opacity-0 transition-opacity duration-500">
-                <Card
-                  variant="hover"
-                  title={post.title}
-                  description={post.summary}
-                  image={post.image_url}
-                  date={formatDate(post.created_at)}
-                  category={post.category}
-                  url={`/blog/${post.slug}`}
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div class="text-center py-12">
-            <p class="text-xl text-gray-600">Aucun article disponible pour le moment.</p>
-          </div>
-        )}
-      </div>
-    </section>
-
-        <!-- Newsletter Section -->
-    <section class="py-16 bg-sage/5">
-      <div class="container mx-auto px-4">
-        <div class="max-w-2xl mx-auto text-center" data-aos="fade-up">
-          <h2 class="text-3xl font-serif mb-4">Restez informé des dernières actualités bien-être</h2>
-          <p class="text-gray-600 mb-8">Recevez nos conseils experts en naturopathie, nos recettes bien-être et nos actualités directement dans votre boîte mail.</p>
-          <NewsletterForm />
-          <p class="text-sm text-gray-500 mt-4">En vous inscrivant, vous acceptez de recevoir nos newsletters. Vous pourrez vous désinscrire à tout moment.</p>
-        </div>
-      </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </MainLayout>
 
 <script>
@@ -147,7 +238,47 @@ function formatDate(dateStr: string) {
     postCards.forEach((card, index) => {
       setTimeout(() => {
         card.classList.add('opacity-100');
-      }, index * 100);
+        card.classList.remove('translate-y-8');
+      }, index * 150);
     });
   });
 </script>
+
+<style>
+  @keyframes subtle-zoom {
+    0% { transform: scale(1.1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1.1); }
+  }
+
+  @keyframes slow-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  @keyframes wave {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    50% { transform: translateX(-10px) rotate(1deg); }
+  }
+
+  @keyframes fade-in {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .motion-safe\:animate-subtle-zoom {
+    animation: subtle-zoom 20s ease-in-out infinite;
+  }
+
+  .motion-safe\:animate-slow-spin {
+    animation: slow-spin 60s linear infinite;
+  }
+
+  .motion-safe\:animate-wave {
+    animation: wave 6s ease-in-out infinite;
+  }
+
+  .motion-safe\:animate-fade-in {
+    animation: fade-in 1.5s ease-out forwards;
+  }
+</style>

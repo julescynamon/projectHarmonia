@@ -1,45 +1,8 @@
 ---
 import AdminLayout from '../../../layouts/AdminLayout.astro';
-import BlogPostForm from '../../../components/admin/BlogPostForm.jsx';
+import PostEditor from '../../../components/admin/PostEditor.jsx';
+import PostList from '../../../components/admin/PostList.jsx';
 const supabase = Astro.locals.supabase;
-
-// Configuration SQL pour le bucket et les policies
-const setupSQL = `
-  -- Création du bucket s'il n'existe pas
-  insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-  values ('blog', 'blog', false, 5242880, array['image/*'])
-  on conflict (id) do nothing;
-
-  -- Suppression des policies existantes
-  drop policy if exists "Admin Upload Policy" on storage.objects;
-  drop policy if exists "Public Read Policy" on storage.objects;
-
-  -- Policy pour permettre l'upload aux admins
-  create policy "Admin Upload Policy"
-    on storage.objects
-    for insert
-    to authenticated
-    with check (
-      bucket_id = 'blog'
-      and auth.uid() in (select id from public.profiles where role = 'admin')
-    );
-
-  -- Policy pour permettre la lecture publique
-  create policy "Public Read Policy"
-    on storage.objects
-    for select
-    to public
-    using (bucket_id = 'blog');
-`;
-
-// Exécution du SQL
-const { error: setupError } = await supabase.rpc('setup_storage', {
-  setup_sql: setupSQL
-});
-
-if (setupError) {
-  console.error('Erreur lors de la configuration du stockage:', setupError);
-}
 
 // La session est déjà disponible via Astro.locals.session grâce au middleware
 const session = Astro.locals.session;
@@ -50,34 +13,33 @@ if (!session?.user?.id) {
   return Astro.redirect('/login?returnTo=/admin/blog');
 }
 
-// Vérification du rôle admin avec fallback pour l'admin principal
-const { data: profile, error: profileError } = await supabase
-  .from('profiles')
-  .select('role')
-  .eq('id', session.user.id)
-  .single();
-
 // Vérification spéciale pour l'admin principal (tyzranaima@gmail.com)
 const isMainAdmin = session.user.email === 'tyzranaima@gmail.com';
 
-if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
-  console.error('[ADMIN_BLOG] Utilisateur non admin, redirection vers /mon-compte');
-  return Astro.redirect('/mon-compte');
+// Pour l'admin principal, accès direct sans vérification de profil
+if (isMainAdmin) {
+  console.log('[ADMIN_BLOG] Accès admin principal autorisé pour:', session.user.email);
+} else {
+  // Pour les autres utilisateurs, vérifier le profil
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', session.user.id)
+    .maybeSingle();
+  
+  const isAdmin = !profileError && profile && profile.role === 'admin';
+  
+  if (!isAdmin) {
+    console.error('[ADMIN_BLOG] Utilisateur non admin, redirection vers /mon-compte');
+    return Astro.redirect('/mon-compte');
+  }
 }
 
-// Liste des catégories disponibles
-const categories = [
-  { id: 'actualites', label: 'Actualités' },
-  { id: 'conseils', label: 'Conseils' },
-  { id: 'evenements', label: 'Événements' },
-  { id: 'bien_etre', label: 'Bien-être' },
-  { id: 'nutrition', label: 'Nutrition' }
-];
-
-// Récupération des articles existants
+// Récupération des articles existants depuis la nouvelle table posts
 const { data: posts } = await supabase
-  .from('blog_posts')
+  .from('posts')
   .select('*')
+  .eq('author_id', session.user.id)
   .order('created_at', { ascending: false });
 ---
 
@@ -85,157 +47,77 @@ const { data: posts } = await supabase
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="mb-8">
       <h1 class="text-3xl font-bold text-gray-900">Gestion des articles</h1>
-      <p class="mt-2 text-sm text-gray-700">Créez, modifiez et supprimez les articles du blog.</p>
+      <p class="mt-2 text-sm text-gray-700">Créez, modifiez et supprimez les articles du blog avec l'éditeur TipTap.</p>
     </div>
 
-    <!-- Formulaire de création d'article -->
+    <!-- Éditeur d'article -->
     <div class="space-y-6 bg-white shadow-sm ring-1 ring-gray-900/5 p-6 rounded-lg mb-8">
-      <BlogPostForm client:load />
-      <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          const form = document.querySelector('form');
-          if (form) {
-            form.addEventListener('submit', async (e) => {
-              e.preventDefault();
-              const formData = new FormData(form);
-              const data = {
-                title: formData.get('title'),
-                content: formData.get('content'),
-                category: formData.get('category'),
-                summary: formData.get('summary'),
-                image: formData.get('image')
-              };
-
-              try {
-                // Upload de l'image
-                let imagePath = '';
-                if (data.image && data.image instanceof File) {
-                  const filename = `${Date.now()}-${data.image.name}`;
-                  const { data: uploadData, error: uploadError } = await (window as any).supabaseClient.storage
-                    .from('blog')
-                    .upload(`blog/${filename}`, data.image);
-
-                  if (uploadError) throw uploadError;
-                  imagePath = uploadData.path;
-                }
-
-                // Récupération du token de session
-                const { data: { session } } = await (window as any).supabaseClient.auth.getSession();
-                if (!session) {
-                  throw new Error('Vous devez être connecté pour créer un article');
-                }
-
-                // Création de l'article
-                const response = await fetch('/api/blog/create', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${session.access_token}`
-                  },
-                  body: JSON.stringify({
-                    ...data,
-                    image: imagePath
-                  })
-                });
-                
-                if (!response.ok) throw new Error('Erreur lors de la création de l\'article');
-                
-                window.location.reload();
-              } catch (error) {
-                console.error('Erreur:', error);
-                alert('Une erreur est survenue lors de la création de l\'article');
-              }
-            });
-          }
-        });
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">Créer un nouvel article</h2>
+      
+      <script define:vars={{ userId: session.user.id }}>
+        window.currentUserId = userId;
       </script>
+      
+      <PostEditor 
+        client:load
+        onSave={async (postData) => {
+          try {
+            const userId = session.user.id;
+            const response = await fetch('/api/posts/create', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                ...postData,
+                author_id: userId
+              })
+            });
+            
+            if (!response.ok) throw new Error('Erreur lors de la sauvegarde');
+            
+            alert('Article sauvegardé en brouillon');
+            // Recharger la liste des articles
+            window.location.reload();
+          } catch (error) {
+            console.error('Erreur:', error);
+            alert('Une erreur est survenue lors de la sauvegarde');
+          }
+        }}
+        onPublish={async (postData) => {
+          try {
+            const userId = session.user.id;
+            const response = await fetch('/api/posts/create', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                ...postData,
+                author_id: userId
+              })
+            });
+            
+            if (!response.ok) throw new Error('Erreur lors de la publication');
+            
+            alert('Article publié avec succès !');
+            // Recharger la liste des articles
+            window.location.reload();
+          } catch (error) {
+            console.error('Erreur:', error);
+            alert('Une erreur est survenue lors de la publication');
+          }
+        }}
+      />
     </div>
 
     <!-- Liste des articles -->
-    <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-300">
-          <thead>
-            <tr>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Titre
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Catégorie
-              </th>
-              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200 bg-white">
-            {posts?.map((post) => (
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{post.title}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{post.category}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <button data-post-id={post.id} class="delete-post text-red-600 hover:text-red-900">Supprimer</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+    <div class="space-y-6">
+      <h2 class="text-xl font-semibold text-gray-900">Vos articles</h2>
+      <PostList 
+        client:load
+      />
     </div>
   </div>
 
-  <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script define:vars={{ supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL, supabaseKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY }}>
-    // Initialisation globale de Supabase
-    let supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
-    
-    async function initSupabase() {
-      // Pas besoin de récupérer la session, elle est déjà gérée par le middleware
-      // et la vérification d'authentification est faite côté serveur
-      return supabaseClient;
-    }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        await initSupabase();
-        console.log('Supabase initialisé avec succès');
-
-        // Gestionnaire de suppression
-        document.querySelectorAll('.delete-post').forEach(button => {
-          button.addEventListener('click', async () => {
-            if (!supabaseClient) {
-              alert('Erreur: Le client Supabase n\'est pas initialisé');
-              return;
-            }
-
-            const postId = button.dataset.postId;
-            if (!postId) {
-              alert('Erreur: ID de l\'article non trouvé');
-              return;
-            }
-
-            if (confirm('Voulez-vous vraiment supprimer cet article ?')) {
-              try {
-                const { error } = await supabaseClient
-                  .from('blog_posts')
-                  .delete()
-                  .eq('id', postId);
-
-                if (error) throw error;
-
-                // Rechargement de la page après suppression
-                window.location.reload();
-              } catch (error) {
-                console.error('Erreur lors de la suppression:', error);
-                alert('Une erreur est survenue lors de la suppression de l\'article');
-              }
-            }
-          });
-        });
-      } catch (error) {
-        console.error('Erreur lors de l\'initialisation:', error);
-        alert('Une erreur est survenue lors de l\'initialisation');
-      }
-    });
-  </script>
 </AdminLayout>

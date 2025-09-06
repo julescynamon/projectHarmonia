@@ -8,7 +8,7 @@ set -e
 # Configuration
 MIGRATIONS_DIR="supabase/migrations"
 BACKUP_DIR="supabase/migrations_backup"
-PROJECT_NAME="harmonia"
+PROJECT_NAME="la-maison-sattvaia"
 
 # Couleurs pour l'affichage
 RED='\033[0;31m'

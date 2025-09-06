@@ -63,8 +63,8 @@ async function getNewArticleEmailTemplate({
                 <!-- En-tête avec logo -->
                 <tr>
                   <td align="center" style="padding: 32px 40px; background-color: ${colors.lightGray}; border-bottom: 1px solid ${colors.borderGray};">
-                    <img src="https://via.placeholder.com/200x50/748C69/FFFFFF?text=Harmonia" 
-                         alt="Harmonia"
+                    <img src="https://via.placeholder.com/200x50/748C69/FFFFFF?text=La+Maison+Sattvaia" 
+                         alt="La Maison Sattvaïa"
                          style="height: 40px; width: auto;"
                     />
                   </td>
@@ -116,7 +116,7 @@ async function getNewArticleEmailTemplate({
                 <tr>
                   <td style="padding: 32px 40px; background-color: ${colors.lightGray}; border-top: 1px solid ${colors.borderGray};">
                     <p style="margin: 0 0 16px 0; color: ${colors.textLight}; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; line-height: 20px; text-align: center;">
-                      Vous recevez cet email car vous êtes abonné(e) à la newsletter d'Harmonia.
+                      Vous recevez cet email car vous êtes abonné(e) à la newsletter de La Maison Sattvaïa.
                     </p>
                     <p style="margin: 0; text-align: center;">
                       <a href="${unsubscribeUrl}" 
@@ -173,7 +173,7 @@ export default function blogNotifications(): AstroIntegration {
         const contentDir = path.join(process.cwd(), "src/content/blog");
         const fromEmail = process.env.FROM_EMAIL || "onboarding@resend.dev";
         const websiteUrl = process.env.WEBSITE_URL || "http://localhost:4321";
-        const websiteName = process.env.WEBSITE_NAME || "Harmonia";
+        const websiteName = process.env.WEBSITE_NAME || "La Maison Sattvaïa";
 
         async function handlePostUpdate(post: BlogPost) {
           if (

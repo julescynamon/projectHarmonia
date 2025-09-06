@@ -1,4 +1,4 @@
-# Configuration Sentry pour Harmonia
+# Configuration Sentry pour La Maison Sattvaïa
 
 ## Installation et Configuration
 
@@ -6,7 +6,7 @@
 
 1. Allez sur [sentry.io](https://sentry.io)
 2. Créez un compte gratuit
-3. Créez un nouveau projet pour Harmonia
+3. Créez un nouveau projet pour La Maison Sattvaïa
 4. Notez votre DSN (Data Source Name)
 
 ### 2. Variables d'environnement

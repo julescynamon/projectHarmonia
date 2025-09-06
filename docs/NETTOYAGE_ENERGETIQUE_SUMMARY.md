@@ -112,4 +112,4 @@
 
 ## 🎯 Résultat final
 
-La page de nettoyage énergétique est maintenant **complètement fonctionnelle** et respecte toutes les exigences demandées. Elle s'intègre parfaitement dans l'écosystème du site Harmonia et offre une expérience utilisateur optimale sur mobile et desktop.
+La page de nettoyage énergétique est maintenant **complètement fonctionnelle** et respecte toutes les exigences demandées. Elle s'intègre parfaitement dans l'écosystème du site La Maison Sattvaïa et offre une expérience utilisateur optimale sur mobile et desktop.

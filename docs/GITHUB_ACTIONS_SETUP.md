@@ -14,7 +14,7 @@ Ce document explique comment configurer les secrets GitHub nécessaires pour le 
 
 | Secret              | Description                  | Exemple                                   |
 | ------------------- | ---------------------------- | ----------------------------------------- |
-| `PUBLIC_SITE_URL`   | URL publique de votre site   | `https://harmonia.jules.com`              |
+| `PUBLIC_SITE_URL`   | URL publique de votre site   | `https://la-maison-sattvaia.com`          |
 | `SUPABASE_URL`      | URL de votre projet Supabase | `https://your-project.supabase.co`        |
 | `SUPABASE_ANON_KEY` | Clé anonyme Supabase         | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` |
 

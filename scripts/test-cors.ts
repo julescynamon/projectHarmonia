@@ -18,8 +18,8 @@ allowedOrigins.forEach(origin => {
 // Test 2: Tester des origines valides
 console.log('\n2. Test des origines valides :');
 const validOrigins = [
-  'https://harmonia.jules.com',
-  'https://www.harmonia.jules.com',
+  'https://la-maison-sattvaia.com',
+  'https://www.la-maison-sattvaia.com',
 ];
 
 validOrigins.forEach(origin => {
@@ -31,9 +31,9 @@ validOrigins.forEach(origin => {
 console.log('\n3. Test des origines invalides :');
 const invalidOrigins = [
   'https://malicious-site.com',
-  'http://harmonia.jules.com', // HTTP au lieu de HTTPS
-  'https://fake-harmonia.com',
-  'https://harmonia.jules.com.evil.com',
+  'http://la-maison-sattvaia.com', // HTTP au lieu de HTTPS
+  'https://fake-la-maison-sattvaia.com',
+  'https://la-maison-sattvaia.com.evil.com',
 ];
 
 invalidOrigins.forEach(origin => {
@@ -65,14 +65,14 @@ if (envOrigins) {
 console.log('\n5. Exemples de commandes curl pour tester :');
 console.log('\n   Test d\'une requête preflight (OPTIONS) :');
 console.log(`   curl -X OPTIONS \\`);
-console.log(`     -H "Origin: https://harmonia.jules.com" \\`);
+console.log(`     -H "Origin: https://la-maison-sattvaia.com" \\`);
 console.log(`     -H "Access-Control-Request-Method: POST" \\`);
 console.log(`     -H "Access-Control-Request-Headers: Content-Type" \\`);
 console.log(`     http://localhost:4321/api/health`);
 
 console.log('\n   Test d\'une requête normale :');
 console.log(`   curl -X GET \\`);
-console.log(`     -H "Origin: https://harmonia.jules.com" \\`);
+console.log(`     -H "Origin: https://la-maison-sattvaia.com" \\`);
 console.log(`     http://localhost:4321/api/health`);
 
 console.log('\n   Test d\'une origine non autorisée :');

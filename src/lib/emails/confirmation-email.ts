@@ -1,7 +1,7 @@
 export function getConfirmationEmailHtml({
   confirmationUrl,
-  websiteName = "Harmonia",
-  websiteUrl = "https://harmonia.com"
+  websiteName = "La Maison Sattvaïa",
+  websiteUrl = "https://la-maison-sattvaia.com"
 }: {
   confirmationUrl: string;
   websiteName?: string;

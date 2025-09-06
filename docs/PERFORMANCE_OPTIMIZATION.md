@@ -1,6 +1,6 @@
-# Optimisations de Performance - Harmonia
+# Optimisations de Performance - La Maison Sattvaïa
 
-Ce document détaille les optimisations de performance implémentées dans le projet Harmonia pour améliorer les temps de chargement et l'expérience utilisateur.
+Ce document détaille les optimisations de performance implémentées dans le projet La Maison Sattvaïa pour améliorer les temps de chargement et l'expérience utilisateur.
 
 ## 🚀 Optimisations Implémentées
 

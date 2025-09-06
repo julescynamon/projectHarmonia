@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Script de test des performances pour Harmonia
+ * Script de test des performances pour La Maison Sattvaïa
  * Usage: node scripts/test-performance.js [url]
  */
 
@@ -12,7 +12,7 @@ import { join } from "path";
 const args = process.argv.slice(2);
 const targetUrl = args[0] || "http://localhost:4321";
 
-console.log("🚀 Test des performances Harmonia");
+console.log("🚀 Test des performances La Maison Sattvaïa");
 console.log(`📊 URL cible: ${targetUrl}`);
 console.log("");
 

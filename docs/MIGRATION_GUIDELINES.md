@@ -1,6 +1,6 @@
-# Guide des Migrations Supabase - Harmonia
+# Guide des Migrations Supabase - La Maison Sattvaïa
 
-Ce document décrit les bonnes pratiques et conventions pour gérer les migrations de base de données avec Supabase dans le projet Harmonia.
+Ce document décrit les bonnes pratiques et conventions pour gérer les migrations de base de données avec Supabase dans le projet La Maison Sattvaïa.
 
 ## 📋 Table des Matières
 

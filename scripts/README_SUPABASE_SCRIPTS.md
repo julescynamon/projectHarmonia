@@ -1,4 +1,4 @@
-# Scripts Supabase pour Harmonia
+# Scripts Supabase pour La Maison Sattvaïa
 
 Ce dossier contient deux scripts shell pour gérer la sauvegarde et le rollback de votre base de données Supabase.
 
@@ -45,13 +45,13 @@ Crée une sauvegarde complète de votre base de données Supabase.
 #### Exemple de sortie
 
 ```
-[INFO] === SAUVEGARDE SUPABASE HARMONIA ===
+[INFO] === SAUVEGARDE SUPABASE LA MAISON SATTVAÏA ===
 [INFO] Date: mar 26 déc 2024 15:30:45 CET
-[INFO] Création du dossier de sauvegarde: /Users/jules/Downloads/harmonia/backups
+[INFO] Création du dossier de sauvegarde: /Users/jules/Downloads/la-maison-sattvaia/backups
 [INFO] Début de la sauvegarde...
-[INFO] Fichier de sauvegarde: harmonia_backup_20241226_153045.sql
+[INFO] Fichier de sauvegarde: la-maison-sattvaia_backup_20241226_153045.sql
 [INFO] Création du dump SQL...
-[SUCCESS] Sauvegarde créée avec succès: /Users/jules/Downloads/harmonia/backups/harmonia_backup_20241226_153045.sql
+[SUCCESS] Sauvegarde créée avec succès: /Users/jules/Downloads/la-maison-sattvaia/backups/la-maison-sattvaia_backup_20241226_153045.sql
 [INFO] Taille du fichier: 2.1M
 [INFO] Nombre de lignes: 15420
 [SUCCESS] Sauvegarde terminée avec succès !
@@ -99,7 +99,7 @@ Permet de revenir à un état précédent de votre base de données.
 #### Exemple de sortie
 
 ```
-[INFO] === ROLLBACK SUPABASE HARMONIA ===
+[INFO] === ROLLBACK SUPABASE LA MAISON SATTVAÏA ===
 [INFO] Commit cible: abc123def
 [INFO] Mode dry-run: false
 [INFO] Date: mar 26 déc 2024 15:35:12 CET
@@ -113,14 +113,14 @@ Permet de revenir à un état précédent de votre base de données.
 ## 📁 Structure des fichiers
 
 ```
-harmonia/
+la-maison-sattvaia/
 ├── scripts/
 │   ├── backup-supabase.sh          # Script de sauvegarde
 │   ├── rollback-supabase.sh        # Script de rollback
 │   └── README_SUPABASE_SCRIPTS.md  # Cette documentation
 ├── backups/                        # Dossier créé automatiquement
-│   ├── harmonia_backup_20241226_153045.sql
-│   ├── harmonia_backup_20241226_143022.sql
+│   ├── la-maison-sattvaia_backup_20241226_153045.sql
+│   ├── la-maison-sattvaia_backup_20241226_143022.sql
 │   └── ...
 └── ...
 ```
@@ -209,4 +209,4 @@ En cas de problème avec ces scripts :
 
 ---
 
-**Note** : Ces scripts sont spécifiquement conçus pour le projet Harmonia. Adaptez-les selon vos besoins si vous les utilisez dans d'autres projets.
+**Note** : Ces scripts sont spécifiquement conçus pour le projet La Maison Sattvaïa. Adaptez-les selon vos besoins si vous les utilisez dans d'autres projets.

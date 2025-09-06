@@ -76,8 +76,8 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Configuration de l'email
     const articleUrl = `${import.meta.env.WEBSITE_URL}/blog/${slug}`;
-    const fromEmail = import.meta.env.FROM_EMAIL || 'notifications@harmonia-naturo.com';
-    const websiteName = import.meta.env.WEBSITE_NAME || 'Harmonia';
+    const fromEmail = import.meta.env.FROM_EMAIL || 'notifications@la-maison-sattvaia.com';
+    const websiteName = import.meta.env.WEBSITE_NAME || 'La Maison Sattvaïa';
 
     // Envoyer les notifications
     const emailPromises = subscribers.map(async subscriber => {
@@ -88,7 +88,7 @@ export const POST: APIRoute = async ({ request }) => {
           url: articleUrl,
           category: article.category || 'Général'
         },
-        websiteUrl: import.meta.env.WEBSITE_URL || 'https://harmonia-naturo.com',
+        websiteUrl: import.meta.env.WEBSITE_URL || 'https://la-maison-sattvaia.com',
         unsubscribeUrl: `${import.meta.env.WEBSITE_URL}/api/newsletter/unsubscribe?email=${encodeURIComponent(subscriber.email)}`
       });
       

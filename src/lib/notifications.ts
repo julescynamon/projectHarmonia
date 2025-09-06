@@ -28,7 +28,7 @@ function generateCalendarLinks(appointment: {
 
   const text = `RDV ${appointment.service} - ${appointment.clientName}`;
   const details = `Rendez-vous avec ${appointment.clientName}\nEmail: ${appointment.clientEmail}${appointment.reason ? '\nMotif: ' + appointment.reason : ''}`;
-  const location = 'Cabinet Harmonia';
+  const location = 'Cabinet La Maison Sattvaïa';
 
   // Lien Google Calendar
   const googleParams = new URLSearchParams({
@@ -96,7 +96,7 @@ export async function sendAppointmentNotification(
     const clientEmailResult = await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: appointment.clientEmail,
-      subject: 'Confirmation de votre rendez-vous - Harmonia',
+      subject: 'Confirmation de votre rendez-vous - La Maison Sattvaïa',
       html: `
         <!DOCTYPE html>
         <html>
@@ -108,7 +108,7 @@ export async function sendAppointmentNotification(
           <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto;">
             <tr>
               <td style="background-color: #a8b5a3; padding: 20px; text-align: center;">
-                <img src="https://raw.githubusercontent.com/julescynamon/projectHarmonia/main/public/images/logo.png" alt="Harmonia" width="120" style="display: block; margin: 0 auto;">
+                <img src="https://raw.githubusercontent.com/julescynamon/projectHarmonia/main/public/images/logo.png" alt="La Maison Sattvaïa" width="120" style="display: block; margin: 0 auto;">
               </td>
             </tr>
             <tr>
@@ -147,7 +147,7 @@ export async function sendAppointmentNotification(
             <tr>
               <td style="background-color: #ffffff; padding: 20px; text-align: center; border-top: 1px solid #f4f1ed;">
                 <p style="color: #131212; margin: 5px 0; font-size: 14px;">Pour toute question ou modification, n'hésitez pas à nous contacter.</p>
-                <p style="color: #131212; margin: 5px 0; font-size: 14px;">Au plaisir de vous recevoir,<br>L'équipe Harmonia</p>
+                <p style="color: #131212; margin: 5px 0; font-size: 14px;">Au plaisir de vous recevoir,<br>L'équipe La Maison Sattvaïa</p>
               </td>
             </tr>
           </table>

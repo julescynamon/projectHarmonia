@@ -8,9 +8,9 @@ import { getAppointmentRejectionEmailHtml } from './emails/appointment-rejection
 
 // Configuration
 const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
-const FROM_EMAIL = import.meta.env.FROM_EMAIL || 'notifications@harmonia-naturo.com';
-const WEBSITE_URL = import.meta.env.WEBSITE_URL || 'https://harmonia-naturo.com';
-const WEBSITE_NAME = import.meta.env.WEBSITE_NAME || 'Harmonia';
+const FROM_EMAIL = import.meta.env.FROM_EMAIL || 'notifications@la-maison-sattvaia.com';
+const WEBSITE_URL = import.meta.env.WEBSITE_URL || 'https://la-maison-sattvaia.com';
+const WEBSITE_NAME = import.meta.env.WEBSITE_NAME || 'La Maison Sattvaïa';
 const IS_DEVELOPMENT = import.meta.env.NODE_ENV === 'development';
 
 // Initialisation de Resend
@@ -295,7 +295,7 @@ export async function sendAppointmentNotificationEmail({
 export async function sendAppointmentConfirmationEmail({
   appointment,
   service,
-  contactEmail = 'naima@harmonia-naturo.com'
+  contactEmail = 'naima@la-maison-sattvaia.com'
 }: {
   appointment: {
     id: string;
@@ -327,7 +327,7 @@ export async function sendAppointmentConfirmationEmail({
     const emailData = {
       from: FROM_EMAIL,
       to: [appointment.client_email],
-      subject: 'Confirmation de votre demande de réservation - Harmonia',
+      subject: 'Confirmation de votre demande de réservation - La Maison Sattvaïa',
       html: emailHtml
     };
 
@@ -491,7 +491,7 @@ export async function sendAppointmentApprovalEmail({
     const emailData = {
       from: FROM_EMAIL,
       to: [clientEmail],
-      subject: 'Réservation approuvée - Procédez au paiement - Harmonia',
+      subject: 'Réservation approuvée - Procédez au paiement - La Maison Sattvaïa',
       html: emailHtml
     };
 
@@ -571,12 +571,12 @@ export async function sendAppointmentRejectionEmail({
       .replace(/{{time}}/g, time)
       .replace(/{{service}}/g, service)
       .replace(/{{rejectionReason}}/g, rejectionReason)
-      .replace(/{{siteUrl}}/g, 'https://harmonia-naturo.com');
+      .replace(/{{siteUrl}}/g, 'https://la-maison-sattvaia.com');
 
     const emailData = {
       from: FROM_EMAIL,
       to: [clientEmail],
-      subject: 'Information concernant votre demande de réservation - Harmonia',
+      subject: 'Information concernant votre demande de réservation - La Maison Sattvaïa',
       html: emailHtml
     };
 

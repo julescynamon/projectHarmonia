@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script de sauvegarde Supabase pour Harmonia
+# Script de sauvegarde Supabase pour La Maison Sattvaïa
 # Utilise l'API Supabase pour créer un dump SQL de la base de données
 
 set -e  # Arrêter le script en cas d'erreur
@@ -10,7 +10,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 BACKUP_DIR="$PROJECT_ROOT/backups"
 DATE=$(date +"%Y%m%d_%H%M%S")
-BACKUP_FILE="harmonia_backup_${DATE}.sql"
+BACKUP_FILE="la-maison-sattvaia_backup_${DATE}.sql"
 
 # Couleurs pour les messages
 RED='\033[0;31m'
@@ -67,7 +67,7 @@ create_backup_dir() {
 cleanup_old_backups() {
     log_info "Nettoyage des anciennes sauvegardes..."
     cd "$BACKUP_DIR"
-    ls -t harmonia_backup_*.sql 2>/dev/null | tail -n +11 | xargs -r rm -f
+    ls -t la-maison-sattvaia_backup_*.sql 2>/dev/null | tail -n +11 | xargs -r rm -f
     log_success "Nettoyage terminé"
 }
 
@@ -108,14 +108,14 @@ show_summary() {
     
     # Lister les 5 dernières sauvegardes
     log_info "Dernières sauvegardes:"
-    ls -lt "$BACKUP_DIR"/harmonia_backup_*.sql 2>/dev/null | head -6 | tail -5 | while read line; do
+    ls -lt "$BACKUP_DIR"/la-maison-sattvaia_backup_*.sql 2>/dev/null | head -6 | tail -5 | while read line; do
         echo "  $line"
     done
 }
 
 # Fonction principale
 main() {
-    log_info "=== SAUVEGARDE SUPABASE HARMONIA ==="
+    log_info "=== SAUVEGARDE SUPABASE LA MAISON SATTVAÏA ==="
     log_info "Date: $(date)"
     
     # Vérifications préalables

@@ -150,8 +150,8 @@ export default defineConfig({
         ],
       },
       manifest: {
-        name: 'Harmonia - Naturopathie & Soins Chamaniques',
-        short_name: 'Harmonia',
+        name: 'La Maison Sattvaïa - Naturopathie & Soins Chamaniques',
+        short_name: 'La Maison Sattvaïa',
         description: 'Site de naturopathie et soins chamaniques',
         theme_color: '#4F46E5',
         background_color: '#ffffff',

@@ -45,18 +45,18 @@ export const TEST_ENV_DEFAULTS = {
   
   // Astro
   WEBSITE_URL: 'http://localhost:4322',
-  WEBSITE_NAME: 'Harmonia Test',
+  WEBSITE_NAME: 'La Maison Sattvaïa Test',
   DEV: 'true',
   PROD: 'false',
   API_SECRET_KEY: 'test-api-secret-key-for-testing-only',
   
   // Email
   RESEND_API_KEY: 're_test_key_for_testing_only',
-  FROM_EMAIL: 'test@harmonia-test.com',
-  SUPPORT_EMAIL: 'support@harmonia-test.com',
+  FROM_EMAIL: 'test@la-maison-sattvaia-test.com',
+  SUPPORT_EMAIL: 'support@la-maison-sattvaia-test.com',
   
   // Sécurité
-  CORS_ALLOWED_ORIGINS: 'http://localhost:4322,http://localhost:3000,https://test.harmonia.com',
+  CORS_ALLOWED_ORIGINS: 'http://localhost:4322,http://localhost:3000,https://test.la-maison-sattvaia.com',
   
   // Monitoring
   SENTRY_DSN: 'https://test@sentry.io/test-project',

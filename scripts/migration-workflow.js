@@ -19,7 +19,7 @@ const __dirname = path.dirname(__filename);
 const CONFIG = {
   migrationsDir: path.join(__dirname, "../supabase/migrations"),
   backupDir: path.join(__dirname, "../supabase/migrations_backup"),
-  projectName: "harmonia",
+  projectName: "la-maison-sattvaia",
   templateFile: path.join(__dirname, "migration-template.sql"),
 };
 

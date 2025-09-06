@@ -2,7 +2,7 @@ export function getAppointmentNotificationEmailHtml({
   appointment,
   service,
   adminEmail = 'tyzranaima@gmail.com',
-  websiteUrl = 'https://harmonia-naturo.com'
+  websiteUrl = 'https://la-maison-sattvaia.com'
 }: {
   appointment: {
     id: string;
@@ -33,7 +33,7 @@ export function getAppointmentNotificationEmailHtml({
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Nouvelle demande de réservation - Harmonia</title>
+      <title>Nouvelle demande de réservation - La Maison Sattvaïa</title>
       <style>
         body {
           font-family: Arial, sans-serif;
@@ -131,7 +131,7 @@ export function getAppointmentNotificationEmailHtml({
       </div>
       
       <div class="footer">
-        <p>Cet email a été envoyé automatiquement par le système de réservation Harmonia.</p>
+        <p>Cet email a été envoyé automatiquement par le système de réservation La Maison Sattvaïa.</p>
         <p>Pour toute question, contactez l'équipe technique.</p>
       </div>
     </body>

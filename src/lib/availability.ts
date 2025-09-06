@@ -137,8 +137,8 @@ export async function sendAppointmentNotification(
   try {
     // Envoyer l'email via Resend
     await resend.emails.send({
-      from: 'Harmonia <notifications@harmonia-naturo.com>',
-      to: 'naima@harmonia-naturo.com',
+      from: 'La Maison Sattvaïa <notifications@la-maison-sattvaia.com>',
+      to: 'naima@la-maison-sattvaia.com',
       subject: 'Nouveau rendez-vous',
       html: `
         <h2>Nouveau rendez-vous confirmé</h2>
@@ -162,7 +162,7 @@ export async function sendAppointmentNotification(
       description: `Rendez-vous avec ${appointment.clientName}\nEmail: ${appointment.clientEmail}`,
       startTime: startDate.toISOString(),
       endTime: endDate.toISOString(),
-      location: "Cabinet Harmonia"
+      location: "Cabinet La Maison Sattvaïa"
     };
 
     // Créer le lien calendrier iOS
@@ -179,8 +179,8 @@ END:VCALENDAR`;
 
     // Envoyer le lien du calendrier par email
     await resend.emails.send({
-      from: 'Harmonia <notifications@harmonia-naturo.com>',
-      to: 'naima@harmonia-naturo.com',
+      from: 'La Maison Sattvaïa <notifications@la-maison-sattvaia.com>',
+      to: 'naima@la-maison-sattvaia.com',
       subject: 'Ajouter le rendez-vous à votre calendrier',
       html: `
         <p>Cliquez sur le lien ci-dessous pour ajouter le rendez-vous à votre calendrier :</p>

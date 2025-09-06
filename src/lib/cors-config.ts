@@ -7,8 +7,8 @@
 
 // Origines autorisées par défaut
 const DEFAULT_ALLOWED_ORIGINS = [
-  "https://harmonia.jules.com",
-  "https://www.harmonia.jules.com",
+  "https://la-maison-sattvaia.com",
+  "https://www.la-maison-sattvaia.com",
 ];
 
 // Méthodes HTTP autorisées

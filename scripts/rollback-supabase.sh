@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script de rollback Supabase pour Harmonia
+# Script de rollback Supabase pour La Maison Sattvaïa
 # Permet de revenir à un état précédent avec supabase db remote commit
 
 set -e  # Arrêter le script en cas d'erreur
@@ -56,7 +56,7 @@ check_supabase_auth() {
 show_help() {
     echo "Usage: $0 [OPTIONS]"
     echo ""
-    echo "Script de rollback Supabase pour Harmonia"
+    echo "Script de rollback Supabase pour La Maison Sattvaïa"
     echo ""
     echo "OPTIONS:"
     echo "  -c, --commit HASH    Hash du commit vers lequel revenir"
@@ -111,7 +111,7 @@ perform_rollback() {
     local commit_hash="$1"
     local dry_run="$2"
     
-    log_info "=== ROLLBACK SUPABASE HARMONIA ==="
+    log_info "=== ROLLBACK SUPABASE LA MAISON SATTVAÏA ==="
     log_info "Commit cible: $commit_hash"
     log_info "Mode dry-run: $dry_run"
     log_info "Date: $(date)"

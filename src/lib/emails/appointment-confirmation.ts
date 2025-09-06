@@ -1,8 +1,8 @@
 export function getAppointmentConfirmationEmailHtml({
   appointment,
   service,
-  contactEmail = 'naima@harmonia-naturo.com',
-  websiteUrl = 'https://harmonia-naturo.com'
+  contactEmail = 'naima@la-maison-sattvaia.com',
+  websiteUrl = 'https://la-maison-sattvaia.com'
 }: {
   appointment: {
     id: string;
@@ -33,7 +33,7 @@ export function getAppointmentConfirmationEmailHtml({
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Confirmation de votre demande de réservation - Harmonia</title>
+      <title>Confirmation de votre demande de réservation - La Maison Sattvaïa</title>
       <style>
         body {
           font-family: Arial, sans-serif;
@@ -142,7 +142,7 @@ export function getAppointmentConfirmationEmailHtml({
         <p>Merci de votre patience et de votre confiance.</p>
         <p><strong>Naima Tyzra</strong><br>
         Naturopathe & Praticienne en soins énergétiques<br>
-        Harmonia</p>
+        La Maison Sattvaïa</p>
       </div>
     </body>
     </html>

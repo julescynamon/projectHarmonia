@@ -21,15 +21,15 @@ Ajoutez la variable suivante à votre fichier `.env` :
 
 ```bash
 # Liste des origines autorisées séparées par des virgules
-CORS_ALLOWED_ORIGINS=https://harmonia.jules.com,https://www.harmonia.jules.com
+CORS_ALLOWED_ORIGINS=https://la-maison-sattvaia.com,https://www.la-maison-sattvaia.com
 ```
 
 ### Origines par défaut
 
 Si aucune variable d'environnement n'est définie, les origines suivantes sont autorisées par défaut :
 
-- `https://harmonia.jules.com`
-- `https://www.harmonia.jules.com`
+- `https://la-maison-sattvaia.com`
+- `https://www.la-maison-sattvaia.com`
 
 ## Headers CORS configurés
 
@@ -106,14 +106,14 @@ const allowedOrigins = getAllowedOrigins();
 ```bash
 # Test d'une requête preflight (OPTIONS)
 curl -X OPTIONS \
-  -H "Origin: https://harmonia.jules.com" \
+  -H "Origin: https://la-maison-sattvaia.com" \
   -H "Access-Control-Request-Method: POST" \
   -H "Access-Control-Request-Headers: Content-Type" \
   https://votre-api.com/api/test
 
 # Test d'une requête normale
 curl -X POST \
-  -H "Origin: https://harmonia.jules.com" \
+  -H "Origin: https://la-maison-sattvaia.com" \
   -H "Content-Type: application/json" \
   -d '{"test": "data"}' \
   https://votre-api.com/api/test

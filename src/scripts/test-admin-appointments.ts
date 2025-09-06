@@ -161,7 +161,7 @@ function testEmailTemplates() {
   const approvalHtml = getAppointmentApprovalEmailHtml({
     appointment: mockAppointment,
     paymentUrl: 'https://checkout.stripe.com/test',
-    websiteUrl: 'https://harmonia-naturo.com'
+    websiteUrl: 'https://la-maison-sattvaia.com'
   });
   
   console.log('✅ Template d\'approbation généré:', approvalHtml.length, 'caractères');
@@ -170,7 +170,7 @@ function testEmailTemplates() {
   const rejectionHtml = getAppointmentRejectionEmailHtml({
     appointment: mockAppointment,
     rejectionReason: 'Créneau non disponible',
-    websiteUrl: 'https://harmonia-naturo.com'
+    websiteUrl: 'https://la-maison-sattvaia.com'
   });
   
   console.log('✅ Template de refus généré:', rejectionHtml.length, 'caractères');

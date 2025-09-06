@@ -1,8 +1,8 @@
-# Documentation des Types TypeScript - Harmonia
+# Documentation des Types TypeScript - La Maison Sattvaïa
 
 ## Vue d'ensemble
 
-Le fichier `src/env.d.ts` contient tous les types TypeScript nécessaires pour le projet Harmonia, garantissant une sécurité de type complète et une meilleure expérience de développement.
+Le fichier `src/env.d.ts` contient tous les types TypeScript nécessaires pour le projet La Maison Sattvaïa, garantissant une sécurité de type complète et une meilleure expérience de développement.
 
 ## Variables d'Environnement
 

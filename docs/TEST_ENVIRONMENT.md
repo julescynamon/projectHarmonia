@@ -1,6 +1,6 @@
-# Environnement de Test - Harmonia
+# Environnement de Test - La Maison Sattvaïa
 
-Ce document explique comment configurer et utiliser l'environnement de test pour le projet Harmonia.
+Ce document explique comment configurer et utiliser l'environnement de test pour le projet La Maison Sattvaïa.
 
 ## 🚀 Configuration Rapide
 
@@ -54,18 +54,18 @@ npm run test:validate
 | Variable         | Description                    | Exemple                                |
 | ---------------- | ------------------------------ | -------------------------------------- |
 | `WEBSITE_URL`    | URL du site web                | `http://localhost:4322`                |
-| `WEBSITE_NAME`   | Nom du site web                | `Harmonia Test`                        |
+| `WEBSITE_NAME`   | Nom du site web                | `La Maison Sattvaïa Test`              |
 | `DEV`            | Mode de développement          | `true`                                 |
 | `PROD`           | Mode de production             | `false`                                |
 | `API_SECRET_KEY` | Clé secrète API pour les tests | `test-api-secret-key-for-testing-only` |
 
 ### Variables Email (Resend)
 
-| Variable         | Description                   | Exemple                        |
-| ---------------- | ----------------------------- | ------------------------------ |
-| `RESEND_API_KEY` | Clé API Resend pour les tests | `re_test_key_for_testing_only` |
-| `FROM_EMAIL`     | Email d'expédition par défaut | `test@harmonia-test.com`       |
-| `SUPPORT_EMAIL`  | Email de support              | `support@harmonia-test.com`    |
+| Variable         | Description                   | Exemple                               |
+| ---------------- | ----------------------------- | ------------------------------------- |
+| `RESEND_API_KEY` | Clé API Resend pour les tests | `re_test_key_for_testing_only`        |
+| `FROM_EMAIL`     | Email d'expédition par défaut | `test@la-maison-sattvaia-test.com`    |
+| `SUPPORT_EMAIL`  | Email de support              | `support@la-maison-sattvaia-test.com` |
 
 ### Variables Sécurité
 

@@ -1,4 +1,4 @@
-# Harmonia - Site Web de Naturopathie
+# La Maison Sattvaïa - Site Web de Naturopathie
 
 Site web professionnel pour les services de naturopathie humaine et animale, incluant une boutique en ligne, un blog, et un système de prise de rendez-vous.
 
@@ -15,7 +15,7 @@ Site web professionnel pour les services de naturopathie humaine et animale, inc
 ## 📁 Structure du Projet
 
 ```
-harmonia/
+la-maison-sattvaia/
 ├── docs/                    # Documentation du projet
 │   ├── TYPESCRIPT_TYPES.md
 │   ├── MIGRATION_CSS.md
@@ -70,7 +70,7 @@ harmonia/
 
 ```bash
 git clone <repository-url>
-cd harmonia
+cd la-maison-sattvaia
 ```
 
 2. **Installer les dépendances**
@@ -104,7 +104,7 @@ FROM_EMAIL=your_from_email
 
 # Application
 WEBSITE_URL=your_website_url
-WEBSITE_NAME=Harmonia
+WEBSITE_NAME=La Maison Sattvaïa
 API_SECRET_KEY=your_api_secret
 ```
 
@@ -265,7 +265,7 @@ Pour toute question ou problème :
 
 ---
 
-**Harmonia** - Votre bien-être naturel 🌿
+**La Maison Sattvaïa** - Votre bien-être naturel 🌿
 
 ## 🗄️ Migrations Supabase
 

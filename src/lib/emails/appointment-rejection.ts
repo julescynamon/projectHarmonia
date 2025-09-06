@@ -2,7 +2,7 @@
 export function getAppointmentRejectionEmailHtml({
   appointment,
   rejectionReason,
-  websiteUrl = 'https://harmonia-naturo.com'
+  websiteUrl = 'https://la-maison-sattvaia.com'
 }: {
   appointment: {
     id: string;
@@ -28,7 +28,7 @@ export function getAppointmentRejectionEmailHtml({
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Réservation - Harmonia</title>
+      <title>Réservation - La Maison Sattvaïa</title>
       <style>
         body {
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -139,7 +139,7 @@ export function getAppointmentRejectionEmailHtml({
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">🌿 Harmonia</div>
+          <div class="logo">🌿 La Maison Sattvaïa</div>
           <div class="info-icon">ℹ️</div>
           <h1 style="color: #f44336; margin: 0;">Réservation</h1>
           <p style="color: #666; margin: 10px 0 0 0;">Information importante concernant votre demande</p>
@@ -205,12 +205,12 @@ export function getAppointmentRejectionEmailHtml({
           Bien cordialement,<br>
           <strong>Naima Tyzra</strong><br>
           Naturopathe & Praticienne en soins énergétiques<br>
-          🌿 Harmonia
+          🌿 La Maison Sattvaïa
         </p>
 
         <div class="footer">
           <p>Cet email a été envoyé automatiquement. Merci de ne pas y répondre directement.</p>
-          <p>© 2024 Harmonia - Tous droits réservés</p>
+          <p>© 2024 La Maison Sattvaïa - Tous droits réservés</p>
         </div>
       </div>
     </body>

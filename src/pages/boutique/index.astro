@@ -112,7 +112,7 @@ const categories = [...new Set(products.map(p => p.category))];
         <article class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
           <a href="/boutique/${product.id}" class="block hover:no-underline">
             <div class="aspect-w-4 aspect-h-3">
-              <img src="${product.image || '/images/placeholder.jpg'}" alt="${product.title}" loading="lazy" class="object-cover w-full h-full">
+              <img src="${product.image || '/images/placeholder.webp'}" alt="${product.title}" loading="lazy" class="object-cover w-full h-full">
             </div>
             <div class="p-6">
               <div class="flex items-center gap-2 mb-2">

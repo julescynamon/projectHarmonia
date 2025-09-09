@@ -1,4 +1,5 @@
 ---
+// src/components/auth/AuthForm.astro
 interface Props {
   type: 'login' | 'register';
 }
@@ -8,61 +9,98 @@ import Button from '../ui/Button.astro';
 
 <form class="space-y-6" id="auth-form" data-type={type}>
   {type === 'register' && (
-    <div>
-      <label for="name" class="block text-sm font-medium text-gray-700">Nom</label>
+    <div class="space-y-2">
+      <label for="name" class="block text-ebony font-heading text-lg font-medium">Nom complet</label>
       <input
         type="text"
         id="name"
         name="name"
         required
-        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
+        minlength="2"
+        maxlength="100"
+        class="w-full px-6 py-4 rounded-2xl border-2 border-sage/20 focus:border-eucalyptus focus:ring-2 focus:ring-eucalyptus/20 outline-none transition-all duration-300 bg-white/50 backdrop-blur-sm placeholder-gray-400"
+        placeholder="Votre nom complet"
+        autocomplete="name"
       />
     </div>
   )}
 
-  <div>
-    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+  <div class="space-y-2">
+    <label for="email" class="block text-ebony font-heading text-lg font-medium">Adresse email</label>
     <input
       type="email"
       id="email"
       name="email"
       required
-      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
+      maxlength="254"
+      class="w-full px-6 py-4 rounded-2xl border-2 border-sage/20 focus:border-eucalyptus focus:ring-2 focus:ring-eucalyptus/20 outline-none transition-all duration-300 bg-white/50 backdrop-blur-sm placeholder-gray-400"
+      placeholder="votre@email.com"
+      autocomplete="email"
     />
   </div>
 
-  <div>
-    <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+  <div class="space-y-2">
+    <label for="password" class="block text-ebony font-heading text-lg font-medium">Mot de passe</label>
     <input
       type="password"
       id="password"
       name="password"
       required
       minlength="6"
-      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary/20"
+      class="w-full px-6 py-4 rounded-2xl border-2 border-sage/20 focus:border-eucalyptus focus:ring-2 focus:ring-eucalyptus/20 outline-none transition-all duration-300 bg-white/50 backdrop-blur-sm placeholder-gray-400"
+      placeholder="Votre mot de passe"
+      autocomplete={type === 'login' ? 'current-password' : 'new-password'}
     />
+    {type === 'register' && (
+      <p class="text-sm text-eucalyptus/70 mt-2">
+        Minimum 6 caractères
+      </p>
+    )}
   </div>
 
-  <div class="flex items-center justify-between">
+  <!-- Liens de navigation -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4">
     <div class="text-sm">
       {type === 'login' ? (
-        <a href="/register" class="text-primary hover:text-primary/80">Pas encore de compte ?</a>
+        <a href="/register" class="text-eucalyptus hover:text-sage transition-colors duration-300 font-medium">
+          Pas encore de compte ?
+        </a>
       ) : (
-        <a href="/login" class="text-primary hover:text-primary/80">Déjà un compte ?</a>
+        <a href="/login" class="text-eucalyptus hover:text-sage transition-colors duration-300 font-medium">
+          Déjà un compte ?
+        </a>
       )}
     </div>
     {type === 'login' && (
       <div class="text-sm">
-        <a href="/mot-de-passe-oublie" class="text-primary hover:text-primary/80">Mot de passe oublié ?</a>
+        <a href="/mot-de-passe-oublie" class="text-eucalyptus hover:text-sage transition-colors duration-300 font-medium">
+          Mot de passe oublié ?
+        </a>
       </div>
     )}
   </div>
 
-  <Button type="submit" variant="primary" size="md" class="w-full">
-    {type === 'login' ? 'Se connecter' : 'S\'inscrire'}
-  </Button>
+  <!-- Bouton de soumission -->
+  <div class="pt-4">
+    <Button 
+      type="submit" 
+      variant="primary" 
+      size="lg" 
+      class="w-full bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage text-white py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-heading text-lg"
+    >
+      {type === 'login' ? 'Se connecter' : 'Créer mon compte'}
+    </Button>
+  </div>
 
-  <div class="text-red-500 text-sm hidden" id="error-message"></div>
+  <!-- Message d'erreur -->
+  <div class="hidden p-4 rounded-2xl text-sm bg-red-50 text-red-700 border border-red-200 shadow-lg" id="error-message">
+    <div class="flex items-center gap-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <p class="font-medium"></p>
+    </div>
+  </div>
 </form>
 
 <script>

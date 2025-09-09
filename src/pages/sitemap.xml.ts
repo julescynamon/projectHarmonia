@@ -8,7 +8,16 @@ const pages = [
   'services',
   'boutique',
   'rendez-vous',
-  'blog'
+  'blog',
+  'mentions-legales',
+  'politique-confidentialite',
+  'cgv',
+  'accompagnements/naturopathie-humaine',
+  'accompagnements/naturopathie-animale',
+  'accompagnements/soins-energetiques-humains',
+  'accompagnements/soins-energetiques-animaux',
+  'accompagnements/accompagnement-personalise',
+  'accompagnements/reservation'
 ];
 
 export const GET: APIRoute = async ({ site }) => {
@@ -20,14 +29,35 @@ export const GET: APIRoute = async ({ site }) => {
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       ${pages
-        .map((page) => `
+        .map((page) => {
+          // Définir les priorités selon l'importance des pages
+          let priority = '0.8';
+          let changefreq = 'weekly';
+          
+          if (page === '') {
+            priority = '1.0';
+            changefreq = 'daily';
+          } else if (page === 'services' || page === 'contact' || page === 'rendez-vous') {
+            priority = '0.9';
+          } else if (page.startsWith('accompagnements/')) {
+            priority = '0.8';
+            changefreq = 'monthly';
+          } else if (page === 'blog') {
+            priority = '0.7';
+          } else if (page.includes('mentions-legales') || page.includes('politique-confidentialite') || page.includes('cgv')) {
+            priority = '0.3';
+            changefreq = 'yearly';
+          }
+          
+          return `
           <url>
             <loc>${new URL(page, site).toString()}</loc>
             <lastmod>${new Date().toISOString()}</lastmod>
-            <changefreq>${page === '' ? 'daily' : 'weekly'}</changefreq>
-            <priority>${page === '' ? '1.0' : '0.8'}</priority>
+            <changefreq>${changefreq}</changefreq>
+            <priority>${priority}</priority>
           </url>
-        `)
+        `;
+        })
         .join('')}
       ${posts
         .map((post) => `

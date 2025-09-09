@@ -103,7 +103,7 @@ export function getConfirmationEmailHtml({
           <div style="margin:0px auto;max-width:600px;background:#ffffff;border-radius:8px;overflow:hidden;box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
             <!-- Logo Header -->
             <div style="padding:32px 40px;text-align:center;background-color:#1e293b;">
-              <img src="${websiteUrl}/logo-light.png" 
+              <img src="${websiteUrl}/logo-light.webp" 
                    alt="${websiteName}" 
                    style="width:auto;height:40px;"
                    width="auto" 

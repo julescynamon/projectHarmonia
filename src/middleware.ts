@@ -1,7 +1,7 @@
 import { defineMiddleware } from "astro:middleware";
 import { createClient } from "@supabase/supabase-js";
-
-
+import { onRequest as cacheMiddleware } from "./middleware/cache";
+import { onRequest as securityMiddleware } from "./middleware/security";
 
 export const onRequest = defineMiddleware(async (context, next) => {
   // Récupérer les cookies de la requête
@@ -53,8 +53,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
             session = {
               access_token: accessToken,
               refresh_token: '',
-              expires_in: 3600,
-              expires_at: Math.floor(Date.now() / 1000) + 3600,
+              expires_in: 21600,
+              expires_at: Math.floor(Date.now() / 1000) + 21600,
               token_type: 'bearer',
               user: user
             };
@@ -68,7 +68,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
       const timeNow = Math.round(Date.now() / 1000);
       const expiresIn = session.expires_at - timeNow;
 
-      if (expiresIn < 3600) {
+      if (expiresIn < 7200) {
         try {
           const refreshResult = await supabase.auth.refreshSession();
           if (refreshResult.data.session) {
@@ -88,5 +88,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
   context.locals.session = session;
 
   // Continuer vers la page
-  return next();
+  const response = await next();
+  
+  // Appliquer les middlewares de cache et sécurité
+  const cachedResponse = await cacheMiddleware(context, async () => response);
+  const secureResponse = await securityMiddleware(context, async () => cachedResponse);
+  
+  return secureResponse;
 });

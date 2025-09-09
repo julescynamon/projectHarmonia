@@ -1,5 +1,7 @@
 ---
 // src/components/OptimizedImage.astro
+import { ImageOptimizer } from '../lib/image-optimizer';
+
 export interface Props {
   src: string;
   alt: string;
@@ -9,6 +11,10 @@ export interface Props {
   loading?: 'lazy' | 'eager';
   sizes?: string;
   priority?: boolean;
+  quality?: number;
+  formats?: ('webp' | 'avif' | 'jpeg')[];
+  placeholder?: 'blur' | 'empty';
+  blurDataURL?: string;
 }
 
 const {
@@ -18,20 +24,29 @@ const {
   height = 600,
   class: className = '',
   loading = 'lazy',
-  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
-  priority = false
+  sizes,
+  priority = false,
+  quality = 80,
+  formats = ['webp', 'avif'],
+  placeholder = 'blur',
+  blurDataURL
 } = Astro.props;
 
-// Génération des formats d'image optimisés
-const imageFormats = ['webp', 'avif'];
+// Génération des tailles responsives
 const densities = [1, 2];
+const responsiveSizes = [
+  { suffix: 'sm', width: 480, height: 320 },
+  { suffix: 'md', width: 768, height: 512 },
+  { suffix: 'lg', width: 1024, height: 683 },
+  { suffix: 'xl', width: 1920, height: 1280 },
+];
 
 // Génération des sources pour chaque format
-const sources = imageFormats.map(format => {
+const sources = formats.map(format => {
   const srcset = densities.map(density => {
     const w = width * density;
     const h = height * density;
-    return `${src}?w=${w}&h=${h}&f=${format} ${density}x`;
+    return `${src}?w=${w}&h=${h}&f=${format}&q=${quality} ${density}x`;
   }).join(', ');
   
   return {
@@ -40,12 +55,62 @@ const sources = imageFormats.map(format => {
     type: `image/${format}`
   };
 });
+
+// Génération des tailles responsives
+const responsiveSrcset = formats.map(format => {
+  const srcset = responsiveSizes.map(size => {
+    return `${src}?w=${size.width}&h=${size.height}&f=${format}&q=${quality} ${size.width}w`;
+  }).join(', ');
+  
+  return {
+    format,
+    srcset,
+    type: `image/${format}`
+  };
+});
+
+// Calcul des tailles par défaut si non fournies
+const defaultSizes = sizes || ImageOptimizer.calculateSizes({
+  '(max-width: 480px)': '100vw',
+  '(max-width: 768px)': '100vw',
+  '(max-width: 1024px)': '50vw',
+  '(max-width: 1920px)': '33vw',
+});
+
+// Génération du placeholder blur si nécessaire
+const generateBlurDataURL = () => {
+  if (blurDataURL) return blurDataURL;
+  
+  // Générer un placeholder SVG simple
+  const svg = `
+    <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100%" height="100%" fill="#f3f4f6"/>
+      <text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#9ca3af" font-family="system-ui">
+        Chargement...
+      </text>
+    </svg>
+  `;
+  
+  return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
+};
 ---
 
 <picture class={className}>
+  {/* Sources responsives pour chaque format */}
+  {responsiveSrcset.map(({ format, srcset, type }) => (
+    <source 
+      srcset={srcset} 
+      type={type}
+      media={`(max-width: ${format === 'avif' ? '1920px' : '1024px'})`}
+    />
+  ))}
+  
+  {/* Sources avec densité pour chaque format */}
   {sources.map(({ format, srcset, type }) => (
     <source srcset={srcset} type={type} />
   ))}
+  
+  {/* Image de fallback */}
   <img
     src={src}
     alt={alt}
@@ -53,11 +118,60 @@ const sources = imageFormats.map(format => {
     height={height}
     loading={priority ? 'eager' : loading}
     decoding="async"
-    sizes={sizes}
-    class="w-full h-auto object-cover"
-    style="aspect-ratio: {width}/{height};"
+    sizes={defaultSizes}
+    class="w-full h-auto object-cover transition-opacity duration-300"
+    style={`aspect-ratio: ${width}/${height};`}
+    {...(placeholder === 'blur' && {
+      'data-blur': generateBlurDataURL(),
+      'data-loaded': 'false'
+    })}
   />
 </picture>
+
+{/* Script pour le lazy loading avancé */}
+<script>
+  // Lazy loading avec Intersection Observer
+  if ('IntersectionObserver' in window) {
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target as HTMLImageElement;
+          
+          // Charger l'image
+          img.src = img.src;
+          
+          // Gérer le placeholder blur
+          if (img.dataset.blur) {
+            img.style.filter = 'blur(5px)';
+            img.style.transition = 'filter 0.3s ease';
+            
+            img.onload = () => {
+              img.style.filter = 'none';
+              img.dataset.loaded = 'true';
+            };
+          }
+          
+          observer.unobserve(img);
+        }
+      });
+    }, {
+      rootMargin: '50px 0px',
+      threshold: 0.01
+    });
+    
+    images.forEach(img => imageObserver.observe(img));
+  }
+  
+  // Fallback pour les navigateurs sans Intersection Observer
+  else {
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    images.forEach(img => {
+      (img as HTMLImageElement).loading = 'eager';
+    });
+  }
+</script>
 
 <style>
   picture {

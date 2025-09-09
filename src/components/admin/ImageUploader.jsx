@@ -2,7 +2,7 @@
 // src/components/admin/ImageUploader.jsx
 
 import React, { useState, useRef, useCallback } from "react";
-import { ImageUploadService } from "../../lib/image-upload-service";
+import { ImageUploadServiceEnhanced } from "../../lib/image-upload-service-enhanced";
 
 const ImageUploader = ({ onImageUploaded, onError, className = "" }) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -94,7 +94,12 @@ const ImageUploader = ({ onImageUploaded, onError, className = "" }) => {
 
       // Ici on devrait récupérer l'userId depuis le contexte d'auth
       const userId = "temp-user-id"; // À remplacer par l'userId réel
-      const result = await ImageUploadService.uploadImage(file, userId);
+      const result = await ImageUploadServiceEnhanced.uploadImage(
+        file,
+        userId,
+        (progress) => setUploadProgress(progress),
+        true
+      );
 
       clearInterval(progressInterval);
       setUploadProgress(100);

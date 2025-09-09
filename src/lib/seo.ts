@@ -16,7 +16,7 @@ export interface SEO {
 export const defaultSEO: SEOProps = {
   title: 'Naima Tyzra - Naturopathe à Paris',
   description: 'Découvrez une approche holistique de la santé avec Naima Tyzra, naturopathe certifiée à Paris. Consultations personnalisées, conseils en nutrition et bien-être naturel.',
-  image: '/images/social-share.jpg'
+  image: '/images/social-share.webp'
 };
 
 export const pageSEO: Record<string, SEOProps> = {
@@ -59,5 +59,17 @@ export const pageSEO: Record<string, SEOProps> = {
   lectureAmeReservation: {
     title: 'Réserver une lecture d\'âme | Naima Tyzra',
     description: 'Prenez rendez-vous pour une lecture d\'âme personnalisée et découvrez votre chemin de vie, vos missions d\'âme et votre potentiel spirituel.',
+  },
+  mentionsLegales: {
+    title: 'Mentions Légales | La Maison Sattvaïa - Naima Tyzra',
+    description: 'Mentions légales et conditions d\'utilisation du site La Maison Sattvaïa. Informations sur l\'éditeur, protection des données personnelles et droits d\'utilisation.',
+  },
+  politiqueConfidentialite: {
+    title: 'Politique de Confidentialité | La Maison Sattvaïa - Naima Tyzra',
+    description: 'Politique de confidentialité et protection des données personnelles. Découvrez comment La Maison Sattvaïa collecte, utilise et protège vos informations conformément au RGPD.',
+  },
+  cgv: {
+    title: 'Conditions Générales de Vente | La Maison Sattvaïa - Naima Tyzra',
+    description: 'Conditions générales de vente et d\'utilisation des services de naturopathie, soins énergétiques et accompagnement holistique de La Maison Sattvaïa.',
   }
 };

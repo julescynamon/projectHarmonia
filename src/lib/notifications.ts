@@ -108,7 +108,7 @@ export async function sendAppointmentNotification(
           <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto;">
             <tr>
               <td style="background-color: #a8b5a3; padding: 20px; text-align: center;">
-                <img src="https://raw.githubusercontent.com/julescynamon/projectHarmonia/main/public/images/logo.png" alt="La Maison Sattvaïa" width="120" style="display: block; margin: 0 auto;">
+                <img src="https://raw.githubusercontent.com/julescynamon/projectHarmonia/main/public/images/logo.webp" alt="La Maison Sattvaïa" width="120" style="display: block; margin: 0 auto;">
               </td>
             </tr>
             <tr>

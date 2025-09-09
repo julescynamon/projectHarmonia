@@ -14,9 +14,9 @@ import CharacterCount from "@tiptap/extension-character-count";
 import Typography from "@tiptap/extension-typography";
 import Color from "@tiptap/extension-color";
 import Highlight from "@tiptap/extension-highlight";
-import { ImageUploadService } from "../../lib/image-upload-service.js";
+import { ImageUploadServiceEnhanced } from "../../lib/image-upload-service-enhanced";
 import { PostsService } from "../../lib/posts-service.js";
-import ImageUpload from "../ui/ImageUpload.jsx";
+import ImageUploadEnhanced from "../ui/ImageUploadEnhanced.jsx";
 import { BLOG_CATEGORIES } from "../../lib/constants.js";
 import "../../styles/tiptap-editor.css";
 // Pas d'imports de types dans les composants JSX
@@ -82,27 +82,17 @@ const Toolbar = ({
     editor.chain().focus().unsetLink().run();
   };
 
-  const setImage = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      try {
-        // Récupérer l'userId depuis la session (à passer depuis le composant parent)
-        const userId = window.currentUserId || "temp-user-id";
-        const result = await ImageUploadService.uploadImage(file, userId);
-
-        editor
-          .chain()
-          .focus()
-          .setImage({
-            src: result.url,
-            alt: file.name,
-            title: file.name,
-          })
-          .run();
-      } catch (error) {
-        console.error("Erreur lors de l'upload de l'image:", error);
-        alert("Erreur lors de l'upload de l'image: " + error.message);
-      }
+  const setImage = async (imageUrl) => {
+    if (imageUrl) {
+      editor
+        .chain()
+        .focus()
+        .setImage({
+          src: imageUrl,
+          alt: "Image du blog",
+          title: "Image du blog",
+        })
+        .run();
     }
   };
 
@@ -296,22 +286,14 @@ const Toolbar = ({
           )}
         </div>
 
-        {/* Image */}
+        {/* Upload d'image avec conversion WebP */}
         <div className="flex items-center space-x-1">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={setImage}
-            className="hidden"
-            id="image-upload"
+          <ImageUploadEnhanced
+            onImageUploaded={setImage}
+            className="inline-block"
+            showCompressionStats={false}
+            autoConvertToWebP={true}
           />
-          <label
-            htmlFor="image-upload"
-            className="p-2 rounded bg-gray-100 hover:bg-gray-200 cursor-pointer"
-            title="Insérer une image"
-          >
-            🖼️
-          </label>
         </div>
 
         {/* Séparateur */}
@@ -718,11 +700,12 @@ const PostEditor = ({
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Image de couverture
             </label>
-            <ImageUpload
-              currentImageUrl={coverUrl}
+            <ImageUploadEnhanced
               onImageUploaded={(url) => setCoverUrl(url)}
               onRemoveImage={() => setCoverUrl("")}
               className="w-full"
+              showCompressionStats={true}
+              autoConvertToWebP={true}
             />
           </div>
 

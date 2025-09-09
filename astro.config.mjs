@@ -114,9 +114,6 @@ export default defineConfig({
                   maxEntries: 10,
                   maxAgeSeconds: 60 * 60 * 24 * 365, // 1 an
                 },
-                cacheKeyWillBeUsed: async ({ request }) => {
-                  return `${request.url}?v=1`;
-                },
               },
             },
             {
@@ -193,5 +190,28 @@ export default defineConfig({
     quality: 80,
     // Redimensionnement automatique
     densities: [1, 2],
+    // Optimisations Sharp
+    sharp: {
+      // Compression progressive
+      progressive: true,
+      // Optimisation des métadonnées
+      stripMetadata: true,
+      // Compression JPEG
+      mozjpeg: true,
+      // Compression PNG
+      pngquant: {
+        quality: [0.6, 0.8],
+      },
+      // Compression WebP
+      webp: {
+        quality: 80,
+        effort: 6,
+      },
+      // Compression AVIF
+      avif: {
+        quality: 80,
+        effort: 4,
+      },
+    },
   },
 });

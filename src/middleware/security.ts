@@ -1,7 +1,7 @@
 // src/middleware/security.ts
 import { defineMiddleware } from "astro:middleware";
 import type { MiddlewareHandler } from "astro";
-import { getSecurityConfig, generateSecurityHeaders, type SecurityConfig } from "../lib/security-config";
+import { SecurityHeadersManager } from "../lib/security-headers";
 
 /**
  * Vérifie si un chemin doit être exclu des headers de sécurité
@@ -9,13 +9,22 @@ import { getSecurityConfig, generateSecurityHeaders, type SecurityConfig } from 
  * @param excludePaths - Liste des chemins à exclure
  * @returns true si le chemin doit être exclu
  */
-function shouldExcludePath(pathname: string, excludePaths: string[] = []): boolean {
+function shouldExcludePath(pathname: string): boolean {
+  const excludePaths = [
+    '/api/health',
+    '/_astro/',
+    '/favicon.ico',
+    '/robots.txt',
+    '/sitemap.xml',
+    '/sw.js',
+    '/manifest.json',
+  ];
+
   return excludePaths.some(excludePath => {
     if (excludePath.endsWith('*')) {
-      // Support des wildcards
-      const basePath = excludePath.slice(0, -1);
-      return pathname.startsWith(basePath);
+      return pathname.startsWith(excludePath.slice(0, -1));
     }
+
     return pathname === excludePath || pathname.startsWith(excludePath);
   });
 }
@@ -29,11 +38,8 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
   const url = new URL(request.url);
   const pathname = url.pathname;
 
-  // Récupérer la configuration de sécurité
-  const securityConfig = getSecurityConfig();
-
   // Vérifier si le chemin doit être exclu
-  if (shouldExcludePath(pathname, securityConfig.excludePaths)) {
+  if (shouldExcludePath(pathname)) {
     return next();
   }
 
@@ -46,7 +52,7 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
   }
 
   // Générer les headers de sécurité
-  const securityHeaders = generateSecurityHeaders(securityConfig);
+  const securityHeaders = SecurityHeadersManager.generateHeaders();
 
   // Cloner la réponse pour pouvoir modifier les headers
   const newResponse = new Response(response.body, {

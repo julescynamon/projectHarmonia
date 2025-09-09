@@ -395,15 +395,16 @@ const imageUrl = post.cover_url || null;
       return '';
     }
 
-    // Rendre les images responsives
+    // Rendre les images responsives (seulement pour les images locales)
     function makeImagesResponsive(container) {
       const images = container.querySelectorAll('img');
       images.forEach(img => {
         const src = img.src;
-        if (src && src.includes('supabase.co')) {
-          // Générer des URLs responsives pour Supabase
+        // Ne pas ajouter de paramètres d'optimisation aux URLs Supabase
+        if (src && !src.includes('supabase.co')) {
+          // Générer des URLs responsives pour les images locales uniquement
           const widths = [480, 768, 1200, 1600];
-          const srcset = widths.map(w => `${src}?width=${w}&quality=80&resize=contain`).join(', ');
+          const srcset = widths.map(w => `${src}?w=${w}&h=${w}&q=80`).join(', ');
           img.srcset = srcset;
           img.sizes = '(max-width: 480px) 480px, (max-width: 768px) 768px, (max-width: 1200px) 1200px, 1600px';
         }

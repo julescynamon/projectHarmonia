@@ -41,8 +41,11 @@ const responsiveSizes = [
   { suffix: 'xl', width: 1920, height: 1280 },
 ];
 
-// Génération des sources pour chaque format
-const sources = formats.map(format => {
+// Détecter si c'est une URL Supabase (ne pas ajouter de paramètres d'optimisation)
+const isSupabaseUrl = src.includes('supabase.co');
+
+// Génération des sources pour chaque format (seulement si ce n'est pas Supabase)
+const sources = isSupabaseUrl ? [] : formats.map(format => {
   const srcset = densities.map(density => {
     const w = width * density;
     const h = height * density;
@@ -56,8 +59,8 @@ const sources = formats.map(format => {
   };
 });
 
-// Génération des tailles responsives
-const responsiveSrcset = formats.map(format => {
+// Génération des tailles responsives (seulement si ce n'est pas Supabase)
+const responsiveSrcset = isSupabaseUrl ? [] : formats.map(format => {
   const srcset = responsiveSizes.map(size => {
     return `${src}?w=${size.width}&h=${size.height}&f=${format}&q=${quality} ${size.width}w`;
   }).join(', ');
@@ -95,22 +98,8 @@ const generateBlurDataURL = () => {
 };
 ---
 
-<picture class={className}>
-  {/* Sources responsives pour chaque format */}
-  {responsiveSrcset.map(({ format, srcset, type }) => (
-    <source 
-      srcset={srcset} 
-      type={type}
-      media={`(max-width: ${format === 'avif' ? '1920px' : '1024px'})`}
-    />
-  ))}
-  
-  {/* Sources avec densité pour chaque format */}
-  {sources.map(({ format, srcset, type }) => (
-    <source srcset={srcset} type={type} />
-  ))}
-  
-  {/* Image de fallback */}
+{isSupabaseUrl ? (
+  /* Image simple pour URLs Supabase (sans optimisation) */
   <img
     src={src}
     alt={alt}
@@ -118,7 +107,6 @@ const generateBlurDataURL = () => {
     height={height}
     loading={priority ? 'eager' : loading}
     decoding="async"
-    sizes={defaultSizes}
     class="w-full h-auto object-cover transition-opacity duration-300"
     style={`aspect-ratio: ${width}/${height};`}
     {...(placeholder === 'blur' && {
@@ -126,7 +114,41 @@ const generateBlurDataURL = () => {
       'data-loaded': 'false'
     })}
   />
-</picture>
+) : (
+  /* Image optimisée pour URLs locales */
+  <picture class={className}>
+    {/* Sources responsives pour chaque format */}
+    {responsiveSrcset.map(({ format, srcset, type }) => (
+      <source 
+        srcset={srcset} 
+        type={type}
+        media={`(max-width: ${format === 'avif' ? '1920px' : '1024px'})`}
+      />
+    ))}
+    
+    {/* Sources avec densité pour chaque format */}
+    {sources.map(({ format, srcset, type }) => (
+      <source srcset={srcset} type={type} />
+    ))}
+    
+    {/* Image de fallback */}
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={priority ? 'eager' : loading}
+      decoding="async"
+      sizes={defaultSizes}
+      class="w-full h-auto object-cover transition-opacity duration-300"
+      style={`aspect-ratio: ${width}/${height};`}
+      {...(placeholder === 'blur' && {
+        'data-blur': generateBlurDataURL(),
+        'data-loaded': 'false'
+      })}
+    />
+  </picture>
+)}
 
 {/* Script pour le lazy loading avancé */}
 <script>

@@ -1,5 +1,4 @@
 ---
-import { getPublicImageUrl } from '../../utils/supabaseStorage';
 
 interface Props {
   variant?: 'default' | 'hover' | 'feature';
@@ -23,8 +22,8 @@ const {
   url
 } = Astro.props;
 
-// Générer l'URL publique de l'image si c'est un chemin Supabase
-const imageUrl = image?.startsWith('blog/') ? await getPublicImageUrl('blog', image) : image;
+// Utiliser directement l'URL de l'image (déjà complète pour Supabase)
+const imageUrl = image;
 
 const variants = {
   default: 'bg-white shadow-soft border-sage/10',

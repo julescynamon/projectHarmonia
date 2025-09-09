@@ -108,6 +108,54 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 </html>
 
 <style is:global>
+  /* Correction du masquage par la navigation fixe */
+  .hero-section {
+    padding-top: 4rem; /* 64px pour mobile */
+  }
+  
+  @media (min-width: 1280px) {
+    .hero-section {
+      padding-top: 6rem; /* 96px pour desktop */
+    }
+  }
+  
+  /* Alternative pour les sections qui utilisent min-h-screen */
+  .min-h-screen.hero-section {
+    padding-top: 0;
+    margin-top: 4rem; /* 64px pour mobile */
+  }
+  
+  @media (min-width: 1280px) {
+    .min-h-screen.hero-section {
+      margin-top: 6rem; /* 96px pour desktop */
+    }
+  }
+  
+  /* Correction spécifique pour les pages accompagnements avec contenu centré */
+  .min-h-screen.hero-section .min-h-screen {
+    min-height: calc(100vh - 4rem); /* 64px pour mobile */
+    padding-top: 4rem; /* 64px pour mobile */
+  }
+  
+  @media (min-width: 1280px) {
+    .min-h-screen.hero-section .min-h-screen {
+      min-height: calc(100vh - 6rem); /* 96px pour desktop */
+      padding-top: 6rem; /* 96px pour desktop */
+    }
+  }
+  
+  /* Pour les sections avec min-h-[60vh] ou autres hauteurs spécifiques */
+  .min-h-\[60vh\].hero-section {
+    padding-top: 0;
+    margin-top: 4rem; /* 64px pour mobile */
+  }
+  
+  @media (min-width: 1280px) {
+    .min-h-\[60vh\].hero-section {
+      margin-top: 6rem; /* 96px pour desktop */
+    }
+  }
+
   :root {
     --color-primary: #4A6741;
     --color-secondary: #D4C9B9;

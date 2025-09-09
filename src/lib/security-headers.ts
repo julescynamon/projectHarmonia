@@ -161,9 +161,9 @@ const DEFAULT_SECURITY_CONFIG: SecurityHeadersConfig = {
   additional: {
     xDownloadOptions: true,
     xPermittedCrossDomainPolicies: true,
-    crossOriginEmbedderPolicy: 'require-corp',
+    crossOriginEmbedderPolicy: 'unsafe-none', // Permet les images externes
     crossOriginOpenerPolicy: 'same-origin',
-    crossOriginResourcePolicy: 'same-site',
+    crossOriginResourcePolicy: 'cross-origin', // Permet les ressources cross-origin
   },
 };
 

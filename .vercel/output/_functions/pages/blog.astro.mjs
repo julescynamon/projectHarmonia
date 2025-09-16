@@ -1,9 +1,9 @@
 /* empty css                                    */
 import { c as createComponent, m as maybeRenderHead, b as renderScript, a as renderTemplate, e as createAstro, r as renderComponent, d as addAttribute } from '../chunks/astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout } from '../chunks/MainLayout_BPgP8eEd.mjs';
+import { $ as $$MainLayout } from '../chunks/MainLayout_Nho3QixU.mjs';
 import { p as pageSEO } from '../chunks/seo_DE79S3-Q.mjs';
-import { $ as $$Card } from '../chunks/Card_CmPKRykx.mjs';
+import { $ as $$Card } from '../chunks/Card_D6yxF1_R.mjs';
 import 'clsx';
 /* empty css                                 */
 import { s as supabase } from '../chunks/supabase_CXSvBnpz.mjs';
@@ -18,7 +18,7 @@ S'inscrire à la newsletter
 </button> </form> </div>  ${renderScript($$result, "/Users/jules/Downloads/harmonia/src/components/NewsletterForm.astro?astro&type=script&index=0&lang.ts")}`;
 }, "/Users/jules/Downloads/harmonia/src/components/NewsletterForm.astro", void 0);
 
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 const prerender = false;
 const $$Index = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);

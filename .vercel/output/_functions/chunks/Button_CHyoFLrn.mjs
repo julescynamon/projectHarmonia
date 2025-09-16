@@ -1,7 +1,7 @@
 import { e as createAstro, c as createComponent, r as renderComponent, a as renderTemplate, g as renderSlot } from './astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
 
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 const $$Button = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$Button;

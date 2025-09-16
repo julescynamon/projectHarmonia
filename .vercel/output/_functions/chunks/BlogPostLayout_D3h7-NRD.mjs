@@ -1,6 +1,6 @@
 import { e as createAstro, c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead, d as addAttribute, g as renderSlot } from './astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout } from './MainLayout_BPgP8eEd.mjs';
+import { $ as $$MainLayout } from './MainLayout_Nho3QixU.mjs';
 /* empty css                          */
 
 function formatDate(dateString) {
@@ -12,7 +12,7 @@ function formatDate(dateString) {
   }).format(date);
 }
 
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 const $$BlogPostLayout = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$BlogPostLayout;

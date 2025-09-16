@@ -1,13 +1,13 @@
 /* empty css                                    */
 import { e as createAstro, c as createComponent, m as maybeRenderHead, d as addAttribute, b as renderScript, a as renderTemplate, r as renderComponent } from '../chunks/astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout, a as $$Cart } from '../chunks/MainLayout_BPgP8eEd.mjs';
+import { $ as $$MainLayout, a as $$Cart } from '../chunks/MainLayout_Nho3QixU.mjs';
 import 'clsx';
 import { a as getProducts } from '../chunks/shop_BG2ZyLKw.mjs';
 import { p as pageSEO } from '../chunks/seo_DE79S3-Q.mjs';
 export { renderers } from '../renderers.mjs';
 
-const $$Astro$4 = createAstro("https://harmonia.jules.com");
+const $$Astro$4 = createAstro("https://project-harmonia.vercel.app");
 const $$ProductCard = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$4, $$props, $$slots);
   Astro2.self = $$ProductCard;
@@ -17,7 +17,7 @@ Ajouter au panier
 </button> </div> </div> </article> ${renderScript($$result, "/Users/jules/Downloads/harmonia/src/components/shop/ProductCard.astro?astro&type=script&index=0&lang.ts")}`;
 }, "/Users/jules/Downloads/harmonia/src/components/shop/ProductCard.astro", void 0);
 
-const $$Astro$3 = createAstro("https://harmonia.jules.com");
+const $$Astro$3 = createAstro("https://project-harmonia.vercel.app");
 const $$ProductFilters = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$3, $$props, $$slots);
   Astro2.self = $$ProductFilters;
@@ -27,7 +27,7 @@ Tous les produits
 </button> ${categories.map((category) => renderTemplate`<button type="button" data-filter="category"${addAttribute(category, "data-value")}${addAttribute(`block w-full px-3 py-2 rounded-lg transition-colors text-left ${activeCategory === category ? "bg-sage text-white" : "text-ebony hover:bg-sage/10"}`, "class")}> ${category} </button>`)} </div> </div> <div> <h3 class="font-medium mb-3">Prix</h3> <div class="space-y-3"> <div> <label class="text-sm text-ebony/70">Prix minimum</label> <input type="number" data-filter="minPrice" min="0" step="1"${addAttribute(minPrice, "value")} class="w-full mt-1 px-3 py-2 bg-white border border-sage/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage/20"> </div> <div> <label class="text-sm text-ebony/70">Prix maximum</label> <input type="number" data-filter="maxPrice" min="0" step="1"${addAttribute(maxPrice, "value")} class="w-full mt-1 px-3 py-2 bg-white border border-sage/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage/20"> </div> </div> </div> </div> ${renderScript($$result, "/Users/jules/Downloads/harmonia/src/components/shop/ProductFilters.astro?astro&type=script&index=0&lang.ts")}`;
 }, "/Users/jules/Downloads/harmonia/src/components/shop/ProductFilters.astro", void 0);
 
-const $$Astro$2 = createAstro("https://harmonia.jules.com");
+const $$Astro$2 = createAstro("https://project-harmonia.vercel.app");
 const $$ProductSearch = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$2, $$props, $$slots);
   Astro2.self = $$ProductSearch;
@@ -35,7 +35,7 @@ const $$ProductSearch = createComponent(($$result, $$props, $$slots) => {
   return renderTemplate`${maybeRenderHead()}<div class="mb-6" data-aos="fade-up"> <div class="relative"> <input type="search" id="product-search" placeholder="Rechercher un produit..."${addAttribute(query, "value")} class="w-full px-4 py-3 pl-10 bg-white border border-sage/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage/20 transition-shadow" autocomplete="off"> <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sage/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path> </svg> <!-- Indicateur de chargement --> <div id="search-loading" class="absolute right-3 top-1/2 -translate-y-1/2 hidden"> <svg class="animate-spin h-5 w-5 text-sage/40" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"> <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle> <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path> </svg> </div> </div> </div> ${renderScript($$result, "/Users/jules/Downloads/harmonia/src/components/shop/ProductSearch.astro?astro&type=script&index=0&lang.ts")}`;
 }, "/Users/jules/Downloads/harmonia/src/components/shop/ProductSearch.astro", void 0);
 
-const $$Astro$1 = createAstro("https://harmonia.jules.com");
+const $$Astro$1 = createAstro("https://project-harmonia.vercel.app");
 const $$ProductSort = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$1, $$props, $$slots);
   Astro2.self = $$ProductSort;
@@ -49,7 +49,7 @@ const $$ProductSort = createComponent(($$result, $$props, $$slots) => {
   return renderTemplate`${maybeRenderHead()}<div class="flex justify-end mb-6" data-aos="fade-up"> <select data-sort class="px-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20"> ${sortOptions.map((option) => renderTemplate`<option${addAttribute(option.value, "value")}${addAttribute(currentSort === option.value, "selected")}> ${option.label} </option>`)} </select> </div> ${renderScript($$result, "/Users/jules/Downloads/harmonia/src/components/shop/ProductSort.astro?astro&type=script&index=0&lang.ts")}`;
 }, "/Users/jules/Downloads/harmonia/src/components/shop/ProductSort.astro", void 0);
 
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 const $$Index = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$Index;

@@ -42,8 +42,8 @@ const POST = async ({ request }) => {
       })),
       mode: "payment",
       client_reference_id: session.user.id,
-      success_url: `${"http://localhost:4321"}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${"http://localhost:4321"}/boutique`
+      success_url: `${"https://project-harmonia.vercel.app"}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${"https://project-harmonia.vercel.app"}/boutique`
     });
     return new Response(
       JSON.stringify({ url: stripeSession.url }),

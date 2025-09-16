@@ -63,8 +63,8 @@ const POST = async ({ request, locals }) => {
         }
       ],
       mode: "payment",
-      success_url: `${"http://localhost:4321"}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${"http://localhost:4321"}/rendez-vous`,
+      success_url: `${"https://project-harmonia.vercel.app"}/confirmation?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${"https://project-harmonia.vercel.app"}/rendez-vous`,
       metadata: {
         appointmentId: appointment.id,
         clientEmail: appointment.client_email,

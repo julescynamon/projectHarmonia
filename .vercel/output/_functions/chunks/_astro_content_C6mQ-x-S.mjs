@@ -66,7 +66,7 @@ class ImmutableDataStore {
    */
   static async fromModule() {
     try {
-      const data = await import('./_astro_data-layer-content_dPdKTzxi.mjs');
+      const data = await import('./_astro_data-layer-content_27FD-XXZ.mjs');
       if (data.default instanceof Map) {
         return ImmutableDataStore.fromMap(data.default);
       }
@@ -98,7 +98,7 @@ function dataStoreSingleton() {
 }
 const globalDataStore = dataStoreSingleton();
 
-const __vite_import_meta_env__ = {"ASSETS_PREFIX": undefined, "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "PUBLIC_CSRF_TOKEN": "9d70b4208a8a0f7c16be138ccc5a4c7723558ce6c7d91a61b70f5230263a810f", "PUBLIC_EMAILJS_KEY": "hYOZPnj8ZGm4yvGPI", "PUBLIC_EMAILJS_SERVICE_ID": "service_xgmpya7", "PUBLIC_EMAILJS_TEMPLATE_ID": "template_w65sa59", "PUBLIC_SITE_URL": "http://localhost:4321", "PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2dGh0ZWJqdm11dHV2enZ0dGRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY2OTM5NTgsImV4cCI6MjA1MjI2OTk1OH0.gpI9njtvd6Mu_0wTnwfvtx0bFpUDNexuzwu3hgOGDdY", "PUBLIC_SUPABASE_URL": "https://hvthtebjvmutuvzvttdb.supabase.co", "SITE": "https://harmonia.jules.com", "SSR": true};
+const __vite_import_meta_env__ = {"ASSETS_PREFIX": undefined, "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "PUBLIC_CSRF_TOKEN": "9d70b4208a8a0f7c16be138ccc5a4c7723558ce6c7d91a61b70f5230263a810f", "PUBLIC_EMAILJS_KEY": "hYOZPnj8ZGm4yvGPI", "PUBLIC_EMAILJS_SERVICE_ID": "service_xgmpya7", "PUBLIC_EMAILJS_TEMPLATE_ID": "template_w65sa59", "PUBLIC_SITE_URL": "https://project-harmonia.vercel.app", "PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2dGh0ZWJqdm11dHV2enZ0dGRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY2OTM5NTgsImV4cCI6MjA1MjI2OTk1OH0.gpI9njtvd6Mu_0wTnwfvtx0bFpUDNexuzwu3hgOGDdY", "PUBLIC_SUPABASE_URL": "https://hvthtebjvmutuvzvttdb.supabase.co", "SITE": "https://project-harmonia.vercel.app", "SSR": true};
 function createCollectionToGlobResultMap({
   globResult,
   contentDir
@@ -308,7 +308,7 @@ const CONTENT_LAYER_IMAGE_REGEX = /__ASTRO_IMAGE_="([^"]+)"/g;
 async function updateImageReferencesInBody(html, fileName) {
   const { default: imageAssetMap } = await import('./content-assets_DleWbedO.mjs');
   const imageObjects = /* @__PURE__ */ new Map();
-  const { getImage } = await import('./_astro_assets_DnTV_xYl.mjs').then(n => n._);
+  const { getImage } = await import('./_astro_assets_Ci5zDJ8E.mjs').then(n => n._);
   for (const [_full, imagePath] of html.matchAll(CONTENT_LAYER_IMAGE_REGEX)) {
     try {
       const decodedImagePath = JSON.parse(imagePath.replaceAll("&#x22;", '"'));

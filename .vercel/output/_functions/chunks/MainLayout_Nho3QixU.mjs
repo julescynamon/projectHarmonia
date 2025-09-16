@@ -3,7 +3,7 @@ import 'kleur/colors';
 /* empty css                                                    */
 import 'clsx';
 
-const $$Astro$3 = createAstro("https://harmonia.jules.com");
+const $$Astro$3 = createAstro("https://project-harmonia.vercel.app");
 const $$AuthButton = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$3, $$props, $$slots);
   Astro2.self = $$AuthButton;
@@ -24,7 +24,7 @@ Connexion
 </a>`} </div> `;
 }, "/Users/jules/Downloads/harmonia/src/components/navigation/AuthButton.astro", void 0);
 
-const $$Astro$2 = createAstro("https://harmonia.jules.com");
+const $$Astro$2 = createAstro("https://project-harmonia.vercel.app");
 const $$CartIcon = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$2, $$props, $$slots);
   Astro2.self = $$CartIcon;
@@ -111,7 +111,7 @@ Un espace d'harmonie et de guérison
 </p> </div> <ul class="flex flex-wrap justify-center md:justify-end gap-6 text-sm" data-astro-cid-sz7xmlte> ${links.legal.map(({ href, label }) => renderTemplate`<li data-astro-cid-sz7xmlte> <a${addAttribute(href, "href")} class="text-ebony/70 hover:text-sage transition-colors duration-300 text-xs" data-astro-cid-sz7xmlte> ${label} </a> </li>`)} </ul> </div> </div> </footer> `;
 }, "/Users/jules/Downloads/harmonia/src/components/Footer.astro", void 0);
 
-const $$Astro$1 = createAstro("https://harmonia.jules.com");
+const $$Astro$1 = createAstro("https://project-harmonia.vercel.app");
 const $$Cart = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$1, $$props, $$slots);
   Astro2.self = $$Cart;
@@ -123,7 +123,7 @@ Valider la commande
 </button> </div> </div> </div> ${renderScript($$result, "/Users/jules/Downloads/harmonia/src/components/shop/Cart.astro?astro&type=script&index=0&lang.ts")} `;
 }, "/Users/jules/Downloads/harmonia/src/components/shop/Cart.astro", void 0);
 
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 const $$MainLayout = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$MainLayout;

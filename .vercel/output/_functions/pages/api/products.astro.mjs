@@ -1,5 +1,5 @@
 import { a as getProducts } from '../../chunks/shop_BG2ZyLKw.mjs';
-import { m as monitoring } from '../../chunks/monitoring_CqxFccfw.mjs';
+import { m as monitoring } from '../../chunks/monitoring_CEn0FETp.mjs';
 export { renderers } from '../../renderers.mjs';
 
 const productsHandler = async ({ request, locals }) => {

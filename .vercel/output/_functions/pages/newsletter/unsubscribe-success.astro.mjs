@@ -1,10 +1,10 @@
 /* empty css                                       */
 import { e as createAstro, c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead, g as renderSlot } from '../../chunks/astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout } from '../../chunks/MainLayout_BPgP8eEd.mjs';
+import { $ as $$MainLayout } from '../../chunks/MainLayout_Nho3QixU.mjs';
 export { renderers } from '../../renderers.mjs';
 
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 const $$SimpleLayout = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$SimpleLayout;

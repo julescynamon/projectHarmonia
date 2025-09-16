@@ -1,7 +1,7 @@
 /* empty css                                       */
 import { c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../../chunks/astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$BlogPostLayout } from '../../chunks/BlogPostLayout_WM9bKpjr.mjs';
+import { $ as $$BlogPostLayout } from '../../chunks/BlogPostLayout_D3h7-NRD.mjs';
 export { renderers } from '../../renderers.mjs';
 
 const $$ConfirmationSuccess = createComponent(($$result, $$props, $$slots) => {

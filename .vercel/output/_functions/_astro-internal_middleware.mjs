@@ -1,7 +1,7 @@
-import { d as defineMiddleware, s as sequence } from './chunks/index_pq_J-8uA.mjs';
+import { d as defineMiddleware, s as sequence } from './chunks/index_DfICTfIP.mjs';
 import { c as createClient } from './chunks/index_DeVVxtlF.mjs';
 import 'es-module-lexer';
-import './chunks/astro-designed-error-pages_6k-a3bDe.mjs';
+import './chunks/astro-designed-error-pages_CV4XAf8J.mjs';
 import 'kleur/colors';
 import './chunks/astro/server_BsvY2apF.mjs';
 import 'clsx';

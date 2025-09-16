@@ -1,7 +1,7 @@
 /* empty css                                       */
 import { e as createAstro, c as createComponent, r as renderComponent, a as renderTemplate, f as defineScriptVars, m as maybeRenderHead } from '../../chunks/astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$BlogPostLayout } from '../../chunks/BlogPostLayout_WM9bKpjr.mjs';
+import { $ as $$BlogPostLayout } from '../../chunks/BlogPostLayout_D3h7-NRD.mjs';
 import { s as supabase } from '../../chunks/supabase_CXSvBnpz.mjs';
 /* empty css                                     */
 export { renderers } from '../../renderers.mjs';
@@ -10,7 +10,7 @@ var __freeze = Object.freeze;
 var __defProp = Object.defineProperty;
 var __template = (cooked, raw) => __freeze(__defProp(cooked, "raw", { value: __freeze(raw || cooked.slice()) }));
 var _a;
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 const prerender = false;
 const $$slug = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);

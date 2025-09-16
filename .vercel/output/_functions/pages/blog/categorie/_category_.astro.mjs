@@ -1,12 +1,12 @@
 /* empty css                                          */
 import { e as createAstro, c as createComponent, r as renderComponent, b as renderScript, a as renderTemplate, m as maybeRenderHead, d as addAttribute } from '../../../chunks/astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout } from '../../../chunks/MainLayout_BPgP8eEd.mjs';
-import { $ as $$Card } from '../../../chunks/Card_CmPKRykx.mjs';
+import { $ as $$MainLayout } from '../../../chunks/MainLayout_Nho3QixU.mjs';
+import { $ as $$Card } from '../../../chunks/Card_D6yxF1_R.mjs';
 /* empty css                                            */
 export { renderers } from '../../../renderers.mjs';
 
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 function getStaticPaths() {
   const categories = ["soins-energetiques", "meditation", "bien-etre", "developpement-personnel", "sante-naturelle", "spiritualite"];
   return categories.map((category) => ({ params: { category } }));

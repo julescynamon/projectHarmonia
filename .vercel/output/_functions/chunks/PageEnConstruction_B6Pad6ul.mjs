@@ -1,10 +1,10 @@
 import { e as createAstro, c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from './astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout } from './MainLayout_BPgP8eEd.mjs';
-import { $ as $$Button } from './Button_SIIWVcck.mjs';
+import { $ as $$MainLayout } from './MainLayout_Nho3QixU.mjs';
+import { $ as $$Button } from './Button_CHyoFLrn.mjs';
 /* empty css                                                    */
 
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 const $$PageEnConstruction = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$PageEnConstruction;

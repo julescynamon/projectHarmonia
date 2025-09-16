@@ -7,11 +7,9 @@ import blogNotifications from "./src/integrations/blog-notifications";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
-  site: "https://harmonia.jules.com",
+  site: "https://project-harmonia.vercel.app",
   output: "server",
-  adapter: vercel({
-    webAnalytics: { enabled: true },
-  }),
+  adapter: vercel(),
   integrations: [
     react(),
     tailwind(),

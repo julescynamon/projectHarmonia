@@ -1,7 +1,7 @@
 /* empty css                                    */
 import { c as createComponent, a as renderTemplate, f as defineScriptVars, m as maybeRenderHead, e as createAstro, r as renderComponent } from '../chunks/astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout } from '../chunks/MainLayout_BPgP8eEd.mjs';
+import { $ as $$MainLayout } from '../chunks/MainLayout_Nho3QixU.mjs';
 import 'clsx';
 export { renderers } from '../renderers.mjs';
 
@@ -101,7 +101,7 @@ const $$ForgotPasswordForm = createComponent(async ($$result, $$props, $$slots) 
 })();</script>`])), maybeRenderHead(), defineScriptVars({ supabaseUrl: "https://hvthtebjvmutuvzvttdb.supabase.co", supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2dGh0ZWJqdm11dHV2enZ0dGRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY2OTM5NTgsImV4cCI6MjA1MjI2OTk1OH0.gpI9njtvd6Mu_0wTnwfvtx0bFpUDNexuzwu3hgOGDdY" }));
 }, "/Users/jules/Downloads/harmonia/src/components/auth/ForgotPasswordForm.astro", void 0);
 
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 const $$MotDePasseOublie = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$MotDePasseOublie;

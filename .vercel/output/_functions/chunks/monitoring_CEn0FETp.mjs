@@ -1,4 +1,4 @@
-import { a as logger } from './logger_D2N0LYGt.mjs';
+import { a as logger } from './logger_NznGTdCm.mjs';
 
 class MonitoringService {
   static instance;

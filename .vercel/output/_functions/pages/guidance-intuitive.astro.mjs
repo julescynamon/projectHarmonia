@@ -1,7 +1,7 @@
 /* empty css                                    */
 import { c as createComponent, r as renderComponent, a as renderTemplate } from '../chunks/astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$PageEnConstruction } from '../chunks/PageEnConstruction_CIOV_kIn.mjs';
+import { $ as $$PageEnConstruction } from '../chunks/PageEnConstruction_B6Pad6ul.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$GuidanceIntuitive = createComponent(($$result, $$props, $$slots) => {

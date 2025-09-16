@@ -1,11 +1,11 @@
 /* empty css                                    */
 import { c as createComponent, m as maybeRenderHead, a as renderTemplate, d as addAttribute, b as renderScript, r as renderComponent } from '../chunks/astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout } from '../chunks/MainLayout_BPgP8eEd.mjs';
+import { $ as $$MainLayout } from '../chunks/MainLayout_Nho3QixU.mjs';
 import 'clsx';
 /* empty css                                 */
-import { $ as $$Card } from '../chunks/Card_CmPKRykx.mjs';
-import { $ as $$Button } from '../chunks/Button_SIIWVcck.mjs';
+import { $ as $$Card } from '../chunks/Card_D6yxF1_R.mjs';
+import { $ as $$Button } from '../chunks/Button_CHyoFLrn.mjs';
 import { s as supabase } from '../chunks/supabase_CXSvBnpz.mjs';
 import { p as pageSEO } from '../chunks/seo_DE79S3-Q.mjs';
 export { renderers } from '../renderers.mjs';

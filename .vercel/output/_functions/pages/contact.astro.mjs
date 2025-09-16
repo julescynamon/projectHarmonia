@@ -1,9 +1,9 @@
 /* empty css                                    */
 import { c as createComponent, r as renderComponent, b as renderScript, a as renderTemplate, m as maybeRenderHead, d as addAttribute } from '../chunks/astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout } from '../chunks/MainLayout_BPgP8eEd.mjs';
+import { $ as $$MainLayout } from '../chunks/MainLayout_Nho3QixU.mjs';
 import { p as pageSEO } from '../chunks/seo_DE79S3-Q.mjs';
-import { $ as $$Button } from '../chunks/Button_SIIWVcck.mjs';
+import { $ as $$Button } from '../chunks/Button_CHyoFLrn.mjs';
 /* empty css                                   */
 export { renderers } from '../renderers.mjs';
 

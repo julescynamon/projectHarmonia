@@ -7,7 +7,7 @@ import { s as sendAppointmentNotification } from '../chunks/notifications_Dm37Ei
 /* empty css                                        */
 export { renderers } from '../renderers.mjs';
 
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 const $$Confirmation = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$Confirmation;

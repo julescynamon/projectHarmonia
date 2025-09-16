@@ -1,7 +1,7 @@
 /* empty css                                    */
 import { c as createComponent, m as maybeRenderHead, b as renderScript, a as renderTemplate, e as createAstro, r as renderComponent, d as addAttribute } from '../chunks/astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout } from '../chunks/MainLayout_BPgP8eEd.mjs';
+import { $ as $$MainLayout } from '../chunks/MainLayout_Nho3QixU.mjs';
 import 'clsx';
 /* empty css                                      */
 import { Resend } from 'resend';
@@ -125,7 +125,7 @@ const sendEmailChangeConfirmation = async (to, confirmationUrl, config) => {
   }
 };
 
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 const $$MonCompte = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$MonCompte;

@@ -1,7 +1,7 @@
 /* empty css                                       */
 import { e as createAstro, c as createComponent, a as renderTemplate, d as addAttribute, m as maybeRenderHead, r as renderComponent } from '../../chunks/astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$MainLayout, a as $$Cart } from '../../chunks/MainLayout_BPgP8eEd.mjs';
+import { $ as $$MainLayout, a as $$Cart } from '../../chunks/MainLayout_Nho3QixU.mjs';
 import 'clsx';
 import { b as getProduct } from '../../chunks/shop_BG2ZyLKw.mjs';
 export { renderers } from '../../renderers.mjs';
@@ -10,7 +10,7 @@ var __freeze = Object.freeze;
 var __defProp = Object.defineProperty;
 var __template = (cooked, raw) => __freeze(__defProp(cooked, "raw", { value: __freeze(raw || cooked.slice()) }));
 var _a;
-const $$Astro$1 = createAstro("https://harmonia.jules.com");
+const $$Astro$1 = createAstro("https://project-harmonia.vercel.app");
 const $$AddToCart = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$1, $$props, $$slots);
   Astro2.self = $$AddToCart;
@@ -223,7 +223,7 @@ const $$AddToCart = createComponent(async ($$result, $$props, $$slots) => {
 <\/script>`])), maybeRenderHead(), addAttribute(productId, "data-product-id"), addAttribute(`add-to-cart-btn btn text-white px-8 py-3 rounded-full hover:bg-primary/90 transition-colors relative ${className}`, "class"));
 }, "/Users/jules/Downloads/harmonia/src/components/shop/AddToCart.astro", void 0);
 
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 const $$id = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$id;

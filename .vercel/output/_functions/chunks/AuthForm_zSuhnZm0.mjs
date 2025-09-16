@@ -1,8 +1,8 @@
 import { e as createAstro, c as createComponent, m as maybeRenderHead, d as addAttribute, r as renderComponent, b as renderScript, a as renderTemplate } from './astro/server_BsvY2apF.mjs';
 import 'kleur/colors';
-import { $ as $$Button } from './Button_SIIWVcck.mjs';
+import { $ as $$Button } from './Button_CHyoFLrn.mjs';
 
-const $$Astro = createAstro("https://harmonia.jules.com");
+const $$Astro = createAstro("https://project-harmonia.vercel.app");
 const $$AuthForm = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$AuthForm;

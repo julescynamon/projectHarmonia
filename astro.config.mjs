@@ -2,17 +2,15 @@ import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
-import compress from "astro-compress";
-import node from "@astrojs/node";
+import vercel from "@astrojs/vercel";
 import blogNotifications from "./src/integrations/blog-notifications";
 import { VitePWA } from "vite-plugin-pwa";
-import viteCompression from "vite-plugin-compression";
 
 export default defineConfig({
   site: "https://harmonia.jules.com",
   output: "server",
-  adapter: node({
-    mode: "standalone",
+  adapter: vercel({
+    webAnalytics: { enabled: true },
   }),
   integrations: [
     react(),
@@ -21,23 +19,6 @@ export default defineConfig({
       changefreq: "weekly",
       priority: 0.7,
       lastmod: new Date(),
-    }),
-    compress({
-      css: true,
-      html: true,
-      js: true,
-      img: true,
-      svg: true,
-      // Optimisations supplémentaires pour la compression
-      cssInline: true,
-      jsInline: true,
-      htmlInline: true,
-      // Compression des polices
-      font: true,
-      // Compression des fichiers JSON
-      json: true,
-      // Compression des fichiers XML
-      xml: true,
     }),
     // Désactivé temporairement
     // blogNotifications(),
@@ -83,22 +64,8 @@ export default defineConfig({
     },
     // Optimisations des assets
     assetsInclude: ["**/*.woff2", "**/*.woff", "**/*.ttf", "**/*.eot"],
-    // Plugins de compression
+    // Plugins Vite
     plugins: [
-      // Compression Gzip
-      viteCompression({
-        algorithm: "gzip",
-        ext: ".gz",
-        threshold: 10240, // Compresser les fichiers > 10KB
-        deleteOriginFile: false,
-      }),
-      // Compression Brotli
-      viteCompression({
-        algorithm: "brotliCompress",
-        ext: ".br",
-        threshold: 10240, // Compresser les fichiers > 10KB
-        deleteOriginFile: false,
-      }),
       // PWA pour le cache et les performances
       VitePWA({
         registerType: "autoUpdate",
@@ -177,8 +144,7 @@ export default defineConfig({
       include: ["react", "react-dom", "@supabase/supabase-js"],
     },
   },
-  // Optimisations de compression HTML
-  compressHTML: true,
+  // Compression HTML gérée par Vercel
   // Optimisations des images
   image: {
     service: {

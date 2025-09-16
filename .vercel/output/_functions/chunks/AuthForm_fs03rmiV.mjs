@@ -1,0 +1,21 @@
+import { e as createAstro, c as createComponent, m as maybeRenderHead, d as addAttribute, r as renderComponent, b as renderScript, a as renderTemplate } from './astro/server_BsvY2apF.mjs';
+import 'kleur/colors';
+import { $ as $$Button } from './Button_SIIWVcck.mjs';
+
+const $$Astro = createAstro("https://harmonia.jules.com");
+const $$AuthForm = createComponent(async ($$result, $$props, $$slots) => {
+  const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
+  Astro2.self = $$AuthForm;
+  const { type } = Astro2.props;
+  return renderTemplate`${maybeRenderHead()}<form class="space-y-6" id="auth-form"${addAttribute(type, "data-type")}> ${type === "register" && renderTemplate`<div class="space-y-2"> <label for="name" class="block text-ebony font-heading text-lg font-medium">Nom complet</label> <input type="text" id="name" name="name" required minlength="2" maxlength="100" class="w-full px-6 py-4 rounded-2xl border-2 border-sage/20 focus:border-eucalyptus focus:ring-2 focus:ring-eucalyptus/20 outline-none transition-all duration-300 bg-white/50 backdrop-blur-sm placeholder-gray-400" placeholder="Votre nom complet" autocomplete="name"> </div>`} <div class="space-y-2"> <label for="email" class="block text-ebony font-heading text-lg font-medium">Adresse email</label> <input type="email" id="email" name="email" required maxlength="254" class="w-full px-6 py-4 rounded-2xl border-2 border-sage/20 focus:border-eucalyptus focus:ring-2 focus:ring-eucalyptus/20 outline-none transition-all duration-300 bg-white/50 backdrop-blur-sm placeholder-gray-400" placeholder="votre@email.com" autocomplete="email"> </div> <div class="space-y-2"> <label for="password" class="block text-ebony font-heading text-lg font-medium">Mot de passe</label> <input type="password" id="password" name="password" required minlength="6" class="w-full px-6 py-4 rounded-2xl border-2 border-sage/20 focus:border-eucalyptus focus:ring-2 focus:ring-eucalyptus/20 outline-none transition-all duration-300 bg-white/50 backdrop-blur-sm placeholder-gray-400" placeholder="Votre mot de passe"${addAttribute(type === "login" ? "current-password" : "new-password", "autocomplete")}> ${type === "register" && renderTemplate`<p class="text-sm text-eucalyptus/70 mt-2">
+Minimum 6 caractères
+</p>`} </div> <!-- Liens de navigation --> <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4"> <div class="text-sm"> ${type === "login" ? renderTemplate`<a href="/register" class="text-eucalyptus hover:text-sage transition-colors duration-300 font-medium">
+Pas encore de compte ?
+</a>` : renderTemplate`<a href="/login" class="text-eucalyptus hover:text-sage transition-colors duration-300 font-medium">
+Déjà un compte ?
+</a>`} </div> ${type === "login" && renderTemplate`<div class="text-sm"> <a href="/mot-de-passe-oublie" class="text-eucalyptus hover:text-sage transition-colors duration-300 font-medium">
+Mot de passe oublié ?
+</a> </div>`} </div> <!-- Bouton de soumission --> <div class="pt-4"> ${renderComponent($$result, "Button", $$Button, { "type": "submit", "variant": "primary", "size": "lg", "class": "w-full bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage text-white py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-heading text-lg" }, { "default": async ($$result2) => renderTemplate`${type === "login" ? "Se connecter" : "Cr\xE9er mon compte"}` })} </div> <!-- Message d'erreur --> <div class="hidden p-4 rounded-2xl text-sm bg-red-50 text-red-700 border border-red-200 shadow-lg" id="error-message"> <div class="flex items-center gap-3"> <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path> </svg> <p class="font-medium"></p> </div> </div> </form> ${renderScript($$result, "/Users/jules/Downloads/harmonia/src/components/auth/AuthForm.astro?astro&type=script&index=0&lang.ts")}`;
+}, "/Users/jules/Downloads/harmonia/src/components/auth/AuthForm.astro", void 0);
+
+export { $$AuthForm as $ };

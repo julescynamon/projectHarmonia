@@ -1,0 +1,166 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { getCartItems } from '../lib/shop';
+
+// Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+const session = Astro.locals.session;
+if (!session) {
+  return Astro.redirect('/login?redirect=/panier');
+}
+
+const cartItems = await getCartItems(session.user.id);
+const total = cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+---
+
+<MainLayout title="Votre panier" description="Gérez les articles de votre panier">
+  <div class="container mx-auto px-4 py-24">
+    <h1 class="text-4xl font-medium mb-8">Votre panier</h1>
+
+    {cartItems.length === 0 ? (
+      <div class="text-center py-12">
+        <p class="text-xl text-gray-600 mb-6">Votre panier est vide</p>
+        <a href="/boutique" class="bg-primary text-white px-8 py-3 rounded-full hover:bg-primary/90 transition-colors">
+          Découvrir nos produits
+        </a>
+      </div>
+    ) : (
+      <div class="grid gap-8">
+        <div class="bg-white rounded-lg shadow-sm">
+          {cartItems.map((item) => (
+            <div class="flex items-center justify-between p-6 border-b last:border-b-0" data-item-id={item.id}>
+              <div class="flex items-center gap-6">
+                <img
+                  src="/images/default-pdf-cover.webp"
+                  alt={item.product.title}
+                  class="w-20 h-20 object-cover rounded"
+                />
+                <div>
+                  <h3 class="text-lg font-medium">{item.product.title}</h3>
+                  <p class="text-gray-600">{item.product.price.toFixed(2)}€</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2">
+                  <button
+                    class="update-quantity bg-gray-100 hover:bg-gray-200 p-2 rounded"
+                    data-action="decrease"
+                    data-item-id={item.id}
+                  >
+                    <span class="sr-only">Diminuer la quantité</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                    </svg>
+                  </button>
+                  
+                  <span class="w-8 text-center">{item.quantity}</span>
+                  
+                  <button
+                    class="update-quantity bg-gray-100 hover:bg-gray-200 p-2 rounded"
+                    data-action="increase"
+                    data-item-id={item.id}
+                  >
+                    <span class="sr-only">Augmenter la quantité</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                  </button>
+                </div>
+                
+                <button
+                  class="remove-item text-red-600 hover:text-red-700"
+                  data-item-id={item.id}
+                >
+                  <span class="sr-only">Supprimer</span>
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6">
+          <div class="flex justify-between items-center text-xl font-medium">
+            <span>Total</span>
+            <span>{total.toFixed(2)}€</span>
+          </div>
+          
+          <div class="mt-6 flex justify-end">
+            <a
+              href="/checkout"
+              class="bg-primary text-white px-8 py-3 rounded-full hover:bg-primary/90 transition-colors"
+            >
+              Procéder au paiement
+            </a>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+</MainLayout>
+
+<script>
+  // Gestionnaire de suppression d'articles
+  document.querySelectorAll('.remove-item').forEach(button => {
+    button.addEventListener('click', async () => {
+      const itemId = button.getAttribute('data-item-id');
+      if (!itemId) return;
+
+      if (confirm('Voulez-vous vraiment supprimer cet article ?')) {
+        try {
+          const response = await fetch(`/api/cart/remove`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ itemId }),
+          });
+
+          if (response.ok) {
+            window.location.reload();
+          } else {
+            const data = await response.json();
+            alert(data.message || 'Une erreur est survenue');
+          }
+        } catch (error) {
+          console.error('Erreur:', error);
+          alert('Une erreur est survenue');
+        }
+      }
+    });
+  });
+
+  // Gestionnaire de mise à jour des quantités
+  document.querySelectorAll('.update-quantity').forEach(button => {
+    button.addEventListener('click', async () => {
+      const itemId = button.getAttribute('data-item-id');
+      const action = button.getAttribute('data-action');
+      if (!itemId || !action) return;
+
+      try {
+        const response = await fetch(`/api/cart/update`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            itemId,
+            action,
+          }),
+        });
+
+        if (response.ok) {
+          window.location.reload();
+        } else {
+          const data = await response.json();
+          alert(data.message || 'Une erreur est survenue');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        alert('Une erreur est survenue');
+      }
+    });
+  });
+</script>

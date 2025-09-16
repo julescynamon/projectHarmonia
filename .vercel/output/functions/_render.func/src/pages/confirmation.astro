@@ -1,0 +1,139 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { pageSEO } from '../lib/seo';
+import { createClient } from '@supabase/supabase-js';
+import Stripe from 'stripe';
+import { sendAppointmentNotification } from '../lib/notifications';
+
+const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY);
+const supabase = createClient(
+  import.meta.env.PUBLIC_SUPABASE_URL,
+  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+);
+
+const seo = pageSEO.confirmation;
+
+// Récupérer l'ID de session Stripe
+const sessionId = Astro.url.searchParams.get('session_id');
+
+if (!sessionId) {
+  return Astro.redirect('/rendez-vous');
+}
+
+let error: string | null = null;
+let success = false;
+
+try {
+  if (!import.meta.env.STRIPE_SECRET_KEY) {
+    error = 'Configuration du paiement invalide';
+    return;
+  }
+
+  let session;
+  try {
+    session = await stripe.checkout.sessions.retrieve(sessionId);
+  } catch (stripeError) {
+    error = 'Impossible de vérifier le paiement';
+    return;
+  }
+  
+  if (session.payment_status !== 'paid') {
+    error = 'Le paiement n\'a pas été effectué';
+    return;
+  }
+  const { data: appointment, error: appointmentError } = await supabase
+    .from('appointments')
+    .select('*, services(title)')
+    .eq('stripe_session_id', sessionId)
+    .single();
+
+  if (appointmentError || !appointment) {
+    error = 'Rendez-vous non trouvé';
+    return;
+  }
+
+  // Vérification que les données essentielles sont présentes
+  if (!appointment.date || !appointment.time || !appointment.client_name || !appointment.client_email) {
+    error = 'Données de rendez-vous incomplètes';
+    return;
+  }
+
+  // Mettre à jour le statut du rendez-vous
+  const { error: updateError } = await supabase
+    .from('appointments')
+    .update({ status: 'confirmed' })
+    .eq('stripe_session_id', sessionId);
+
+  if (updateError) {
+    error = 'Erreur lors de la confirmation du rendez-vous';
+    return;
+  }
+
+
+  // Déterminer le nom du service de manière sécurisée
+  let serviceName = 'Service non spécifié';
+  if (appointment.services && appointment.services.title) {
+    serviceName = appointment.services.title;
+  } else if (appointment.service_id) {
+    serviceName = appointment.service_id;
+  }
+
+  console.log('Appointment data:', {
+    appointment,
+    services: appointment.services,
+    service_id: appointment.service_id,
+    serviceName
+  });
+
+  await sendAppointmentNotification({
+    date: appointment.date,
+    time: appointment.time,
+    service: serviceName,
+    clientName: appointment.client_name,
+    clientEmail: appointment.client_email
+  });
+
+  success = true;
+
+} catch (e) {
+  console.error('Erreur dans confirmation.astro:', e);
+  error = 'Une erreur est survenue lors de la confirmation du rendez-vous';
+}
+
+// S'assurer que error est défini
+if (!error) {
+  error = null;
+}
+---
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmation de réservation - La Maison Sattvaïa</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f5f5f5; }
+    .container { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 10px; text-align: center; }
+    .success { color: #28a745; }
+    .error { color: #dc3545; }
+    .btn { display: inline-block; padding: 12px 24px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    {success ? (
+      <>
+        <h1 class="success">Merci pour votre réservation !</h1>
+        <p>Votre rendez-vous a été confirmé. Vous recevrez bientôt un email de confirmation avec tous les détails.</p>
+        <a href="/" class="btn">Retour à l'accueil</a>
+      </>
+    ) : (
+      <>
+        <h1 class="error">Une erreur est survenue</h1>
+        <p>{error ? error : 'Nous n\'avons pas pu trouver votre rendez-vous. Veuillez réessayer ou nous contacter.'}</p>
+        <a href="/rendez-vous" class="btn">Retour à la prise de rendez-vous</a>
+      </>
+    )}
+  </div>
+</body>
+</html>

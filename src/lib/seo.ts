@@ -14,62 +14,62 @@ export interface SEO {
 }
 
 export const defaultSEO: SEOProps = {
-  title: 'Naima Tyzra - Naturopathe à Paris',
-  description: 'Découvrez une approche holistique de la santé avec Naima Tyzra, naturopathe certifiée à Paris. Consultations personnalisées, conseils en nutrition et bien-être naturel.',
-  image: '/images/social-share.webp'
+  title: 'La Maison Sattvaïa - Naima Tyzra | Naturopathie & Soins Énergétiques',
+  description: 'Découvrez La Maison Sattvaïa : accompagnement holistique unique alliant naturopathie, soins énergétiques et guidance spirituelle pour humains et animaux.',
+  image: '/images/heroblogbg.webp'
 };
 
 export const pageSEO: Record<string, SEOProps> = {
   home: {
-    title: 'Naima Tyzra - Naturopathe & Praticienne en Santé Naturelle à Paris',
-    description: 'Retrouvez votre équilibre naturel avec Naima Tyzra, naturopathe à Paris. Consultations personnalisées, accompagnement holistique et conseils en santé naturelle.',
+    title: 'Maison Sattvaïa – Naturopathie & Soins Énergétiques pour Humains et Animaux',
+    description: 'Découvrez La Maison Sattvaïa : accompagnement holistique unique alliant naturopathie, soins énergétiques et guidance spirituelle pour humains et animaux.',
   },
   about: {
-    title: 'À Propos - Naima Tyzra | Votre Naturopathe à Paris',
-    description: 'Découvrez mon parcours et mon approche de la naturopathie. Je vous accompagne vers une meilleure santé grâce à des méthodes naturelles et personnalisées.',
+    title: 'À Propos | Maison Sattvaïa - Naima Tyzra',
+    description: 'Découvrez l\'histoire de La Maison Sattvaïa et le parcours de Naima Tyzra. Un lieu de reconnexion où corps, énergie et âme retrouvent leur équilibre naturel.',
   },
   services: {
-    title: 'Services de Naturopathie - Consultations & Accompagnement | Naima Tyzra',
-    description: 'Consultations en naturopathie, bilans de vitalité, conseils en nutrition et accompagnement personnalisé pour votre bien-être naturel à Paris.',
+    title: 'Services | Maison Sattvaïa - Accompagnements Holistiques',
+    description: 'Naturopathie humaine et animale, soins énergétiques, guidance spirituelle : découvrez nos accompagnements personnalisés pour retrouver votre équilibre.',
   },
   shop: {
-    title: 'Boutique - Produits Naturels & Guides Bien-être | Naima Tyzra',
-    description: 'Découvrez ma sélection de produits naturels, guides et programmes pour prendre soin de votre santé au quotidien.',
+    title: 'Boutique | Maison Sattvaïa - Guides & Ressources Holistiques',
+    description: 'Découvrez nos guides spirituels, ressources de développement personnel et outils d\'accompagnement pour votre cheminement holistique.',
   },
   contact: {
-    title: 'Contact - Prenez Rendez-vous | Naima Tyzra Naturopathe',
-    description: 'Contactez-moi pour prendre rendez-vous ou en savoir plus sur mes services de naturopathie à Paris. Consultation en cabinet ou à distance.',
+    title: 'Contact | Maison Sattvaïa - Prenez Rendez-vous',
+    description: 'Contactez La Maison Sattvaïa pour débuter votre accompagnement holistique. Consultations en présentiel ou à distance pour humains et animaux.',
   },
   blog: {
-    title: 'Blog Naturopathie - Conseils & Actualités | Naima Tyzra',
-    description: 'Articles, conseils et actualités sur la naturopathie, la santé naturelle et le bien-être. Restez informé des dernières tendances en matière de santé holistique.',
+    title: 'Blog | Maison Sattvaïa - Sagesse & Guidance Holistique',
+    description: 'Articles, conseils et guidance sur la naturopathie, les soins énergétiques et le développement spirituel. Nourrissez votre cheminement holistique.',
   },
   appointment: {
-    title: 'Prendre Rendez-vous | Naima Tyzra Naturopathe',
-    description: 'Réservez votre consultation en naturopathie avec Naima Tyzra. Séances en cabinet à Paris ou en visioconférence pour un accompagnement personnalisé.',
+    title: 'Prendre Rendez-vous | Maison Sattvaïa',
+    description: 'Réservez votre accompagnement holistique à La Maison Sattvaïa. Séances en présentiel ou à distance pour humains et animaux.',
   },
   accompagnementsReservation: {
-    title: 'Réserver un accompagnement | Naima Tyzra',
-    description: 'Prenez rendez-vous pour un accompagnement personnalisé en naturopathie humaine et animale, soins énergétiques et suivi nutritionnel.',
+    title: 'Réserver un accompagnement | Maison Sattvaïa',
+    description: 'Prenez rendez-vous pour un accompagnement holistique personnalisé : naturopathie humaine et animale, soins énergétiques et guidance spirituelle.',
   },
   chamanismeReservation: {
-    title: 'Réserver un soin chamanique | Naima Tyzra',
+    title: 'Réserver un soin chamanique | Maison Sattvaïa',
     description: 'Prenez rendez-vous pour un soin chamanique personnalisé : soins quantiques, communication animale, rituels de transmutation et nettoyage énergétique.',
   },
   lectureAmeReservation: {
-    title: 'Réserver une lecture d\'âme | Naima Tyzra',
+    title: 'Réserver une lecture d\'âme | Maison Sattvaïa',
     description: 'Prenez rendez-vous pour une lecture d\'âme personnalisée et découvrez votre chemin de vie, vos missions d\'âme et votre potentiel spirituel.',
   },
   mentionsLegales: {
-    title: 'Mentions Légales | La Maison Sattvaïa - Naima Tyzra',
+    title: 'Mentions Légales | Maison Sattvaïa - Naima Tyzra',
     description: 'Mentions légales et conditions d\'utilisation du site La Maison Sattvaïa. Informations sur l\'éditeur, protection des données personnelles et droits d\'utilisation.',
   },
   politiqueConfidentialite: {
-    title: 'Politique de Confidentialité | La Maison Sattvaïa - Naima Tyzra',
+    title: 'Politique de Confidentialité | Maison Sattvaïa - Naima Tyzra',
     description: 'Politique de confidentialité et protection des données personnelles. Découvrez comment La Maison Sattvaïa collecte, utilise et protège vos informations conformément au RGPD.',
   },
   cgv: {
-    title: 'Conditions Générales de Vente | La Maison Sattvaïa - Naima Tyzra',
+    title: 'Conditions Générales de Vente | Maison Sattvaïa - Naima Tyzra',
     description: 'Conditions générales de vente et d\'utilisation des services de naturopathie, soins énergétiques et accompagnement holistique de La Maison Sattvaïa.',
   }
 };

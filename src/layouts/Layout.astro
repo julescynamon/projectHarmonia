@@ -2,6 +2,8 @@
 // src/layouts/Layout.astro
 import type { SEO } from '../lib/seo';
 import { getSiteConfig } from '../lib/site-config';
+import Analytics from '@vercel/analytics/astro';
+import  SpeedInsights  from "@vercel/speed-insights/astro";
 
 export interface Props {
   title?: string;
@@ -109,6 +111,8 @@ const canonicalURL = canonical ? new URL(canonical, siteConfig.site) : new URL(A
     </style>
     
     <title>{title}</title>
+    <Analytics />
+    <SpeedInsights />
   </head>
   <body class="loading">
     <slot />

@@ -8,7 +8,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
   site: "https://project-harmonia.vercel.app",
-  output: "server",
+  output: "static",
   adapter: vercel(),
   integrations: [
     react(),
@@ -27,7 +27,7 @@ export default defineConfig({
     // Optimisation des assets
     assets: "_astro",
     // Génération de source maps pour le développement uniquement
-    sourcemap: false,
+    sourcemap: true,
   },
   // Optimisations Vite
   vite: {

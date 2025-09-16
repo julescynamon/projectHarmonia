@@ -1,9 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://naimatyzra.fr/sitemap.xml
-
-# Prevent indexing of sensitive routes
-Disallow: /login
-Disallow: /register
-Disallow: /mon-compte

@@ -164,3 +164,6 @@ out/
 
 # Local configuration overrides
 config.local.*
+
+.vercel
+dist

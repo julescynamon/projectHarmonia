@@ -1,6 +1,6 @@
 {
   "functions": {
-    ".vercel/output/functions/_render.func/dist/server/entry.mjs": {
+    ".vercel/output/_functions/entry.mjs": {
       "runtime": "nodejs18.x"
     }
   }

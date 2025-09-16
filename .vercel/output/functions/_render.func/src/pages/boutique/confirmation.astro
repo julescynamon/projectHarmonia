@@ -1,0 +1,181 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { supabase } from '../../lib/supabase';
+import { getDownloadUrl } from '../../lib/shop';
+
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) {
+  return Astro.redirect('/login');
+}
+
+const { searchParams } = Astro.url;
+const sessionId = searchParams.get('session_id');
+
+let orderId;
+if (sessionId) {
+  const { data } = await supabase
+    .from('orders')
+    .select('id')
+    .eq('stripe_session_id', sessionId)
+    .eq('user_id', user.id)
+    .single();
+  
+  if (data) {
+    orderId = data.id;
+  }
+}
+
+let order;
+let orderItems;
+let success = false;
+
+if (orderId) {
+  try {
+    const { data: orderData } = await supabase
+      .from('orders')
+      .select('*, order_items(*, products(*))')
+      .eq('id', orderId)
+      .eq('user_id', user.id)
+      .single();
+
+    if (orderData) {
+      order = orderData;
+      orderItems = orderData.order_items;
+      success = true;
+    }
+  } catch (error) {
+    console.error('Error retrieving order:', error);
+  }
+}
+---
+
+<MainLayout
+  title="Confirmation de commande"
+  description="Confirmation de votre commande et accès à vos téléchargements"
+>
+  <div class="pt-24">
+    <section class="py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-2xl mx-auto">
+          {success ? (
+            <div class="text-center" data-aos="fade-up">
+              <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              
+              <h1 class="text-4xl font-medium mb-4">Merci pour votre commande !</h1>
+              <p class="text-gray-600 mb-8">
+                Votre commande a été confirmée. Vous pouvez télécharger vos fichiers ci-dessous.
+              </p>
+
+              <div class="bg-gray-50 rounded-lg p-6 text-left mb-8">
+                <h2 class="font-medium text-lg mb-4">Vos téléchargements</h2>
+                <div class="space-y-4">
+                  {orderItems?.map((item) => (
+                    <div class="flex items-center gap-4 p-4 bg-white rounded-lg">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                      </svg>
+                      <div>
+                        <h3 class="font-medium">{item.products.title}</h3>
+                        <button
+                          class="text-primary hover:text-primary/80 text-sm"
+                          onclick={`downloadFile('${item.product_id}', '${orderId}')`}
+                        >
+                          Télécharger
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <a
+                href="/boutique"
+                class="inline-block bg-primary text-white px-8 py-3 rounded-full hover:bg-primary/90 transition-colors"
+              >
+                Retour à la boutique
+              </a>
+            </div>
+          ) : (
+            <div class="text-center" data-aos="fade-up">
+              <div class="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+              
+              <h1 class="text-4xl font-medium mb-4">Une erreur est survenue</h1>
+              <p class="text-gray-600 mb-8">
+                Nous n'avons pas pu trouver votre commande. Veuillez réessayer ou nous contacter si le problème persiste.
+              </p>
+
+              <a
+                href="/boutique"
+                class="inline-block bg-primary text-white px-8 py-3 rounded-full hover:bg-primary/90 transition-colors"
+              >
+                Retour à la boutique
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  </div>
+
+<script is:inline>
+function showDebug(message, data) {
+  const debugDiv = document.getElementById('debug-output') || (() => {
+    const div = document.createElement('div');
+    div.id = 'debug-output';
+    div.style.position = 'fixed';
+    div.style.bottom = '20px';
+    div.style.right = '20px';
+    div.style.backgroundColor = 'white';
+    div.style.padding = '10px';
+    div.style.border = '1px solid black';
+    div.style.maxHeight = '200px';
+    div.style.overflowY = 'auto';
+    div.style.zIndex = '9999';
+    document.body.appendChild(div);
+    return div;
+  })();
+  
+  const line = document.createElement('div');
+  line.textContent = `${new Date().toLocaleTimeString()} - ${message}: ${JSON.stringify(data)}`;
+  debugDiv.appendChild(line);
+  debugDiv.scrollTop = debugDiv.scrollHeight;
+}
+
+async function downloadFile(productId, orderId) {
+  showDebug('Téléchargement demandé pour', { productId, orderId });
+  try {
+    showDebug('Envoi de la requête', {});
+    const response = await fetch(`/api/download?productId=${productId}&orderId=${orderId}`);
+    showDebug('Réponse reçue', { status: response.status });
+    if (!response.ok) {
+      const errorText = await response.text();
+      showDebug('Erreur serveur', { error: errorText });
+      throw new Error('Erreur lors du téléchargement');
+    }
+    
+    const data = await response.json();
+    showDebug('Données reçues', data);
+    const { url } = data;
+    if (!url) throw new Error('URL de téléchargement non disponible');
+
+    // Ouvrir dans un nouvel onglet
+    window.open(url, '_blank');
+  } catch (error) {
+    showDebug('Erreur', { message: error.message });
+    alert('Une erreur est survenue lors du téléchargement. Veuillez réessayer.');
+  }
+}
+
+// Rendre la fonction disponible globalement
+window.downloadFile = downloadFile;
+</script>
+
+</MainLayout>

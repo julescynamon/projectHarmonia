@@ -1,0 +1,287 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { pageSEO } from '../../lib/seo';
+import Button from '../../components/ui/Button.astro';
+import Card from '../../components/ui/Card.astro';
+import NewsletterForm from '../../components/NewsletterForm.astro';
+import { supabase } from '../../lib/supabase';
+import { BLOG_CATEGORIES } from '../../lib/constants';
+
+// Désactiver le prerendering pour une mise à jour dynamique
+export const prerender = false;
+
+const seo = pageSEO.blog;
+
+// Récupérer tous les articles de blog depuis Supabase
+// Récupérer la catégorie depuis l'URL si elle existe
+const category = Astro.url.searchParams.get('category');
+
+// Construire la requête Supabase
+let query = supabase
+  .from('posts')
+  .select('*')
+  .eq('status', 'published')
+  .order('published_at', { ascending: false });
+
+// Filtrer par catégorie si spécifiée
+if (category) {
+  query = query.eq('category', category);
+}
+
+const { data: posts, error } = await query;
+
+if (error) {
+  console.error('Erreur lors de la récupération des articles:', error);
+}
+
+// Catégories uniques pour le filtre
+// Utilisation des constantes centralisées
+const categories = BLOG_CATEGORIES;
+
+// Formater la date
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('fr-FR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <!-- Hero Section Impact -->
+  <section class="relative min-h-screen flex items-center justify-center overflow-hidden hero-section">
+    <!-- Background avec image et overlay -->
+    <div class="absolute inset-0">
+      <img 
+        src="/images/heroblogbg.webp" 
+        alt="Blog La Maison Sattvaïa - Articles naturopathie et bien-être"
+        class="w-full h-full object-cover scale-110 transform motion-safe:animate-subtle-zoom"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-ebony/40 via-ebony/20 to-ebony/10"></div>
+    </div>
+    
+    <!-- Éléments décoratifs -->
+    <div class="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] h-[180%] opacity-20 motion-safe:animate-slow-spin">
+        <img
+          src="/images/sacred-geometry.svg"
+          alt=""
+          class="w-full h-full"
+          loading="eager"
+        />
+      </div>
+    </div>
+    
+    <!-- Contenu principal centré -->
+    <div class="container mx-auto px-4 relative z-20 flex flex-col justify-center min-h-screen">
+      <div class="max-w-5xl mx-auto text-center">
+        <!-- En-tête centré -->
+        <div class="motion-safe:animate-fade-in mb-[206px]">
+          <div class="inline-block mb-6">
+            <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-xl font-semibold uppercase tracking-wider">
+              Le Blog de La Maison Sattvaïa
+            </span>
+          </div>
+          
+          <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl mb-8 leading-tight text-ebony drop-shadow-[0_2px_8px_rgba(255,255,255,0.3)]" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+            Découvrez nos
+            <span class="block text-sage mt-4 text-3xl md:text-4xl lg:text-5xl">Articles & Conseils</span>
+          </h1>
+          
+          <p class="font-slogan text-xl md:text-2xl mb-12 text-ebony/80 leading-relaxed max-w-4xl mx-auto drop-shadow-[0_2px_4px_rgba(255,255,255,0.2)] italic" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+            "Des conseils pour prendre soin de l’humain, de l’animal et de l’âme, au naturel et en profondeur."
+          </p>
+        </div>
+        
+      </div>
+    </div>
+    
+    <!-- Transition brush effect -->
+    <div class="absolute bottom-0 left-0 w-full z-30 transition-divider">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent to-cream"></div>
+      <img 
+        src="/images/brush-divider.svg" 
+        alt=""
+        class="w-full h-auto min-h-[80px] object-cover transform motion-safe:animate-wave"
+        loading="lazy"
+      />
+    </div>
+  </section>
+
+  <!-- Section Articles -->
+  <section class="py-20 md:py-32 bg-gradient-to-b from-cream to-white relative overflow-hidden">
+    <!-- Éléments décoratifs -->
+    <div class="absolute top-0 left-0 w-72 h-72 bg-sage/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
+    <div class="absolute inset-0 opacity-3">
+      <img src="/images/sacred-geometry.svg" alt="Geometric pattern" class="w-full h-full object-cover bg-gradient-to-r from-sage/20 to-gold/20 bg-clip-content">
+    </div>
+    
+    <div class="container mx-auto px-4 relative">
+      <!-- En-tête de section -->
+      <div class="text-center max-w-4xl mx-auto mb-20" data-aos="fade-up" data-aos-duration="1000">
+        <div class="inline-block mb-6">
+          <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-lg font-semibold uppercase tracking-wider">
+            Explorez nos articles
+          </span>
+        </div>
+        <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-8 leading-tight">
+          Un espace de <span class="text-sage">guidance</span> & de <span class="text-gold">partage</span>
+        </h2>
+        <p class="text-xl text-eucalyptus leading-relaxed font-slogan max-w-3xl mx-auto">
+          Découvrez nos conseils et inspirations pour nourrir le corps, l’esprit et l’âme.
+        </p>
+        <div class="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
+      </div>
+
+      <!-- Filtres premium -->
+      <div class="mb-16 flex flex-wrap justify-center gap-4" id="category-filters" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+        <a 
+          href="/blog"
+          class={`group relative overflow-hidden px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 transform hover:scale-105 hover:-translate-y-1
+            ${!category ? 
+              'bg-gradient-to-r from-sage to-gold text-white shadow-lg shadow-sage/25' : 
+              'bg-white text-ebony border-2 border-sage/20 hover:border-sage hover:shadow-md'}`}
+        >
+          <span class="relative z-10">Tous les articles</span>
+          {!category && (
+            <div class="absolute inset-0 bg-gradient-to-r from-sage to-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          )}
+        </a>
+        {categories.map(cat => (
+          <a
+            href={`/blog?category=${cat.id}`}
+            class={`group relative overflow-hidden px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 transform hover:scale-105 hover:-translate-y-1
+              ${category === cat.id ? 
+                'bg-gradient-to-r from-sage to-gold text-white shadow-lg shadow-sage/25' : 
+                'bg-white text-ebony border-2 border-sage/20 hover:border-sage hover:shadow-md'}`}
+          >
+            <span class="relative z-10">{cat.label}</span>
+            {category === cat.id && (
+              <div class="absolute inset-0 bg-gradient-to-r from-sage to-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            )}
+          </a>
+        ))}
+      </div>
+
+      <!-- Grille d'articles premium -->
+      {posts && posts.length > 0 ? (
+        <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          {posts?.map((post, index) => (
+            <div class="post-card opacity-0 transition-all duration-700 transform translate-y-8 hover:-translate-y-2" data-aos="fade-up" data-aos-duration="800" data-aos-delay={index * 100}>
+              <Card
+                variant="hover"
+                title={post.title}
+                description={post.excerpt}
+                image={post.cover_url}
+                date={formatDate(post.created_at)}
+                category={post.category}
+                url={`/blog/${post.slug}`}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-20" data-aos="fade-up" data-aos-duration="800">
+          <div class="w-24 h-24 bg-sage/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="material-icons text-sage text-4xl">article</span>
+          </div>
+          <h3 class="text-2xl font-heading text-ebony mb-4">Aucun article disponible</h3>
+          <p class="text-lg text-eucalyptus max-w-md mx-auto">
+            Nous préparons actuellement de nouveaux articles pour vous. Revenez bientôt !
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Newsletter Section Premium -->
+  <section class="py-20 md:py-32 bg-gradient-to-br from-sage/30 via-cream/50 to-gold/30 relative overflow-hidden">
+    <!-- Éléments décoratifs lumineux -->
+    <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-sage/25 rounded-full blur-3xl"></div>
+    <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-gold/25 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/3 w-[600px] h-[600px] bg-sage/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-1/3 w-[500px] h-[500px] bg-gold/20 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-sage/15 via-cream/10 to-gold/15 rounded-full blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 relative">
+      <div class="max-w-4xl mx-auto text-center" data-aos="fade-up" data-aos-duration="1000">
+        <!-- En-tête premium -->
+        <div class="inline-block mb-6">
+          <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-lg font-semibold uppercase tracking-wider">
+            Ne ratez rien
+          </span>
+        </div>
+        
+        <h2 class="font-heading text-4xl md:text-5xl text-ebony mb-8 leading-tight">
+          Recevez nos <span class="text-sage">inspirations</span> directement dans votre <span class="text-gold">boîte mail</span>
+        </h2>
+        
+        <p class="text-xl text-eucalyptus leading-relaxed font-slogan max-w-3xl mx-auto mb-12">
+          Soyez avertis dès la parution d'un nouvel article pour nourrir votre corps, votre esprit et votre âme.
+        </p>
+        
+        <!-- Formulaire newsletter avec design premium -->
+        <div class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-xl shadow-sage/10 border border-white/20">
+          <NewsletterForm />
+          <p class="text-sm text-eucalyptus/70 mt-6 font-slogan">
+            📧 Notification instantanée • 🚫 Désinscription en 1 clic • 🔒 Vos données protégées
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<script>
+  // Animation des cartes au chargement
+  document.addEventListener('DOMContentLoaded', () => {
+    const postCards = document.querySelectorAll('.post-card');
+    postCards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add('opacity-100');
+        card.classList.remove('translate-y-8');
+      }, index * 150);
+    });
+  });
+</script>
+
+<style>
+  @keyframes subtle-zoom {
+    0% { transform: scale(1.1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1.1); }
+  }
+
+  @keyframes slow-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  @keyframes wave {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    50% { transform: translateX(-10px) rotate(1deg); }
+  }
+
+  @keyframes fade-in {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .motion-safe\:animate-subtle-zoom {
+    animation: subtle-zoom 20s ease-in-out infinite;
+  }
+
+  .motion-safe\:animate-slow-spin {
+    animation: slow-spin 60s linear infinite;
+  }
+
+  .motion-safe\:animate-wave {
+    animation: wave 6s ease-in-out infinite;
+  }
+
+  .motion-safe\:animate-fade-in {
+    animation: fade-in 1.5s ease-out forwards;
+  }
+</style>

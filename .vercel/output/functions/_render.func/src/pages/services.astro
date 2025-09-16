@@ -1,0 +1,203 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { pageSEO } from '../lib/seo';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+
+const seo = pageSEO.services;
+
+const services = [
+  {
+    id: 'consultation',
+    title: 'Consultation Naturopathie',
+    description: 'Un bilan complet de votre vitalité et un accompagnement personnalisé pour retrouver votre équilibre naturel.',
+    icon: 'eco',
+    features: [
+      'Bilan de vitalité approfondi',
+      'Plan d\'action personnalisé',
+      'Suivi et ajustements',
+      'Conseils pratiques'
+    ],
+    price: '90€',
+    duration: '1h30'
+  },
+  {
+    id: 'nutrition',
+    title: 'Suivi Nutritionnel',
+    description: 'Un accompagnement sur-mesure pour une alimentation saine et adaptée à vos besoins spécifiques.',
+    icon: 'restaurant',
+    features: [
+      'Analyse des habitudes alimentaires',
+      'Plan alimentaire personnalisé',
+      'Conseils et recettes',
+      'Suivi régulier'
+    ],
+    price: '75€',
+    duration: '1h'
+  },
+  {
+    id: 'phyto',
+    title: 'Phytothérapie',
+    description: 'Découvrez les bienfaits des plantes médicinales pour soutenir votre santé de manière naturelle.',
+    icon: 'spa',
+    features: [
+      'Sélection de plantes adaptées',
+      'Conseils d\'utilisation',
+      'Préparations personnalisées',
+      'Suivi des effets'
+    ],
+    price: '80€',
+    duration: '1h'
+  },
+  {
+    id: 'massage',
+    title: 'Massages Bien-être',
+    description: 'Des techniques de massage holistiques pour détendre corps et esprit.',
+    icon: 'self_improvement',
+    features: [
+      'Massage personnalisé',
+      'Techniques variées',
+      'Ambiance relaxante',
+      'Conseils post-massage'
+    ],
+    price: '85€',
+    duration: '1h'
+  }
+];
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <div class="pt-24">
+    <!-- Hero Section -->
+    <section class="py-20 bg-transition relative overflow-hidden">
+      <!-- Motifs de fond -->
+
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
+          <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+            Mes Services
+          </h1>
+          <p class="font-slogan text-lg md:text-xl text-eucalyptus mb-8">
+            Une approche holistique et personnalisée pour votre bien-être, combinant sagesse ancestrale et méthodes modernes.
+          </p>
+          <Button href="#consultation" variant="primary" size="lg">
+            Découvrir mes prestations
+          </Button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-20 bg-transition">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-2 gap-12">
+          {services.map((service, index) => (
+            <div id={service.id} data-aos="fade-up" data-aos-delay={index * 100}>
+              <Card variant="hover" class="h-full">
+                <div class="p-8">
+                  <!-- En-tête -->
+                  <div class="flex items-start gap-6 mb-6">
+                    <div class="w-16 h-16 rounded-full bg-transition flex items-center justify-center shrink-0">
+                      <span class="material-icons text-3xl text-eucalyptus">{service.icon}</span>
+                    </div>
+                    <div>
+                      <h2 class="font-heading text-2xl text-ebony mb-2">{service.title}</h2>
+                      <p class="text-eucalyptus">{service.description}</p>
+                    </div>
+                  </div>
+
+                  <!-- Caractéristiques -->
+                  <ul class="space-y-3 mb-8">
+                    {service.features.map(feature => (
+                      <li class="flex items-center gap-3">
+                        <span class="material-icons text-gold text-sm">check_circle</span>
+                        <span class="text-eucalyptus">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <!-- Prix et durée -->
+                  <div class="flex items-center justify-between mb-8">
+                    <div>
+                      <p class="font-heading text-3xl text-ebony">{service.price}</p>
+                      <p class="text-sm text-eucalyptus">par séance</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="font-heading text-xl text-ebony">{service.duration}</p>
+                      <p class="text-sm text-eucalyptus">durée moyenne</p>
+                    </div>
+                  </div>
+
+                  <!-- CTA -->
+                  <Button href="/rendez-vous" variant="primary" class="w-full">
+                    Prendre rendez-vous
+                  </Button>
+                </div>
+              </Card>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-transition relative overflow-hidden">
+      <!-- Motifs de fond -->
+      <div class="absolute inset-0 bg-geometric-pattern opacity-5 rotate-180"></div>
+
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto">
+          <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-12 text-center">
+            Questions Fréquentes
+          </h2>
+
+          <div class="space-y-6">
+            {[
+              {
+                question: 'Comment se déroule une première consultation ?',
+                answer: 'La première consultation débute par un bilan complet de votre état de santé. Nous discutons de vos objectifs et établissons ensemble un plan d\'action personnalisé.'
+              },
+              {
+                question: 'Les consultations sont-elles remboursées ?',
+                answer: 'Les consultations peuvent être partiellement prises en charge par certaines mutuelles. N\'hésitez pas à vous renseigner auprès de votre assurance.'
+              },
+              {
+                question: 'Proposez-vous des consultations à distance ?',
+                answer: 'Oui, je propose des consultations en visioconférence pour les personnes ne pouvant pas se déplacer au cabinet.'
+              }
+            ].map(item => (
+              <Card variant="feature">
+                <div class="p-6">
+                  <h3 class="font-heading text-xl text-ebony mb-3">{item.question}</h3>
+                  <p class="text-eucalyptus">{item.answer}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="font-heading text-3xl md:text-4xl text-ebony mb-6">
+            Prêt à commencer votre parcours bien-être ?
+          </h2>
+          <p class="text-eucalyptus mb-8">
+            Prenez rendez-vous dès maintenant pour une consultation personnalisée.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button href="/rendez-vous" size="lg">
+              Prendre rendez-vous
+            </Button>
+            <Button href="/contact" variant="outline" size="lg">
+              Me contacter
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</MainLayout>

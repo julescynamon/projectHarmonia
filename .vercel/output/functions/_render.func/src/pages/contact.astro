@@ -1,0 +1,634 @@
+---
+// src/pages/contact.astro
+import MainLayout from '../layouts/MainLayout.astro';
+import { pageSEO } from '../lib/seo';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+
+const seo = pageSEO.contact;
+
+const contactInfo = {
+  address: '30760 Salazac',
+  email: 'tyzranaima@gmail.com',
+  phone: '06 67 22 97 43',
+  hours: [
+    { days: 'Lundi - Vendredi', time: '9h00 - 19h00' },
+    { days: 'Samedi', time: '9h00 - 13h00' },
+    { days: 'Dimanche', time: 'Fermé' }
+  ]
+};
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <!-- Hero Section Impact -->
+  <section class="relative min-h-screen flex items-center justify-center overflow-hidden hero-section">
+    <!-- Background avec image et overlay -->
+    <div class="absolute inset-0">
+      <img 
+        src="/images/contact-hero.webp" 
+        alt="Contact La Maison Sattvaïa - Naïma Tyzra"
+        class="w-full h-full object-cover scale-110 transform motion-safe:animate-subtle-zoom"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-ebony/80 via-ebony/60 to-ebony/40"></div>
+    </div>
+    
+    <!-- Contenu principal centré -->
+    <div class="container mx-auto px-4 relative z-10 flex flex-col justify-center min-h-screen">
+      <div class="max-w-5xl mx-auto text-center">
+        <!-- En-tête centré -->
+        <div class="motion-safe:animate-fade-in">
+          <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+            Entrer en contact avec <span class="text-sage">La Maison Sattvaïa</span>
+          </h1>
+          
+          <div class="inline-block mb-8">
+            <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-2xl md:text-3xl font-semibold uppercase tracking-wider">
+              Un premier pas vers l'harmonie
+            </span>
+          </div>
+          
+          <p class="font-slogan text-xl md:text-2xl mb-12 text-white/90 leading-relaxed max-w-4xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] italic" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+            "Nous répondrons avec joie à vos questions et vous guiderons avec bienveillance, où que vous soyez."
+          </p>
+        </div>
+        
+
+        <!-- Actions hero -->
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="1000">
+          <Button 
+            href="#contact-form" 
+            class="transform hover:scale-105 transition-transform duration-300 bg-gradient-to-r from-gold/90 to-gold hover:from-gold hover:to-gold/90 text-white px-10 py-4 rounded-full text-lg shadow-lg hover:shadow-xl"
+          >
+            Envoyer un message
+          </Button>
+          <Button 
+            href="#informations" 
+            variant="outline"
+            class="border-2 border-white/80 text-white hover:bg-white/10 px-10 py-4 rounded-full text-lg transition-colors duration-300"
+          >
+            Informations pratiques
+          </Button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transition brush effect -->
+    <div class="absolute bottom-0 left-0 w-full z-30">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent to-cream"></div>
+      <svg width="100%" height="80" viewBox="0 0 1200 80" preserveAspectRatio="none" class="w-full h-auto">
+        <path d="M0,80 C300,20 600,60 1200,40 L1200,80 Z" fill="#faf9f7"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact-form" class="py-20 md:py-32 bg-gradient-to-b from-cream to-white relative overflow-hidden">
+    <!-- Éléments décoratifs renforcés -->
+    <div class="absolute top-0 left-0 w-72 h-72 bg-sage/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold/20 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 left-1/4 w-48 h-48 bg-eucalyptus/15 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-1/4 left-1/2 w-64 h-64 bg-sage/15 rounded-full blur-3xl"></div>
+    <div class="absolute inset-0 bg-geometric-pattern opacity-3"></div>
+
+    <div class="container mx-auto px-4 relative">
+      <!-- En-tête section -->
+      <div class="text-center max-w-4xl mx-auto mb-16" data-aos="fade-up" data-aos-duration="1000">
+        <div class="inline-block mb-6">
+          <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-lg font-semibold uppercase tracking-wider">
+            Formulaire de contact
+          </span>
+        </div>
+        <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-8 leading-tight">
+          Envoyez-moi un <span class="text-sage">message</span>
+        </h2>
+        <p class="font-slogan text-xl text-eucalyptus leading-relaxed">
+          Remplissez le formulaire ci-dessous et je vous répondrai dans les plus brefs délais
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-16 xl:gap-20">
+        <!-- Formulaire -->
+        <div class="order-2 lg:order-1" data-aos="fade-right" data-aos-offset="50" data-aos-duration="1000">
+          <div class="bg-white/90 backdrop-blur-sm rounded-3xl p-8 lg:p-12 shadow-xl border border-sage/10 hover:shadow-2xl transition-all duration-500">
+            <form class="space-y-6" id="contactForm" method="POST" novalidate>
+                <!-- Honeypot field -->
+                <div class="hidden">
+                  <input type="text" name="website" tabindex="-1" autocomplete="off" />
+                </div>
+              <div class="space-y-6">
+                <label class="block">
+                  <span class="text-ebony mb-3 block font-heading text-lg">Nom complet</span>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    required
+                    minlength="2"
+                    maxlength="100"
+                    class="w-full px-6 py-4 rounded-2xl border-2 border-sage/20 focus:border-eucalyptus focus:ring-2 focus:ring-eucalyptus/20 outline-none transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                    placeholder="Votre nom complet"
+                    autocomplete="name"
+                  />
+                </label>
+
+                <label class="block">
+                  <span class="text-ebony mb-3 block font-heading text-lg">Email</span>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    required
+                    maxlength="254"
+                    class="w-full px-6 py-4 rounded-2xl border-2 border-sage/20 focus:border-eucalyptus focus:ring-2 focus:ring-eucalyptus/20 outline-none transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                    placeholder="votre@email.com"
+                    autocomplete="email"
+                  />
+                </label>
+
+                <label class="block">
+                  <span class="text-ebony mb-3 block font-heading text-lg">Sujet</span>
+                  <select
+                    name="subject"
+                    id="subject"
+                    required
+                    class="w-full px-6 py-4 rounded-2xl border-2 border-sage/20 focus:border-eucalyptus focus:ring-2 focus:ring-eucalyptus/20 outline-none transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                  >
+                    <option value="">Sélectionnez un sujet</option>
+                    <option value="consultation">Consultation</option>
+                    <option value="question">Question générale</option>
+                    <option value="partnership">Partenariat</option>
+                    <option value="other">Autre</option>
+                  </select>
+                </label>
+
+                <label class="block">
+                  <span class="text-ebony mb-3 block font-heading text-lg">Message</span>
+                  <textarea
+                    name="message"
+                    id="message"
+                    required
+                    minlength="10"
+                    maxlength="1000"
+                    rows="6"
+                    class="w-full px-6 py-4 rounded-2xl border-2 border-sage/20 focus:border-eucalyptus focus:ring-2 focus:ring-eucalyptus/20 outline-none transition-all duration-300 resize-none bg-white/50 backdrop-blur-sm"
+                    placeholder="Décrivez votre demande ou vos questions..."
+                  ></textarea>
+                </label>
+              </div>
+
+              <!-- Message de statut -->
+              <div id="statusMessage" class="hidden p-6 rounded-2xl text-sm">
+                <div class="flex items-center gap-3">
+                  <span class="material-icons text-2xl"></span>
+                  <p class="font-medium"></p>
+                </div>
+              </div>
+
+              <button 
+                type="button" 
+                id="submitButton"
+                class="w-full bg-gradient-to-r from-sage to-eucalyptus hover:from-eucalyptus hover:to-sage text-white py-4 px-8 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center gap-3 font-heading text-lg"
+              >
+                <span class="material-icons">send</span>
+                <span>Envoyer le message</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Informations de contact -->
+        <div class="order-1 lg:order-2 space-y-8" data-aos="fade-left" data-aos-offset="50" data-aos-duration="1000">
+          <!-- Carte informations -->
+          <div class="bg-white/90 backdrop-blur-sm rounded-3xl p-8 lg:p-12 shadow-xl border border-sage/10 hover:shadow-2xl transition-all duration-500">
+            <h2 class="font-heading text-3xl text-ebony mb-8 text-center">
+              Informations de <span class="text-sage">Contact</span>
+            </h2>
+
+            <div class="space-y-6">
+              <div class="group bg-sage/5 hover:bg-sage/10 transition-colors duration-300 rounded-2xl p-6">
+                <div class="flex items-start gap-4">
+                  <div class="w-14 h-14 rounded-full bg-gradient-to-r from-sage to-eucalyptus flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <span class="material-icons text-white text-xl">location_on</span>
+                  </div>
+                  <div>
+                    <h3 class="font-heading text-xl text-ebony mb-2">Adresse</h3>
+                    <p class="text-eucalyptus leading-relaxed">{contactInfo.address}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="group bg-gold/5 hover:bg-gold/10 transition-colors duration-300 rounded-2xl p-6">
+                <div class="flex items-start gap-4">
+                  <div class="w-14 h-14 rounded-full bg-gradient-to-r from-gold to-sage flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <span class="material-icons text-white text-xl">email</span>
+                  </div>
+                  <div>
+                    <h3 class="font-heading text-xl text-ebony mb-2">Email</h3>
+                    <a href={`mailto:${contactInfo.email}`} class="text-eucalyptus hover:text-gold transition-colors duration-300 break-all">
+                      {contactInfo.email}
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="group bg-eucalyptus/5 hover:bg-eucalyptus/10 transition-colors duration-300 rounded-2xl p-6">
+                <div class="flex items-start gap-4">
+                  <div class="w-14 h-14 rounded-full bg-gradient-to-r from-eucalyptus to-gold flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <span class="material-icons text-white text-xl">phone</span>
+                  </div>
+                  <div>
+                    <h3 class="font-heading text-xl text-ebony mb-2">Téléphone</h3>
+                    <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} class="text-eucalyptus hover:text-gold transition-colors duration-300">
+                      {contactInfo.phone}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Horaires -->
+          <div class="bg-gradient-to-br from-sage/10 to-eucalyptus/10 rounded-3xl p-8 lg:p-12 border border-sage/20">
+            <h2 class="font-heading text-3xl text-ebony mb-8 text-center">
+              Horaires d'<span class="text-eucalyptus">Ouverture</span>
+            </h2>
+
+            <div class="space-y-4">
+              {contactInfo.hours.map(({ days, time }) => (
+                <div class="flex justify-between items-center bg-white/50 backdrop-blur-sm rounded-xl p-4 hover:bg-white/70 transition-colors duration-300">
+                  <span class="text-eucalyptus font-medium">{days}</span>
+                  <span class="font-heading text-ebony font-semibold">{time}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Informations Pratiques Section -->
+  <section id="informations" class="py-20 md:py-32 bg-gradient-to-b from-white to-sage/5 relative overflow-hidden">
+    <div class="absolute top-10 right-10 w-64 h-64 bg-gold/5 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-10 left-10 w-80 h-80 bg-sage/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+    
+    <div class="container mx-auto px-4 relative">
+      <!-- En-tête -->
+      <div class="text-center max-w-4xl mx-auto mb-20" data-aos="fade-up" data-aos-duration="1000">
+        <div class="inline-block mb-6">
+          <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-lg font-semibold uppercase tracking-wider">
+            Informations pratiques
+          </span>
+        </div>
+        <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-8 leading-tight">
+          Comment me <span class="text-sage">joindre</span> et me <span class="text-gold">rencontrer</span>
+        </h2>
+        <p class="font-slogan text-xl text-eucalyptus leading-relaxed">
+          Plusieurs façons de prendre contact et de bénéficier de mes accompagnements
+        </p>
+      </div>
+
+      <!-- Moyens de contact -->
+      <div class="grid md:grid-cols-3 gap-8 mb-16">
+        <!-- Consultation à distance -->
+        <div 
+          class="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-sage/10 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group"
+          data-aos="fade-up" 
+          data-aos-delay="200"
+          data-aos-duration="800"
+        >
+          <div class="bg-gradient-to-r from-sage/10 to-eucalyptus/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+            <span class="material-icons text-sage text-3xl">video_call</span>
+          </div>
+          <h3 class="font-heading text-2xl text-ebony mb-4 text-center">Consultation à distance</h3>
+          <p class="text-eucalyptus text-center leading-relaxed mb-6">
+            Séances par visio ou téléphone, partout en France.
+          </p>
+          
+        </div>
+
+        <!-- Déplacements à domicile -->
+        <div 
+          class="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-sage/10 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group"
+          data-aos="fade-up" 
+          data-aos-delay="400"
+          data-aos-duration="800"
+        >
+          <div class="bg-gradient-to-r from-gold/10 to-sage/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+            <span class="material-icons text-gold text-3xl">directions_car</span>
+          </div>
+          <h3 class="font-heading text-2xl text-ebony mb-4 text-center">Déplacements à domicile</h3>
+          <p class="text-eucalyptus text-center leading-relaxed mb-4">
+            Possibilité de me déplacer dans le Gard, l'Ardèche, la Drôme et le Vaucluse (rayon 70 km autour de Salazac).
+          </p>
+          <p class="text-eucalyptus/70 text-sm text-center italic">
+            Frais éventuels - voir conditions sur les pages dédiées.
+          </p>
+        </div>
+
+        <!-- Contact direct -->
+        <div 
+          class="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-sage/10 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group"
+          data-aos="fade-up" 
+          data-aos-delay="600"
+          data-aos-duration="800"
+        >
+          <div class="bg-gradient-to-r from-eucalyptus/10 to-gold/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+            <span class="material-icons text-eucalyptus text-3xl">phone</span>
+          </div>
+          <h3 class="font-heading text-2xl text-ebony mb-4 text-center">Contact direct</h3>
+          <p class="text-eucalyptus text-center leading-relaxed mb-6">
+            Pour toute question ou demande d'information, je suis disponible par téléphone ou par email.
+          </p>
+          <div class="space-y-3 text-center">
+            <div class="flex items-center justify-center gap-2">
+              <span class="material-icons text-sage text-lg">phone</span>
+              <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} class="text-eucalyptus hover:text-gold transition-colors font-medium">
+                {contactInfo.phone}
+              </a>
+            </div>
+            <div class="flex items-center justify-center gap-2">
+              <span class="material-icons text-sage text-lg">email</span>
+              <a href={`mailto:${contactInfo.email}`} class="text-eucalyptus hover:text-gold transition-colors font-medium break-all">
+                {contactInfo.email}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Final Section -->
+  <section class="py-20 md:py-32 bg-gradient-to-r from-sage/15 via-gold/10 to-sage/15 relative overflow-hidden">
+    <!-- Éléments décoratifs renforcés -->
+    <div class="absolute inset-0 bg-geometric-pattern opacity-10"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] opacity-90">
+      <img
+        src="/images/sacred-geometry.svg"
+        alt=""
+        class="w-full h-full motion-safe:animate-slow-spin"
+        loading="lazy"
+      />
+    </div>
+    <!-- Cercles décoratifs supplémentaires -->
+    <div class="absolute top-1/4 left-0 w-40 h-40 bg-sage/20 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-1/4 right-0 w-48 h-48 bg-gold/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+    <div class="absolute top-1/2 right-1/4 w-32 h-32 bg-eucalyptus/15 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+    <div class="absolute bottom-1/2 left-1/4 w-36 h-36 bg-sage/15 rounded-full blur-3xl animate-pulse" style="animation-delay: 0.5s;"></div>
+    
+    <div class="container mx-auto px-4 relative">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="mb-8" data-aos="fade-up" data-aos-duration="1000">
+          <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-8 leading-tight">
+            Prête à vous <span class="text-sage">accompagner</span>
+          </h2>
+          <p class="font-slogan text-xl md:text-2xl text-eucalyptus mb-12 leading-relaxed">
+            N'hésitez plus, prenez contact dès aujourd'hui pour commencer votre chemin vers l'harmonie et le bien-être.
+          </p>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-6 justify-center" data-aos="fade-up" data-aos-delay="300" data-aos-duration="800">
+          
+          <Button 
+            href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}
+            variant="outline" 
+            size="lg"
+            class="border-2 border-sage text-sage hover:bg-sage hover:text-white px-12 py-5 rounded-full text-xl transition-all duration-300"
+          >
+            Appeler maintenant
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<script>
+  // Attendre que le DOM soit complètement chargé
+  window.addEventListener('load', () => {
+    console.log('Initialisation du formulaire de contact...');
+    
+    const form = document.querySelector('form');
+    const submitButton = document.getElementById('submitButton');
+    const statusMessage = document.getElementById('statusMessage');
+
+    if (!form || !submitButton || !statusMessage) {
+      console.error('Éléments du formulaire non trouvés');
+      return;
+    }
+
+    // Rate limiting
+    const RATE_LIMIT_MS = 60000; // 1 minute
+    const lastSubmitTime = new Map();
+
+    // Fonction pour échapper les caractères HTML
+    function escapeHtml(unsafe: string): string {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function showStatus(message: string, type: 'success' | 'error' | 'info' = 'info') {
+      const icon = statusMessage.querySelector('.material-icons');
+      const text = statusMessage.querySelector('p');
+
+      if (icon && text) {
+        // Définir l'icône et la couleur en fonction du type
+        switch (type) {
+          case 'success':
+            icon.textContent = 'check_circle';
+            statusMessage.className = 'p-6 rounded-2xl text-sm bg-green-50 text-green-700 border border-green-200 shadow-lg';
+            break;
+          case 'error':
+            icon.textContent = 'error';
+            statusMessage.className = 'p-6 rounded-2xl text-sm bg-red-50 text-red-700 border border-red-200 shadow-lg';
+            break;
+          default:
+            icon.textContent = 'info';
+            statusMessage.className = 'p-6 rounded-2xl text-sm bg-blue-50 text-blue-700 border border-blue-200 shadow-lg';
+        }
+
+        text.textContent = escapeHtml(message);
+        statusMessage.classList.remove('hidden');
+      }
+    }
+
+    function hideStatus() {
+      statusMessage.classList.add('hidden');
+    }
+
+    function showFieldError(field: string, message: string) {
+      const input = document.getElementById(field);
+      if (input) {
+        input.classList.add('border-red-500');
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'text-sm text-red-500 mt-1';
+        errorDiv.textContent = escapeHtml(message);
+        input.parentElement?.appendChild(errorDiv);
+      }
+    }
+
+    function clearFieldErrors() {
+      document.querySelectorAll('.border-red-500').forEach(input => {
+        input.classList.remove('border-red-500');
+      });
+      document.querySelectorAll('.text-red-500').forEach(error => error.remove());
+    }
+
+    function validateName(name: string): boolean {
+      if (!name || name.length < 2) {
+        return false;
+      }
+      return /^[a-zA-ZÀ-ÿ\s-]+$/.test(name);
+    }
+
+    function validateEmail(email: string): boolean {
+      return email && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+    }
+
+    function validateMessage(message: string): boolean {
+      return message && message.length >= 10 && message.length <= 1000;
+    }
+
+    async function handleSubmit() {
+      hideStatus();
+      clearFieldErrors();
+
+      // Vérification du rate limiting
+      const now = Date.now();
+      const lastSubmit = lastSubmitTime.get(form.id) || 0;
+      if (now - lastSubmit < RATE_LIMIT_MS) {
+        showStatus('Veuillez attendre avant d\'envoyer un nouveau message', 'error');
+        return;
+      }
+
+      // Récupération et nettoyage des valeurs
+      const nameInput = document.getElementById('name');
+      const emailInput = document.getElementById('email');
+      const subjectInput = document.getElementById('subject');
+      const messageInput = document.getElementById('message');
+
+      if (!nameInput || !emailInput || !subjectInput || !messageInput) {
+        showStatus('Erreur: Formulaire incomplet', 'error');
+        return;
+      }
+
+      // Vérification des types
+      if (!(nameInput instanceof HTMLInputElement) ||
+          !(emailInput instanceof HTMLInputElement) ||
+          !(subjectInput instanceof HTMLSelectElement) ||
+          !(messageInput instanceof HTMLTextAreaElement)) {
+        showStatus('Erreur: Types de formulaire invalides', 'error');
+        return;
+      }
+
+      const name = nameInput.value.trim() || '';
+      const email = emailInput.value.trim() || '';
+      const subject = subjectInput.value.trim() || '';
+      const message = messageInput.value.trim() || '';
+
+      // Validation des champs
+      if (!validateName(name)) {
+        showFieldError('name', 'Le nom doit contenir au moins 2 caractères et ne peut contenir que des lettres, espaces et tirets');
+        showStatus('Veuillez corriger les erreurs dans le formulaire', 'error');
+        return;
+      }
+
+      if (!validateEmail(email)) {
+        showFieldError('email', 'Veuillez entrer une adresse email valide');
+        showStatus('Veuillez corriger les erreurs dans le formulaire', 'error');
+        return;
+      }
+
+      if (!subject) {
+        showFieldError('subject', 'Veuillez sélectionner un sujet');
+        showStatus('Veuillez corriger les erreurs dans le formulaire', 'error');
+        return;
+      }
+
+      if (!validateMessage(message)) {
+        showFieldError('message', 'Le message doit contenir entre 10 et 1000 caractères');
+        showStatus('Veuillez corriger les erreurs dans le formulaire', 'error');
+        return;
+      }
+
+      try {
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="material-icons">hourglass_empty</span><span>Envoi en cours...</span>';
+        showStatus('Envoi du message en cours...', 'info');
+
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            subject,
+            message
+          }),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Erreur lors de l\'envoi du message');
+        }
+
+        form.reset();
+        showStatus('Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.', 'success');
+        lastSubmitTime.set(form.id, now);
+      } catch (error) {
+        console.error('Erreur lors de l\'envoi:', error);
+        showStatus(error instanceof Error ? error.message : 'Une erreur est survenue lors de l\'envoi du message', 'error');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.innerHTML = '<span class="material-icons">send</span><span>Envoyer le message</span>';
+      }
+    }
+
+    // Ajouter l'écouteur d'événements au bouton
+    submitButton.addEventListener('click', handleSubmit);
+  });
+</script>
+
+<style>
+  @keyframes subtle-zoom {
+    0% { transform: scale(1.1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1.1); }
+  }
+
+  @keyframes slow-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-subtle-zoom {
+    animation: subtle-zoom 20s infinite alternate ease-in-out;
+  }
+
+  .animate-slow-spin {
+    animation: slow-spin 60s infinite linear;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 1.5s ease-out forwards;
+  }
+
+  /* Styles pour les éléments de formulaire avec effet glassmorphism */
+  .backdrop-blur-sm {
+    backdrop-filter: blur(10px);
+  }
+</style>

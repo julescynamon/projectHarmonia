@@ -1,0 +1,123 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import PostEditor from '../../../components/admin/PostEditor.jsx';
+import PostList from '../../../components/admin/PostList.jsx';
+const supabase = Astro.locals.supabase;
+
+// La session est déjà disponible via Astro.locals.session grâce au middleware
+const session = Astro.locals.session;
+
+// Vérification de l'authentification
+if (!session?.user?.id) {
+  console.error('[ADMIN_BLOG] Pas de session, redirection vers /login');
+  return Astro.redirect('/login?returnTo=/admin/blog');
+}
+
+// Vérification spéciale pour l'admin principal (tyzranaima@gmail.com)
+const isMainAdmin = session.user.email === 'tyzranaima@gmail.com';
+
+// Pour l'admin principal, accès direct sans vérification de profil
+if (isMainAdmin) {
+  console.log('[ADMIN_BLOG] Accès admin principal autorisé pour:', session.user.email);
+} else {
+  // Pour les autres utilisateurs, vérifier le profil
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', session.user.id)
+    .maybeSingle();
+  
+  const isAdmin = !profileError && profile && profile.role === 'admin';
+  
+  if (!isAdmin) {
+    console.error('[ADMIN_BLOG] Utilisateur non admin, redirection vers /mon-compte');
+    return Astro.redirect('/mon-compte');
+  }
+}
+
+// Récupération des articles existants depuis la nouvelle table posts
+const { data: posts } = await supabase
+  .from('posts')
+  .select('*')
+  .eq('author_id', session.user.id)
+  .order('created_at', { ascending: false });
+---
+
+<AdminLayout title="Gestion des articles">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Gestion des articles</h1>
+      <p class="mt-2 text-sm text-gray-700">Créez, modifiez et supprimez les articles du blog avec l'éditeur TipTap.</p>
+    </div>
+
+    <!-- Éditeur d'article -->
+    <div class="space-y-6 bg-white shadow-sm ring-1 ring-gray-900/5 p-6 rounded-lg mb-8">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">Créer un nouvel article</h2>
+      
+      <script define:vars={{ userId: session.user.id }}>
+        window.currentUserId = userId;
+      </script>
+      
+      <PostEditor 
+        client:load
+        onSave={async (postData) => {
+          try {
+            const userId = session.user.id;
+            const response = await fetch('/api/posts/create', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                ...postData,
+                author_id: userId
+              })
+            });
+            
+            if (!response.ok) throw new Error('Erreur lors de la sauvegarde');
+            
+            alert('Article sauvegardé en brouillon');
+            // Recharger la liste des articles
+            window.location.reload();
+          } catch (error) {
+            console.error('Erreur:', error);
+            alert('Une erreur est survenue lors de la sauvegarde');
+          }
+        }}
+        onPublish={async (postData) => {
+          try {
+            const userId = session.user.id;
+            const response = await fetch('/api/posts/create', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                ...postData,
+                author_id: userId
+              })
+            });
+            
+            if (!response.ok) throw new Error('Erreur lors de la publication');
+            
+            alert('Article publié avec succès !');
+            // Recharger la liste des articles
+            window.location.reload();
+          } catch (error) {
+            console.error('Erreur:', error);
+            alert('Une erreur est survenue lors de la publication');
+          }
+        }}
+      />
+    </div>
+
+    <!-- Liste des articles -->
+    <div class="space-y-6">
+      <h2 class="text-xl font-semibold text-gray-900">Vos articles</h2>
+      <PostList 
+        client:load
+      />
+    </div>
+  </div>
+
+</AdminLayout>

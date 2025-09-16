@@ -1,0 +1,466 @@
+---
+// src/pages/a-propos.astro
+import MainLayout from '../layouts/MainLayout.astro';
+import { pageSEO } from '../lib/seo';
+
+const seo = pageSEO.about;
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <!-- Hero Section Impact -->
+  <section class="relative min-h-screen flex items-center justify-center overflow-hidden hero-section">
+    <!-- Background avec image et overlay -->
+    <div class="absolute inset-0">
+      <img 
+        src="/images/photo-hero-a-propos.webp" 
+        alt="La Maison Sattvaïa - Espace holistique"
+        class="w-full h-full object-cover scale-110 transform motion-safe:animate-subtle-zoom"
+      />
+      <!-- Overlay supprimé pour voir l'image de fond -->
+      <div class="absolute inset-0 bg-black/20"></div>
+    </div>
+    
+    <!-- Contenu principal centré -->
+    <div class="container mx-auto px-4 relative z-10 flex flex-col justify-center min-h-screen">
+      <div class="max-w-5xl mx-auto text-center">
+        <!-- En-tête centré -->
+        <div class="motion-safe:animate-fade-in">
+          <div class="inline-block mb-16">
+            <span class="bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent font-slogan text-xl font-semibold uppercase tracking-wider">
+              L'esprit de La Maison Sattvaïa
+            </span>
+          </div>
+          
+          <h1 class="font-heading text-5xl md:text-6xl lg:text-7xl mb-16 leading-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+            Un espace né d'un chemin de vie
+            <span class="block text-white mt-8 text-3xl md:text-4xl lg:text-5xl">Pour guider humains et animaux vers l'harmonie du corps, de l'énergie et de l'âme</span>
+          </h1>
+          
+          <p class="font-cursive text-2xl md:text-3xl lg:text-4xl mb-16 text-white leading-relaxed max-w-4xl mx-auto drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] italic" id="typewriter-text" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+            <span class="typewriter-content"></span><span class="cursor">|</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transition brush effect -->
+    <div class="absolute bottom-0 left-0 w-full z-30">
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent to-cream"></div>
+      <svg width="100%" height="80" viewBox="0 0 1200 80" preserveAspectRatio="none" class="w-full h-auto">
+        <path d="M0,80 C300,20 600,60 1200,40 L1200,80 Z" fill="#faf9f7"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- La naissance d'un espace Section -->
+  <section class="py-12 md:py-16 bg-gradient-to-b from-cream to-white relative overflow-hidden">
+    <!-- Éléments décoratifs -->
+    <div class="absolute top-0 left-0 w-72 h-72 bg-sage/30 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold/30 rounded-full blur-3xl"></div>
+    <div class="absolute inset-0 bg-geometric-pattern opacity-2"></div>
+
+    <div class="container mx-auto px-4 relative">
+      <div class="grid lg:grid-cols-2 gap-16 xl:gap-20 items-center">
+        <!-- Image avec effets premium -->
+        <div class="relative order-2 lg:order-1" data-aos="fade-right" data-aos-offset="50" data-aos-duration="1000">
+          <div class="relative">
+            <!-- Cadre décoratif -->
+            <div class="absolute -inset-2 bg-gradient-to-r from-sage/20 to-gold/20 rounded-2xl blur-lg"></div>
+            <div class="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
+              <img
+                src="/images/chemindevie.webp"
+                alt="La Maison Sattvaïa - Espace de guérison"
+                class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+              />
+              <!-- Overlay subtil -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contenu storytelling -->
+        <div class="order-1 lg:order-2" data-aos="fade-left" data-aos-offset="50" data-aos-duration="1000">
+          <!-- En-tête avec animation -->
+          <div class="mb-8">
+            <h2 class="font-heading text-4xl md:text-5xl xl:text-6xl text-ebony mb-6 leading-tight">
+              La <span class="text-sage">naissance</span> d'un <span class="text-gold">espace</span>
+            </h2>
+          </div>
+
+          <!-- Contenu du texte -->
+          <div class="space-y-6 text-ebony mb-10 text-lg leading-relaxed">
+            <p class="relative">
+              
+              Je m’appelle Aïa. La Maison Sattvaïa est née de mon chemin de vie, d’épreuves et de révélations.
+
+            </p>
+            <p>
+              Guidée depuis toujours par la nature, les animaux et le subtil, j'ai compris qu'un véritable accompagnement ne pouvait pas séparer le corps, l'énergie et l'âme.
+            </p>
+            <p>
+              De cette évidence est née Sattvaïa : une maison intérieure, vibratoire et vivante, qui s’ouvre à vous où que vous soyez, à distance ou chez vous.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mon chemin Section -->
+  <section class="py-12 md:py-16 bg-gradient-to-b from-white to-cream/30 relative overflow-hidden">
+    <!-- Éléments décoratifs -->
+    <div class="absolute top-10 right-10 w-64 h-64 bg-gold/5 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-10 left-10 w-80 h-80 bg-sage/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+    
+    <div class="container mx-auto px-4 relative">
+      <div class="grid lg:grid-cols-2 gap-8 xl:gap-12 items-center">
+        <!-- Contenu texte à gauche -->
+        <div class="order-2 lg:order-1" data-aos="fade-right" data-aos-offset="50" data-aos-duration="1000">
+          <!-- En-tête -->
+          <div class="mb-8">
+            <h2 class="font-heading text-4xl md:text-5xl xl:text-6xl text-ebony mb-6 leading-tight">
+              Mon <span class="text-sage">chemin</span>
+            </h2>
+          </div>
+
+          <!-- Contenu du texte -->
+          <div class="space-y-6 text-ebony text-lg leading-relaxed">
+            <p>
+              Mon parcours m’a menée à explorer de nombreuses voies : la naturopathie, la réflexologie chinoise, les massages, mais aussi les neurosciences et la psychologie positive. Peu à peu, j’ai compris que le corps, l’esprit et l’âme ne pouvaient être séparés.
+            </p>
+            <p>
+              Les soins énergétiques et le chamanisme m’ont ouvert à une dimension plus vaste : derrière chaque symptôme se cache une mémoire, une énergie, une histoire à écouter et à transformer.
+            </p>
+            <p class="font-medium text-ebony">
+              Aujourd’hui, toutes ces expériences s’unissent pour donner vie à La Maison Sattvaïa, un espace où la guérison devient une véritable transformation.
+            </p>
+          </div>
+        </div>
+
+        <!-- Image à droite -->
+        <div class="order-1 lg:order-2" data-aos="fade-left" data-aos-offset="50" data-aos-duration="1000">
+          <div class="relative">
+            <!-- Cadre décoratif -->
+            <div class="absolute -inset-2 bg-gradient-to-r from-sage/20 to-gold/20 rounded-2xl blur-lg"></div>
+            <div class="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
+              <img
+                src="/images/naissanceespace.webp"
+                alt="Chemin spirituel et découverte"
+                class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+              />
+              <!-- Overlay subtil -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notre philosophie Section -->
+  <section class="py-12 md:py-16 bg-gradient-to-b from-cream to-white relative overflow-hidden">
+    <!-- Éléments décoratifs -->
+    <div class="absolute top-0 left-0 w-72 h-72 bg-sage/30 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold/30 rounded-full blur-3xl"></div>
+    <div class="absolute inset-0 bg-geometric-pattern opacity-2"></div>
+    
+    <div class="container mx-auto px-4 relative">
+      <div class="grid lg:grid-cols-2 gap-8 xl:gap-12 items-center">
+        <!-- Image à gauche -->
+        <div class="order-1" data-aos="fade-right" data-aos-offset="50" data-aos-duration="1000">
+          <div class="relative">
+            <!-- Cadre décoratif -->
+            <div class="absolute -inset-2 bg-gradient-to-r from-sage/20 to-gold/20 rounded-2xl blur-lg"></div>
+            <div class="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
+              <img
+                src="/images/philosophie-sattvaia.webp"
+                alt="Philosophie de La Maison Sattvaïa"
+                class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+              />
+              <!-- Overlay décoratif -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contenu texte à droite -->
+        <div class="order-2" data-aos="fade-left" data-aos-offset="50" data-aos-duration="1000">
+          <!-- En-tête -->
+          <div class="mb-8">
+            <h2 class="font-heading text-4xl md:text-5xl xl:text-6xl text-ebony mb-6 leading-tight">
+              Notre <span class="text-sage">philosophie</span>
+            </h2>
+          </div>
+
+          <!-- Contenu du texte -->
+          <div class="space-y-6 text-ebony text-lg leading-relaxed">
+            <p class="font-bold text-ebony text-xl">
+              Sattvaïa, c’est l’évidence que tout est relié.
+
+            </p>
+            <p>
+              Chaque être, humain comme animal, est accueilli dans sa globalité corps, esprit, émotions et âme avec respect et douceur.
+            </p>
+            <p>
+              Ici, le visible et l’invisible se rencontrent, la nature et le spirituel s’entrelacent, et l’énergie circule pour rétablir l’harmonie.
+            </p>
+            <p>
+              Chaque séance devient un espace sacré de clarté, d’équilibre et de reconnexion à l’essentiel : la vie qui nous traverse.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ce qui rend Sattvaïa unique Section -->
+  <section class="py-12 md:py-16 bg-gradient-to-b from-sage/5 via-white to-cream/20 relative overflow-hidden">
+    <!-- Éléments décoratifs -->
+    <div class="absolute top-0 left-0 w-72 h-72 bg-sage/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 relative">
+      <div class="grid lg:grid-cols-2 gap-8 xl:gap-12 items-center">
+        <!-- Contenu -->
+        <div class="order-1" data-aos="fade-right" data-aos-offset="50" data-aos-duration="1000">
+          <!-- En-tête -->
+          <div class="mb-8">
+            <h2 class="font-heading text-4xl md:text-5xl xl:text-6xl text-ebony mb-6 leading-tight">
+              Ce qui rend <span class="text-sage">Sattvaïa</span> <span class="text-gold">unique</span>
+            </h2>
+          </div>
+
+          <!-- Contenu du texte -->
+          <div class="space-y-6 text-ebony text-lg leading-relaxed">
+            <p>
+              Sattvaïa n’est pas un lieu figé, mais une maison vivante qui vous accompagne partout où vous êtes.
+            </p>
+            <p>
+              Qu’il s’agisse de naturopathie humaine ou animale, de soins énergétiques ou de guidance spirituelle, chaque accompagnement s’adapte à votre histoire et à vos besoins du moment.
+            </p>
+            <p>
+              Ce qui distingue Sattvaïa, c’est cette alliance rare entre la science du vivant et la sagesse de l’âme, entre le visible et l’invisible, pour offrir un chemin d’équilibre, de clarté et de transformation.
+            </p>
+          </div>
+        </div>
+
+        <!-- Image -->
+        <div class="order-2" data-aos="fade-left" data-aos-offset="50" data-aos-duration="1000">
+          <div class="relative">
+            <!-- Cadre décoratif -->
+            <div class="absolute -inset-2 bg-gradient-to-r from-sage/20 to-gold/20 rounded-2xl blur-lg"></div>
+            <div class="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
+              <img
+                src="/images/apropos2.webp"
+                alt="La Maison Sattvaïa - Accompagnement personnalisé"
+                class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+              />
+              <!-- Overlay subtil -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- La Maison vous invite Section -->
+  <section class="py-12 md:py-16 relative overflow-hidden">
+    <!-- Image de fond -->
+    <div class="absolute inset-0">
+      <img 
+        src="/images/background-sattvaia.webp" 
+        alt="Arrière-plan La Maison Sattvaïa"
+        class="w-full h-full object-cover"
+      />
+      <div class="absolute inset-0 bg-black/10"></div>
+    </div>
+    
+        <div class="container mx-auto px-4 relative">
+      <div class="max-w-4xl mx-auto text-center">
+                  <div class="mb-8" data-aos="fade-up" data-aos-duration="1000">
+            <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight drop-shadow-lg">
+              <span class="bg-gradient-to-r from-white via-gold to-sage bg-clip-text text-transparent">
+                La Maison vous invite
+              </span>
+            </h2>
+          </div>
+        
+        <div class="space-y-6 text-white text-xl leading-relaxed mb-12 drop-shadow-md" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+          <p>
+            Sattva incarne la pureté, l’harmonie et la clarté.
+            C’est l’intention qui traverse chaque rencontre, chaque soin, chaque guidance.
+          </p>
+          <p>
+            Aïa est le nom de l’âme qui a donné vie à cette maison, pour guider chacun sur son chemin unique de reconnexion.
+          </p>
+          <p>
+            Sattvaïa est née comme une passerelle entre le visible et l’invisible, une union profonde entre l’humain, l’animal et l’âme.
+          </p>
+        </div>
+      </div>
+
+      <!-- Citation finale - Pleine largeur -->
+      <div class="bg-white/15 backdrop-blur-lg rounded-3xl p-8 lg:p-12 shadow-xl border border-white/30 w-full" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">
+        <div class="text-center">
+          <p id="quote-typewriter" class="font-cursive text-2xl md:text-3xl text-white mb-6 italic leading-relaxed">
+            <span class="typewriter-content"></span><span class="cursor">|</span>
+          </p>
+          <div class="w-24 h-1 bg-gradient-to-r from-gold to-sage mx-auto rounded-full"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const typewriterText = document.getElementById('typewriter-text') as any;
+      const contentSpan = typewriterText?.querySelector('.typewriter-content') as any;
+      const cursorSpan = typewriterText?.querySelector('.cursor') as any;
+      
+      if (!typewriterText || !contentSpan || !cursorSpan) return;
+      
+      const text = "Au bout du chemin, un espace : l'essentiel s'y rassemble, le corps s'apaise, l'énergie circule, l'âme se souvient.";
+      
+      // Masquer le curseur initialement
+      cursorSpan.style.opacity = '0';
+      
+      // Délai avant de commencer l'animation
+      setTimeout(() => {
+        let index = 0;
+        
+        function typeWriter() {
+          if (index < text.length) {
+            contentSpan.textContent += text.charAt(index);
+            index++;
+            
+            // Vitesse variable selon les caractères
+            let speed = 150; // Vitesse de base (plus lente)
+            
+            // Ralentir sur les ponctuations
+            if (text.charAt(index - 1) === '.' || text.charAt(index - 1) === ':' || text.charAt(index - 1) === ',') {
+              speed = 400;
+            }
+            
+            // Ralentir sur les espaces
+            if (text.charAt(index - 1) === ' ') {
+              speed = 100;
+            }
+            
+            setTimeout(typeWriter, speed);
+          } else {
+            // Animation terminée, faire clignoter le curseur
+            cursorSpan.style.opacity = '1';
+          }
+        }
+        
+        typeWriter();
+      }, 2000); // Délai de 2 secondes avant de commencer
+
+      // Animation typewriter pour la citation finale
+      const quoteTypewriter = document.getElementById('quote-typewriter') as any;
+      const quoteContentSpan = quoteTypewriter?.querySelector('.typewriter-content') as any;
+      const quoteCursorSpan = quoteTypewriter?.querySelector('.cursor') as any;
+      
+      if (!quoteTypewriter || !quoteContentSpan || !quoteCursorSpan) return;
+      
+      const quoteText = '"Un chemin d\'équilibre et de clarté s\'ouvre toujours à celui qui choisit d\'y marcher."';
+      
+      // Masquer le curseur initialement
+      quoteCursorSpan.style.opacity = '0';
+      
+      // Délai avant de commencer l'animation de la citation (après l'autre animation)
+      setTimeout(() => {
+        let quoteIndex = 0;
+        
+        function quoteTypeWriter() {
+          if (quoteIndex < quoteText.length) {
+            quoteContentSpan.textContent += quoteText.charAt(quoteIndex);
+            quoteIndex++;
+            
+            // Vitesse variable selon les caractères
+            let speed = 120; // Vitesse de base (légèrement plus rapide que l'autre)
+            
+            // Ralentir sur les ponctuations
+            if (quoteText.charAt(quoteIndex - 1) === '.' || quoteText.charAt(quoteIndex - 1) === ':' || quoteText.charAt(quoteIndex - 1) === ',') {
+              speed = 350;
+            }
+            
+            // Ralentir sur les espaces
+            if (quoteText.charAt(quoteIndex - 1) === ' ') {
+              speed = 80;
+            }
+            
+            setTimeout(quoteTypeWriter, speed);
+          } else {
+            // Animation terminée, faire clignoter le curseur
+            quoteCursorSpan.style.opacity = '1';
+          }
+        }
+        
+        quoteTypeWriter();
+      }, 4000); // Délai de 6 secondes pour commencer après l'autre animation
+    });
+  </script>
+</MainLayout>
+
+<style>
+  @keyframes subtle-zoom {
+    0% { transform: scale(1.1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1.1); }
+  }
+
+  /* Animation du curseur typewriter */
+  .cursor {
+    animation: blink 1s infinite;
+    color: #D4AF37;
+    font-weight: bold;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  @keyframes slow-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-subtle-zoom {
+    animation: subtle-zoom 20s infinite alternate ease-in-out;
+  }
+
+  .animate-slow-spin {
+    animation: slow-spin 60s infinite linear;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 1.5s ease-out forwards;
+  }
+
+  .font-cursive {
+    font-family: 'Dancing Script', 'Brush Script MT', cursive;
+  }
+
+  .cursor {
+    animation: blink 1s infinite;
+    color: white;
+    font-weight: bold;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+</style>

@@ -2,6 +2,8 @@
 // Page d'édition d'article avec TipTap
 // src/pages/admin/post/[id].astro
 
+export const prerender = false;
+
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 import PostEditor from '../../../components/admin/PostEditor.jsx';
 import { supabase } from '../../../lib/supabase';

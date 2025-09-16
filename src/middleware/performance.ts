@@ -18,14 +18,6 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
     headers.set('Cache-Control', 'public, max-age=3600, must-revalidate'); // 1 heure
   }
   
-  // En-têtes de compression
-  const acceptEncoding = context.request.headers.get('accept-encoding') || '';
-  
-  if (acceptEncoding.includes('br')) {
-    headers.set('Content-Encoding', 'br');
-  } else if (acceptEncoding.includes('gzip')) {
-    headers.set('Content-Encoding', 'gzip');
-  }
   
   // En-têtes de performance
   headers.set('X-Content-Type-Options', 'nosniff');

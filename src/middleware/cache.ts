@@ -98,13 +98,6 @@ export const onRequest: MiddlewareHandler = async (context, next) => {
   headers.set('X-Frame-Options', 'DENY');
   headers.set('X-XSS-Protection', '1; mode=block');
 
-  // Headers de compression
-  const acceptEncoding = context.request.headers.get('accept-encoding') || '';
-  if (acceptEncoding.includes('br')) {
-    headers.set('Content-Encoding', 'br');
-  } else if (acceptEncoding.includes('gzip')) {
-    headers.set('Content-Encoding', 'gzip');
-  }
 
   return new Response(response.body, {
     status: response.status,

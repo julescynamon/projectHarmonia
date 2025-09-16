@@ -9,7 +9,10 @@ import { VitePWA } from "vite-plugin-pwa";
 export default defineConfig({
   site: "https://project-harmonia.vercel.app",
   output: "server",
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: { enabled: true },
+    speedInsights: { enabled: true },
+  }),
   integrations: [
     react(),
     tailwind(),

@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import AdminLayout from '../../../layouts/AdminLayout.astro';
 import PostEditor from '../../../components/admin/PostEditor.jsx';
 import PostList from '../../../components/admin/PostList.jsx';
@@ -60,6 +62,8 @@ const { data: posts } = await supabase
       
       <PostEditor 
         client:load
+        postId={null}
+        userId={session.user.id}
         onSave={async (postData) => {
           try {
             const userId = session.user.id;

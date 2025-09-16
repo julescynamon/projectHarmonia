@@ -1,7 +1,0 @@
-{
-  "functions": {
-    ".vercel/output/_functions/entry.mjs": {
-      "runtime": "nodejs18.x"
-    }
-  }
-}

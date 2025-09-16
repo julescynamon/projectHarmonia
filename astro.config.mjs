@@ -2,13 +2,13 @@ import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import sitemap from "@astrojs/sitemap";
-import vercel from "@astrojs/vercel";
+import vercel from "@astrojs/vercel/serverless";
 import blogNotifications from "./src/integrations/blog-notifications";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
   site: "https://project-harmonia.vercel.app",
-  output: "server",
+  output: "static",
   adapter: vercel(),
   integrations: [
     react(),

@@ -1,3 +1,5 @@
+export const prerender = false;
+
 // src/pages/api/admin/appointments/list.ts
 import type { APIRoute } from 'astro';
 

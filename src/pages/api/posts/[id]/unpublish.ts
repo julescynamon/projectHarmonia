@@ -1,3 +1,5 @@
+export const prerender = false;
+
 // API endpoint pour mettre un article en brouillon
 // src/pages/api/posts/[id]/unpublish.ts
 

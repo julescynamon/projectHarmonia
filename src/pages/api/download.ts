@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import type { APIRoute } from "astro";
 import { getDownloadUrl } from "../../lib/shop";
 import { supabase } from "../../lib/supabase";

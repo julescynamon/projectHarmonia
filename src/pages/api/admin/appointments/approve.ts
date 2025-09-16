@@ -1,3 +1,5 @@
+export const prerender = false;
+
 // src/pages/api/admin/appointments/approve.ts
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';

@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import type { APIRoute } from 'astro';
 import { extractAndVerifySession } from '../../../lib/auth';
 import { createServerClient } from '../../../lib/supabase';

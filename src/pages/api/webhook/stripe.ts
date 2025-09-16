@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
 import { supabase } from '../../../lib/supabase';

@@ -1,3 +1,5 @@
+export const prerender = false;
+
 // API endpoint pour créer des articles
 // src/pages/api/posts/create.ts
 

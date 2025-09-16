@@ -1,3 +1,5 @@
+export const prerender = false;
+
 // API endpoint pour publier un article
 // src/pages/api/posts/[id]/publish.ts
 

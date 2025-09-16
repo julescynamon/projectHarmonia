@@ -1,3 +1,5 @@
+export const prerender = false;
+
 // API endpoint pour mettre à jour et supprimer des articles
 // src/pages/api/posts/[id].ts
 

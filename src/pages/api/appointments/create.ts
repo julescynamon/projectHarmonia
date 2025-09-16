@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import type { APIRoute } from 'astro';
 import { sendAppointmentNotificationEmail, sendAppointmentConfirmationEmail } from '../../../lib/email-service';
 

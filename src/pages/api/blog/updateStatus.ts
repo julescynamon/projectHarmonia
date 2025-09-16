@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import type { APIRoute } from 'astro';
 import fs from 'fs/promises';
 import path from 'path';

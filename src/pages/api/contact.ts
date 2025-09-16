@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import type { APIRoute } from 'astro';
 import { sendContactEmail } from '../../lib/email-service';
 import { validateContactForm, sanitizeContactData } from '../../lib/validation';

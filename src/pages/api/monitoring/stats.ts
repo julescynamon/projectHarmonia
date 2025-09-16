@@ -1,3 +1,5 @@
+export const prerender = false;
+
 // src/pages/api/monitoring/stats.ts
 import type { APIRoute } from 'astro';
 import { monitoring } from '../../../lib/monitoring';

@@ -1,3 +1,5 @@
+export const prerender = false;
+
 // src/pages/api/admin/appointments/reject.ts
 import type { APIRoute } from 'astro';
 import { sendAppointmentRejectionEmail } from '../../../../lib/email-service';

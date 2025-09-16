@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import type { APIRoute } from 'astro';
 import { getProducts } from '../../lib/shop';
 import { monitoring } from '../../lib/monitoring';

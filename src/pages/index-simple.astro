@@ -1,0 +1,33 @@
+---
+// Version simplifiée de la page d'accueil pour tester
+import MainLayout from '../layouts/MainLayout.astro';
+import { pageSEO } from '../lib/seo';
+
+const seo = pageSEO.home;
+---
+
+<MainLayout 
+  title={seo.title}
+  description={seo.description}
+  image={seo.image}
+>
+  <div class="pt-24 min-h-screen bg-cream">
+    <div class="container mx-auto px-4 py-20">
+      <h1 class="text-6xl font-heading text-center mb-8">Maison SATTVAÏA</h1>
+      <p class="text-2xl text-center mb-12 italic">
+        "Un lieu de reconnexion où corps, énergie et âme retrouvent équilibre, harmonie et clarté intérieure."
+      </p>
+      
+      <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg text-center">
+        <p class="text-lg mb-6">
+          Version simplifiée de la page d'accueil (sans les composants complexes)
+        </p>
+        <p class="text-sm text-gray-600">
+          Si les boutons d'authentification s'affichent ici, le problème vient d'un des composants de la page d'accueil originale.
+        </p>
+      </div>
+    </div>
+  </div>
+</MainLayout>
+
+

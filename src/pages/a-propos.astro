@@ -3,6 +3,9 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import { pageSEO } from '../lib/seo';
 
+// Forcer le rendu côté serveur pour la session d'authentification
+export const prerender = false;
+
 const seo = pageSEO.about;
 ---
 

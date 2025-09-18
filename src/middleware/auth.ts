@@ -9,7 +9,7 @@ declare global {
   namespace App {
     interface Locals {
       supabase: SupabaseClient;
-      session?: Session | null;
+      session: Session | null;
     }
   }
 }
@@ -108,18 +108,25 @@ export const onRequest = defineMiddleware(
         const supabaseAuthToken = cookiesList.find(c => c.startsWith('supabase.auth.token='));
         const sbAccessToken = cookiesList.find(c => c.startsWith('sb-access-token='));
         const sbRefreshToken = cookiesList.find(c => c.startsWith('sb-refresh-token='));
-        
       }
 
+      // Définir les types de routes d'abord
+      const isPublicRoute = isPublicPath(pathname);
+      
       // Récupération directe de la session via Supabase
       const supabase = createServerClient(cookies);
       locals.supabase = supabase;
       
-      // Obtenir la session directement depuis Supabase
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+          // Obtenir la session directement depuis Supabase
+          const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+          
+          // Si pas de cookies mais qu'on essaie d'accéder à une page, nettoyer
+          if (!cookies && pathname !== '/' && !isPublicRoute) {
+            locals.session = null;
+          }
       
       if (sessionError) {
-        console.error('Erreur lors de la récupération de la session:', sessionError);
+        console.error('[AUTH_MIDDLEWARE] Erreur lors de la récupération de la session:', sessionError);
       }
       
       locals.session = session;
@@ -133,16 +140,14 @@ export const onRequest = defineMiddleware(
         if (decodedSession) {
           locals.session = convertToSupabaseSession(decodedSession);
         } else {
-          console.error('Aucune session valide trouvée par aucune méthode');
           locals.session = null;
         }
       }
 
-      // Définir les types de routes
+      // Définir les autres types de routes
       const isLoginPath = pathname === '/login';
       const isApiPath = pathname.startsWith('/api/');
       const isAdminPath = pathname.startsWith('/admin');
-      const isPublicRoute = isPublicPath(pathname);
       const isPublicApi = PUBLIC_API_ROUTES.includes(pathname);
       const isAdminApi = ADMIN_API_ROUTES.includes(pathname);
       const isAuthApi = AUTH_API_ROUTES.includes(pathname);

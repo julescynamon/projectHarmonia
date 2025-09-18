@@ -1,0 +1,43 @@
+---
+// Page de test identique à l'accueil mais avec un nom différent
+import MainLayout from '../layouts/MainLayout.astro';
+import { pageSEO } from '../lib/seo';
+
+const seo = pageSEO.home;
+---
+
+<MainLayout 
+  title={seo.title}
+  description={seo.description}
+  image={seo.image}
+>
+  <div class="pt-24 min-h-screen bg-cream">
+    <div class="container mx-auto px-4 py-20">
+      <h1 class="text-4xl font-heading text-center mb-8">Test Page Identique à l'Accueil</h1>
+      
+      <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <p class="text-lg mb-6">
+          Cette page utilise exactement la même structure que la page d'accueil.
+        </p>
+        
+        <div class="space-y-4">
+          <p><strong>Layout :</strong> MainLayout (identique à l'accueil)</p>
+          <p><strong>SEO :</strong> Même données que l'accueil</p>
+          <p><strong>Navigation :</strong> Même composant Navigation</p>
+        </div>
+        
+        <div class="mt-8 p-4 bg-gray-100 rounded">
+          <p class="text-sm text-gray-600">
+            Si les boutons d'authentification s'affichent correctement ici mais pas sur l'accueil,
+            le problème vient du contenu spécifique de la page d'accueil.
+          </p>
+        </div>
+        
+        <div class="mt-6 space-x-4">
+          <a href="/" class="text-blue-600 hover:underline">← Retour accueil</a>
+          <a href="/contact" class="text-blue-600 hover:underline">Page contact</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</MainLayout>

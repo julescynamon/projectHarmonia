@@ -50,23 +50,31 @@ export const createServerClient = (cookies?: string) => {
   if (cookies) {
     const cookiesList = cookies.split(';').map(c => c.trim());
     
-    // Essayer d'abord le cookie spécifique
-    const sbAccessTokenCookie = cookiesList.find(c => c.startsWith('sb-access-token='));
-    if (sbAccessTokenCookie) {
-      accessToken = sbAccessTokenCookie.split('=')[1];
-    }
+    // Essayer différents formats de cookies
+    const cookiePatterns = [
+      'sb-access-token=',
+      'supabase.auth.token=',
+      'sb-hvthtebjvmutuvzvttdb-auth-token=', // Pattern spécifique au projet
+      'supabase-auth-token='
+    ];
     
-    // Si pas trouvé, essayer le cookie de session complète
-    if (!accessToken) {
-      const supabaseAuthTokenCookie = cookiesList.find(c => c.startsWith('supabase.auth.token='));
-      if (supabaseAuthTokenCookie) {
+    for (const pattern of cookiePatterns) {
+      const cookie = cookiesList.find(c => c.startsWith(pattern));
+      if (cookie) {
         try {
-          const tokenValue = supabaseAuthTokenCookie.substring('supabase.auth.token='.length);
-          const decodedToken = decodeURIComponent(tokenValue);
-          const sessionData = JSON.parse(decodedToken);
-          accessToken = sessionData.access_token;
+          if (pattern === 'supabase.auth.token=') {
+            const tokenValue = cookie.substring(pattern.length);
+            const decodedToken = decodeURIComponent(tokenValue);
+            const sessionData = JSON.parse(decodedToken);
+            accessToken = sessionData.access_token;
+          } else {
+            accessToken = cookie.split('=')[1];
+          }
+          if (accessToken) {
+            break;
+          }
         } catch (e) {
-          console.error('Erreur lors du décodage du cookie de session:', e);
+          console.error('Erreur décodage cookie:', pattern, e);
         }
       }
     }

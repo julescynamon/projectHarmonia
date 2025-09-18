@@ -4,6 +4,20 @@ import Footer from '../components/Footer.astro';
 import Cart from '../components/shop/Cart.astro';
 import '../styles/theme.css';
 
+// Récupération de la session pour la navigation
+const supabase = Astro.locals.supabase;
+const session = Astro.locals.session;
+
+// Log spécifique pour la page d'accueil
+if (Astro.url.pathname === '/') {
+  console.log('[MAINLAYOUT_HOME] Page d\'accueil - Session:', {
+    hasSession: !!session,
+    userEmail: session?.user?.email || 'N/A',
+    hasSupabase: !!supabase,
+    pathname: Astro.url.pathname
+  });
+}
+
 // Polices
 import '@fontsource/playfair-display/400.css';
 import '@fontsource/playfair-display/700.css';

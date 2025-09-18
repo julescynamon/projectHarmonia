@@ -3,6 +3,18 @@ import Button from "./ui/Button.astro";
 import AuthButton from '../components/navigation/AuthButton.astro';
 import CartIcon from './shop/CartIcon.astro';
 
+// Récupération de la session depuis Astro.locals
+const session = Astro.locals.session;
+
+// Log pour diagnostiquer le menu mobile sur la page d'accueil
+if (Astro.url.pathname === '/') {
+  console.log('[NAVIGATION_HOME] Navigation sur page d\'accueil:', {
+    hasSession: !!session,
+    userEmail: session?.user?.email || 'N/A',
+    pathname: Astro.url.pathname
+  });
+}
+
 // Nouvelle structure de navigation avec les menus déroulants
 interface NavLink {
   href: string;
@@ -57,7 +69,7 @@ const navLinks: NavLink[] = [
   { href: "/contact", text: "Contact" }
 ];
 ---
-<nav class="fixed w-full z-50 top-0 transition-all duration-300" id="mainNav">
+<nav class="fixed w-full z-[100] top-0 transition-all duration-300" id="mainNav">
   <div class="container mx-auto px-4 py-2">
     <div class="xl:bg-white/10 xl:backdrop-blur-md xl:rounded-full xl:shadow-sm xl:px-4 xl:max-w-6xl xl:mx-auto">
       <div class="flex items-center h-16 xl:h-20 xl:justify-between">
@@ -108,7 +120,7 @@ const navLinks: NavLink[] = [
         <div class="hidden xl:flex items-center space-x-3 min-w-0">
           <div class="flex items-center gap-4">
             <CartIcon />
-            <AuthButton />
+            <AuthButton session={session} />
           </div>
         </div>
 
@@ -144,7 +156,7 @@ const navLinks: NavLink[] = [
 
   <!-- Overlay Menu Mobile -->
   <div
-    class="fixed inset-0 bg-cream/95 backdrop-blur-sm transition-all duration-300 transform translate-x-full xl:hidden"
+    class="fixed inset-0 bg-cream/95 backdrop-blur-sm transition-all duration-300 transform translate-x-full xl:hidden z-[110]"
     id="mobileMenu"
   >
     <div class="container mx-auto px-4 py-8">
@@ -216,8 +228,8 @@ const navLinks: NavLink[] = [
           </div>
         ))}
         <!-- Boutons d'action dans le menu mobile -->
-        <div class="w-full border-t border-gray-200 pt-6 flex flex-col items-center gap-4">
-          <AuthButton />
+        <div class="w-full border-t border-gray-200 pt-6 flex flex-col items-center gap-4" data-session={JSON.stringify(!!session)} data-user-email={session?.user?.email || ''}>
+          <AuthButton session={session} />
         </div>
       </div>
     </div>

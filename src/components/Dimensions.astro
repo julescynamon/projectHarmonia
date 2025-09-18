@@ -66,7 +66,7 @@ const dimensions: Dimension[] = [
           <div class={`flex flex-col lg:flex-row ${index % 2 === 0 ? '' : 'lg:flex-row-reverse'} min-h-[400px]`}>
             
             <!-- Section Image -->
-            <div class="relative lg:w-1/2 overflow-hidden">
+            <div class="relative lg:w-1/2 h-64 md:h-80 lg:h-auto overflow-hidden">
               <!-- Image réelle -->
               <img
                 src={dimension.backgroundImage}
@@ -82,7 +82,7 @@ const dimensions: Dimension[] = [
             </div>
 
             <!-- Section Contenu -->
-            <div class={`lg:w-1/2 bg-white relative flex flex-col justify-center p-6 lg:p-10 xl:p-12`}>
+            <div class={`lg:w-1/2 bg-white relative flex flex-col justify-center p-6 md:p-8 lg:p-10 xl:p-12`}>
               
               <!-- Accent décoratif -->
               <div class={`absolute top-0 ${index % 2 === 0 ? 'left-0' : 'right-0'} w-2 h-full bg-gradient-to-b ${
@@ -93,12 +93,12 @@ const dimensions: Dimension[] = [
               
               <div class="relative z-10">
                 <!-- Titre -->
-                <h3 class="font-heading text-3xl lg:text-4xl xl:text-5xl mb-6 leading-tight bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent">
+                <h3 class="font-heading text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-4 md:mb-6 leading-tight bg-gradient-to-r from-sage to-gold bg-clip-text text-transparent">
                   {dimension.title}
                 </h3>
                 
                 <!-- Description -->
-                <p class="text-lg lg:text-xl text-ebony leading-relaxed font-slogan">
+                <p class="text-base md:text-lg lg:text-xl text-ebony leading-relaxed font-slogan">
                   {dimension.description}
                 </p>
               </div>

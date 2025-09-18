@@ -10,7 +10,7 @@ import Button from './ui/Button.astro';
       src="/images/herobg.webp"
       alt="Background Nature"
       class="w-full h-full object-cover scale-110 transform motion-safe:animate-subtle-zoom"
-      style="object-position: center 25%; /* Position optimisée pour la sculpture */"
+      style="object-position: 70% 25%; /* Décalage vers la droite pour mobile */"
       loading="eager"
       decoding="async"
       fetchpriority="high"
@@ -149,7 +149,7 @@ import Button from './ui/Button.astro';
   /* Optimisation responsive pour l'image hero accueil */
   @media (max-width: 768px) {
     .hero-section img[src="/images/herobg.webp"] {
-      object-position: center 25% !important; /* Cadrage spécifique pour la sculpture */
+      object-position: 70% 25% !important; /* Décalage de 20% vers la droite */
     }
   }
 

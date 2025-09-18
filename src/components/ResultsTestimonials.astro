@@ -121,8 +121,8 @@ const stats = [
               <!-- En-tête du témoignage -->
               <div class="flex items-start justify-between mb-6">
                 <div class="flex items-center gap-4">
-                  <div class="w-12 h-12 rounded-full bg-gradient-to-r from-sage to-gold flex items-center justify-center shadow-lg">
-                    <span class="text-white font-heading font-bold text-lg">
+                  <div class="w-12 h-12 min-w-[3rem] min-h-[3rem] rounded-full bg-gradient-to-r from-sage to-gold flex items-center justify-center shadow-lg flex-shrink-0">
+                    <span class="text-white font-heading font-bold text-lg leading-none">
                       {testimonial.name.charAt(0)}
                     </span>
                   </div>
@@ -137,12 +137,14 @@ const stats = [
                 </div>
                 
                 <!-- Badge catégorie -->
-                <div class={`px-3 py-1 rounded-full text-xs font-semibold ${
+                <div class={`w-10 h-10 min-w-[2.5rem] min-h-[2.5rem] rounded-full flex items-center justify-center text-base flex-shrink-0 ${
                   testimonial.category === 'humain' 
                     ? 'bg-sage/10 text-sage' 
                     : 'bg-gold/10 text-gold'
                 }`}>
-                  {testimonial.category === 'humain' ? '👤 Humain' : '🐾 Animal'}
+                  <span class="leading-none">
+                    {testimonial.category === 'humain' ? '👤' : '🐾'}
+                  </span>
                 </div>
               </div>
 

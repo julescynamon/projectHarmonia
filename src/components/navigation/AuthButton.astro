@@ -25,7 +25,7 @@ if (Astro.url.pathname === '/') {
 const commonButtonClasses = "font-slogan text-sm tracking-wide transition-colors duration-200 flex items-center gap-2 logout-button";
 ---
 
-<div class="flex items-center justify-center" id="auth-button-container">
+<div class="flex items-center justify-center gap-3" id="auth-button-container">
   {isAuthenticated ? (
     <>
       <a
@@ -50,7 +50,7 @@ const commonButtonClasses = "font-slogan text-sm tracking-wide transition-colors
       </a>
       <button
         type="button"
-        class={`${commonButtonClasses}`}
+        class={`${commonButtonClasses}`} aria-label="Déconnexion" 
         onclick="
           // Suppression côté client
           localStorage.clear();

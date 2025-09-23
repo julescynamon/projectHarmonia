@@ -161,64 +161,81 @@ const structuredData = {
           </div>
 
           <!-- Section avec image de fond et contenu -->
-          <div class="relative rounded-3xl overflow-hidden shadow-2xl" data-aos="fade-up" data-aos-delay="600">
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl min-h-[600px] sm:min-h-[650px] lg:min-h-[700px]" data-aos="fade-up" data-aos-delay="600">
             <!-- Image de fond -->
             <div class="absolute inset-0">
-              <img 
-                src="/images/soin-energetique-animal-bien-etre.webp" 
-                alt=""
-                class="w-full h-full object-cover"
-              />
+              <picture class="w-full h-full">
+                <!-- Version mobile (max-width: 768px) -->
+                <source 
+                  media="(max-width: 768px)" 
+                  srcset="/images/soin-energetique-animal-bien-etre-mobile.webp" 
+                  type="image/webp"
+                />
+                
+                <!-- Version desktop (min-width: 769px) -->
+                <source 
+                  media="(min-width: 769px)" 
+                  srcset="/images/soin-energetique-animal-bien-etre.webp" 
+                  type="image/webp"
+                />
+                
+                <!-- Fallback image -->
+                <img 
+                  src="/images/soin-energetique-animal-bien-etre.webp" 
+                  alt=""
+                  class="w-full h-full object-cover"
+                />
+              </picture>
               <!-- Overlay gradient pour la lisibilité -->
               <div class="absolute inset-0 bg-gradient-to-r from-ebony/70 via-ebony/50 to-ebony/30"></div>
             </div>
             
             <!-- Contenu par-dessus -->
-            <div class="relative z-10 p-8 md:p-12 lg:p-16">
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="relative z-10 p-6 sm:p-8 md:p-10 lg:p-14 xl:p-18 flex items-center min-h-full">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center w-full">
                 <!-- Citation -->
-                <div class="text-white" data-aos="fade-right">
-                  <div class="p-8 mb-8 inline-block">
-                    <blockquote class="text-white font-['Dancing Script'] text-2xl text-center leading-relaxed" style="font-family: 'Dancing Script', cursive;">
-                      "Le soin est une prière silencieuse, une guérison subtile qui unit la matière et l’esprit."
+                <div class="text-white order-1 lg:order-1" data-aos="fade-right">
+                  <div class="text-center lg:text-left mb-4 sm:mb-6 lg:mb-0 px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+                    <blockquote class="text-white font-['Dancing Script'] text-2xl sm:text-3xl lg:text-4xl leading-relaxed" style="font-family: 'Dancing Script', cursive;">
+                      "Le soin est une prière silencieuse, une guérison subtile qui unit la matière et l'esprit."
                     </blockquote>
                   </div>
                 </div>
                 
                 <!-- Description -->
-                <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-8 border border-white/20 shadow-lg" data-aos="fade-left">
-                  <div class="space-y-6">
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-sage/40 p-3 rounded-full">
-                        <span class="material-icons text-sage text-2xl">pets</span>
+                <div class="bg-white/15 sm:bg-white/18 lg:bg-white/20 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/25 shadow-lg order-2 lg:order-2" data-aos="fade-left">
+                  <div class="space-y-4 sm:space-y-6">
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-sage/50 sm:bg-sage/40 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-sage text-xl sm:text-2xl">pets</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Connexion subtile</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-2 sm:mb-3">Connexion subtile</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Une approche douce qui respecte la sensibilité naturelle de votre animal.
                         </p>
                       </div>
                     </div>
                     
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-gold/40 p-3 rounded-full">
-                        <span class="material-icons text-gold text-2xl">healing</span>
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-gold/50 sm:bg-gold/40 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-gold text-xl sm:text-2xl">healing</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Équilibrage énergétique</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-2 sm:mb-3">Équilibrage énergétique</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Harmonisation des chakras et libération des blocages énergétiques.
                         </p>
                       </div>
                     </div>
                     
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-eucalyptus/40 p-3 rounded-full">
-                        <span class="material-icons text-eucalyptus text-2xl">favorite</span>
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-eucalyptus/50 sm:bg-eucalyptus/40 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-eucalyptus text-xl sm:text-2xl">favorite</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Lien renforcé</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-2 sm:mb-3">Lien renforcé</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Renforcement du lien animal-humain dans une relation harmonieuse.
                         </p>
                       </div>
@@ -376,11 +393,28 @@ const structuredData = {
     <section class="py-28 relative overflow-hidden">
       <!-- Image de fond -->
       <div class="absolute inset-0">
-        <img 
-          src="/images/bienfaits-soin-energetique-animal-la-maison-sattvaia.webp" 
-          alt=""
-          class="w-full h-full object-cover"
-        />
+        <picture class="w-full h-full">
+          <!-- Version mobile (max-width: 768px) -->
+          <source 
+            media="(max-width: 768px)" 
+            srcset="/images/bienfaits-soin-energetique-animal-la-maison-sattvaia-mobile.webp" 
+            type="image/webp"
+          />
+          
+          <!-- Version desktop (min-width: 769px) -->
+          <source 
+            media="(min-width: 769px)" 
+            srcset="/images/bienfaits-soin-energetique-animal-la-maison-sattvaia.webp" 
+            type="image/webp"
+          />
+          
+          <!-- Fallback image -->
+          <img 
+            src="/images/bienfaits-soin-energetique-animal-la-maison-sattvaia.webp" 
+            alt=""
+            class="w-full h-full object-cover"
+          />
+        </picture>
         <!-- Overlay gradient pour la lisibilité -->
         <div class="absolute inset-0 bg-gradient-to-br from-white/40 via-white/30 to-sage/5"></div>
       </div>
@@ -395,30 +429,30 @@ const structuredData = {
       <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-6xl mx-auto">
           <!-- Titre principal -->
-          <div class="text-center mb-16" data-aos="fade-up">
-            <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+          <div class="text-center mb-12 sm:mb-16" data-aos="fade-up">
+            <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-ebony mb-4 sm:mb-6">
               <span class="bg-gradient-to-r from-sage via-eucalyptus to-gold bg-clip-text text-transparent">
                 Les bénéfices
               </span>
               <br />
               <span class="text-ebony">des soins énergétiques animaux</span>
             </h2>
-            <div class="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-8"></div>
-            <p class="font-body text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed">
+            <div class="w-20 sm:w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-6 sm:mb-8"></div>
+            <p class="font-body text-lg sm:text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
               Découvrez les transformations que votre animal peut vivre grâce à cet accompagnement énergétique.
             </p>
           </div>
                 
           <!-- Grille de bénéfices -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
             <!-- Bénéfice 1 -->
             <div class="group" data-aos="fade-up" data-aos-delay="200">
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-sage text-3xl">psychology</span>
+              <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-sage text-2xl sm:text-3xl">psychology</span>
                 </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Apaisement du stress et des émotions</h3>
-                <p class="font-body text-ebony leading-relaxed">
+                <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Apaisement du stress et des émotions</h3>
+                <p class="font-body text-sm sm:text-base text-ebony leading-relaxed">
                   Votre animal retrouve calme et sérénité face aux situations stressantes.
                 </p>
               </div>
@@ -426,12 +460,12 @@ const structuredData = {
 
             <!-- Bénéfice 2 -->
             <div class="group" data-aos="fade-up" data-aos-delay="400">
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-gold/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-gold text-3xl">healing</span>
+              <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-gold/20 to-sage/20 rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-gold text-2xl sm:text-3xl">healing</span>
                 </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Soulagement des douleurs</h3>
-                <p class="font-body text-ebony leading-relaxed">
+                <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Soulagement des douleurs</h3>
+                <p class="font-body text-sm sm:text-base text-ebony leading-relaxed">
                   Soulagement des douleurs ou inconforts liés aux blocages énergétiques.
                 </p>
               </div>
@@ -439,12 +473,12 @@ const structuredData = {
                     
             <!-- Bénéfice 3 -->
             <div class="group" data-aos="fade-up" data-aos-delay="600">
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-eucalyptus text-3xl">bedtime</span>
+              <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-eucalyptus text-2xl sm:text-3xl">bedtime</span>
                 </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Amélioration du sommeil et de la vitalité</h3>
-                <p class="font-body text-ebony leading-relaxed">
+                <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Amélioration du sommeil et de la vitalité</h3>
+                <p class="font-body text-sm sm:text-base text-ebony leading-relaxed">
                   Votre animal retrouve un sommeil réparateur et une énergie stable.
                 </p>
               </div>
@@ -452,12 +486,12 @@ const structuredData = {
                 
             <!-- Bénéfice 4 -->
             <div class="group" data-aos="fade-up" data-aos-delay="800">
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-gold/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-gold text-3xl">diversity_1</span>
+              <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-gold/20 to-sage/20 rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-gold text-2xl sm:text-3xl">diversity_1</span>
                 </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Meilleure adaptation aux changements</h3>
-                <p class="font-body text-ebony leading-relaxed">
+                <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Meilleure adaptation aux changements</h3>
+                <p class="font-body text-sm sm:text-base text-ebony leading-relaxed">
                   Facilite l'adaptation de votre animal aux changements de vie.
                 </p>
               </div>
@@ -465,12 +499,12 @@ const structuredData = {
                 
             <!-- Bénéfice 5 -->
             <div class="group" data-aos="fade-up" data-aos-delay="1000">
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-eucalyptus text-3xl">favorite</span>
+              <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-eucalyptus text-2xl sm:text-3xl">favorite</span>
                 </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Renforcement du lien animal-humain</h3>
-                <p class="font-body text-ebony leading-relaxed">
+                <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Renforcement du lien animal-humain</h3>
+                <p class="font-body text-sm sm:text-base text-ebony leading-relaxed">
                   Renforcement du lien animal-humain dans une relation harmonieuse.
                 </p>
               </div>
@@ -478,12 +512,12 @@ const structuredData = {
                 
             <!-- Bénéfice 6 -->
             <div class="group" data-aos="fade-up" data-aos-delay="1200">
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-sage text-3xl">medical_services</span>
+              <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-sage text-2xl sm:text-3xl">medical_services</span>
                 </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Accompagnement en complément</h3>
-                <p class="font-body text-ebony leading-relaxed">
+                <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Accompagnement en complément</h3>
+                <p class="font-body text-sm sm:text-base text-ebony leading-relaxed">
                   Accompagnement en complément d'un suivi vétérinaire.
                 </p>
               </div>
@@ -493,11 +527,11 @@ const structuredData = {
       </div>
       
       <!-- CTA après "Les bénéfices" -->
-      <div class="container mx-auto px-4 relative z-10 mt-12">
+      <div class="container mx-auto px-4 sm:px-6 relative z-10 mt-8 sm:mt-12">
         <div class="max-w-4xl mx-auto text-center">
-          <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-sage/20" data-aos="fade-up" data-aos-delay="1400">
-            <h3 class="font-heading text-2xl text-ebony mb-4">Prêt(e) à offrir ces bienfaits à votre animal ?</h3>
-            <p class="font-body text-ebony/80 mb-6">Contribuez dès aujourd'hui à son équilibre et à son bien-être naturel.</p>
+          <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-xl border border-sage/20" data-aos="fade-up" data-aos-delay="1400">
+            <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Prêt(e) à offrir ces bienfaits à votre animal ?</h3>
+            <p class="font-body text-sm sm:text-base text-ebony/80 mb-4 sm:mb-6 px-2 sm:px-0">Contribuez dès aujourd'hui à son équilibre et à son bien-être naturel.</p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <Button href="/accompagnements/reservation" size="lg" variant="secondary" class="bg-sage text-white hover:bg-eucalyptus">
                 <span class="material-icons mr-2">auto_awesome</span>
@@ -794,22 +828,22 @@ const structuredData = {
       <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-6xl mx-auto">
           <!-- Titre principal -->
-          <div class="text-center mb-16" data-aos="fade-up">
-            <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+          <div class="text-center mb-12 sm:mb-16" data-aos="fade-up">
+            <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-ebony mb-4 sm:mb-6">
               <span class="bg-gradient-to-r from-sage via-eucalyptus to-gold bg-clip-text text-transparent">
                 Pourquoi choisir
               </span>
               <br />
               <span class="text-ebony">La Maison Sattvaïa pour votre animal ?</span>
             </h2>
-            <div class="w-32 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-8"></div>
-            <p class="font-body text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed">
+            <div class="w-24 sm:w-32 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-6 sm:mb-8"></div>
+            <p class="font-body text-lg sm:text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
               Découvrez ce qui fait la différence dans notre approche des soins énergétiques animaux.
             </p>
           </div>
 
           <!-- Section avec image de fond et contenu -->
-          <div class="relative rounded-3xl overflow-hidden shadow-2xl" data-aos="fade-up" data-aos-delay="200">
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl min-h-[600px] sm:min-h-[650px] lg:min-h-[700px]" data-aos="fade-up" data-aos-delay="200">
             <!-- Image de fond -->
             <div class="absolute inset-0">
               <img 
@@ -822,56 +856,56 @@ const structuredData = {
             </div>
             
             <!-- Contenu par-dessus -->
-            <div class="relative z-10 p-8 md:p-12 lg:p-16">
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="relative z-10 p-6 sm:p-8 md:p-10 lg:p-14 xl:p-18 flex items-center min-h-full">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center w-full">
                 <!-- Avantages -->
-                <div class="text-white" data-aos="fade-right">
-                  <h3 class="font-heading text-3xl text-white mb-8">Notre expertise en soins énergétiques animaliers</h3>
+                <div class="text-white order-1 lg:order-1" data-aos="fade-right">
+                  <h3 class="font-heading text-2xl sm:text-3xl text-white mb-6 sm:mb-8 text-center lg:text-left">Notre expertise en soins énergétiques animaliers</h3>
               
-                  <div class="space-y-6">
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-sage/20 p-3 rounded-full">
-                        <span class="material-icons text-sage text-2xl">healing</span>
+                  <div class="space-y-4 sm:space-y-6">
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-sage/30 sm:bg-sage/20 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-sage text-xl sm:text-2xl">healing</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Une écoute profonde</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-2 sm:mb-3">Une écoute profonde</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Au-delà des symptômes, chaque soin révèle ce que votre compagnon exprime dans son corps, son cœur et son énergie.
                         </p>
                       </div>
                     </div>
                 
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-gold/20 p-3 rounded-full">
-                        <span class="material-icons text-gold text-2xl">pets</span>
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-gold/30 sm:bg-gold/20 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-gold text-xl sm:text-2xl">pets</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Une approche respectueuse</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-2 sm:mb-3">Une approche respectueuse</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Douce et adaptée à sa sensibilité, elle apaise, rééquilibre et redonne confiance.
                         </p>
                       </div>
                     </div>
                 
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-eucalyptus/20 p-3 rounded-full">
-                        <span class="material-icons text-eucalyptus text-2xl">video_call</span>
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-eucalyptus/30 sm:bg-eucalyptus/20 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-eucalyptus text-xl sm:text-2xl">video_call</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Un lien renforcé</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-2 sm:mb-3">Un lien renforcé</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           En libérant l'animal de ses blocages, c'est aussi toute la relation humain-animal qui s'harmonise.
                         </p>
                       </div>
                     </div>
                 
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-sage/20 p-3 rounded-full">
-                        <span class="material-icons text-sage text-2xl">medical_services</span>
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-sage/30 sm:bg-sage/20 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-sage text-xl sm:text-2xl">medical_services</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Un complément lumineux</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-2 sm:mb-3">Un complément lumineux</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Les soins énergétiques soutiennent la médecine vétérinaire, en offrant une vision holistique du bien-être animal.
                         </p>
                       </div>
@@ -880,36 +914,36 @@ const structuredData = {
                 </div>
             
                 <!-- Statistiques en bulles -->
-                <div class="space-y-6" data-aos="fade-left">
-                  <h3 class="font-heading text-2xl text-white mb-6 text-center">Nos résultats</h3>
+                <div class="space-y-4 sm:space-y-6 order-2 lg:order-2" data-aos="fade-left">
+                  <h3 class="font-heading text-xl sm:text-2xl text-white mb-4 sm:mb-6 text-center">Nos résultats</h3>
                   
                   <!-- Bulle 1 -->
-                  <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                  <div class="bg-white/15 sm:bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/25">
                     <div class="text-center">
-                      <div class="text-5xl font-heading text-sage mb-3 font-bold drop-shadow-lg">
+                      <div class="text-3xl sm:text-5xl font-heading text-sage mb-2 sm:mb-3 font-bold drop-shadow-lg">
                         <span class="counter" data-target="25" data-suffix="+">0</span>
                       </div>
-                      <p class="font-body text-white/90 text-lg">Animaux accompagnés</p>
+                      <p class="font-body text-white/95 text-sm sm:text-lg">Animaux accompagnés</p>
                     </div>
                   </div>
                   
                   <!-- Bulle 2 -->
-                  <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                  <div class="bg-white/15 sm:bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/25">
                     <div class="text-center">
-                      <div class="text-5xl font-heading text-gold mb-3 font-bold drop-shadow-lg">
+                      <div class="text-3xl sm:text-5xl font-heading text-gold mb-2 sm:mb-3 font-bold drop-shadow-lg">
                         <span class="counter" data-target="95" data-suffix="%">0</span>
                       </div>
-                      <p class="font-body text-white/90 text-lg">Satisfaction client</p>
+                      <p class="font-body text-white/95 text-sm sm:text-lg">Satisfaction client</p>
                     </div>
                   </div>
                   
                   <!-- Bulle 3 -->
-                  <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                  <div class="bg-white/15 sm:bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/25">
                     <div class="text-center">
-                      <div class="text-5xl font-heading text-eucalyptus mb-3 font-bold drop-shadow-lg">
+                      <div class="text-3xl sm:text-5xl font-heading text-eucalyptus mb-2 sm:mb-3 font-bold drop-shadow-lg">
                         <span class="counter" data-target="3" data-suffix=" ans">0</span>
                       </div>
-                      <p class="font-body text-white/90 text-lg">D'expérience</p>
+                      <p class="font-body text-white/95 text-sm sm:text-lg">D'expérience</p>
                     </div>
                   </div>
                 </div>

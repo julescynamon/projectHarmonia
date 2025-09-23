@@ -368,11 +368,28 @@ const structuredData = {
     <section class="py-28 relative overflow-hidden">
       <!-- Image de fond -->
       <div class="absolute inset-0">
-        <img 
-          src="/images/soin-energetique-benefices.webp" 
-          alt=""
-          class="w-full h-full object-cover"
-        />
+        <picture class="w-full h-full">
+          <!-- Version mobile (max-width: 768px) -->
+          <source 
+            media="(max-width: 768px)" 
+            srcset="/images/soin-energetique-benefices-mobile.webp" 
+            type="image/webp"
+          />
+          
+          <!-- Version desktop (min-width: 769px) -->
+          <source 
+            media="(min-width: 769px)" 
+            srcset="/images/soin-energetique-benefices.webp" 
+            type="image/webp"
+          />
+          
+          <!-- Fallback image -->
+          <img 
+            src="/images/soin-energetique-benefices.webp" 
+            alt=""
+            class="w-full h-full object-cover"
+          />
+        </picture>
         <!-- Overlay gradient pour la lisibilité -->
         <div class="absolute inset-0 bg-gradient-to-br from-white/40 via-white/30 to-sage/5"></div>
       </div>
@@ -384,33 +401,33 @@ const structuredData = {
         <div class="absolute top-1/2 right-1/4 w-3 h-3 bg-eucalyptus rounded-full animate-ping"></div>
       </div>
       
-      <div class="container mx-auto px-4 relative z-10">
+      <div class="container mx-auto px-4 sm:px-6 relative z-10">
         <div class="max-w-6xl mx-auto">
           <!-- Titre principal -->
-          <div class="text-center mb-16" data-aos="fade-up">
-            <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+          <div class="text-center mb-12 sm:mb-16" data-aos="fade-up">
+            <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-ebony mb-4 sm:mb-6">
               <span class="bg-gradient-to-r from-sage via-eucalyptus to-gold bg-clip-text text-transparent">
                 Les bénéfices
               </span>
               <br />
               <span class="text-ebony">des soins énergétiques</span>
             </h2>
-            <div class="w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-8"></div>
-            <p class="font-body text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed">
+            <div class="w-20 sm:w-24 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-6 sm:mb-8"></div>
+            <p class="font-body text-lg sm:text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
               Découvrez les transformations que vous pouvez vivre grâce à cet accompagnement énergétique.
             </p>
           </div>
           
           <!-- Grille de bénéfices -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
             <!-- Bénéfice 1 -->
             <div class="group" data-aos="fade-up" data-aos-delay="200">
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-sage text-3xl">healing</span>
+              <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-sage text-2xl sm:text-3xl">healing</span>
                 </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Libération des blocages</h3>
-                <p class="font-body text-ebony leading-relaxed">
+                <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Libération des blocages</h3>
+                <p class="font-body text-sm sm:text-base text-ebony leading-relaxed">
                   Libération des blocages émotionnels et énergétiques
                 </p>
               </div>
@@ -418,12 +435,12 @@ const structuredData = {
 
             <!-- Bénéfice 2 -->
             <div class="group" data-aos="fade-up" data-aos-delay="400">
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-gold/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-gold text-3xl">self_improvement</span>
+              <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-gold/20 to-sage/20 rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-gold text-2xl sm:text-3xl">self_improvement</span>
                 </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Réduction du stress</h3>
-                <p class="font-body text-ebony leading-relaxed">
+                <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Réduction du stress</h3>
+                <p class="font-body text-sm sm:text-base text-ebony leading-relaxed">
                   Réduction du stress, détente et lâcher-prise
                 </p>
               </div>
@@ -431,12 +448,12 @@ const structuredData = {
             
             <!-- Bénéfice 3 -->
             <div class="group" data-aos="fade-up" data-aos-delay="600">
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-eucalyptus text-3xl">bedtime</span>
+              <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-eucalyptus text-2xl sm:text-3xl">bedtime</span>
                 </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Amélioration du sommeil</h3>
-                <p class="font-body text-ebony leading-relaxed">
+                <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Amélioration du sommeil</h3>
+                <p class="font-body text-sm sm:text-base text-ebony leading-relaxed">
                   Amélioration du sommeil et de la vitalité
                 </p>
               </div>
@@ -444,12 +461,12 @@ const structuredData = {
             
             <!-- Bénéfice 4 -->
             <div class="group" data-aos="fade-up" data-aos-delay="800">
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-gold/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-gold text-3xl">anchor</span>
+              <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-gold/20 to-sage/20 rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-gold text-2xl sm:text-3xl">anchor</span>
                 </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Renforcement de l'ancrage</h3>
-                <p class="font-body text-ebony leading-relaxed">
+                <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Renforcement de l'ancrage</h3>
+                <p class="font-body text-sm sm:text-base text-ebony leading-relaxed">
                   Renforcement de l'ancrage et de la stabilité intérieure
                 </p>
               </div>
@@ -457,12 +474,12 @@ const structuredData = {
             
             <!-- Bénéfice 5 -->
             <div class="group" data-aos="fade-up" data-aos-delay="1000">
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-eucalyptus text-3xl">lightbulb</span>
+              <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-eucalyptus/20 to-sage/20 rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-eucalyptus text-2xl sm:text-3xl">lightbulb</span>
                 </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Clarification mentale</h3>
-                <p class="font-body text-ebony leading-relaxed">
+                <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Clarification mentale</h3>
+                <p class="font-body text-sm sm:text-base text-ebony leading-relaxed">
                   Clarification mentale et plus grande sérénité
                 </p>
               </div>
@@ -470,12 +487,12 @@ const structuredData = {
             
             <!-- Bénéfice 6 -->
             <div class="group" data-aos="fade-up" data-aos-delay="1200">
-              <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
-                <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <span class="material-icons text-sage text-3xl">auto_awesome</span>
+              <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-soft hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-sage/10 h-full">
+                <div class="bg-gradient-to-br from-sage/20 to-eucalyptus/20 rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <span class="material-icons text-sage text-2xl sm:text-3xl">auto_awesome</span>
                 </div>
-                <h3 class="font-heading text-2xl text-ebony mb-4">Harmonisation des chakras</h3>
-                <p class="font-body text-ebony leading-relaxed">
+                <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Harmonisation des chakras</h3>
+                <p class="font-body text-sm sm:text-base text-ebony leading-relaxed">
                   Harmonisation des chakras et circulation fluide de l'énergie
                 </p>
               </div>
@@ -485,11 +502,11 @@ const structuredData = {
       </div>
       
       <!-- CTA après "Les bénéfices" -->
-      <div class="container mx-auto px-4 relative z-10 mt-12">
+      <div class="container mx-auto px-4 sm:px-6 relative z-10 mt-8 sm:mt-12">
         <div class="max-w-4xl mx-auto text-center">
-          <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-sage/20" data-aos="fade-up" data-aos-delay="1400">
-            <h3 class="font-heading text-2xl text-ebony mb-4">Prêt(e) à vivre ces transformations ?</h3>
-            <p class="font-body text-ebony/80 mb-6">Commencez dès aujourd'hui votre voyage vers plus d'harmonie et de vitalité intérieure.</p>
+          <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-xl border border-sage/20" data-aos="fade-up" data-aos-delay="1400">
+            <h3 class="font-heading text-xl sm:text-2xl text-ebony mb-3 sm:mb-4">Prêt(e) à vivre ces transformations ?</h3>
+            <p class="font-body text-sm sm:text-base text-ebony/80 mb-4 sm:mb-6 px-2 sm:px-0">Commencez dès aujourd'hui votre voyage vers plus d'harmonie et de vitalité intérieure.</p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <Button href="/accompagnements/reservation" size="lg" variant="secondary" class="bg-sage text-white hover:bg-eucalyptus">
                 <span class="material-icons mr-2">auto_awesome</span>
@@ -812,57 +829,74 @@ const structuredData = {
           </div>
 
           <!-- Section avec image de fond et contenu -->
-          <div class="relative rounded-3xl overflow-hidden shadow-2xl" data-aos="fade-up" data-aos-delay="200">
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl min-h-[600px] sm:min-h-[650px] lg:min-h-[700px]" data-aos="fade-up" data-aos-delay="200">
             <!-- Image de fond -->
             <div class="absolute inset-0">
-              <img 
-                src="/images/soin-energetique-portrait.webp" 
-                alt=""
-                class="w-full h-full object-cover"
-              />
+              <picture class="w-full h-full">
+                <!-- Version mobile (max-width: 768px) -->
+                <source 
+                  media="(max-width: 768px)" 
+                  srcset="/images/soin-energetique-portrait-mobile.webp" 
+                  type="image/webp"
+                />
+                
+                <!-- Version desktop (min-width: 769px) -->
+                <source 
+                  media="(min-width: 769px)" 
+                  srcset="/images/soin-energetique-portrait.webp" 
+                  type="image/webp"
+                />
+                
+                <!-- Fallback image -->
+                <img 
+                  src="/images/soin-energetique-portrait.webp" 
+                  alt=""
+                  class="w-full h-full object-cover"
+                />
+              </picture>
               <!-- Overlay gradient pour la lisibilité -->
               <div class="absolute inset-0 bg-gradient-to-r from-ebony/60 via-ebony/40 to-ebony/20"></div>
             </div>
             
             <!-- Contenu par-dessus -->
-            <div class="relative z-10 p-8 md:p-12 lg:p-16">
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="relative z-10 p-6 sm:p-8 md:p-10 lg:p-14 xl:p-18 flex items-center min-h-full">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center w-full">
                 <!-- Avantages -->
-                <div class="text-white" data-aos="fade-right">
-                  <h3 class="font-heading text-3xl text-white mb-8">Notre approche unique</h3>
+                <div class="text-white order-1 lg:order-1" data-aos="fade-right">
+                  <h3 class="font-heading text-2xl sm:text-3xl text-white mb-6 sm:mb-8 text-center lg:text-left">Notre approche unique</h3>
                   
-                  <div class="space-y-6">
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-sage/20 p-3 rounded-full">
-                        <span class="material-icons text-sage text-2xl">favorite</span>
+                  <div class="space-y-4 sm:space-y-6">
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-sage/30 sm:bg-sage/20 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-sage text-xl sm:text-2xl">favorite</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Approche bienveillante</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-1 sm:mb-2">Approche bienveillante</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Une approche bienveillante et adaptée à vos besoins du moment
                         </p>
                       </div>
                     </div>
                     
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-gold/20 p-3 rounded-full">
-                        <span class="material-icons text-gold text-2xl">psychology</span>
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-gold/30 sm:bg-gold/20 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-gold text-xl sm:text-2xl">psychology</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Travail complet</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-1 sm:mb-2">Travail complet</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Allier soins énergétiques et guidance intuitive pour un travail complet
                         </p>
                       </div>
                     </div>
                     
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-eucalyptus/20 p-3 rounded-full">
-                        <span class="material-icons text-eucalyptus text-2xl">security</span>
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-eucalyptus/30 sm:bg-eucalyptus/20 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-eucalyptus text-xl sm:text-2xl">security</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Espace de sécurité</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-1 sm:mb-2">Espace de sécurité</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Un espace de sécurité, d'écoute et de transformation profonde
                         </p>
                       </div>
@@ -871,36 +905,36 @@ const structuredData = {
                 </div>
                 
                 <!-- Statistiques en bulles -->
-                <div class="space-y-6" data-aos="fade-left">
-                  <h3 class="font-heading text-2xl text-white mb-6 text-center">Chiffres clés</h3>
+                <div class="space-y-4 sm:space-y-6 order-2 lg:order-2" data-aos="fade-left">
+                  <h3 class="font-heading text-xl sm:text-2xl text-white mb-4 sm:mb-6 text-center">Chiffres clés</h3>
                   
                   <!-- Bulle 1 -->
-                  <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                  <div class="bg-white/15 sm:bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/25">
                     <div class="text-center">
-                      <div class="text-5xl font-heading text-sage mb-3 font-bold drop-shadow-lg">
+                      <div class="text-3xl sm:text-5xl font-heading text-sage mb-2 sm:mb-3 font-bold drop-shadow-lg">
                         <span class="counter" data-target="100" data-suffix="+">0</span>
                       </div>
-                      <p class="font-body text-white/90 text-lg">Personnes accompagnées</p>
+                      <p class="font-body text-white/95 text-sm sm:text-lg">Personnes accompagnées</p>
                     </div>
                   </div>
                   
                   <!-- Bulle 2 -->
-                  <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                  <div class="bg-white/15 sm:bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/25">
                     <div class="text-center">
-                      <div class="text-5xl font-heading text-gold mb-3 font-bold drop-shadow-lg">
+                      <div class="text-3xl sm:text-5xl font-heading text-gold mb-2 sm:mb-3 font-bold drop-shadow-lg">
                         <span class="counter" data-target="97" data-suffix="%">0</span>
                       </div>
-                      <p class="font-body text-white/90 text-lg">Satisfaction client</p>
+                      <p class="font-body text-white/95 text-sm sm:text-lg">Satisfaction client</p>
                     </div>
                   </div>
                   
                   <!-- Bulle 3 -->
-                  <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                  <div class="bg-white/15 sm:bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/25">
                     <div class="text-center">
-                      <div class="text-5xl font-heading text-eucalyptus mb-3 font-bold drop-shadow-lg">
+                      <div class="text-3xl sm:text-5xl font-heading text-eucalyptus mb-2 sm:mb-3 font-bold drop-shadow-lg">
                         <span class="counter" data-target="5" data-suffix=" ans">0</span>
                       </div>
-                      <p class="font-body text-white/90 text-lg">D'expérience</p>
+                      <p class="font-body text-white/95 text-sm sm:text-lg">D'expérience</p>
                     </div>
                   </div>
                 </div>

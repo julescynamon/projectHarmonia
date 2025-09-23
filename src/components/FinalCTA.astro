@@ -6,14 +6,31 @@
   <!-- Photo de fond -->
   <div class="absolute inset-0 z-0">
     <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/20 z-10"></div>
-    <img
-      src="/images/final-cta-bg.webp"
-      alt="Background Nature"
-      class="w-full h-full object-cover scale-110 transform motion-safe:animate-subtle-zoom"
-      loading="eager"
-      decoding="async"
-      fetchpriority="high"
-    />
+    <picture class="w-full h-full">
+      <!-- Version mobile (max-width: 768px) -->
+      <source 
+        media="(max-width: 768px)" 
+        srcset="/images/final-cta-bg-mobile.webp" 
+        type="image/webp"
+      />
+      
+      <!-- Version desktop (min-width: 769px) -->
+      <source 
+        media="(min-width: 769px)" 
+        srcset="/images/final-cta-bg.webp" 
+        type="image/webp"
+      />
+      
+      <!-- Fallback image -->
+      <img
+        src="/images/final-cta-bg.webp"
+        alt="Background Nature"
+        class="w-full h-full object-cover"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </picture>
   </div>
 
   <!-- Contenu principal -->
@@ -30,10 +47,25 @@
 </section>
 
 <style>
-  @keyframes subtle-zoom {
-    0% { transform: scale(1.1); }
-    50% { transform: scale(1.15); }
-    100% { transform: scale(1.1); }
+  /* Styles pour l'élément picture */
+  picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Mobile : image parfaitement cadrée */
+  @media (max-width: 768px) {
+    picture img {
+      object-position: center center;
+    }
+  }
+
+  /* Desktop : cadrage optimisé */
+  @media (min-width: 769px) {
+    picture img {
+      object-position: center 20%;
+    }
   }
 
   @keyframes quote-fade-in {
@@ -47,22 +79,12 @@
     }
   }
 
-  .animate-subtle-zoom {
-    animation: subtle-zoom 20s infinite alternate ease-in-out;
-  }
-
   .animate-quote-fade-in {
     animation: quote-fade-in 1.5s ease-out forwards;
   }
 
   #typing-text {
-    border-right: 2px solid white;
-    animation: blink 1s infinite;
-  }
-
-  @keyframes blink {
-    0%, 50% { border-color: white; }
-    51%, 100% { border-color: transparent; }
+    /* Curseur supprimé */
   }
 
   /* Police cursive élégante comme sur la photo */

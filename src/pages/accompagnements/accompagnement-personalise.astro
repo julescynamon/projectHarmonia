@@ -164,65 +164,81 @@ const structuredData = {
 
 
           <!-- Section avec image de fond et contenu -->
-          <div class="relative rounded-3xl overflow-hidden shadow-2xl" data-aos="fade-up" data-aos-delay="600">
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl min-h-[600px] sm:min-h-[650px] lg:min-h-[700px]" data-aos="fade-up" data-aos-delay="600">
             <!-- Image de fond -->
             <div class="absolute inset-0">
-              <img 
-                src="/images/accompagnement-personnel-banniere.webp" 
-                alt="Coaching et guidance de vie – retrouver clarté et confiance"
-                class="w-full h-full object-cover"
-              />
+              <picture class="w-full h-full">
+                <!-- Version mobile (max-width: 768px) -->
+                <source 
+                  media="(max-width: 768px)" 
+                  srcset="/images/accompagnement-personnel-banniere-mobile.webp" 
+                  type="image/webp"
+                />
+                
+                <!-- Version desktop (min-width: 769px) -->
+                <source 
+                  media="(min-width: 769px)" 
+                  srcset="/images/accompagnement-personnel-banniere.webp" 
+                  type="image/webp"
+                />
+                
+                <!-- Fallback image -->
+                <img 
+                  src="/images/accompagnement-personnel-banniere.webp" 
+                  alt="Coaching et guidance de vie – retrouver clarté et confiance"
+                  class="w-full h-full object-cover"
+                />
+              </picture>
               <!-- Overlay gradient pour la lisibilité -->
               <div class="absolute inset-0 bg-gradient-to-r from-ebony/70 via-ebony/50 to-ebony/30"></div>
             </div>
             
             <!-- Contenu par-dessus -->
-            <div class="relative z-10 p-8 md:p-12 lg:p-16">
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="relative z-10 p-6 sm:p-8 md:p-10 lg:p-14 xl:p-18 flex items-center min-h-full">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center w-full">
                 <!-- Citation -->
-                <div class="text-white" data-aos="fade-right">
-
-                    <div class="p-8 mb-8 inline-block">
-                    <blockquote class="text-white font-['Dancing Script'] text-2xl text-center leading-relaxed" style="font-family: 'Dancing Script', cursive;">
+                <div class="text-white order-1 lg:order-1" data-aos="fade-right">
+                  <div class="text-center lg:text-left mb-4 sm:mb-6 lg:mb-0 px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+                    <blockquote class="text-white font-['Dancing Script'] text-2xl sm:text-3xl lg:text-4xl leading-relaxed" style="font-family: 'Dancing Script', cursive;">
                       "Prendre soin de soi, ce n'est pas un luxe, c'est une responsabilité sacrée envers la vie qui nous habite."
                     </blockquote>
                   </div>
                 </div>
                 
                 <!-- Description -->
-                <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-8 border border-white/20 shadow-lg" data-aos="fade-left">
-                  <div class="space-y-6">
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-sage/40 p-3 rounded-full">
-                        <span class="material-icons text-sage text-2xl">healing</span>
+                <div class="bg-white/15 sm:bg-white/18 lg:bg-white/20 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/25 shadow-lg order-2 lg:order-2" data-aos="fade-left">
+                  <div class="space-y-4 sm:space-y-6">
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-sage/50 sm:bg-sage/40 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-sage text-xl sm:text-2xl">healing</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Une guidance en profondeur</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-2 sm:mb-3">Une guidance en profondeur</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Mise en lumière des blocages invisibles pour retrouver clarté et équilibre intérieur.
                         </p>
                       </div>
                     </div>
                     
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-gold/40 p-3 rounded-full">
-                        <span class="material-icons text-gold text-2xl">psychology</span>
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-gold/50 sm:bg-gold/40 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-gold text-xl sm:text-2xl">psychology</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Un soutien dans les transitions</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-2 sm:mb-3">Un soutien dans les transitions</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Transitions de vie, doutes, bouleversements : chaque séance devient un repère stable et rassurant.
                         </p>
                       </div>
                     </div>
                     
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-eucalyptus/40 p-3 rounded-full">
-                        <span class="material-icons text-eucalyptus text-2xl">trending_up</span>
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-eucalyptus/50 sm:bg-eucalyptus/40 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-eucalyptus text-xl sm:text-2xl">trending_up</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Vers plus de confiance</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-2 sm:mb-3">Vers plus de confiance</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Retrouver force et sérénité pour avancer plus librement, en accord avec soi-même.
                         </p>
                       </div>
@@ -740,22 +756,22 @@ const structuredData = {
       <div class="container mx-auto px-4 relative z-10">
         <div class="max-w-6xl mx-auto">
           <!-- Titre principal -->
-          <div class="text-center mb-16" data-aos="fade-up">
-            <h2 class="font-heading text-4xl md:text-5xl lg:text-6xl text-ebony mb-6">
+          <div class="text-center mb-12 sm:mb-16" data-aos="fade-up">
+            <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-ebony mb-4 sm:mb-6">
               <span class="bg-gradient-to-r from-sage via-eucalyptus to-gold bg-clip-text text-transparent">
                 Pourquoi choisir
               </span>
               <br />
               <span class="text-ebony">La Maison Sattvaïa ?</span>
               </h2>
-            <div class="w-32 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-8"></div>
-            <p class="font-body text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed">
+            <div class="w-24 sm:w-32 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full mb-6 sm:mb-8"></div>
+            <p class="font-body text-lg sm:text-xl text-ebony/80 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
               Découvrez ce qui fait la différence dans notre approche d'accompagnement personnel.
             </p>
           </div>
 
           <!-- Section avec image de fond et contenu -->
-          <div class="relative rounded-3xl overflow-hidden shadow-2xl" data-aos="fade-up" data-aos-delay="200">
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl min-h-[600px] sm:min-h-[650px] lg:min-h-[700px]" data-aos="fade-up" data-aos-delay="200">
             <!-- Image de fond -->
             <div class="absolute inset-0">
               <img 
@@ -768,44 +784,44 @@ const structuredData = {
             </div>
             
             <!-- Contenu par-dessus -->
-            <div class="relative z-10 p-8 md:p-12 lg:p-16">
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="relative z-10 p-6 sm:p-8 md:p-10 lg:p-14 xl:p-18 flex items-center min-h-full">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center w-full">
                 <!-- Avantages -->
-                <div class="text-white" data-aos="fade-right">
-                  <h3 class="font-heading text-3xl text-white mb-8">Notre approche unique</h3>
+                <div class="text-white order-1 lg:order-1" data-aos="fade-right">
+                  <h3 class="font-heading text-2xl sm:text-3xl text-white mb-6 sm:mb-8 text-center lg:text-left">Notre approche unique</h3>
               
-              <div class="space-y-6">
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-sage/20 p-3 rounded-full">
-                        <span class="material-icons text-sage text-2xl">psychology</span>
+              <div class="space-y-4 sm:space-y-6">
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-sage/30 sm:bg-sage/20 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-sage text-xl sm:text-2xl">psychology</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Un accompagnement profond et sur-mesure</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-2 sm:mb-3">Un accompagnement profond et sur-mesure</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Bien plus qu'un coaching classique, chaque séance est pensée comme un espace de transformation, mêlant guidance, spiritualité et outils pratiques adaptés à votre parcours.
                         </p>
                       </div>
                 </div>
                 
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-gold/20 p-3 rounded-full">
-                        <span class="material-icons text-gold text-2xl">lightbulb</span>
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-gold/30 sm:bg-gold/20 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-gold text-xl sm:text-2xl">lightbulb</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Des clés concrètes pour avancer</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-2 sm:mb-3">Des clés concrètes pour avancer</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Programmes, rituels, exercices et prises de conscience : des outils simples mais puissants pour franchir des étapes réelles dans votre vie, dès maintenant.
                         </p>
                       </div>
                 </div>
                 
-                    <div class="flex items-start space-x-4">
-                      <div class="bg-eucalyptus/20 p-3 rounded-full">
-                        <span class="material-icons text-eucalyptus text-2xl">security</span>
+                    <div class="flex items-start space-x-3 sm:space-x-4">
+                      <div class="bg-eucalyptus/30 sm:bg-eucalyptus/20 p-2 sm:p-3 rounded-full flex-shrink-0">
+                        <span class="material-icons text-eucalyptus text-xl sm:text-2xl">security</span>
                       </div>
                       <div>
-                        <h4 class="font-heading text-xl text-white mb-2">Un espace de clarté et de confiance</h4>
-                        <p class="font-body text-white/90 leading-relaxed">
+                        <h4 class="font-heading text-lg sm:text-xl text-white mb-2 sm:mb-3">Un espace de clarté et de confiance</h4>
+                        <p class="font-body text-sm sm:text-base text-white/95 leading-relaxed">
                           Chaque rencontre est un moment privilégié, où vous êtes accueilli(e) avec bienveillance et confidentialité, pour retrouver confiance et alignement intérieur.
                         </p>
                       </div>
@@ -814,36 +830,36 @@ const structuredData = {
             </div>
             
                                 <!-- Statistiques en bulles -->
-                <div class="space-y-6" data-aos="fade-left">
-                  <h3 class="font-heading text-2xl text-white mb-6 text-center">Chiffres clés</h3>
+                <div class="space-y-4 sm:space-y-6 order-2 lg:order-2" data-aos="fade-left">
+                  <h3 class="font-heading text-xl sm:text-2xl text-white mb-4 sm:mb-6 text-center">Chiffres clés</h3>
                   
                   <!-- Bulle 1 -->
-                  <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                  <div class="bg-white/15 sm:bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/25">
                     <div class="text-center">
-                      <div class="text-5xl font-heading text-sage mb-3 font-bold drop-shadow-lg">
+                      <div class="text-3xl sm:text-5xl font-heading text-sage mb-2 sm:mb-3 font-bold drop-shadow-lg">
                         <span class="counter" data-target="60" data-suffix="+">0</span>
                       </div>
-                      <p class="font-body text-white/90 text-lg">Personnes accompagnées</p>
+                      <p class="font-body text-white/95 text-sm sm:text-lg">Personnes accompagnées</p>
             </div>
           </div>
                   
                   <!-- Bulle 2 -->
-                  <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                  <div class="bg-white/15 sm:bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/25">
                     <div class="text-center">
-                      <div class="text-5xl font-heading text-gold mb-3 font-bold drop-shadow-lg">
+                      <div class="text-3xl sm:text-5xl font-heading text-gold mb-2 sm:mb-3 font-bold drop-shadow-lg">
                         <span class="counter" data-target="97" data-suffix="%">0</span>
                       </div>
-                      <p class="font-body text-white/90 text-lg">Satisfaction client</p>
+                      <p class="font-body text-white/95 text-sm sm:text-lg">Satisfaction client</p>
                     </div>
                   </div>
                   
                   <!-- Bulle 3 -->
-                  <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                  <div class="bg-white/15 sm:bg-white/10 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/25">
                     <div class="text-center">
-                      <div class="text-5xl font-heading text-eucalyptus mb-3 font-bold drop-shadow-lg">
+                      <div class="text-3xl sm:text-5xl font-heading text-eucalyptus mb-2 sm:mb-3 font-bold drop-shadow-lg">
                         <span class="counter" data-target="5" data-suffix=" ans">0</span>
                       </div>
-                      <p class="font-body text-white/90 text-lg">D'expérience</p>
+                      <p class="font-body text-white/95 text-sm sm:text-lg">D'expérience</p>
                     </div>
                   </div>
                 </div>

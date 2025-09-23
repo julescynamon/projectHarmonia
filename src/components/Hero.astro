@@ -2,7 +2,7 @@
 import Button from './ui/Button.astro';
 ---
 
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden hero-section">
+<section class="relative h-[80vh] flex items-center justify-center overflow-hidden hero-section">
   <!-- Background avec overlay et effet parallax -->
   <div class="absolute inset-0 z-0">
     <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/10 z-10"></div>
@@ -10,21 +10,11 @@ import Button from './ui/Button.astro';
       <!-- Version mobile (max-width: 768px) -->
       <source 
         media="(max-width: 768px)" 
-        srcset="/images/herobg-mobile.avif" 
-        type="image/avif"
-      />
-      <source 
-        media="(max-width: 768px)" 
         srcset="/images/herobg-mobile.webp" 
         type="image/webp"
       />
       
       <!-- Version desktop (min-width: 769px) -->
-      <source 
-        media="(min-width: 769px)" 
-        srcset="/images/herobg.avif" 
-        type="image/avif"
-      />
       <source 
         media="(min-width: 769px)" 
         srcset="/images/herobg.webp" 
@@ -35,7 +25,7 @@ import Button from './ui/Button.astro';
       <img
         src="/images/herobg.webp"
         alt="Background Nature"
-        class="w-full h-full object-cover scale-110 transform motion-safe:animate-subtle-zoom"
+        class="w-full h-full object-cover"
         loading="eager"
         decoding="async"
         fetchpriority="high"

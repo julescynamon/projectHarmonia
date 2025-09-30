@@ -40,7 +40,7 @@ const seo = pageSEO.about;
           </h1>
           
           <p class="font-cursive text-2xl md:text-3xl lg:text-4xl mb-16 text-white leading-relaxed max-w-4xl mx-auto drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] italic" id="typewriter-text" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
-            
+            <span class="typewriter-content"></span>
           </p>
         </div>
       </div>
@@ -311,7 +311,7 @@ const seo = pageSEO.about;
       <div class="bg-white/15 backdrop-blur-lg rounded-3xl p-8 lg:p-12 shadow-xl border border-white/30 w-full" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">
         <div class="text-center">
           <p id="quote-typewriter" class="font-cursive text-2xl md:text-3xl text-white mb-6 italic leading-relaxed">
-            
+            <span class="typewriter-content"></span>
           </p>
           <div class="w-24 h-1 bg-gradient-to-r from-gold to-sage mx-auto rounded-full"></div>
         </div>
@@ -323,14 +323,10 @@ const seo = pageSEO.about;
     document.addEventListener('DOMContentLoaded', function() {
       const typewriterText = document.getElementById('typewriter-text') as any;
       const contentSpan = typewriterText?.querySelector('.typewriter-content') as any;
-      const cursorSpan = typewriterText?.querySelector('.cursor') as any;
       
-      if (!typewriterText || !contentSpan || !cursorSpan) return;
+      if (!typewriterText || !contentSpan) return;
       
       const text = "Au bout du chemin, un espace : l'essentiel s'y rassemble, le corps s'apaise, l'énergie circule, l'âme se souvient.";
-      
-      // Masquer le curseur initialement
-      cursorSpan.style.opacity = '0';
       
       // Délai avant de commencer l'animation
       setTimeout(() => {
@@ -355,9 +351,6 @@ const seo = pageSEO.about;
             }
             
             setTimeout(typeWriter, speed);
-          } else {
-            // Animation terminée, faire clignoter le curseur
-            cursorSpan.style.opacity = '1';
           }
         }
         
@@ -367,14 +360,10 @@ const seo = pageSEO.about;
       // Animation typewriter pour la citation finale
       const quoteTypewriter = document.getElementById('quote-typewriter') as any;
       const quoteContentSpan = quoteTypewriter?.querySelector('.typewriter-content') as any;
-      const quoteCursorSpan = quoteTypewriter?.querySelector('.cursor') as any;
       
-      if (!quoteTypewriter || !quoteContentSpan || !quoteCursorSpan) return;
+      if (!quoteTypewriter || !quoteContentSpan) return;
       
       const quoteText = '"Un chemin d\'équilibre et de clarté s\'ouvre toujours à celui qui choisit d\'y marcher."';
-      
-      // Masquer le curseur initialement
-      quoteCursorSpan.style.opacity = '0';
       
       // Délai avant de commencer l'animation de la citation (après l'autre animation)
       setTimeout(() => {
@@ -399,14 +388,11 @@ const seo = pageSEO.about;
             }
             
             setTimeout(quoteTypeWriter, speed);
-          } else {
-            // Animation terminée, faire clignoter le curseur
-            quoteCursorSpan.style.opacity = '1';
           }
         }
         
         quoteTypeWriter();
-      }, 4000); // Délai de 6 secondes pour commencer après l'autre animation
+      }, 4000); // Délai de 4 secondes pour commencer après l'autre animation
     });
   </script>
 </MainLayout>
@@ -416,18 +402,6 @@ const seo = pageSEO.about;
     0% { transform: scale(1.1); }
     50% { transform: scale(1.15); }
     100% { transform: scale(1.1); }
-  }
-
-  /* Animation du curseur typewriter */
-  .cursor {
-    animation: blink 1s infinite;
-    color: #D4AF37;
-    font-weight: bold;
-  }
-
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
   }
 
   @keyframes slow-spin {
@@ -454,16 +428,5 @@ const seo = pageSEO.about;
 
   .font-cursive {
     font-family: 'Dancing Script', 'Brush Script MT', cursive;
-  }
-
-  .cursor {
-    animation: blink 1s infinite;
-    color: white;
-    font-weight: bold;
-  }
-
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
   }
 </style>

@@ -17,7 +17,13 @@ if (Astro.url.pathname === '/') {
     hasLocalsSession: !!Astro.locals.session,
     isAuthenticated,
     userEmail: session?.user?.email || 'N/A',
-    source: propSession ? 'props' : 'locals'
+    source: propSession ? 'props' : 'locals',
+    sessionDetails: session ? {
+      userId: session.user?.id,
+      email: session.user?.email,
+      expiresAt: session.expires_at,
+      hasAccessToken: !!session.access_token
+    } : null
   });
 }
 

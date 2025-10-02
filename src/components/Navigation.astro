@@ -11,7 +11,12 @@ if (Astro.url.pathname === '/') {
   console.log('[NAVIGATION_HOME] Navigation sur page d\'accueil:', {
     hasSession: !!session,
     userEmail: session?.user?.email || 'N/A',
-    pathname: Astro.url.pathname
+    pathname: Astro.url.pathname,
+    sessionDetails: session ? {
+      userId: session.user?.id,
+      email: session.user?.email,
+      expiresAt: session.expires_at
+    } : null
   });
 }
 

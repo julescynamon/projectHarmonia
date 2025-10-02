@@ -15,6 +15,12 @@ if (!supabaseUrl || !supabaseKey) {
   throw new Error('Configuration Supabase incomplète');
 }
 
+// Fonction utilitaire pour générer un token de désabonnement sécurisé
+function generateUnsubscribeToken(email: string): string {
+  const secret = import.meta.env.API_SECRET_KEY || 'default-secret';
+  return Buffer.from(email + secret).toString('base64');
+}
+
 const supabase = createClient(supabaseUrl, supabaseKey, {
   auth: {
     autoRefreshToken: false,
@@ -100,7 +106,7 @@ export async function sendNewArticleNotifications() {
                   </a>
                 </p>
                 <p style="margin-top: 20px; font-size: 0.8em; color: #666;">
-                  <a href="${WEBSITE_URL}/api/newsletter/unsubscribe?email=${encodeURIComponent(email)}" 
+                  <a href="${WEBSITE_URL}/api/newsletter/unsubscribe?email=${encodeURIComponent(email)}&token=${encodeURIComponent(generateUnsubscribeToken(email))}" 
                      style="color: #666;">
                     Se désinscrire
                   </a>

@@ -52,6 +52,7 @@ export async function sendAppointmentNotification(
     service: string;
     clientName: string;
     clientEmail: string;
+    reason?: string;
   }
 ) {
   try {
@@ -63,7 +64,7 @@ export async function sendAppointmentNotification(
 
     // Email pour l'administrateur
     const adminEmailResult = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'La Maison Sattvaïa <notifications@maisonsattvaia.fr>',
       to: 'tyzranaima@gmail.com',
       subject: 'Nouveau rendez-vous',
       html: `
@@ -94,7 +95,7 @@ export async function sendAppointmentNotification(
     }
     // Email pour le client
     const clientEmailResult = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'La Maison Sattvaïa <notifications@maisonsattvaia.fr>',
       to: appointment.clientEmail,
       subject: 'Confirmation de votre rendez-vous - La Maison Sattvaïa',
       html: `

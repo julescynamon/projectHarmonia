@@ -171,7 +171,7 @@ export default function blogNotifications(): AstroIntegration {
         }
 
         const contentDir = path.join(process.cwd(), "src/content/blog");
-        const fromEmail = process.env.FROM_EMAIL || "onboarding@resend.dev";
+        const fromEmail = process.env.FROM_EMAIL || "notifications@maisonsattvaia.fr";
         const websiteUrl = process.env.WEBSITE_URL || "http://localhost:4321";
         const websiteName = process.env.WEBSITE_NAME || "La Maison Sattvaïa";
 
@@ -200,7 +200,7 @@ export default function blogNotifications(): AstroIntegration {
 
             // En développement, n'envoyer qu'à l'email de test
             const isDev = process.env.NODE_ENV === "development";
-            const testEmail = "tyzranaima@gmail.com";
+            const testEmail = "naima@maisonsattvaia.fr";
 
             const emailsToNotify = isDev
               ? subscribers.filter((s) => s.email === testEmail)

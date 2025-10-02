@@ -5,6 +5,12 @@ import { Resend } from 'resend';
 import { supabase } from '../../../lib/supabase';
 import { getNewArticleEmailTemplate } from '../../../lib/emails/new-article-template';
 
+// Fonction utilitaire pour générer un token de désabonnement sécurisé
+function generateUnsubscribeToken(email: string): string {
+  const secret = import.meta.env.API_SECRET_KEY || 'default-secret';
+  return Buffer.from(email + secret).toString('base64');
+}
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     const resend = new Resend(import.meta.env.RESEND_API_KEY);
@@ -78,7 +84,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Configuration de l'email
     const articleUrl = `${import.meta.env.WEBSITE_URL}/blog/${slug}`;
-    const fromEmail = import.meta.env.FROM_EMAIL || 'notifications@la-maison-sattvaia.com';
+    const fromEmail = import.meta.env.FROM_EMAIL || 'notifications@maisonsattvaia.fr';
     const websiteName = import.meta.env.WEBSITE_NAME || 'La Maison Sattvaïa';
 
     // Envoyer les notifications
@@ -91,7 +97,7 @@ export const POST: APIRoute = async ({ request }) => {
           category: article.category || 'Général'
         },
         websiteUrl: import.meta.env.WEBSITE_URL || 'https://la-maison-sattvaia.com',
-        unsubscribeUrl: `${import.meta.env.WEBSITE_URL}/api/newsletter/unsubscribe?email=${encodeURIComponent(subscriber.email)}`
+        unsubscribeUrl: `${import.meta.env.WEBSITE_URL}/api/newsletter/unsubscribe?email=${encodeURIComponent(subscriber.email)}&token=${encodeURIComponent(generateUnsubscribeToken(subscriber.email))}`
       });
       
       return resend.emails.send({

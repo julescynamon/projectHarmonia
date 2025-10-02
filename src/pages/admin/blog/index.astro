@@ -9,6 +9,13 @@ const supabase = Astro.locals.supabase;
 // La session est déjà disponible via Astro.locals.session grâce au middleware
 const session = Astro.locals.session;
 
+console.log('[ADMIN_BLOG] Vérification de la session:', {
+  hasSession: !!session,
+  userEmail: session?.user?.email || 'N/A',
+  userId: session?.user?.id || 'N/A',
+  pathname: Astro.url.pathname
+});
+
 // Vérification de l'authentification
 if (!session?.user?.id) {
   console.error('[ADMIN_BLOG] Pas de session, redirection vers /login');

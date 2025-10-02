@@ -52,8 +52,8 @@ export const TEST_ENV_DEFAULTS = {
   
   // Email
   RESEND_API_KEY: 're_test_key_for_testing_only',
-  FROM_EMAIL: 'test@la-maison-sattvaia-test.com',
-  SUPPORT_EMAIL: 'support@la-maison-sattvaia-test.com',
+  FROM_EMAIL: 'test@maisonsattvaia-test.fr',
+  SUPPORT_EMAIL: 'support@maisonsattvaia-test.fr',
   
   // Sécurité
   CORS_ALLOWED_ORIGINS: 'http://localhost:4322,http://localhost:3000,https://test.la-maison-sattvaia.com',

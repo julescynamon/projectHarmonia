@@ -6,10 +6,16 @@ import { getAppointmentConfirmationEmailHtml } from './emails/appointment-confir
 import { getAppointmentApprovalEmailHtml } from './emails/appointment-approval';
 import { getAppointmentRejectionEmailHtml } from './emails/appointment-rejection';
 
+// Fonction utilitaire pour générer un token de désabonnement sécurisé
+function generateUnsubscribeToken(email: string): string {
+  const secret = import.meta.env.API_SECRET_KEY || 'default-secret';
+  return Buffer.from(email + secret).toString('base64');
+}
+
 // Configuration
 const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
-const FROM_EMAIL = import.meta.env.FROM_EMAIL || 'notifications@la-maison-sattvaia.com';
-const WEBSITE_URL = import.meta.env.WEBSITE_URL || 'https://la-maison-sattvaia.com';
+const FROM_EMAIL = import.meta.env.FROM_EMAIL || 'notifications@maisonsattvaia.fr';
+const WEBSITE_URL = import.meta.env.WEBSITE_URL || 'https://maisonsattvaia.fr';
 const WEBSITE_NAME = import.meta.env.WEBSITE_NAME || 'La Maison Sattvaïa';
 const IS_DEVELOPMENT = import.meta.env.NODE_ENV === 'development';
 
@@ -44,7 +50,7 @@ export async function sendConfirmationEmail(email: string, token: string) {
       throw new EmailServiceError('RESEND_API_KEY non configurée', 'CONFIG_ERROR');
     }
 
-    const confirmationUrl = `${WEBSITE_URL}/newsletter/confirm?email=${encodeURIComponent(email)}&token=${encodeURIComponent(token)}`;
+    const confirmationUrl = `${WEBSITE_URL}/api/newsletter/confirm?token=${encodeURIComponent(token)}`;
 
     const emailData = {
       from: FROM_EMAIL,
@@ -150,7 +156,7 @@ export async function sendNewArticleNotification(
                 category: article.category || 'blog'
               },
               websiteUrl: WEBSITE_URL,
-              unsubscribeUrl: `${WEBSITE_URL}/api/newsletter/unsubscribe?email=${encodeURIComponent(email)}`
+              unsubscribeUrl: `${WEBSITE_URL}/api/newsletter/unsubscribe?email=${encodeURIComponent(email)}&token=${encodeURIComponent(generateUnsubscribeToken(email))}`
             })
           });
         } catch (error) {
@@ -295,7 +301,7 @@ export async function sendAppointmentNotificationEmail({
 export async function sendAppointmentConfirmationEmail({
   appointment,
   service,
-  contactEmail = 'naima@la-maison-sattvaia.com'
+  contactEmail = 'naima@maisonsattvaia.fr'
 }: {
   appointment: {
     id: string;
@@ -421,7 +427,7 @@ export async function sendContactEmail(data: ContactEmailData) {
 
     // Envoi de l'email
     const { data: result, error } = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'Contact Maison Sattvaïa <contact@maisonsattvaia.fr>',
       to: 'tyzranaima@gmail.com',
       subject: `Nouveau message de contact : ${sanitizedData.subject}`,
       text: `

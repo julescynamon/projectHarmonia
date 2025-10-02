@@ -1,8 +1,8 @@
 export function getAppointmentConfirmationEmailHtml({
   appointment,
   service,
-  contactEmail = 'naima@la-maison-sattvaia.com',
-  websiteUrl = 'https://la-maison-sattvaia.com'
+  contactEmail = 'naima@maisonsattvaia.fr',
+  websiteUrl = 'https://maisonsattvaia.fr'
 }: {
   appointment: {
     id: string;

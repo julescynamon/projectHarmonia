@@ -193,7 +193,7 @@ export function getAppointmentRejectionEmailHtml({
           <h4 style="margin-top: 0; color: #2196F3;">📞 Nous sommes là pour vous aider</h4>
           <p style="margin-bottom: 5px;">Si vous souhaitez discuter d'autres options ou avez des questions :</p>
           <ul style="margin: 10px 0; padding-left: 20px;">
-            <li>Envoyez-nous un email à <a href="mailto:tyzranaima@gmail.com" style="color: #2196F3;">tyzranaima@gmail.com</a></li>
+            <li>Envoyez-nous un email à <a href="mailto:contact@maisonsattvaia.fr" style="color: #2196F3;">contact@maisonsattvaia.fr</a></li>
             <li>Consultez notre <a href="${websiteUrl}/contact" style="color: #2196F3;">page de contact</a></li>
             <li>Nous répondrons dans les plus brefs délais</li>
           </ul>

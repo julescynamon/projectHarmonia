@@ -170,20 +170,7 @@ import Button from '../ui/Button.astro';
           
           const { data: { session } } = result;
           if (session) {
-            
-            // Créer un cookie manuellement avec le token d'accès
-            const token = session.access_token;
-            const expires = new Date(session.expires_at * 1000);
-            document.cookie = `sb-access-token=${token}; path=/; expires=${expires.toUTCString()}`;
-            
-            // Créer un cookie avec la session complète (encodée)
-            const sessionStr = JSON.stringify({
-              access_token: session.access_token,
-              refresh_token: session.refresh_token,
-              expires_at: session.expires_at
-            });
-            document.cookie = `supabase.auth.token=${encodeURIComponent(sessionStr)}; path=/; expires=${expires.toUTCString()}`;
-            
+            console.log('✅ Session créée avec succès:', session.user.email);
             
             // Synchroniser la session avec le serveur avant la redirection
             try {
@@ -205,16 +192,20 @@ import Button from '../ui/Button.astro';
                 })
               });
               
-              const syncResult = await syncResponse.json();
-              
-              // Redirection vers la page appropriée
-              setTimeout(() => {
+              if (syncResponse.ok) {
+                console.log('✅ Session synchronisée avec le serveur');
+                // Redirection immédiate après synchronisation réussie
                 const returnTo = new URLSearchParams(window.location.search).get('returnTo');
                 window.location.href = returnTo || '/mon-compte';
-              }, 500);
+              } else {
+                console.error('❌ Erreur de synchronisation:', syncResponse.status);
+                // Rediriger quand même en cas d'erreur de sync
+                const returnTo = new URLSearchParams(window.location.search).get('returnTo');
+                window.location.href = returnTo || '/mon-compte';
+              }
             } catch (syncError) {
-
-              // Rediriger quand même
+              console.error('❌ Erreur de synchronisation:', syncError);
+              // Rediriger quand même en cas d'erreur
               const returnTo = new URLSearchParams(window.location.search).get('returnTo');
               window.location.href = returnTo || '/mon-compte';
             }

@@ -140,9 +140,8 @@ export function getAppointmentConfirmationEmailHtml({
       <div class="footer">
         <p>Cet email confirme la réception de votre demande de réservation.</p>
         <p>Merci de votre patience et de votre confiance.</p>
-        <p><strong>Naima Tyzra</strong><br>
-        Naturopathe & Praticienne en soins énergétiques<br>
-        La Maison Sattvaïa</p>
+        <p><strong>La Maison Sattvaïa</strong><br>
+        Naturopathie & Soins énergétiques</p>
       </div>
     </body>
     </html>

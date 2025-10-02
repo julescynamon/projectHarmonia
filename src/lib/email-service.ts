@@ -478,21 +478,19 @@ export async function sendAppointmentApprovalEmail({
       throw new EmailServiceError('RESEND_API_KEY non configurée', 'CONFIG_ERROR');
     }
 
-    // Lecture du template HTML
-    const fs = await import('fs/promises');
-    const path = await import('path');
-    const templatePath = path.join(process.cwd(), 'src', 'emails', 'appointment-approved.html');
-    let emailHtml = await fs.readFile(templatePath, 'utf-8');
-
-    // Remplacement des variables
-    emailHtml = emailHtml
-      .replace(/{{clientName}}/g, clientName)
-      .replace(/{{clientEmail}}/g, clientEmail)
-      .replace(/{{date}}/g, date)
-      .replace(/{{time}}/g, time)
-      .replace(/{{service}}/g, service)
-      .replace(/{{paymentUrl}}/g, paymentUrl)
-      .replace(/{{price}}/g, price.toString());
+    // Génération du template HTML via la fonction TypeScript
+    const emailHtml = getAppointmentApprovalEmailHtml({
+      appointment: {
+        id: 'temp-id', // ID temporaire pour la fonction
+        date: date,
+        time: time,
+        service: service,
+        clientName: clientName,
+        clientEmail: clientEmail
+      },
+      paymentUrl: paymentUrl,
+      websiteUrl: 'https://la-maison-sattvaia.com'
+    });
 
     const emailData = {
       from: FROM_EMAIL,
@@ -563,21 +561,19 @@ export async function sendAppointmentRejectionEmail({
       throw new EmailServiceError('RESEND_API_KEY non configurée', 'CONFIG_ERROR');
     }
 
-    // Lecture du template HTML
-    const fs = await import('fs/promises');
-    const path = await import('path');
-    const templatePath = path.join(process.cwd(), 'src', 'emails', 'appointment-rejected.html');
-    let emailHtml = await fs.readFile(templatePath, 'utf-8');
-
-    // Remplacement des variables
-    emailHtml = emailHtml
-      .replace(/{{clientName}}/g, clientName)
-      .replace(/{{clientEmail}}/g, clientEmail)
-      .replace(/{{date}}/g, date)
-      .replace(/{{time}}/g, time)
-      .replace(/{{service}}/g, service)
-      .replace(/{{rejectionReason}}/g, rejectionReason)
-      .replace(/{{siteUrl}}/g, 'https://la-maison-sattvaia.com');
+    // Génération du template HTML via la fonction TypeScript
+    const emailHtml = getAppointmentRejectionEmailHtml({
+      appointment: {
+        id: 'temp-id', // ID temporaire pour la fonction
+        date: date,
+        time: time,
+        service: service,
+        clientName: clientName,
+        clientEmail: clientEmail
+      },
+      rejectionReason: rejectionReason,
+      websiteUrl: 'https://la-maison-sattvaia.com'
+    });
 
     const emailData = {
       from: FROM_EMAIL,

@@ -148,7 +148,7 @@ export async function sendAppointmentNotification(
             <tr>
               <td style="background-color: #ffffff; padding: 20px; text-align: center; border-top: 1px solid #f4f1ed;">
                 <p style="color: #131212; margin: 5px 0; font-size: 14px;">Pour toute question ou modification, n'hésitez pas à nous contacter.</p>
-                <p style="color: #131212; margin: 5px 0; font-size: 14px;">Au plaisir de vous recevoir,<br>L'équipe La Maison Sattvaïa</p>
+                <p style="color: #131212; margin: 5px 0; font-size: 14px;">Au plaisir de vous recevoir,<br>La Maison Sattvaïa</p>
               </td>
             </tr>
           </table>

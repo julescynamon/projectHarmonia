@@ -56,22 +56,9 @@ const commonButtonClasses = "font-slogan text-sm tracking-wide transition-colors
       </a>
       <button
         type="button"
-        class={`${commonButtonClasses}`} aria-label="Déconnexion" 
-        onclick="
-          // Suppression côté client
-          localStorage.clear();
-          sessionStorage.clear();
-          document.cookie.split(';').forEach(function(c) {
-            document.cookie = c.trim().split('=')[0] + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/';
-          });
-          
-          // Tentative d'appel à l'API (peut échouer à cause de Vercel Protection)
-          fetch('/api/auth/signout', { method: 'POST' })
-            .catch(() => console.log('API signout bloquée par Vercel Protection'));
-          
-          // Redirection immédiate
-          window.location.href = '/';
-        "
+        class={`${commonButtonClasses}`} 
+        aria-label="Déconnexion"
+        data-logout-btn
       >
         Déconnexion
       </button>
@@ -86,9 +73,71 @@ const commonButtonClasses = "font-slogan text-sm tracking-wide transition-colors
   )}
 </div>
 
-<script>
-  // SCRIPT DÉSACTIVÉ - causait une boucle infinie
-  // TODO: Trouver une meilleure solution
+<script is:inline>
+(function() {
+  function handleLogout(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    console.log('Déconnexion en cours...');
+    
+    // Suppression côté client
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // Supprimer tous les cookies accessibles
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf('=');
+      const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+      // Supprimer avec différents chemins et domaines
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=' + window.location.hostname;
+      document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.' + window.location.hostname;
+    }
+    
+    console.log('Données côté client supprimées, appel API...');
+    
+    // Appeler l'API de déconnexion pour supprimer les cookies httpOnly
+    fetch('/api/auth/signout', { 
+      method: 'POST',
+      credentials: 'include'
+    })
+    .then(function() {
+      console.log('API signout appelée avec succès');
+    })
+    .catch(function(err) {
+      console.log('Erreur API signout:', err);
+    })
+    .finally(function() {
+      console.log('Redirection vers la page d\'accueil...');
+      // Redirection après l'appel API
+      window.location.href = '/';
+    });
+  }
+  
+  function attachLogoutHandler() {
+    const logoutBtn = document.querySelector('[data-logout-btn]');
+    if (logoutBtn && !logoutBtn.hasAttribute('data-logout-attached')) {
+      console.log('Bouton de déconnexion trouvé, attachement du handler');
+      logoutBtn.setAttribute('data-logout-attached', 'true');
+      logoutBtn.addEventListener('click', handleLogout);
+    }
+  }
+  
+  // Essayer d'attacher immédiatement
+  attachLogoutHandler();
+  
+  // Réessayer au DOMContentLoaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', attachLogoutHandler);
+  }
+  
+  // Réessayer après un court délai
+  setTimeout(attachLogoutHandler, 100);
+  setTimeout(attachLogoutHandler, 500);
+})();
 </script>
 
 <style >

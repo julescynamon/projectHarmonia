@@ -75,29 +75,9 @@ async function handleSignOut({ cookies, locals, request }) {
   locals.session = null;
 
 
-  // Créer une page HTML qui nettoie le localStorage et redirige
-  const html = `
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Déconnexion...</title>
-</head>
-<body>
-  <script>
-    // Nettoyer le localStorage
-    localStorage.removeItem('supabase.auth.token');
-    sessionStorage.clear();
-    
-    // Rediriger vers la page d'accueil
-    window.location.href = '/';
-  </script>
-  <p>Déconnexion en cours...</p>
-</body>
-</html>`;
-
-  // Créer les en-têtes avec suppression des cookies
+  // Redirection vers la page d'accueil avec suppression des cookies
   const headers = new Headers({
-    'Content-Type': 'text/html',
+    'Location': '/',
     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
     'Pragma': 'no-cache',
     'Expires': '0'
@@ -108,8 +88,8 @@ async function handleSignOut({ cookies, locals, request }) {
     headers.append('Set-Cookie', cookie);
   });
   
-  return new Response(html, {
-    status: 200,
+  return new Response(null, {
+    status: 302,
     headers
   });
 }

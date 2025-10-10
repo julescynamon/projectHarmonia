@@ -7,7 +7,7 @@ const { type } = Astro.props;
 import Button from '../ui/Button.astro';
 ---
 
-<form class="space-y-6" id="auth-form" data-type={type}>
+<form class="space-y-6" id="auth-form" data-type={type} method="post" action={type === 'login' ? '/api/login' : '/api/register'}>
   {type === 'register' && (
     <div class="space-y-2">
       <label for="name" class="block text-ebony font-heading text-lg font-medium">Nom complet</label>
@@ -104,126 +104,18 @@ import Button from '../ui/Button.astro';
 </form>
 
 <script>
-  // Script simple pour la connexion avec Supabase
+  // Script simple pour afficher les erreurs d'URL
   document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('auth-form') as HTMLFormElement;
     const errorEl = document.getElementById('error-message');
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
     
-    if (form) {
-      
-      form.addEventListener('submit', async function(event) {
-        event.preventDefault();
-        
-        const formData = new FormData(form);
-        const type = form.dataset.type;
-        const email = formData.get('email')?.toString() || '';
-        const password = formData.get('password')?.toString() || '';
-        const name = formData.get('name')?.toString();
-        
-        
-        // Masquer les erreurs précédentes
-        if (errorEl) {
-          errorEl.classList.add('hidden');
-        }
-        
-        try {
-          // Import dynamique de Supabase
-          const { createClient } = await import('@supabase/supabase-js');
-          
-          // Initialiser Supabase
-          const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-          const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
-          
-          
-          // Configuration spécifique pour utiliser le stockage local
-          const supabase = createClient(supabaseUrl, supabaseKey, {
-            auth: {
-              autoRefreshToken: true,
-              persistSession: true,
-              detectSessionInUrl: true,
-              // Utiliser le stockage local par défaut
-              storage: localStorage
-            }
-          });
-          
-          let result;
-          if (type === 'login') {
-            result = await supabase.auth.signInWithPassword({ email, password });
-          } else if (type === 'register') {
-
-            result = await supabase.auth.signUp({
-              email, 
-              password,
-              options: { data: { name } }
-            });
-            
-            if (!result.error) {
-              alert('Inscription réussie ! Vous pouvez maintenant vous connecter.');
-              window.location.href = '/login';
-              return;
-            }
-          }
-          
-          if (result.error) {
-            throw result.error;
-          }
-          
-          const { data: { session } } = result;
-          if (session) {
-            console.log('✅ Session créée avec succès:', session.user.email);
-            
-            // Synchroniser la session avec le serveur avant la redirection
-            try {
-              const syncResponse = await fetch('/api/auth/sync-session', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                  session: {
-                    access_token: session.access_token,
-                    refresh_token: session.refresh_token,
-                    expires_at: session.expires_at,
-                    user: {
-                      id: session.user.id,
-                      email: session.user.email
-                    }
-                  }
-                })
-              });
-              
-              if (syncResponse.ok) {
-                console.log('✅ Session synchronisée avec le serveur');
-                // Redirection immédiate après synchronisation réussie
-                const returnTo = new URLSearchParams(window.location.search).get('returnTo');
-                window.location.href = returnTo || '/mon-compte';
-              } else {
-                console.error('❌ Erreur de synchronisation:', syncResponse.status);
-                // Rediriger quand même en cas d'erreur de sync
-                const returnTo = new URLSearchParams(window.location.search).get('returnTo');
-                window.location.href = returnTo || '/mon-compte';
-              }
-            } catch (syncError) {
-              console.error('❌ Erreur de synchronisation:', syncError);
-              // Rediriger quand même en cas d'erreur
-              const returnTo = new URLSearchParams(window.location.search).get('returnTo');
-              window.location.href = returnTo || '/mon-compte';
-            }
-          } else {
-            throw new Error('Session non établie après authentification.');
-          }
-        } catch (error) {
-
-          if (errorEl) {
-            errorEl.textContent = error.message === 'Invalid login credentials'
-              ? 'Email ou mot de passe incorrect'
-              : error.message;
-            errorEl.classList.remove('hidden');
-          }
-        }
-      });
-    } else {
-
+    if (error && errorEl) {
+      const errorText = errorEl.querySelector('p');
+      if (errorText) {
+        errorText.textContent = decodeURIComponent(error);
+        errorEl.classList.remove('hidden');
+      }
     }
   });
 </script>

@@ -17,11 +17,13 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
   );
 
-  // Récupérer l'utilisateur depuis Supabase
-  const { data: { user } } = await supabase.auth.getUser();
-  
-  // Stocker dans les locals
-  locals.user = user ?? null;
+  // Récupérer l'utilisateur depuis Supabase avec fallback
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    locals.user = user ?? null;
+  } catch {
+    locals.user = null;
+  }
   locals.supabase = supabase;
 
   // Continuer vers la page

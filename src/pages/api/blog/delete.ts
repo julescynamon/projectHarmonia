@@ -10,9 +10,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const { id } = await request.json();
     console.log('ID de l\'article à supprimer:', id);
 
-    // La session est déjà vérifiée par le middleware
-    const session = locals.session;
-    if (!session?.user) {
+    // L'utilisateur est déjà vérifié par le middleware
+    const user = locals.user;
+    if (!user) {
       console.error('Session utilisateur non trouvée');
       return new Response(JSON.stringify({ error: 'Session invalide' }), {
         status: 401

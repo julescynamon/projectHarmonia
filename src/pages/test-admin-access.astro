@@ -4,9 +4,9 @@
 
 import MainLayout from '../layouts/MainLayout.astro';
 const supabase = Astro.locals.supabase;
-const session = Astro.locals.session;
+const user = Astro.locals.user;
 
-console.log('[TEST_ADMIN] Session:', JSON.stringify(session, null, 2));
+console.log('[TEST_ADMIN] User:', JSON.stringify(user, null, 2));
 
 // Test de la base de données
 let testResults = [];

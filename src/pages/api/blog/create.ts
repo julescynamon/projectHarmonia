@@ -51,16 +51,15 @@ const createAuthClient = (token: string) => {
 
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
-    const session = locals.session;
+    const user = locals.user;
     
-    if (!session?.user) {
+    if (!user) {
       return new Response(
         JSON.stringify({ error: 'Authentification requise' }),
         { status: 401 }
       );
     }
 
-    const user = session.user;
     const adminClient = createAdminClient();
 
     // Vérifier/créer le profil admin

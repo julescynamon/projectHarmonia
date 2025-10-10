@@ -6,8 +6,8 @@ import type { APIRoute } from 'astro';
 export const GET: APIRoute = async ({ url, locals }) => {
   try {
     // Vérification de l'authentification admin
-    const session = locals.session;
-    if (!session?.user?.id) {
+    const user = locals.user;
+    if (!user?.id) {
       return new Response(
         JSON.stringify({ error: 'Non autorisé' }),
         { status: 401 }

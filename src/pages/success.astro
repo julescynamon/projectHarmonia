@@ -3,9 +3,9 @@ import Layout from '../layouts/Layout.astro';
 import { supabase } from '../lib/supabase/service-role';
 import Stripe from 'stripe';
 
-const session = Astro.locals.session;
-if (!session?.user) {
-  return Astro.redirect('/connexion');
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/login');
 }
 
 const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY, {

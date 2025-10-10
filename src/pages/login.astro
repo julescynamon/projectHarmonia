@@ -3,9 +3,9 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import AuthForm from '../components/auth/AuthForm.astro';
 
-const session = Astro.locals.session;
+const user = Astro.locals.user;
 
-if (session) {
+if (user) {
   const returnTo = Astro.url.searchParams.get('returnTo');
   return Astro.redirect(returnTo || '/mon-compte');
 }

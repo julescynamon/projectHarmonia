@@ -5,7 +5,7 @@ interface Props {
 }
 
 const { productId, className = '' } = Astro.props;
-const session = Astro.locals.session;
+const user = Astro.locals.user;
 ---
 
 <button

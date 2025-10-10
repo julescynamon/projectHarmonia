@@ -3,12 +3,12 @@ import MainLayout from '../layouts/MainLayout.astro';
 import { getCartItems } from '../lib/shop';
 
 // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
-const session = Astro.locals.session;
-if (!session) {
+const user = Astro.locals.user;
+if (!user) {
   return Astro.redirect('/login?redirect=/panier');
 }
 
-const cartItems = await getCartItems(session.user.id);
+const cartItems = await getCartItems(user.id);
 const total = cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
 ---
 

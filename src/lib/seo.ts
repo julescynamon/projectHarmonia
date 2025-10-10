@@ -21,28 +21,33 @@ export const defaultSEO: SEOProps = {
 
 export const pageSEO: Record<string, SEOProps> = {
   home: {
-    title: 'Maison Sattvaïa – Naturopathie & Soins Énergétiques pour Humains et Animaux',
-    description: 'Découvrez La Maison Sattvaïa : accompagnement holistique unique alliant naturopathie, soins énergétiques et guidance spirituelle pour humains et animaux.',
+    title: 'Maison Sattvaïa – Naturopathie Holistique & Soins Énergétiques Gard, Vaucluse, Drôme, Ardèche',
+    description: 'Naturopathe spécialisée en soins énergétiques pour humains et animaux. Accompagnement holistique personnalisé : naturopathie, soins chamaniques, guidance spirituelle. Consultations en présentiel ou à distance dans le Gard, Vaucluse, Drôme et Ardèche.',
+    image: '/images/og-image-home.webp'
   },
   about: {
-    title: 'À Propos | Maison Sattvaïa - Naima Tyzra',
-    description: 'Découvrez l\'histoire de La Maison Sattvaïa et le parcours de Naima Tyzra. Un lieu de reconnexion où corps, énergie et âme retrouvent leur équilibre naturel.',
+    title: 'À Propos | Maison Sattvaïa - Naturopathie & Soins Énergétiques',
+    description: 'Découvrez La Maison Sattvaïa, spécialisée en soins énergétiques et accompagnement holistique. Parcours, expertise et approche unique pour humains et animaux dans le Gard, Vaucluse, Drôme et Ardèche.',
+    image: '/images/og-image-about.webp'
   },
   services: {
-    title: 'Services | Maison Sattvaïa - Accompagnements Holistiques',
-    description: 'Naturopathie humaine et animale, soins énergétiques, guidance spirituelle : découvrez nos accompagnements personnalisés pour retrouver votre équilibre.',
+    title: 'Services Naturopathie & Soins Énergétiques | Maison Sattvaïa',
+    description: 'Naturopathie humaine et animale, soins énergétiques, guidance spirituelle et accompagnement chamanique. Consultations personnalisées en présentiel ou à distance dans le Gard, Vaucluse, Drôme et Ardèche.',
+    image: '/images/og-image-services.webp'
   },
   shop: {
     title: 'Boutique | Maison Sattvaïa - Guides & Ressources Holistiques',
     description: 'Découvrez nos guides spirituels, ressources de développement personnel et outils d\'accompagnement pour votre cheminement holistique.',
   },
   contact: {
-    title: 'Contact | Maison Sattvaïa - Prenez Rendez-vous',
-    description: 'Contactez La Maison Sattvaïa pour débuter votre accompagnement holistique. Consultations en présentiel ou à distance pour humains et animaux.',
+    title: 'Contact | Prendre Rendez-vous Naturopathe - Maison Sattvaïa',
+    description: 'Contactez La Maison Sattvaïa pour votre accompagnement holistique. Prise de rendez-vous facile : naturopathie, soins énergétiques, guidance spirituelle pour humains et animaux dans le Gard, Vaucluse, Drôme et Ardèche.',
+    image: '/images/og-image-contact.webp'
   },
   blog: {
-    title: 'Blog | Maison Sattvaïa - Sagesse & Guidance Holistique',
-    description: 'Articles, conseils et guidance sur la naturopathie, les soins énergétiques et le développement spirituel. Nourrissez votre cheminement holistique.',
+    title: 'Blog Naturopathie & Soins Énergétiques | Maison Sattvaïa',
+    description: 'Articles et conseils naturopathie, soins énergétiques, bien-être holistique et développement spirituel. Ressources expertes pour votre cheminement personnel et celui de vos animaux.',
+    image: '/images/og-image-blog.webp'
   },
   appointment: {
     title: 'Prendre Rendez-vous | Maison Sattvaïa',

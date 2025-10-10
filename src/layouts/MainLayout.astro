@@ -61,20 +61,25 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:site_name" content="Naima Tyzra - Naturopathe" />
     <meta property="og:locale" content="fr_FR" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(image, Astro.site)} />
-    <meta property="twitter:site" content="@NaimaTyzra" />
-    <meta property="twitter:creator" content="@NaimaTyzra" />
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@maisonsattvaia" />
+    <meta name="twitter:creator" content="@maisonsattvaia" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site)} />
+    <meta name="twitter:image:alt" content="La Maison Sattvaïa - Naturopathie & Soins Énergétiques à Salazac" />
+    <meta name="twitter:domain" content="maisonsattvaia.fr" />
 
     <!-- Other meta tags -->
     <meta name="author" content="Naima Tyzra" />
     <meta name="robots" content="index, follow" />
-    <meta name="keywords" content="naturopathie, santé naturelle, bien-être" />
+    <meta name="keywords" content="naturopathie, santé naturelle, bien-être, soins énergétiques, accompagnement holistique, naturopathie animale" />
     <meta name="theme-color" content="#4A6741" />
+    <meta name="geo.region" content="FR" />
+    <meta name="geo.placename" content="France" />
+    <meta name="language" content="fr" />
+    <meta name="revisit-after" content="7 days" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" href="/fonts/PlayfairDisplay-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/Raleway-Regular.woff2" as="font" type="font/woff2" crossorigin>

@@ -31,7 +31,7 @@ export const GET: APIRoute = async ({ site }) => {
       ${pages
         .map((page) => {
           // Définir les priorités selon l'importance des pages
-          let priority = '0.8';
+          let priority = '0.7';
           let changefreq = 'weekly';
           
           if (page === '') {
@@ -39,11 +39,19 @@ export const GET: APIRoute = async ({ site }) => {
             changefreq = 'daily';
           } else if (page === 'services' || page === 'contact' || page === 'rendez-vous') {
             priority = '0.9';
+            changefreq = 'weekly';
+          } else if (page === 'a-propos') {
+            priority = '0.8';
+            changefreq = 'monthly';
           } else if (page.startsWith('accompagnements/')) {
             priority = '0.8';
             changefreq = 'monthly';
           } else if (page === 'blog') {
             priority = '0.7';
+            changefreq = 'weekly';
+          } else if (page === 'boutique') {
+            priority = '0.6';
+            changefreq = 'weekly';
           } else if (page.includes('mentions-legales') || page.includes('politique-confidentialite') || page.includes('cgv')) {
             priority = '0.3';
             changefreq = 'yearly';

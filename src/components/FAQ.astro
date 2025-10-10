@@ -1,0 +1,46 @@
+---
+// src/components/FAQ.astro
+import { getFAQData } from '../lib/structured-data';
+
+const faqData = getFAQData();
+---
+
+<section class="py-16 bg-cream">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-heading text-ebony text-center mb-12">
+        Questions Fréquentes
+      </h2>
+      
+      <div class="space-y-6">
+        {faqData.mainEntity.map((faq, index) => (
+          <div class="bg-white rounded-lg shadow-md p-6" itemScope itemType="https://schema.org/Question">
+            <h3 class="text-xl font-semibold text-ebony mb-3" itemProp="name">
+              {faq.name}
+            </h3>
+            <div class="text-gray-700" itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+              <div itemProp="text">
+                {faq.acceptedAnswer.text}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div class="text-center mt-12">
+        <p class="text-lg text-gray-600 mb-6">
+          Vous avez d'autres questions ?
+        </p>
+        <a 
+          href="/contact" 
+          class="inline-block bg-eucalyptus text-white px-8 py-3 rounded-lg font-semibold hover:bg-eucalyptus/90 transition-colors"
+        >
+          Contactez-nous
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Schema.org FAQ Structured Data -->
+<script type="application/ld+json" set:html={JSON.stringify(faqData)} />

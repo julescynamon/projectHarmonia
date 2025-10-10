@@ -11,7 +11,7 @@ export interface SiteConfig {
 
 export function getSiteConfig(): SiteConfig {
   return {
-    site: 'https://harmonia.jules.com',
+    site: 'https://www.maisonsattvaia.fr',
     title: 'La Maison Sattvaïa - Naturopathie & Soins Chamaniques',
     description: 'Découvrez nos services de naturopathie et soins chamaniques pour votre bien-être naturel.',
     author: 'La Maison Sattvaïa',

@@ -58,7 +58,7 @@ const commonButtonClasses = "font-slogan text-sm tracking-wide transition-colors
         href="/api/auth/signout"
         class={`${commonButtonClasses}`} 
         aria-label="Déconnexion"
-        onclick="localStorage.clear(); sessionStorage.clear();"
+        onclick="localStorage.removeItem('supabase.auth.token'); sessionStorage.clear();"
       >
         Déconnexion
       </a>

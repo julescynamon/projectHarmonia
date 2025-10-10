@@ -28,8 +28,8 @@ interface FormattedCartItem {
 
 export const GET: APIRoute = async ({ locals }) => {
 
-  const session = locals.session;
-  if (!session?.user) {
+  const user = locals.user;
+  if (!user) {
     return new Response(
       JSON.stringify({ error: 'Non autorisé' }),
       { status: 401, headers: { 'Content-Type': 'application/json' } }
@@ -51,7 +51,7 @@ export const GET: APIRoute = async ({ locals }) => {
         product_id,
         products (id, title, price, pdf_path)
       `)
-      .eq('user_id', session.user.id);
+      .eq('user_id', user.id);
     
 
     const { data: cartItems, error } = await query.returns<CartItem[]>();

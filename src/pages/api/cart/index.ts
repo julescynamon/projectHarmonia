@@ -26,9 +26,9 @@ interface CartItem {
 }
 
 export const GET: APIRoute = async ({ locals }) => {
-  const session = locals.session;
+  const user = locals.user;
   
-  if (!session) {
+  if (!user) {
     return new Response(
       JSON.stringify({ message: 'Authentification requise' }), 
       { status: 401 }
@@ -62,7 +62,7 @@ export const GET: APIRoute = async ({ locals }) => {
           pdf_path
         )
       `)
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .returns<CartItem[]>();
 
     if (error) throw error;

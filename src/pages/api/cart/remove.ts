@@ -7,9 +7,9 @@ const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
 export const POST: APIRoute = async ({ request, locals }) => {
-  const session = locals.session;
+  const user = locals.user;
   
-  if (!session) {
+  if (!user) {
     return new Response(
       JSON.stringify({ message: 'Authentification requise' }), 
       { status: 401 }
@@ -44,7 +44,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       .from('cart_items')
       .select()
       .eq('id', itemId)
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .single();
 
     if (!cartItem) {
@@ -59,7 +59,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       .from('cart_items')
       .delete()
       .eq('id', itemId)
-      .eq('user_id', session.user.id);
+      .eq('user_id', user.id);
 
     if (error) throw error;
 

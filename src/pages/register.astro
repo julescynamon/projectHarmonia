@@ -2,10 +2,9 @@
 // src/pages/register.astro
 import MainLayout from '../layouts/MainLayout.astro';
 import AuthForm from '../components/auth/AuthForm.astro';
-const supabase = Astro.locals.supabase;
-const { data: { session } } = await supabase.auth.getSession();
-if (session) {
-  return Astro.redirect('/boutique');
+const user = Astro.locals.user;
+if (user) {
+  return Astro.redirect('/mon-compte');
 }
 ---
 

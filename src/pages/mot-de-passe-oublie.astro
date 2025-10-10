@@ -2,10 +2,9 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import ForgotPasswordForm from '../components/auth/ForgotPasswordForm.astro';
 
-const supabase = Astro.locals.supabase;
-const { data: { session } } = await supabase.auth.getSession();
+const user = Astro.locals.user;
 
-if (session) {
+if (user) {
   return Astro.redirect('/mon-compte');
 }
 ---

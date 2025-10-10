@@ -2,7 +2,7 @@ import { defineMiddleware } from "astro:middleware";
 import { createServerClient } from "@supabase/ssr";
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  const { cookies, locals } = context;
+  const { cookies, locals, url } = context;
 
   // Créer le client Supabase avec les cookies
   const supabase = createServerClient(
@@ -25,6 +25,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
     locals.user = null;
   }
   locals.supabase = supabase;
+
+  // 🔒 Protéger /mon-compte (et sous-routes éventuelles)
+  if ((url.pathname === "/mon-compte" || url.pathname.startsWith("/mon-compte/")) && !locals.user) {
+    return Response.redirect(
+      new URL(`/login?redirect=${encodeURIComponent(url.pathname)}`, url),
+      302
+    );
+  }
 
   // Continuer vers la page
   const response = await next();

@@ -3,8 +3,8 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 
 export const post: APIRoute = async ({ request, locals }) => {
-    const { data: { session } } = await locals.supabase.auth.getSession();
-    if (!session?.user || session.user.email !== 'tyzranaima@gmail.com') {
+    const user = locals.user;
+    if (!user || user.email !== 'tyzranaima@gmail.com') {
         return new Response(JSON.stringify({ error: 'Non autorisé' }), {
             status: 401,
             headers: { 'Content-Type': 'application/json' }

@@ -1,12 +1,14 @@
 ---
+export const prerender = false;
+
 const supabase = Astro.locals.supabase;
-const session = Astro.locals.session;
+const user = Astro.locals.user;
 
 // Vérification du rôle admin si connecté
 let isAdmin = false;
-if (session?.user?.id) {
+if (user?.id) {
   // Vérification spéciale pour l'admin principal (tyzranaima@gmail.com)
-  const isMainAdmin = session.user.email === 'tyzranaima@gmail.com';
+  const isMainAdmin = user.email === 'tyzranaima@gmail.com';
   
   if (isMainAdmin) {
     isAdmin = true;
@@ -15,7 +17,7 @@ if (session?.user?.id) {
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .maybeSingle();
     isAdmin = profile?.role === 'admin';
   }
@@ -23,9 +25,9 @@ if (session?.user?.id) {
 
 // Stockage des informations d'authentification pour le client
 const authInfo = {
-  isAuthenticated: !!session,
+  isAuthenticated: !!user,
   isAdmin,
-  userId: session?.user?.id
+  userId: user?.id
 };
 
 interface Props {

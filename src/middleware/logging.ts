@@ -25,8 +25,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
     path: requestInfo.pathname,
     userAgent: requestInfo.userAgent,
     ip: requestInfo.ip,
-    userId: context.locals.session?.user?.id,
-    sessionId: context.locals.session?.access_token,
+    userId: context.locals.user?.id,
+    sessionId: context.locals.user?.id,
   };
 
   // Créer le logger avec contexte

@@ -72,7 +72,7 @@ async function handleSignOut({ cookies, locals, request }) {
   ]);
 
   // Nettoyage des locals
-  locals.session = null;
+  locals.user = null;
 
 
   // Redirection vers la page d'accueil avec suppression des cookies

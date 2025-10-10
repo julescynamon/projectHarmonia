@@ -73,7 +73,7 @@ testScenarios.forEach((scenario, index) => {
 console.log('\n🔧 Code de vérification appliqué :');
 console.log('```typescript');
 console.log('// Vérification spéciale pour l\'admin principal');
-console.log('const isMainAdmin = session.user.email === "tyzranaima@gmail.com";');
+console.log('const isMainAdmin = user.email === "tyzranaima@gmail.com";');
 console.log('');
 console.log('if (!isMainAdmin && (profileError || !profile || profile.role !== "admin")) {');
 console.log('  return Astro.redirect("/mon-compte");');

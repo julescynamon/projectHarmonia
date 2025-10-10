@@ -29,7 +29,7 @@ console.log('  ✅ Fallback pour tyzranaima@gmail.com (admin principal)');
 console.log('  ✅ Redirection vers /mon-compte si non autorisé');
 
 console.log('\n🎯 Logique d\'accès :');
-console.log('  1. Si session.user.email === "tyzranaima@gmail.com" → ACCÈS AUTORISÉ');
+console.log('  1. Si user.email === "tyzranaima@gmail.com" → ACCÈS AUTORISÉ');
 console.log('  2. Sinon, vérifier profile.role === "admin" → ACCÈS AUTORISÉ');
 console.log('  3. Sinon → REDIRECTION vers /mon-compte');
 

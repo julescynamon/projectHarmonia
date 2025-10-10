@@ -85,6 +85,93 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="preload" href="/fonts/Raleway-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "La Maison Sattvaïa",
+      "description": description,
+      "url": Astro.site,
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": `${Astro.site}/search?q={search_term_string}`,
+        "query-input": "required name=search_term_string"
+      }
+    })} />
+    
+    <!-- Local Business Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "La Maison Sattvaïa",
+      "description": "Accompagnement holistique unique alliant naturopathie, soins énergétiques et guidance spirituelle pour humains et animaux.",
+      "url": Astro.site,
+      "telephone": "+33 7 67 22 97 43",
+      "email": "contact@maisonsattvaia.fr",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "30760 Salazac",
+        "addressLocality": "Salazac",
+        "addressRegion": "Gard",
+        "postalCode": "30760",
+        "addressCountry": "FR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 44.2333,
+        "longitude": 4.4167
+      },
+      "openingHours": [
+        "Mo-Fr 09:00-18:00",
+        "Sa 09:00-17:00"
+      ],
+      "priceRange": "€€",
+      "image": new URL("/images/og-image.webp", Astro.site).toString(),
+      "logo": new URL("/favicon.svg", Astro.site).toString(),
+      "serviceArea": {
+        "@type": "GeoShape",
+        "description": "Gard, Vaucluse, Drôme, Ardèche"
+      },
+      "areaServed": [
+        {
+          "@type": "GeoCircle",
+          "geoMidpoint": {
+            "@type": "GeoCoordinates",
+            "latitude": 44.2333,
+            "longitude": 4.4167
+          },
+          "geoRadius": 80000
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/maisonsattvaia",
+        "https://www.instagram.com/maisonsattvaia"
+      ]
+    })} />
+    
+    <!-- Services Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Naturopathie et Soins Énergétiques",
+      "description": "Accompagnement holistique personnalisé : naturopathie humaine et animale, soins énergétiques, guidance spirituelle et accompagnement chamanique.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "La Maison Sattvaïa"
+      },
+      "areaServed": "Gard, Vaucluse, Drôme, Ardèche",
+      "availableChannel": {
+        "@type": "ServiceChannel",
+        "serviceType": "Consultation en présentiel ou à distance"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "80",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock"
+      }
+    })} />
   </head>
   <body class="min-h-screen flex flex-col  text-ebony overflow-x-hidden">
     <Navigation />

@@ -75,7 +75,7 @@ async function handleSignOut({ cookies, locals, request }) {
   locals.session = null;
 
 
-  // Redirection vers la page d'accueil avec no-cache et suppression des cookies
+  // Redirection vers la page d'accueil avec suppression des cookies
   const headers = new Headers({
     'Location': '/',
     'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',

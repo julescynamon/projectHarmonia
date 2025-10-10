@@ -1,8 +1,16 @@
 ---
+export const prerender = false;
+
 import MainLayout from '../../layouts/MainLayout.astro';
 import { pageSEO } from '../../lib/seo';
 import Button from '../../components/ui/Button.astro';
 import Card from '../../components/ui/Card.astro';
+
+const breadcrumbItems = [
+  { name: 'Accueil', url: '/' },
+  { name: 'Services', url: '/services' },
+  { name: 'Réserver un accompagnement', url: '/accompagnements/reservation' }
+];
 
 const seo = {
   title: "Réserver un accompagnement - Naima Tyzra",
@@ -104,6 +112,17 @@ const steps = [
 ---
 
 <MainLayout title={seo.title} description={seo.description}>
+  <!-- Breadcrumb Schema.org pour rich snippets -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbItems.map((item, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.name,
+      "item": new URL(item.url, Astro.site).toString()
+    }))
+  })} />
   <div>
     <!-- Hero Section -->
     <section class="relative min-h-screen flex items-center justify-center overflow-hidden pb-16 hero-section">

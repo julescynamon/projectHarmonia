@@ -100,6 +100,29 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // Stocker la session dans les locals
   context.locals.session = session;
 
+  // Log pour diagnostiquer la session
+  const isHomePage = context.url.pathname === '/';
+  if (isHomePage) {
+    console.log('🏠 [MIDDLEWARE_HOME] Page d\'accueil:', {
+      hasSession: !!session,
+      userEmail: session?.user?.email || 'N/A',
+      hasAccessToken: !!context.cookies.get('sb-access-token')?.value,
+      hasRefreshToken: !!context.cookies.get('sb-refresh-token')?.value,
+      cookiesHeader: !!cookiesHeader,
+      pathname: context.url.pathname
+    });
+  }
+  
+  if (session) {
+    console.log('🔐 Session trouvée dans middleware:', {
+      userEmail: session.user?.email,
+      expiresAt: session.expires_at,
+      hasAccessToken: !!session.access_token
+    });
+  } else {
+    console.log('❌ Aucune session dans middleware');
+  }
+
   // Continuer vers la page
   const response = await next();
   

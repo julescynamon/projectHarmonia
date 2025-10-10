@@ -1,4 +1,7 @@
-User-agent: *
+import type { APIRoute } from 'astro';
+
+export const GET: APIRoute = () => {
+  const robotsTxt = `User-agent: *
 Allow: /
 
 # Sitemap principal
@@ -30,4 +33,13 @@ Crawl-delay: 0
 # Spécifique pour Bing
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 1
+Crawl-delay: 1`;
+
+  return new Response(robotsTxt, {
+    status: 200,
+    headers: {
+      'Content-Type': 'text/plain',
+      'Cache-Control': 'public, max-age=3600'
+    }
+  });
+};

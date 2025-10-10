@@ -48,7 +48,7 @@ export function getSecurityConfig(): SecurityConfig {
     contentTypeOptions: "nosniff",
     xssProtection: "1; mode=block",
     referrerPolicy: "strict-origin-when-cross-origin",
-    permissionsPolicy: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), ambient-light-sensor=(), autoplay=(), encrypted-media=(), fullscreen=(), picture-in-picture=(), speaker=(), sync-xhr=(), midi=(), clipboard-read=(), clipboard-write=(), display-capture=(), document-domain=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), publickey-credentials-get=(), screen-wake-lock=(), web-share=(), xr-spatial-tracking=()",
+    permissionsPolicy: "camera=(),microphone=(),geolocation=(),payment=(),usb=(),magnetometer=(),gyroscope=(),accelerometer=(),autoplay=(),encrypted-media=(),fullscreen=(),picture-in-picture=()",
     excludePaths: [
       "/api/health",
       "/_astro/",
@@ -168,7 +168,7 @@ export function getDevelopmentSecurityConfig(): SecurityConfig {
     contentTypeOptions: "nosniff",
     xssProtection: "1; mode=block",
     referrerPolicy: "no-referrer-when-downgrade", // Plus permissif
-    permissionsPolicy: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), ambient-light-sensor=(), autoplay=(), encrypted-media=(), fullscreen=(), picture-in-picture=(), speaker=(), sync-xhr=(), midi=(), clipboard-read=(), clipboard-write=(), display-capture=(), document-domain=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), publickey-credentials-get=(), screen-wake-lock=(), web-share=(), xr-spatial-tracking=()",
+    permissionsPolicy: "camera=(),microphone=(),geolocation=(),payment=(),usb=(),magnetometer=(),gyroscope=(),accelerometer=(),autoplay=(),encrypted-media=(),fullscreen=(),picture-in-picture=()",
     excludePaths: [
       "/api/health",
       "/_astro/",
@@ -190,7 +190,7 @@ export function getProductionSecurityConfig(): SecurityConfig {
     contentTypeOptions: "nosniff",
     xssProtection: "1; mode=block",
     referrerPolicy: "strict-origin-when-cross-origin",
-    permissionsPolicy: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), ambient-light-sensor=(), autoplay=(), encrypted-media=(), fullscreen=(), picture-in-picture=(), speaker=(), sync-xhr=(), midi=(), clipboard-read=(), clipboard-write=(), display-capture=(), document-domain=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), publickey-credentials-get=(), screen-wake-lock=(), web-share=(), xr-spatial-tracking=()",
+    permissionsPolicy: "camera=(),microphone=(),geolocation=(),payment=(),usb=(),magnetometer=(),gyroscope=(),accelerometer=(),autoplay=(),encrypted-media=(),fullscreen=(),picture-in-picture=()",
     excludePaths: [
       "/api/health",
       "/_astro/",

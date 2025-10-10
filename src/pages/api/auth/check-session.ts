@@ -5,6 +5,72 @@ import { extractAndVerifySession } from '../../../lib/auth';
 import { createServerClient } from '../../../lib/supabase';
 import { logger, createContextLogger, logError, type LogContext } from '../../../lib/logger';
 
+export const POST: APIRoute = async ({ request, cookies: astroCookies }) => {
+  const startTime = Date.now();
+  
+  // Créer le contexte de logging
+  const logContext: LogContext = {
+    path: '/api/auth/check-session',
+    method: 'POST',
+    userAgent: request.headers.get('user-agent') || 'Unknown',
+    ip: request.headers.get('x-forwarded-for') || 
+        request.headers.get('x-real-ip') || 
+        'Unknown',
+  };
+
+  const requestLogger = createContextLogger(logContext);
+
+  try {
+    // Récupérer le token depuis le body
+    const body = await request.json();
+    const { access_token } = body;
+
+    if (!access_token) {
+      return new Response(JSON.stringify({
+        valid: false,
+        error: 'No access token provided'
+      }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    // Vérifier le token avec Supabase
+    const supabase = createServerClient('');
+    const { data: { user }, error } = await supabase.auth.getUser(access_token);
+
+    if (error || !user) {
+      return new Response(JSON.stringify({
+        valid: false,
+        error: 'Invalid token'
+      }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    return new Response(JSON.stringify({
+      valid: true,
+      user: {
+        id: user.id,
+        email: user.email
+      }
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+  } catch (error) {
+    return new Response(JSON.stringify({
+      valid: false,
+      error: 'Internal server error'
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+};
+
 export const GET: APIRoute = async ({ request, cookies: astroCookies }) => {
   const startTime = Date.now();
   

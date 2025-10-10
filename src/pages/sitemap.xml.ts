@@ -5,7 +5,6 @@ const pages = [
   '',
   'a-propos',
   'contact',
-  'services',
   'boutique',
   'rendez-vous',
   'blog',

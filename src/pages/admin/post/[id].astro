@@ -12,8 +12,8 @@ import { supabase } from '../../../lib/supabase';
 const { id } = Astro.params;
 
 // Vérification de l'authentification
-const session = Astro.locals.session;
-if (!session?.user?.id) {
+const user = Astro.locals.user;
+if (!user?.id) {
   return Astro.redirect('/login?returnTo=/admin/post/' + id);
 }
 
@@ -21,10 +21,10 @@ if (!session?.user?.id) {
 const { data: profile, error: profileError } = await supabase
   .from('profiles')
   .select('role')
-  .eq('id', session.user.id)
+  .eq('id', user.id)
   .single();
 
-const isMainAdmin = session.user.email === 'tyzranaima@gmail.com';
+const isMainAdmin = user.email === 'tyzranaima@gmail.com';
 if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
   return Astro.redirect('/mon-compte');
 }

@@ -5,21 +5,21 @@ import Layout from '../../layouts/Layout.astro';
 
 // Protection de la route
 const supabase = Astro.locals.supabase;
-const session = Astro.locals.session;
+const user = Astro.locals.user;
 
-if (!session?.user?.id) {
-    return Astro.redirect('/login?returnTo=/admin/boutique');
+if (!user?.id) {
+  return Astro.redirect('/login?returnTo=/admin/boutique');
 }
 
 // Vérification du rôle admin dans la table profiles avec fallback pour l'admin principal
 const { data: profile, error: profileError } = await supabase
     .from('profiles')
     .select('role')
-    .eq('id', session.user.id)
+    .eq('id', user.id)
     .single();
 
 // Vérification spéciale pour l'admin principal (tyzranaima@gmail.com)
-const isMainAdmin = session.user.email === 'tyzranaima@gmail.com';
+const isMainAdmin = user.email === 'tyzranaima@gmail.com';
 
 if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
     return Astro.redirect('/mon-compte');

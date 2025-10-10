@@ -5,9 +5,9 @@ export const prerender = false;
 // src/pages/admin/test.astro
 
 import MainLayout from '../../layouts/MainLayout.astro';
-const session = Astro.locals.session;
+const user = Astro.locals.user;
 
-console.log('[ADMIN_TEST] Session:', session?.user?.email);
+console.log('[ADMIN_TEST] User:', user?.email);
 console.log('[ADMIN_TEST] URL:', Astro.url.pathname);
 ---
 

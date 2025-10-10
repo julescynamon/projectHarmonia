@@ -6,11 +6,11 @@ import Card from '../../components/ui/Card.astro';
 
 // Vérification supplémentaire en plus du middleware
 const supabase = Astro.locals.supabase;
-const session = Astro.locals.session;
+const user = Astro.locals.user;
 
 // La vérification admin est déjà gérée par le middleware, mais nous ajoutons
 // une vérification explicite pour plus de cohérence et de sécurité
-if (!session?.user?.id) {
+if (!user?.id) {
   return Astro.redirect('/login?returnTo=/admin/disponibilites');
 }
 
@@ -18,11 +18,11 @@ if (!session?.user?.id) {
 const { data: profile, error: profileError } = await supabase
   .from('profiles')
   .select('role')
-  .eq('id', session.user.id)
+  .eq('id', user.id)
   .single();
 
 // Vérification spéciale pour l'admin principal (tyzranaima@gmail.com)
-const isMainAdmin = session.user.email === 'tyzranaima@gmail.com';
+const isMainAdmin = user.email === 'tyzranaima@gmail.com';
 
 if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
   return Astro.redirect('/mon-compte');

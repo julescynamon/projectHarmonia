@@ -4,9 +4,9 @@ import type { APIRoute } from 'astro';
 import { createServiceClient } from '../../../lib/supabase';
 
 export const POST: APIRoute = async ({ request, locals }) => {
-  const session = locals.session;
+  const user = locals.user;
   
-  if (!session?.user?.id) {
+  if (!user?.id) {
     return new Response(
       JSON.stringify({ message: 'Authentification requise' }), 
       { status: 401 }
@@ -15,7 +15,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
 
   // Créer un client Supabase avec le token d'accès
-  const supabase = createServiceClient(session.access_token);
+  const supabase = createServiceClient();
 
   try {
     const { productId } = await request.json();
@@ -42,7 +42,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const { data: existingItem, error: selectError } = await supabase
       .from('cart_items')
       .select()
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .eq('product_id', productId)
       .single();
 
@@ -82,7 +82,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       const { data: insertData, error: insertError } = await supabase
         .from('cart_items')
         .insert({
-          user_id: session.user.id,
+          user_id: user.id,
           product_id: productId,
           quantity: 1
         })

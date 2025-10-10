@@ -34,7 +34,7 @@ const { data: post, error } = await supabase
   .from('posts')
   .select('*')
   .eq('id', id)
-  .eq('author_id', session.user.id)
+  .eq('author_id', user.id)
   .single();
 
 // Si l'article n'existe pas ou n'appartient pas à l'utilisateur
@@ -98,7 +98,7 @@ const initialData = {
       client:load
       initialData={initialData}
       postId={id}
-      userId={session.user.id}
+      userId={user.id}
       onSave={async (postData) => {
         try {
           const response = await fetch(`/api/posts/${id}`, {
@@ -108,7 +108,7 @@ const initialData = {
             },
             body: JSON.stringify({
               ...postData,
-              author_id: session.user.id
+              author_id: user.id
             })
           });
           
@@ -130,7 +130,7 @@ const initialData = {
             },
             body: JSON.stringify({
               ...postData,
-              author_id: session.user.id
+              author_id: user.id
             })
           });
           
@@ -150,7 +150,7 @@ const initialData = {
       }}
     />
 
-    <script define:vars={{ postId: id, userId: session.user.id }}>
+    <script define:vars={{ postId: id, userId: user.id }}>
       console.log('Script de la page Astro chargé');
       console.log('ID de l\'article:', postId);
       console.log('User ID:', userId);

@@ -3,22 +3,8 @@ import Button from "./ui/Button.astro";
 import AuthButton from '../components/navigation/AuthButton.astro';
 import CartIcon from './shop/CartIcon.astro';
 
-// Récupération de la session depuis Astro.locals
-const session = Astro.locals.session;
-
-// Log pour diagnostiquer le menu mobile sur la page d'accueil
-if (Astro.url.pathname === '/') {
-  console.log('[NAVIGATION_HOME] Navigation sur page d\'accueil:', {
-    hasSession: !!session,
-    userEmail: session?.user?.email || 'N/A',
-    pathname: Astro.url.pathname,
-    sessionDetails: session ? {
-      userId: session.user?.id,
-      email: session.user?.email,
-      expiresAt: session.expires_at
-    } : null
-  });
-}
+// Récupération de l'utilisateur depuis Astro.locals
+const user = Astro.locals.user;
 
 // Nouvelle structure de navigation avec les menus déroulants
 interface NavLink {
@@ -125,7 +111,7 @@ const navLinks: NavLink[] = [
         <div class="hidden xl:flex items-center space-x-3 min-w-0">
           <div class="flex items-center gap-4">
             <CartIcon />
-            <AuthButton session={session} />
+            <AuthButton user={user} />
           </div>
         </div>
 
@@ -233,8 +219,8 @@ const navLinks: NavLink[] = [
           </div>
         ))}
         <!-- Boutons d'action dans le menu mobile -->
-        <div class="w-full border-t border-gray-200 pt-6 flex flex-col items-center gap-4" data-session={JSON.stringify(!!session)} data-user-email={session?.user?.email || ''}>
-          <AuthButton session={session} />
+        <div class="w-full border-t border-gray-200 pt-6 flex flex-col items-center gap-4" data-user={JSON.stringify(!!user)} data-user-email={user?.email || ''}>
+          <AuthButton user={user} />
         </div>
       </div>
     </div>

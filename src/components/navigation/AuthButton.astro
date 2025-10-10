@@ -1,31 +1,13 @@
 ---
 // Interface pour les props
 interface Props {
-  session?: any;
+  user?: any;
 }
 
-// Récupération de la session via props OU Astro.locals (fallback)
-const { session: propSession } = Astro.props;
-const session = propSession || Astro.locals.session;
-const isAuthenticated = !!session;
-
-// Log pour diagnostiquer (desktop + mobile)
-if (Astro.url.pathname === '/') {
-  console.log('[AUTHBUTTON_HOME] AuthButton sur page d\'accueil:', {
-    hasSession: !!session,
-    hasPropsSession: !!propSession,
-    hasLocalsSession: !!Astro.locals.session,
-    isAuthenticated,
-    userEmail: session?.user?.email || 'N/A',
-    source: propSession ? 'props' : 'locals',
-    sessionDetails: session ? {
-      userId: session.user?.id,
-      email: session.user?.email,
-      expiresAt: session.expires_at,
-      hasAccessToken: !!session.access_token
-    } : null
-  });
-}
+// Récupération de l'utilisateur depuis Astro.locals (SSR uniquement)
+const { user: propUser } = Astro.props;
+const user = propUser || Astro.locals.user;
+const isAuthenticated = !!user;
 
 // Classes communes pour les boutons
 const commonButtonClasses = "font-slogan text-sm tracking-wide transition-colors duration-200 flex items-center gap-2 logout-button";
@@ -54,14 +36,15 @@ const commonButtonClasses = "font-slogan text-sm tracking-wide transition-colors
           />
         </svg>
       </a>
-      <a
-        href="/api/auth/signout"
-        class={`${commonButtonClasses}`} 
-        aria-label="Déconnexion"
-        onclick="localStorage.clear(); sessionStorage.clear();"
-      >
-        Déconnexion
-      </a>
+      <form method="post" action="/logout" class="inline">
+        <button
+          type="submit"
+          class={`${commonButtonClasses}`} 
+          aria-label="Déconnexion"
+        >
+          Déconnexion
+        </button>
+      </form>
     </>
   ) : (
     <a

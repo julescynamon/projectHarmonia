@@ -103,6 +103,7 @@
     "@fontsource/raleway": "^5.1.1",
     "@highlight-run/node": "^3.12.15",
     "@stripe/stripe-js": "^2.3.0",
+    "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.48.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/typography": "^0.5.10",

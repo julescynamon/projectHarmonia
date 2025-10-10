@@ -13,10 +13,10 @@ export const PUT: APIRoute = async ({ request, params, locals }) => {
   
   try {
     // Vérifier l'authentification
-    const session = locals.session;
-    console.log('Session:', { hasSession: !!session, userId: session?.user?.id });
+    const user = locals.user;
+    console.log('User:', { hasUser: !!user, userId: user?.id });
     
-    if (!session?.user?.id) {
+    if (!user?.id) {
       console.log('Non authentifié');
       return new Response(JSON.stringify({ 
         success: false, 
@@ -160,13 +160,13 @@ export const DELETE: APIRoute = async ({ params, locals }) => {
     console.log('DELETE endpoint appelé avec params:', params);
     
     // Vérifier l'authentification
-    const session = locals.session;
-    console.log('Session utilisateur:', {
-      hasSession: !!session,
-      userId: session?.user?.id,
-      email: session?.user?.email
+    const user = locals.user;
+    console.log('User:', {
+      hasUser: !!user,
+      userId: user?.id,
+      email: user?.email
     });
-    if (!session?.user?.id) {
+    if (!user?.id) {
       return new Response(JSON.stringify({ 
         success: false, 
         error: 'Non authentifié' 

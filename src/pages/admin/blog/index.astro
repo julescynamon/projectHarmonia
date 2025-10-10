@@ -48,7 +48,7 @@ if (isMainAdmin) {
 const { data: posts } = await supabase
   .from('posts')
   .select('*')
-  .eq('author_id', session.user.id)
+  .eq('author_id', user.id)
   .order('created_at', { ascending: false });
 ---
 
@@ -63,17 +63,17 @@ const { data: posts } = await supabase
     <div class="space-y-6 bg-white shadow-sm ring-1 ring-gray-900/5 p-6 rounded-lg mb-8">
       <h2 class="text-xl font-semibold text-gray-900 mb-4">Créer un nouvel article</h2>
       
-      <script define:vars={{ userId: session.user.id }}>
+      <script define:vars={{ userId: user.id }}>
         window.currentUserId = userId;
       </script>
       
       <PostEditor 
         client:load
         postId={null}
-        userId={session.user.id}
+        userId={user.id}
         onSave={async (postData) => {
           try {
-            const userId = session.user.id;
+            const userId = user.id;
             const response = await fetch('/api/posts/create', {
               method: 'POST',
               headers: {
@@ -97,7 +97,7 @@ const { data: posts } = await supabase
         }}
         onPublish={async (postData) => {
           try {
-            const userId = session.user.id;
+            const userId = user.id;
             const response = await fetch('/api/posts/create', {
               method: 'POST',
               headers: {

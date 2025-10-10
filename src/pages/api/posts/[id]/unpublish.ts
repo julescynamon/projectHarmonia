@@ -10,8 +10,8 @@ import { PostsService } from '../../../../lib/posts-service';
 export const POST: APIRoute = async ({ params, locals }) => {
   try {
     // Vérifier l'authentification
-    const session = locals.session;
-    if (!session?.user?.id) {
+    const user = locals.user;
+    if (!user?.id) {
       return new Response(JSON.stringify({ 
         success: false, 
         error: 'Non authentifié' 

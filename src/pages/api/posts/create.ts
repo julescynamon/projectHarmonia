@@ -12,10 +12,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
   
   try {
     // Vérifier l'authentification
-    const session = locals.session;
-    console.log('Session:', { hasSession: !!session, userId: session?.user?.id });
+    const user = locals.user;
+    console.log('User:', { hasUser: !!user, userId: user?.id });
     
-    if (!session?.user?.id) {
+    if (!user?.id) {
       console.log('Non authentifié');
       return new Response(JSON.stringify({ 
         success: false, 
@@ -109,7 +109,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       .insert({
         ...postData,
         slug: finalSlug,
-        author_id: session.user.id
+        author_id: user.id
       })
       .select()
       .single();

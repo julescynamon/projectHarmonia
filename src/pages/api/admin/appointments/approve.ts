@@ -22,11 +22,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const { data: profile, error: profileError } = await locals.supabase
       .from('profiles')
       .select('role')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single();
 
     // Vérification spéciale pour l'admin principal (tyzranaima@gmail.com)
-    const isMainAdmin = session.user.email === 'tyzranaima@gmail.com';
+    const isMainAdmin = user.email === 'tyzranaima@gmail.com';
 
     if (!isMainAdmin && (profileError || !profile || profile.role !== 'admin')) {
       return new Response(

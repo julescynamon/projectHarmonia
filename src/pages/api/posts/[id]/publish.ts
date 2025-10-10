@@ -49,7 +49,7 @@ export const POST: APIRoute = async ({ params, locals }) => {
       });
     }
 
-    if (existingPost.author_id !== session.user.id) {
+    if (existingPost.author_id !== user.id) {
       return new Response(JSON.stringify({ 
         success: false, 
         error: 'Non autorisé' 

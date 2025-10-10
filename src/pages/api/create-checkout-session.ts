@@ -48,7 +48,7 @@ export const POST: APIRoute = async ({ request }) => {
           quantity: item.quantity,
       })),
       mode: 'payment',
-      client_reference_id: session.user.id,
+      client_reference_id: user.id,
       success_url: `${import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321'}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321'}/boutique`,
     });

@@ -26,7 +26,7 @@ export const GET: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    const downloadUrl = await getDownloadUrl(productId, orderId, session.user.id);
+    const downloadUrl = await getDownloadUrl(productId, orderId, user.id);
 
     return new Response(JSON.stringify({ url: downloadUrl }), {
       status: 200,

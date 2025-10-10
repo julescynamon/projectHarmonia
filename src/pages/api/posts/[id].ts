@@ -80,9 +80,9 @@ export const PUT: APIRoute = async ({ request, params, locals }) => {
       });
     }
 
-    console.log('Article trouvé, author_id:', existingPost.author_id, 'session.user.id:', session.user.id);
+    console.log('Article trouvé, author_id:', existingPost.author_id, 'user.id:', user.id);
     
-    if (existingPost.author_id !== session.user.id) {
+    if (existingPost.author_id !== user.id) {
       console.log('Non autorisé: l\'article n\'appartient pas à l\'utilisateur');
       return new Response(JSON.stringify({ 
         success: false, 
@@ -116,7 +116,7 @@ export const PUT: APIRoute = async ({ request, params, locals }) => {
       .from('posts')
       .update({
         ...postData,
-        author_id: session.user.id,
+        author_id: user.id,
         updated_at: new Date().toISOString()
       })
       .eq('id', id)
@@ -224,10 +224,10 @@ export const DELETE: APIRoute = async ({ params, locals }) => {
       });
     }
 
-    console.log('Article trouvé, author_id:', existingPost.author_id, 'session.user.id:', session.user.id);
+    console.log('Article trouvé, author_id:', existingPost.author_id, 'user.id:', user.id);
     
     // Temporairement désactiver la vérification d'autorisation pour le débogage
-    if (existingPost.author_id && existingPost.author_id !== session.user.id) {
+    if (existingPost.author_id && existingPost.author_id !== user.id) {
       console.log('Non autorisé: l\'article n\'appartient pas à l\'utilisateur');
       return new Response(JSON.stringify({ 
         success: false, 

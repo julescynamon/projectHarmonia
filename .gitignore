@@ -168,3 +168,7 @@ config.local.*
 
 .vercel
 dist
+
+# build artifacts
+.vercel/output
+dist

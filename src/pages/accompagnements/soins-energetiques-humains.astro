@@ -5,6 +5,8 @@ export const prerender = false;
 import MainLayout from '../../layouts/MainLayout.astro';
 import Button from '../../components/ui/Button.astro';
 import Card from '../../components/ui/Card.astro';
+import InternalLink from '../../components/InternalLink.astro';
+import RelatedLinks from '../../components/RelatedLinks.astro';
 
 const breadcrumbItems = [
   { name: 'Accueil', url: '/' },
@@ -260,7 +262,7 @@ const structuredData = {
             <div class="max-w-6xl mx-auto mb-12" data-aos="fade-up" data-aos-delay="200">
               <div class="bg-gradient-to-br from-sage/10 to-eucalyptus/10 rounded-2xl p-8 border border-sage/20">
                 <p class="font-body text-xl text-ebony/90 leading-relaxed text-center italic">
-                  "Les soins énergétiques s'adressent à toute personne qui souhaite rééquilibrer ses centres énergétiques, libérer ses blocages émotionnels et retrouver harmonie et vitalité intérieure..."
+                  "Les soins énergétiques s'adressent à toute personne qui souhaite rééquilibrer ses centres énergétiques, libérer ses blocages émotionnels et retrouver harmonie et vitalité intérieure. Cette approche énergétique peut être complétée par une <InternalLink href="/accompagnements/naturopathie-humaine" label="approche naturopathique" /> pour un accompagnement encore plus complet."
                 </p>
               </div>
             </div>
@@ -1231,4 +1233,20 @@ const structuredData = {
       }, 4000);
     });
   </script>
+
+  <!-- Bloc "Pour aller plus loin" -->
+  <div class="py-16 bg-gradient-to-br from-cream via-white to-sage/5">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <RelatedLinks 
+          title="Découvrir nos autres accompagnements"
+          links={[
+            { href: "/accompagnements/naturopathie-humaine", label: "Naturopathie humaine", desc: "Approche naturelle complète pour votre bien-être" },
+            { href: "/accompagnements/naturopathie-animale", label: "Naturopathie animale", desc: "Pour soutenir la santé de vos compagnons" },
+            { href: "/blog", label: "Notre blog", desc: "Conseils énergétiques et bien-être holistique" }
+          ]}
+        />
+      </div>
+    </div>
+  </div>
 </MainLayout>

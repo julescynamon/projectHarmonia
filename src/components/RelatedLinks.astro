@@ -1,0 +1,31 @@
+---
+// src/components/RelatedLinks.astro
+// Composant pour le bloc "Pour aller plus loin"
+
+import InternalLink from './InternalLink.astro';
+
+interface Link {
+  href: string;
+  label: string;
+  desc?: string;
+}
+
+interface Props {
+  title?: string;
+  links: Link[];
+}
+
+const { title = "Pour aller plus loin", links } = Astro.props;
+---
+
+<section aria-labelledby="more-links" class="mt-10">
+  <h2 id="more-links" class="text-base font-medium mb-3 text-ebony">{title}</h2>
+  <ul class="space-y-1">
+    {links.map((link) => (
+      <li>
+        <InternalLink href={link.href} label={link.label} />
+        {link.desc && <span class="block text-sm opacity-80 text-ebony/70 mt-1">{link.desc}</span>}
+      </li>
+    ))}
+  </ul>
+</section>

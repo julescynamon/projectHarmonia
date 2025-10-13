@@ -4,6 +4,8 @@ import { pageSEO } from '../../lib/seo';
 import Button from '../../components/ui/Button.astro';
 import Card from '../../components/ui/Card.astro';
 import NewsletterForm from '../../components/NewsletterForm.astro';
+import InternalLink from '../../components/InternalLink.astro';
+import RelatedLinks from '../../components/RelatedLinks.astro';
 import { supabase } from '../../lib/supabase';
 import { BLOG_CATEGORIES } from '../../lib/constants';
 
@@ -106,7 +108,7 @@ function formatDate(dateStr: string) {
           </h1>
           
           <p class="font-slogan text-xl md:text-2xl mb-12 text-ebony/80 leading-relaxed max-w-4xl mx-auto drop-shadow-[0_2px_4px_rgba(255,255,255,0.2)] italic" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
-            "Des conseils pour prendre soin de l’humain, de l’animal et de l’âme, au naturel et en profondeur."
+            "Des conseils pour prendre soin de l'humain, de l'animal et de l'âme, au naturel et en profondeur. Découvrez nos <InternalLink href="/accompagnements/naturopathie-humaine" label="accompagnements naturopathiques" /> et <InternalLink href="/accompagnements/soins-energetiques-humains" label="soins énergétiques" /> pour un bien-être complet."
           </p>
         </div>
         
@@ -245,6 +247,22 @@ function formatDate(dateStr: string) {
             📧 Notification instantanée • 🚫 Désinscription en 1 clic • 🔒 Vos données protégées
           </p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bloc "Pour aller plus loin" -->
+  <section class="py-16 bg-gradient-to-br from-cream via-white to-sage/5">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <RelatedLinks 
+          title="Découvrir nos accompagnements"
+          links={[
+            { href: "/accompagnements/naturopathie-humaine", label: "Naturopathie humaine", desc: "Retrouver équilibre et vitalité naturellement" },
+            { href: "/accompagnements/naturopathie-animale", label: "Naturopathie animale", desc: "Soutenir la santé de vos compagnons" },
+            { href: "/accompagnements/soins-energetiques-humains", label: "Soins énergétiques humains", desc: "Harmonisation et rééquilibrage énergétique" }
+          ]}
+        />
       </div>
     </div>
   </section>

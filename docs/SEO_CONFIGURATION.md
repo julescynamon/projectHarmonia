@@ -93,7 +93,7 @@ PUBLIC_TWITTER_URL=https://twitter.com/maisonsattvaia
 ## Pages optimisées
 
 1. **Accueil** - Mots-clés : naturopathie, soins énergétiques
-2. **À propos** - Mots-clés : naima tyzra, parcours naturopathie
+2. **À propos** - Mots-clés : aïa, parcours naturopathie
 3. **Services** - Mots-clés : services naturopathie, consultation
 4. **Contact** - Mots-clés : rendez-vous naturopathie, contact
 5. **Blog** - Mots-clés : blog naturopathie, conseils bien-être

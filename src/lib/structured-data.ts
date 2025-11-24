@@ -160,7 +160,7 @@ export function getServicesData(): ServiceData[] {
       description: "Accompagnement naturopathique personnalisé pour retrouver l'équilibre naturel de votre corps et de votre esprit.",
       provider: {
         "@type": "Person",
-        name: "Naima Tyzra"
+        name: "Aïa"
       },
       areaServed: "Gard, Vaucluse, Drôme, Ardèche",
       availableChannel: {
@@ -180,7 +180,7 @@ export function getServicesData(): ServiceData[] {
       description: "Soins naturopathiques spécialisés pour le bien-être et la santé naturelle de vos animaux de compagnie.",
       provider: {
         "@type": "Person",
-        name: "Naima Tyzra"
+        name: "Aïa"
       },
       areaServed: "Gard, Vaucluse, Drôme, Ardèche",
       availableChannel: {
@@ -200,7 +200,7 @@ export function getServicesData(): ServiceData[] {
       description: "Soins énergétiques et chamaniques pour rééquilibrer vos corps subtils et libérer les blocages énergétiques.",
       provider: {
         "@type": "Person",
-        name: "Naima Tyzra"
+        name: "Aïa"
       },
       areaServed: "Gard, Vaucluse, Drôme, Ardèche",
       availableChannel: {
@@ -220,7 +220,7 @@ export function getServicesData(): ServiceData[] {
       description: "Soins énergétiques spécialisés pour animaux, communication intuitive et rééquilibrage des corps subtils.",
       provider: {
         "@type": "Person",
-        name: "Naima Tyzra"
+        name: "Aïa"
       },
       areaServed: "Gard, Vaucluse, Drôme, Ardèche",
       availableChannel: {
@@ -240,7 +240,7 @@ export function getServicesData(): ServiceData[] {
       description: "Guidance spirituelle personnalisée pour découvrir votre mission d'âme et votre chemin de vie.",
       provider: {
         "@type": "Person",
-        name: "Naima Tyzra"
+        name: "Aïa"
       },
       areaServed: "Gard, Vaucluse, Drôme, Ardèche",
       availableChannel: {

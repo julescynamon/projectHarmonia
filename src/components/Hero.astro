@@ -50,17 +50,11 @@ import Button from './ui/Button.astro';
     <div class="max-w-6xl mx-auto">
       <!-- En-tête -->
       <div class="text-center mb-16">
-        <h1 class="font-heading text-5xl md:text-8xl text-white mb-24 tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)] animate-title-fade-in">
-          Maison SATTVAÏA
+        <h1 class="font-heading text-4xl md:text-6xl text-white mb-16 tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)] animate-title-fade-in">
+          <div class="block">Maison SATTVAÏA,</div>
+          <div class="block mt-6 text-2xl md:text-3xl italic opacity-90">Un espace d'harmonie et de guérison</div>
         </h1>
         
-      </div>
-
-      <!-- Citation inspirante -->
-      <div class="text-center mb-24">
-        <blockquote class="text-2xl md:text-3xl text-white italic font-light max-w-3xl mx-auto leading-relaxed animate-quote-fade-in">
-          "Un lieu de reconnexion où corps, énergie et âme retrouvent équilibre, harmonie et clarté intérieure."
-        </blockquote>
       </div>
     </div>
   </div>
@@ -110,16 +104,6 @@ import Button from './ui/Button.astro';
     }
   }
 
-  @keyframes quote-fade-in {
-    0% { 
-      opacity: 0; 
-      transform: translateY(20px) scale(0.99); 
-    }
-    100% { 
-      opacity: 1; 
-      transform: translateY(0) scale(1); 
-    }
-  }
 
   @keyframes wave {
     0% { transform: translateX(0) translateY(0); }
@@ -149,10 +133,6 @@ import Button from './ui/Button.astro';
     animation: subtitle-fade-in 1.2s ease-out 0.8s forwards;
   }
 
-  .animate-quote-fade-in {
-    opacity: 0;
-    animation: quote-fade-in 1.2s ease-out 1.6s forwards;
-  }
 
   .animate-wave {
     animation: wave 8s ease-in-out infinite;

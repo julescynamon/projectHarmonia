@@ -11,10 +11,7 @@ const contactInfo = {
   address: '30760 Salazac',
   email: 'contact@maisonsattvaia.fr',
   phone: '07 67 22 97 43',
-  siret: 'À compléter selon votre situation',
-  rcs: 'À compléter selon votre situation',
-  capital: 'À compléter selon votre situation',
-  tva: 'À compléter selon votre situation'
+  siret: '538 546 912 00022',
 };
 
 const services = [
@@ -28,25 +25,19 @@ const services = [
     name: 'Consultation Naturopathie Animale',
     description: 'Accompagnement naturel pour vos animaux',
     duration: '1h',
-    price: '120€'
-  },
-  {
-    name: 'Soins Chamaniques',
-    description: 'Soins énergétiques et rituels de guérison',
-    duration: '1h30',
-    price: '180€'
+    price: '80€'
   },
   {
     name: 'Nettoyage Énergétique',
     description: 'Purification des lieux et des énergies',
     duration: '2h',
-    price: '200€'
+    price: '90€'
   },
   {
     name: 'Accompagnement Personnalisé',
     description: 'Suivi sur plusieurs séances',
     duration: 'Variable',
-    price: 'Sur devis'
+    price: '70'
   }
 ];
 ---
@@ -110,9 +101,6 @@ const services = [
               <p><strong class="text-ebony">Email :</strong> <a href={`mailto:${contactInfo.email}`} class="text-sage hover:text-gold transition-colors">{contactInfo.email}</a></p>
               <p><strong class="text-ebony">Téléphone :</strong> <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} class="text-sage hover:text-gold transition-colors">{contactInfo.phone}</a></p>
               <p><strong class="text-ebony">SIRET :</strong> {contactInfo.siret}</p>
-              <p><strong class="text-ebony">RCS :</strong> {contactInfo.rcs}</p>
-              <p><strong class="text-ebony">Capital social :</strong> {contactInfo.capital}</p>
-              <p><strong class="text-ebony">TVA intracommunautaire :</strong> {contactInfo.tva}</p>
             </div>
           </div>
         </div>

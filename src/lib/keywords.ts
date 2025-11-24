@@ -26,10 +26,10 @@ export const keywords: Record<string, KeywordData> = {
     ]
   },
   about: {
-    primary: "naima tyzra naturopathe",
+    primary: "aïa naturopathe",
     secondary: ["parcours naturopathie", "spécialiste soins énergétiques", "accompagnement spirituel"],
     longTail: [
-      "naima tyzra naturopathe expérience",
+      "aïa naturopathe expérience",
       "parcours professionnel naturopathie",
       "spécialiste soins énergétiques animaux"
     ],

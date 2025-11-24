@@ -37,6 +37,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <!doctype html>
 <html lang="fr" class="scroll-smooth">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SM770CEFD5"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-SM770CEFD5');
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
@@ -49,7 +58,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, Astro.site)} />
-    <meta property="og:site_name" content="Naima Tyzra - Naturopathe" />
+    <meta property="og:site_name" content="Aïa - Naturopathe" />
     <meta property="og:locale" content="fr_FR" />
 
     <!-- Twitter Cards -->
@@ -63,7 +72,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:domain" content="maisonsattvaia.fr" />
 
     <!-- Other meta tags -->
-    <meta name="author" content="Naima Tyzra" />
+    <meta name="author" content="Aïa" />
     <meta name="robots" content="index, follow" />
     <meta name="keywords" content="naturopathie, santé naturelle, bien-être, soins énergétiques, accompagnement holistique, naturopathie animale" />
     <meta name="theme-color" content="#4A6741" />

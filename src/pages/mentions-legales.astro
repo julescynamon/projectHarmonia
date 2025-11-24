@@ -11,10 +11,6 @@ const contactInfo = {
   address: '30760 Salazac',
   email: 'contact@maisonsattvaia.fr',
   phone: '07 67 22 97 43',
-  siret: 'À compléter selon votre situation',
-  rcs: 'À compléter selon votre situation',
-  capital: 'À compléter selon votre situation',
-  tva: 'À compléter selon votre situation'
 };
 
 const hostInfo = {
@@ -64,11 +60,10 @@ const hostInfo = {
               <p><strong class="text-ebony">Dénomination commerciale :</strong> {contactInfo.businessName}</p>
               <p><strong class="text-ebony">Adresse :</strong> {contactInfo.address}</p>
               <p><strong class="text-ebony">Téléphone :</strong> <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} class="text-sage hover:text-gold transition-colors">{contactInfo.phone}</a></p>
-              <p><strong class="text-ebony">Email :</strong> <a href={`mailto:${contactInfo.email}`} class="text-sage hover:text-gold transition-colors">{contactInfo.email}</a></p>
-              <p><strong class="text-ebony">SIRET :</strong> {contactInfo.siret}</p>
-              <p><strong class="text-ebony">RCS :</strong> {contactInfo.rcs}</p>
-              <p><strong class="text-ebony">Capital social :</strong> {contactInfo.capital}</p>
-              <p><strong class="text-ebony">TVA intracommunautaire :</strong> {contactInfo.tva}</p>
+              <p>
+                <strong class="text-ebony">Email :</strong> 
+                <a href={`mailto:${contactInfo.email}`} class="text-sage hover:text-gold transition-colors">{contactInfo.email}</a>
+              </p>
             </div>
           </div>
         </div>

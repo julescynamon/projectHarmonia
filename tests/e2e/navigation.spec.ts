@@ -6,10 +6,10 @@ test.describe('Navigation générale', () => {
     await page.goto('/');
     
     // Vérifier le titre de la page d'accueil
-    await expect(page).toHaveTitle(/Naima Tyzra/);
+    await expect(page).toHaveTitle(/Aïa/);
     
     // Vérifier la présence du logo
-    await expect(page.locator('img[alt="Naima Tyzra"]')).toBeVisible();
+    await expect(page.locator('img[alt="Aïa"]')).toBeVisible();
     
     // Navigation vers À propos
     await page.click('a[href="/a-propos"]');

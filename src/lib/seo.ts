@@ -14,7 +14,7 @@ export interface SEO {
 }
 
 export const defaultSEO: SEOProps = {
-  title: 'La Maison Sattvaïa - Naima Tyzra | Naturopathie & Soins Énergétiques',
+  title: 'La Maison Sattvaïa - Aïa | Naturopathie & Soins Énergétiques',
   description: 'Découvrez La Maison Sattvaïa : accompagnement holistique unique alliant naturopathie, soins énergétiques et guidance spirituelle pour humains et animaux.',
   image: '/images/heroblogbg.webp'
 };
@@ -66,15 +66,15 @@ export const pageSEO: Record<string, SEOProps> = {
     description: 'Prenez rendez-vous pour une lecture d\'âme personnalisée et découvrez votre chemin de vie, vos missions d\'âme et votre potentiel spirituel.',
   },
   mentionsLegales: {
-    title: 'Mentions Légales | Maison Sattvaïa - Naima Tyzra',
+    title: 'Mentions Légales | Maison Sattvaïa - Aïa',
     description: 'Mentions légales et conditions d\'utilisation du site La Maison Sattvaïa. Informations sur l\'éditeur, protection des données personnelles et droits d\'utilisation.',
   },
   politiqueConfidentialite: {
-    title: 'Politique de Confidentialité | Maison Sattvaïa - Naima Tyzra',
+    title: 'Politique de Confidentialité | Maison Sattvaïa - Aïa',
     description: 'Politique de confidentialité et protection des données personnelles. Découvrez comment La Maison Sattvaïa collecte, utilise et protège vos informations conformément au RGPD.',
   },
   cgv: {
-    title: 'Conditions Générales de Vente | Maison Sattvaïa - Naima Tyzra',
+    title: 'Conditions Générales de Vente | Maison Sattvaïa - Aïa',
     description: 'Conditions générales de vente et d\'utilisation des services de naturopathie, soins énergétiques et accompagnement holistique de La Maison Sattvaïa.',
   }
 };

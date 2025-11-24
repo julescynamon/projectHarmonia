@@ -19,6 +19,12 @@ Disallow: /api/
 Disallow: /_astro/
 Disallow: /node_modules/
 
+# Prevent indexing of legal pages
+Disallow: /politique-confidentialite
+Disallow: /cgv
+Disallow: /mentions-legales
+
+
 # Allow important pages
 Allow: /accompagnements/
 Allow: /blog/

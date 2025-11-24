@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getCollection } from 'astro:content';
+import { supabase } from '../lib/supabase';
 
 const pages = [
   '',
@@ -22,8 +22,23 @@ const pages = [
 export const GET: APIRoute = async ({ site }) => {
   if (!site) throw new Error('site is undefined');
 
-  // Get all blog posts
-  const posts = await getCollection('blog');
+  // Get all published blog posts from Supabase
+  let posts: Array<{ slug: string; published_at: string | null; updated_at: string | null }> = [];
+  try {
+    const { data, error } = await supabase
+      .from('posts')
+      .select('slug, published_at, updated_at')
+      .eq('status', 'published')
+      .order('published_at', { ascending: false });
+    
+    if (error) {
+      console.error('Error fetching blog posts for sitemap:', error);
+    } else if (data) {
+      posts = data;
+    }
+  } catch (error) {
+    console.error('Error in sitemap blog posts fetch:', error);
+  }
   
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -67,14 +82,17 @@ export const GET: APIRoute = async ({ site }) => {
         })
         .join('')}
       ${posts
-        .map((post) => `
+        .map((post) => {
+          const lastmod = post.updated_at || post.published_at || new Date().toISOString();
+          return `
           <url>
             <loc>${new URL(`blog/${post.slug}`, site).toString()}</loc>
-            <lastmod>${post.data.updatedDate?.toISOString() || post.data.publishDate.toISOString()}</lastmod>
+            <lastmod>${new Date(lastmod).toISOString()}</lastmod>
             <changefreq>monthly</changefreq>
             <priority>0.7</priority>
           </url>
-        `)
+        `;
+        })
         .join('')}
     </urlset>`;
 

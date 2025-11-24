@@ -4,7 +4,7 @@
 
 ### Images de la page d'accueil
 
-- **Hero image** : `alt="Naima Tyzra, naturopathe à Bollène pratiquant un soin énergétique holistique"`
+- **Hero image** : `alt="Aïa, naturopathe à Bollène pratiquant un soin énergétique holistique"`
 - **Image dimensions** : `alt="Les trois dimensions de l'accompagnement : corps, énergie et âme à La Maison Sattvaïa"`
 - **Image témoignages** : `alt="Témoignages clients satisfaits des soins naturopathie et énergétiques"`
 
@@ -17,13 +17,13 @@
 
 ### Images du blog
 
-- **Articles naturopathie** : `alt="Article naturopathie et bien-être naturel par Naima Tyzra"`
+- **Articles naturopathie** : `alt="Article naturopathie et bien-être naturel par Aïa"`
 - **Conseils soins énergétiques** : `alt="Conseils pratiques soins énergétiques et développement spirituel"`
 
 ### Images de contact
 
 - **Localisation** : `alt="La Maison Sattvaïa située à Bollène dans le Vaucluse"`
-- **Contact** : `alt="Contactez Naima Tyzra naturopathe à Bollène pour vos rendez-vous"`
+- **Contact** : `alt="Contactez Aïa naturopathe à Bollène pour vos rendez-vous"`
 
 ## Règles d'optimisation des balises ALT
 
@@ -63,7 +63,7 @@
 <!-- Bon -->
 <img
   src="temoignage-marie.jpg"
-  alt="Témoignage client satisfait des soins naturopathie de Naima Tyzra"
+  alt="Témoignage client satisfait des soins naturopathie de Aïa"
 />
 
 <!-- Mauvais -->
@@ -90,7 +90,7 @@
 - naturopathie
 - soins énergétiques
 - Bollène
-- Naima Tyzra
+- Aïa
 - accompagnement holistique
 
 ### Mots-clés secondaires

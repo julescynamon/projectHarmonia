@@ -88,7 +88,7 @@ export const keywords: Record<string, KeywordData> = {
   },
   soinsEnergetiques: {
     primary: "soins énergétiques",
-    secondary: ["thérapie énergétique", "rééquilibrage chakras", "soins chamaniques"],
+    secondary: ["thérapie énergétique", "rééquilibrage chakras", "harmonisation énergétique"],
     longTail: [
       "soins énergétiques personnalisés",
       "rééquilibrage énergétique humains animaux",

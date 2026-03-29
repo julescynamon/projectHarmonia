@@ -12,8 +12,8 @@ export interface SiteConfig {
 export function getSiteConfig(): SiteConfig {
   return {
     site: 'https://www.maisonsattvaia.fr',
-    title: 'La Maison Sattvaïa - Naturopathie & Soins Chamaniques',
-    description: 'Découvrez nos services de naturopathie et soins chamaniques pour votre bien-être naturel.',
+    title: 'La Maison Sattvaïa - Naturopathie & Soins Énergétiques',
+    description: 'Découvrez nos services de naturopathie et soins énergétiques pour votre bien-être naturel.',
     author: 'La Maison Sattvaïa',
     language: 'fr',
     timezone: 'Europe/Paris',

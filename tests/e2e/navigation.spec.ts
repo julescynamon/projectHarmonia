@@ -65,11 +65,12 @@ test.describe('Navigation générale', () => {
     await page.click('a[href="/naturopathie-animale"]');
     await expect(page).toHaveURL('/naturopathie-animale');
     await expect(page).toHaveTitle(/Naturopathie animale/);
-    
-    // Navigation vers Soins chamaniques humains
-    await page.click('a[href="/soins-chamaniques-humains"]');
-    await expect(page).toHaveURL('/soins-chamaniques-humains');
-    await expect(page).toHaveTitle(/Soins chamaniques humains/);
+
+    await page.goto('/');
+    // Navigation vers Naturopathie humaine (chemin accompagnements)
+    await page.click('a[href="/accompagnements/naturopathie-humaine"]');
+    await expect(page).toHaveURL('/accompagnements/naturopathie-humaine');
+    await expect(page).toHaveTitle(/Naturopathie humaine/);
   });
 
   test('navigation vers la boutique', async ({ page }) => {

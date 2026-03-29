@@ -22,7 +22,7 @@ export const defaultSEO: SEOProps = {
 export const pageSEO: Record<string, SEOProps> = {
   home: {
     title: 'Maison Sattvaïa – Naturopathie Holistique & Soins Énergétiques Gard, Vaucluse, Drôme, Ardèche',
-    description: 'Naturopathe spécialisée en soins énergétiques pour humains et animaux. Accompagnement holistique personnalisé : naturopathie, soins chamaniques, guidance spirituelle. Consultations en présentiel ou à distance dans le Gard, Vaucluse, Drôme et Ardèche.',
+    description: 'Naturopathe spécialisée en soins énergétiques pour humains et animaux. Accompagnement holistique personnalisé : naturopathie, soins énergétiques, guidance spirituelle. Consultations en présentiel ou à distance dans le Gard, Vaucluse, Drôme et Ardèche.',
     image: '/images/og-image-home.webp'
   },
   about: {
@@ -32,7 +32,7 @@ export const pageSEO: Record<string, SEOProps> = {
   },
   services: {
     title: 'Services Naturopathie & Soins Énergétiques | Maison Sattvaïa',
-    description: 'Naturopathie humaine et animale, soins énergétiques, guidance spirituelle et accompagnement chamanique. Consultations personnalisées en présentiel ou à distance dans le Gard, Vaucluse, Drôme et Ardèche.',
+    description: 'Naturopathie humaine et animale, soins énergétiques et guidance spirituelle. Consultations personnalisées en présentiel ou à distance dans le Gard, Vaucluse, Drôme et Ardèche.',
     image: '/images/og-image-services.webp'
   },
   shop: {
@@ -56,14 +56,6 @@ export const pageSEO: Record<string, SEOProps> = {
   accompagnementsReservation: {
     title: 'Réserver un accompagnement | Maison Sattvaïa',
     description: 'Prenez rendez-vous pour un accompagnement holistique personnalisé : naturopathie humaine et animale, soins énergétiques et guidance spirituelle.',
-  },
-  chamanismeReservation: {
-    title: 'Réserver un soin chamanique | Maison Sattvaïa',
-    description: 'Prenez rendez-vous pour un soin chamanique personnalisé : soins quantiques, communication animale, rituels de transmutation et nettoyage énergétique.',
-  },
-  lectureAmeReservation: {
-    title: 'Réserver une lecture d\'âme | Maison Sattvaïa',
-    description: 'Prenez rendez-vous pour une lecture d\'âme personnalisée et découvrez votre chemin de vie, vos missions d\'âme et votre potentiel spirituel.',
   },
   mentionsLegales: {
     title: 'Mentions Légales | Maison Sattvaïa - Aïa',

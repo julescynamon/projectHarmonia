@@ -197,7 +197,7 @@ export function getServicesData(): ServiceData[] {
     {
       "@type": "Service",
       name: "Soins Énergétiques Humains",
-      description: "Soins énergétiques et chamaniques pour rééquilibrer vos corps subtils et libérer les blocages énergétiques.",
+      description: "Soins énergétiques pour rééquilibrer vos corps subtils et libérer les blocages énergétiques.",
       provider: {
         "@type": "Person",
         name: "Aïa"
@@ -230,26 +230,6 @@ export function getServicesData(): ServiceData[] {
       offers: {
         "@type": "Offer",
         price: "80",
-        priceCurrency: "EUR",
-        availability: "https://schema.org/InStock"
-      }
-    },
-    {
-      "@type": "Service",
-      name: "Lecture d'Âme",
-      description: "Guidance spirituelle personnalisée pour découvrir votre mission d'âme et votre chemin de vie.",
-      provider: {
-        "@type": "Person",
-        name: "Aïa"
-      },
-      areaServed: "Gard, Vaucluse, Drôme, Ardèche",
-      availableChannel: {
-        "@type": "ServiceChannel",
-        serviceType: "Consultation à distance"
-      },
-      offers: {
-        "@type": "Offer",
-        price: "120",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock"
       }
@@ -313,7 +293,7 @@ export function getReviewsData(): ReviewData[] {
         "@type": "Person",
         name: "Élodie M."
       },
-      reviewBody: "La lecture a été une vraie révélation. J'ai compris des choses que je ressentais sans jamais réussir à les exprimer. Ça m'a donné une confiance nouvelle pour avancer dans mes choix de vie.",
+      reviewBody: "Cet accompagnement a été une vraie révélation. J'ai compris des choses que je ressentais sans jamais réussir à les exprimer. Ça m'a donné une confiance nouvelle pour avancer dans mes choix de vie.",
       datePublished: "2024-03-20"
     }
   ];
@@ -337,7 +317,7 @@ export function getFAQData(): FAQData {
         name: "Les consultations naturopathie peuvent-elles se faire à distance ?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Oui, la plupart de nos accompagnements peuvent se faire à distance via visioconférence. Cela inclut la naturopathie humaine et animale, les soins énergétiques et les lectures d'âme. Nous servons le Gard, Vaucluse, Drôme et Ardèche avec des consultations en présentiel et à distance."
+          text: "Oui, la plupart de nos accompagnements peuvent se faire à distance via visioconférence. Cela inclut la naturopathie humaine et animale et les soins énergétiques. Nous servons le Gard, Vaucluse, Drôme et Ardèche avec des consultations en présentiel et à distance."
         }
       },
       {
@@ -370,14 +350,6 @@ export function getFAQData(): FAQData {
         acceptedAnswer: {
           "@type": "Answer",
           text: "Vous pouvez prendre rendez-vous facilement via notre site internet ou nous contacter directement. Nous proposons des consultations en présentiel dans le Gard, Vaucluse, Drôme et Ardèche, ou à distance pour toute la France. Horaires : du lundi au vendredi 9h-18h, samedi 9h-17h."
-        }
-      },
-      {
-        "@type": "Question",
-        name: "Les soins chamaniques sont-ils adaptés à tous ?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Les soins chamaniques sont adaptés à tous ceux qui souhaitent une approche spirituelle et énergétique. Nous proposons des soins quantiques, de la communication animale chamanique et des rituels de transmutation énergétique, toujours dans le respect de votre cheminement personnel."
         }
       }
     ]

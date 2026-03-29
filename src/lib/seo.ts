@@ -21,13 +21,15 @@ export const defaultSEO: SEOProps = {
 
 export const pageSEO: Record<string, SEOProps> = {
   home: {
-    title: 'Maison Sattvaïa – Naturopathie Holistique & Soins Énergétiques Gard, Vaucluse, Drôme, Ardèche',
-    description: 'Naturopathe spécialisée en soins énergétiques pour humains et animaux. Accompagnement holistique personnalisé : naturopathie, soins énergétiques, guidance spirituelle. Consultations en présentiel ou à distance dans le Gard, Vaucluse, Drôme et Ardèche.',
+    title: 'Maison Sattvaïa – Harmonie du foyer, de l\'humain et de l\'animal | Gard, Vaucluse, Drôme, Ardèche',
+    description:
+      'Maison Sattvaïa accompagne le foyer, l\'humain et l\'animal : naturopathie, soins vibratoires et leviers sur mesure. À domicile ou en visio depuis le Gard, le Vaucluse, la Drôme et l\'Ardèche.',
     image: '/images/og-image-home.webp'
   },
   about: {
-    title: 'À Propos | Maison Sattvaïa - Naturopathie & Soins Énergétiques',
-    description: 'Découvrez La Maison Sattvaïa, spécialisée en soins énergétiques et accompagnement holistique. Parcours, expertise et approche unique pour humains et animaux dans le Gard, Vaucluse, Drôme et Ardèche.',
+    title: 'À Propos | Maison Sattvaïa - Vision & méthode',
+    description:
+      'La vision Sattvaïa : une approche qui unit le biologique, le vibratoire et le systémique — pour les humains comme pour les animaux. Découvrez la méthode et les trois plans d\'intervention.',
     image: '/images/og-image-about.webp'
   },
   services: {

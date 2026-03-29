@@ -53,6 +53,7 @@ export function getSecurityConfig(): SecurityConfig {
       "/api/health",
       "/_astro/",
       "/favicon.ico",
+      "/favicon/",
       "/robots.txt",
       "/sitemap.xml"
     ],
@@ -173,6 +174,7 @@ export function getDevelopmentSecurityConfig(): SecurityConfig {
       "/api/health",
       "/_astro/",
       "/favicon.ico",
+      "/favicon/",
       "/robots.txt",
       "/sitemap.xml"
     ],
@@ -195,6 +197,7 @@ export function getProductionSecurityConfig(): SecurityConfig {
       "/api/health",
       "/_astro/",
       "/favicon.ico",
+      "/favicon/",
       "/robots.txt",
       "/sitemap.xml"
     ],

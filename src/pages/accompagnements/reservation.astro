@@ -8,19 +8,18 @@ import Card from '../../components/ui/Card.astro';
 
 const breadcrumbItems = [
   { name: 'Accueil', url: '/' },
-  { name: 'Services', url: '/services' },
   { name: 'Réserver un accompagnement', url: '/accompagnements/reservation' }
 ];
 
 const seo = {
   title: "Réserver un accompagnement - Aïa",
-  description: "Prenez rendez-vous pour un accompagnement personnalisé en naturopathie humaine et animale, soins énergétiques et suivi nutritionnel."
+  description: "Prenez rendez-vous pour une séance MAISON, SATTVA ou AÏA : naturopathie, binôme humain-animal et soins vibratoires, en présentiel ou à distance."
 };
 
 const services = [
   {
     id: 'naturopathie-humaine-premiere',
-    title: 'Naturopathie Humaine – Première consultation',
+    title: 'SATTVA – Première consultation',
     duration: '1h30-2h',
     price: '150€',
     description: 'Bilan complet et plan personnalisé pour rééquilibrer votre santé de façon naturelle et durable.',
@@ -29,7 +28,7 @@ const services = [
   },
   {
     id: 'naturopathie-humaine-suivi',
-    title: 'Naturopathie Humaine – Suivi',
+    title: 'SATTVA – Suivi',
     duration: '1h',
     price: '60€',
     description: 'Accompagnement régulier pour ajuster votre hygiène de vie et maintenir vos progrès.',
@@ -38,7 +37,7 @@ const services = [
   },
   {
     id: 'naturopathie-animale-premiere',
-    title: 'Naturopathie Animale – Première consultation',
+    title: 'AÏA – Première consultation',
     duration: '1h à 2h',
     price: '80€',
     description: 'Bilan global et solutions naturelles adaptées pour améliorer la vitalité et le bien-être de votre compagnon.',
@@ -47,7 +46,7 @@ const services = [
   },
   {
     id: 'naturopathie-animale-suivi',
-    title: 'Naturopathie Animale – Suivi',
+    title: 'AÏA – Suivi',
     duration: '1h',
     price: '50€',
     description: 'Suivi personnalisé pour accompagner votre animal dans la durée et ajuster son équilibre naturel.',
@@ -55,31 +54,13 @@ const services = [
     category: 'naturopathie-animale'
   },
   {
-    id: 'soins-energetiques-humains',
-    title: 'Soins Énergétiques Humains',
-    duration: '1h',
-    price: '90€',
-    description: 'Harmonisation énergétique pour libérer les blocages et retrouver paix, vitalité et équilibre.',
-    icon: 'self_improvement',
-    category: 'soins-energetiques'
-  },
-  {
     id: 'soins-energetiques-animaux',
-    title: 'Soins Énergétiques Animaux',
-    duration: '1h',
-    price: '70€',
-    description: 'Soin énergétique adapté pour apaiser, rééquilibrer et soutenir la santé globale de votre animal.',
+    title: 'MAISON – L\'Offre Signature en Duo',
+    duration: '2h à 3h',
+    price: '80€',
+    description: 'Lecture systémique du binôme, harmonisation et soin vibratoire en duo pour l\'équilibre du foyer.',
     icon: 'spa',
     category: 'soins-energetiques'
-  },
-  {
-    id: 'accompagnement-personnalise',
-    title: 'Accompagnement Personnalisé',
-    duration: '1h',
-    price: '70€',
-    description: 'Séance de guidance & coaching de vie pour clarifier vos choix, dépasser vos blocages et avancer avec confiance.',
-    icon: 'psychology',
-    category: 'accompagnement'
   }
 ];
 
@@ -285,9 +266,9 @@ const steps = [
                       <span class="material-icons text-sage text-2xl">{service.icon}</span>
                     </div>
                     <div class="bg-sage text-white px-3 py-1 rounded-full text-sm font-slogan uppercase tracking-wider">
-                      {service.category === 'naturopathie-humaine' ? 'Humaine' : 
-                       service.category === 'naturopathie-animale' ? 'Animale' : 
-                       service.category === 'soins-energetiques' ? 'Énergétique' : 'Accompagnement'}
+                      {service.category === 'naturopathie-humaine' ? 'SATTVA' : 
+                       service.category === 'naturopathie-animale' ? 'AÏA' : 
+                       service.category === 'soins-energetiques' ? 'MAISON' : '—'}
                     </div>
                   </div>
                   <h3 class="font-heading text-xl lg:text-2xl text-ebony mb-4">{service.title}</h3>

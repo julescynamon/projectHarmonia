@@ -1,4 +1,13 @@
 {
+  "redirects": [
+    { "source": "/accompagnements/naturopathie-humaine", "destination": "/sattva", "permanent": true },
+    { "source": "/accompagnements/naturopathie-animale", "destination": "/aia", "permanent": true },
+    { "source": "/accompagnements/soins-energetiques-animaux", "destination": "/maison", "permanent": true },
+    { "source": "/accompagnements/soins-energetiques-humains", "destination": "/sattva", "permanent": true },
+    { "source": "/accompagnements/accompagnement-personalise", "destination": "/maison", "permanent": true },
+    { "source": "/naturopathie-humaine", "destination": "/sattva", "permanent": true },
+    { "source": "/naturopathie-animale", "destination": "/aia", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",

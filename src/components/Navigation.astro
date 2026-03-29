@@ -17,20 +17,17 @@ const navLinks: NavLink[] = [
   { href: "/", text: "Accueil" },
   {
     text: "Accompagnements",
-    href: "#", // Lien parent qui ne navigue pas directement
+    href: "#",
     submenu: [
-      { href: "/accompagnements/naturopathie-humaine", text: "Naturopathie humaine" },
-      { href: "/accompagnements/naturopathie-animale", text: "Naturopathie animale" },
-      { href: "/accompagnements/soins-energetiques-humains", text: "Soins énergétiques humains" },
-      { href: "/accompagnements/soins-energetiques-animaux", text: "Soins énergétiques animaux" },
-      { href: "/accompagnements/accompagnement-personalise", text: "Accompagnement personalisé" },
+      { href: "/maison", text: "MAISON | l'offre signature ( binôme )" },
+      { href: "/sattva", text: "SATTVA | l'offre humaine" },
+      { href: "/aia", text: "AÏA | l'offre animale" },
       { href: "/accompagnements/reservation", text: "→ Réserver un accompagnement" },
-    ]
+    ],
   },
   { href: "/blog", text: "Blog" },
-  
   { href: "/a-propos", text: "À propos" },
-  { href: "/contact", text: "Contact" }
+  { href: "/contact", text: "Contact" },
 ];
 ---
 <nav class="fixed w-full z-[100] top-0 transition-all duration-300" id="mainNav">
@@ -39,7 +36,7 @@ const navLinks: NavLink[] = [
       <div class="flex items-center h-16 xl:h-20 xl:justify-between">
         <!-- Logo (Gauche) -->
         <a href="/" class="flex-shrink-0 min-w-0">
-          <img src="/images/logo.svg" alt="Aïa" class="h-12 w-auto" />
+          <img src="/favicon/favicon-96x96.png" alt="Maison Sattvaïa" width="96" height="96" class="h-12 w-12 object-contain" />
         </a>
 
         <!-- Navigation Desktop (Centrée) -->
@@ -56,12 +53,12 @@ const navLinks: NavLink[] = [
                     {link.text}
                     <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                   </a>
-                  <div class="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20">
+                  <div class="absolute left-0 mt-2 min-w-[17.5rem] max-w-[20rem] bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20">
                     <div class="py-2">
                       {link.submenu.map(subItem => (
                         <a
                           href={subItem.href}
-                          class="block px-4 py-2 text-sm text-ebony hover:bg-gold/10 hover:text-gold transition-colors duration-200"
+                          class="block px-4 py-2.5 text-sm text-ebony hover:bg-gold/10 hover:text-gold transition-colors duration-200 leading-snug whitespace-normal"
                         >
                           {subItem.text}
                         </a>

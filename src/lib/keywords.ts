@@ -42,7 +42,7 @@ export const keywords: Record<string, KeywordData> = {
   },
   services: {
     primary: "services naturopathie",
-    secondary: ["consultation naturopathie", "soins énergétiques", "accompagnement personnalisé"],
+    secondary: ["consultation naturopathie", "soins énergétiques", "offres MAISON SATTVA AÏA"],
     longTail: [
       "consultation naturopathie en ligne",
       "soins énergétiques humains animaux",
@@ -56,13 +56,13 @@ export const keywords: Record<string, KeywordData> = {
       "médecine douce"
     ]
   },
-  naturopathieHumaine: {
-    primary: "naturopathie humaine",
-    secondary: ["consultation naturopathie", "médecine naturelle", "bien-être holistique"],
+  sattva: {
+    primary: "SATTVA offre humaine",
+    secondary: ["naturopathie humaine", "médecine naturelle", "soins vibratoires"],
     longTail: [
-      "naturopathie humaine personnalisée",
+      "SATTVA Maison Sattvaïa",
       "consultation naturopathie en ligne",
-      "accompagnement naturopathique individuel"
+      "bilan de terrain et magnétisme"
     ],
     semantic: [
       "médecine préventive",
@@ -71,13 +71,13 @@ export const keywords: Record<string, KeywordData> = {
       "gestion du stress"
     ]
   },
-  naturopathieAnimale: {
-    primary: "naturopathie animale",
-    secondary: ["soins animaux", "médecine vétérinaire naturelle", "bien-être animal"],
+  aia: {
+    primary: "AÏA offre animale",
+    secondary: ["naturopathie animale", "communication intuitive", "bien-être animal"],
     longTail: [
-      "naturopathie pour chiens chats",
+      "AÏA Maison Sattvaïa",
       "soins naturels animaux domestiques",
-      "médecine vétérinaire alternative"
+      "accompagnement chien chat équidé"
     ],
     semantic: [
       "santé animale",
@@ -86,19 +86,19 @@ export const keywords: Record<string, KeywordData> = {
       "thérapie animale"
     ]
   },
-  soinsEnergetiques: {
-    primary: "soins énergétiques",
-    secondary: ["thérapie énergétique", "rééquilibrage chakras", "harmonisation énergétique"],
+  maison: {
+    primary: "MAISON offre signature duo",
+    secondary: ["binôme humain animal", "lien miroir", "harmonisation du foyer"],
     longTail: [
-      "soins énergétiques personnalisés",
-      "rééquilibrage énergétique humains animaux",
-      "thérapie énergétique à distance"
+      "soin signature binôme",
+      "lecture systémique humain animal",
+      "Maison Sattvaïa duo"
     ],
     semantic: [
-      "guérison énergétique",
-      "thérapie vibratoire",
-      "soins subtils",
-      "médecine énergétique"
+      "équilibre du foyer",
+      "soin vibratoire duo",
+      "résonance humain animal",
+      "accompagnement holistique famille"
     ]
   },
   contact: {
@@ -162,7 +162,7 @@ export function generateSEOTitle(page: string, customTitle?: string): string {
 export function generateSEODescription(page: string, customDescription?: string): string {
   const pageKeywords = keywords[page] || keywords.home;
   const baseDescription = customDescription || 
-    `Découvrez ${pageKeywords.primary} avec La Maison Sattvaïa. ${pageKeywords.longTail[0]}. Accompagnement personnalisé et professionnel.`;
+    `Découvrez ${pageKeywords.primary} avec La Maison Sattvaïa. ${pageKeywords.longTail[0]}. Accompagnement sur mesure et professionnel.`;
   
   // S'assurer que la description fait entre 150-160 caractères
   if (baseDescription.length > 160) {

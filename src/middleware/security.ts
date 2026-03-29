@@ -14,6 +14,7 @@ function shouldExcludePath(pathname: string): boolean {
     '/api/health',
     '/_astro/',
     '/favicon.ico',
+    '/favicon/',
     '/robots.txt',
     '/sitemap.xml',
     '/sw.js',

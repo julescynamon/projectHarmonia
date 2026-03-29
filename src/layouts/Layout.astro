@@ -45,13 +45,13 @@ const canonicalURL = canonical ? new URL(canonical, siteConfig.site) : new URL(A
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Favicons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png" />
+    <!-- Favicons (dossier /public/favicon/) -->
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/web-app-manifest-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon/web-app-manifest-512x512.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
     
@@ -127,7 +127,7 @@ const canonicalURL = canonical ? new URL(canonical, siteConfig.site) : new URL(A
       },
       "priceRange": "€€",
       "image": new URL("/images/og-image.webp", siteConfig.site).toString(),
-      "logo": new URL("/favicon.svg", siteConfig.site).toString(),
+      "logo": new URL("/favicon/favicon.svg", siteConfig.site).toString(),
       "sameAs": [
         "https://www.facebook.com/maisonsattvaia",
         "https://www.instagram.com/maisonsattvaia"

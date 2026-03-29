@@ -1,0 +1,339 @@
+---
+// src/pages/aia.astro — AÏA : L'Offre Animale
+export const prerender = false;
+
+import MainLayout from '../layouts/MainLayout.astro';
+import Button from '../components/ui/Button.astro';
+
+const prixDomicile = 80;
+const prixVisio = 80;
+const rayonKm = 70;
+const ville = 'Salazac';
+
+const breadcrumbItems = [
+  { name: 'Accueil', url: '/' },
+  { name: "AÏA : L'Offre Animale", url: '/aia' },
+];
+
+const seo = {
+  title: "AÏA : L'Offre Animale — Naturopathie animale, communication intuitive | Maison Sattvaïa",
+  description:
+    "AÏA : santé naturelle, communication intuitive et soins vibratoires pour chiens, chats et équidés. À domicile ou en visio. Réservez votre séance à la Maison Sattvaïa.",
+  keywords:
+    'AÏA, offre animale, naturopathie animale, communication intuitive animaux, soins énergétiques animaux, magnétisme animal, Maison Sattvaïa, Salazac',
+};
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: "AÏA : L'Offre Animale",
+  description:
+    'Accompagnement complet unissant santé naturelle, communication intuitive et soins vibratoires. Durée environ 1h15.',
+  provider: {
+    '@type': 'Person',
+    name: 'Aïa',
+    jobTitle: 'Naturopathe',
+  },
+  areaServed: 'France',
+  serviceType: 'Naturopathie animale et soins énergétiques',
+  offers: {
+    '@type': 'Offer',
+    price: String(prixDomicile),
+    priceCurrency: 'EUR',
+    description: 'Soin animal AÏA (environ 1h15)',
+  },
+};
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbItems.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+        item: new URL(item.url, Astro.site).toString(),
+      })),
+    })}
+  />
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <div>
+    <section
+      class="relative min-h-[85vh] flex items-center justify-center overflow-hidden hero-section"
+      aria-labelledby="hero-aia-heading"
+    >
+      <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-b from-ebony/55 via-ebony/45 to-ebony/65 z-10"></div>
+        <img
+          src="/images/naturopathie-animale-la-maison-sattvaia.webp"
+          alt="AÏA — accompagnement bienveillant pour votre compagnon"
+          class="w-full h-full object-cover object-center"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+
+      <div class="container relative z-20 mx-auto px-4 py-24 md:py-28 text-center max-w-3xl">
+        <p class="font-slogan text-sm md:text-base uppercase tracking-[0.28em] text-white/85 mb-6 drop-shadow-md">
+          Maison Sattvaïa
+        </p>
+        <h1
+          id="hero-aia-heading"
+          class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]"
+        >
+          AÏA : L'Offre Animale
+        </h1>
+        <p class="mt-6 font-heading text-2xl md:text-3xl text-white/95 italic leading-snug drop-shadow-md">
+          Honorer son instinct, soutenir sa vie.
+        </p>
+        <p class="mt-6 font-slogan text-base md:text-lg text-sage drop-shadow-md tracking-wide">
+          Naturopathie animale <span class="text-gold/90 mx-1" aria-hidden="true">•</span> Communication intuitive
+          <span class="text-gold/90 mx-1" aria-hidden="true">•</span> Soins énergétiques
+        </p>
+        <div class="mt-10 md:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center items-center">
+          <Button href="/accompagnements/reservation" variant="primary" size="lg" class="w-full sm:w-auto shadow-lg shadow-black/20">
+            Prendre rendez-vous
+          </Button>
+          <a
+            href="#accroche"
+            class="inline-block text-center font-slogan rounded-full transition-all duration-300 px-8 py-3 text-base md:text-lg border-2 border-white/90 text-white hover:bg-white/10 w-full sm:w-auto"
+          >
+            Lire la suite
+          </a>
+        </div>
+      </div>
+
+      <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent z-[15] pointer-events-none" aria-hidden="true"></div>
+    </section>
+
+    <section id="accroche" class="py-16 md:py-24 bg-white" aria-labelledby="accroche-heading">
+      <div class="container mx-auto px-4 max-w-3xl">
+        <h2 id="accroche-heading" class="sr-only">La vision</h2>
+        <p class="font-heading text-xl md:text-2xl text-eucalyptus mb-8 leading-snug">
+          «&nbsp;L'animal ne triche pas, il exprime.&nbsp;»
+        </p>
+        <div class="space-y-6 font-slogan text-lg text-ebony/90 leading-relaxed">
+          <p>
+            Votre compagnon est un miroir de pureté. Pourtant, il traverse lui aussi des zones d'ombre : une santé qui
+            fragilise, un comportement qui change, une émotion qu'il n'arrive plus à porter. À la Maison Sattvaïa,
+            j'écoute ce que son corps et son instinct crient en silence. Mon rôle est de restaurer son équilibre
+            naturel en respectant sa fréquence d'animal.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="methode-aia"
+      class="py-16 md:py-24 bg-gradient-to-b from-cream via-white to-cream/40 relative overflow-hidden"
+      aria-labelledby="methode-heading"
+    >
+      <div class="absolute inset-0 opacity-3 pointer-events-none" aria-hidden="true">
+        <img
+          src="/images/sacred-geometry.svg"
+          alt=""
+          class="w-full h-full object-cover bg-gradient-to-r from-sage/20 to-gold/20 bg-clip-content"
+          loading="lazy"
+        />
+      </div>
+      <div class="absolute top-20 left-8 w-56 h-56 bg-sage/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+      <div class="absolute bottom-32 right-8 w-72 h-72 bg-gold/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+      <div class="container mx-auto px-4 max-w-5xl relative z-10">
+        <div class="text-center max-w-2xl mx-auto mb-12 md:mb-16">
+          <h2 id="methode-heading" class="font-heading text-2xl md:text-3xl lg:text-4xl text-ebony">
+            La méthode AÏA
+          </h2>
+          <p class="mt-3 font-slogan text-eucalyptus">L'expertise canine, féline &amp; équine</p>
+          <p class="mt-4 font-slogan text-lg text-ebony/85">
+            Une approche globale pour son bien-être. Parce que leur métabolisme et leur sensibilité sont uniques,
+            j'interviens sur trois niveaux complémentaires&nbsp;:
+          </p>
+          <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <article class="rounded-2xl border border-sage/15 bg-white/95 p-8 shadow-sm">
+            <h3 class="font-heading text-xl text-ebony mb-1">La santé naturelle</h3>
+            <p class="font-slogan text-xs uppercase tracking-wider text-sage mb-4">Le terrain</p>
+            <p class="font-slogan text-ebony/90 leading-relaxed">
+              Réglage alimentaire (BARF, ration ménagère, croquettes haute qualité), phytothérapie et aromathérapie
+              animale. On soutient l'organisme pour qu'il retrouve sa force vitale.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/15 bg-white/95 p-8 shadow-sm">
+            <h3 class="font-heading text-xl text-ebony mb-1">La communication intuitive</h3>
+            <p class="font-slogan text-xs uppercase tracking-wider text-sage mb-4">L'écoute</p>
+            <p class="font-slogan text-ebony/90 leading-relaxed">
+              Entendre ses besoins, comprendre ses peurs ou ses messages. Une connexion d'âme à âme pour mettre des mots
+              sur ses maux.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/15 bg-white/95 p-8 shadow-sm">
+            <h3 class="font-heading text-xl text-ebony mb-1">Le magnétisme &amp; soins vibratoires</h3>
+            <p class="font-slogan text-xs uppercase tracking-wider text-sage mb-4">La libération</p>
+            <p class="font-slogan text-ebony/90 leading-relaxed">
+              Apaiser les douleurs physiques (arthrose, cicatrisation) et dissoudre les blocages émotionnels
+              (traumatismes, anxiété de séparation).
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="besoins" class="py-16 md:py-24 bg-white border-t border-sage/10" aria-labelledby="besoins-heading">
+      <div class="container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-12">
+          <h2 id="besoins-heading" class="font-heading text-2xl md:text-3xl lg:text-4xl text-ebony">
+            Pour quels besoins&nbsp;?
+          </h2>
+          <p class="mt-3 font-slogan text-eucalyptus">Votre compagnon a besoin de ce soin si…</p>
+          <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <article class="rounded-2xl border border-sage/12 bg-cream/50 p-6 md:p-8">
+            <h3 class="font-heading text-lg text-ebony mb-3">Soutien de santé</h3>
+            <p class="font-slogan text-ebony/88 leading-relaxed">
+              Troubles digestifs, problèmes de peau, allergies ou baisse d'immunité.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/12 bg-cream/50 p-6 md:p-8">
+            <h3 class="font-heading text-lg text-ebony mb-3">Équilibre émotionnel</h3>
+            <p class="font-slogan text-ebony/88 leading-relaxed">
+              Stress, peur de l'abandon, agressivité soudaine ou tristesse.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/12 bg-cream/50 p-6 md:p-8">
+            <h3 class="font-heading text-lg text-ebony mb-3">Accompagnement senior</h3>
+            <p class="font-slogan text-ebony/88 leading-relaxed">
+              Soulager les douleurs de vieillesse et apporter un confort de vie digne.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/12 bg-cream/50 p-6 md:p-8">
+            <h3 class="font-heading text-lg text-ebony mb-3">Compréhension mutuelle</h3>
+            <p class="font-slogan text-ebony/88 leading-relaxed">
+              Pour préparer un changement (déménagement, arrivée d'un bébé) ou simplement approfondir votre lien.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="deroulement"
+      class="py-16 md:py-24 bg-cream/70 border-t border-sage/15"
+      aria-labelledby="deroulement-heading"
+    >
+      <div class="container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-12">
+          <h2 id="deroulement-heading" class="font-heading text-2xl md:text-3xl lg:text-4xl text-ebony">
+            Le déroulement d'une séance
+          </h2>
+          <p class="mt-3 font-slogan text-ebony/80 max-w-xl mx-auto">
+            Le respect du rythme de l'animal, avant tout.
+          </p>
+          <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
+        </div>
+        <ol class="space-y-10 max-w-2xl mx-auto list-none p-0 m-0">
+          <li class="flex gap-4 md:gap-6">
+            <span
+              class="flex-shrink-0 w-10 h-10 rounded-full bg-sage text-white font-heading flex items-center justify-center text-lg"
+              >1</span
+            >
+            <div>
+              <h3 class="font-heading text-lg text-ebony mb-2">L'observation &amp; connexion</h3>
+              <p class="font-slogan text-ebony/88 leading-relaxed">
+                Que ce soit à domicile ou en visio, je commence par établir un lien de confiance avec l'animal sans
+                jamais forcer le contact physique.
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4 md:gap-6">
+            <span
+              class="flex-shrink-0 w-10 h-10 rounded-full bg-eucalyptus text-white font-heading flex items-center justify-center text-lg"
+              >2</span
+            >
+            <div>
+              <h3 class="font-heading text-lg text-ebony mb-2">Le bilan de terrain</h3>
+              <p class="font-slogan text-ebony/88 leading-relaxed">
+                Analyse de son mode de vie, de son alimentation et de son état général.
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4 md:gap-6">
+            <span
+              class="flex-shrink-0 w-10 h-10 rounded-full bg-gold text-ebony font-heading flex items-center justify-center text-lg"
+              >3</span
+            >
+            <div>
+              <h3 class="font-heading text-lg text-ebony mb-2">Le soin vibratoire</h3>
+              <p class="font-slogan text-ebony/88 leading-relaxed">
+                Rééquilibrage énergétique par magnétisme,  acupression douce, massage thérapeutique.
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4 md:gap-6">
+            <span
+              class="flex-shrink-0 w-10 h-10 rounded-full bg-sage text-white font-heading flex items-center justify-center text-lg"
+              >4</span
+            >
+            <div>
+              <h3 class="font-heading text-lg text-ebony mb-2">Le protocole naturel</h3>
+              <p class="font-slogan text-ebony/88 leading-relaxed">
+                Je vous transmets des conseils concrets en naturopathie et les clés de compréhension issues de notre
+                échange intuitif.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="details" class="py-16 md:py-28 bg-white border-t border-sage/15" aria-labelledby="tarifs-heading">
+      <div class="container mx-auto px-4 max-w-3xl text-center">
+        <h2 id="tarifs-heading" class="font-heading text-2xl md:text-3xl lg:text-4xl text-ebony mb-3">
+          Tarifs &amp; réservation
+        </h2>
+        <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mb-10 rounded-full"></div>
+
+        <div class="rounded-3xl border border-sage/15 bg-white p-8 md:p-10 text-left shadow-sm">
+          <h3 class="font-heading text-xl md:text-2xl text-ebony">Soin animal AÏA</h3>
+          <p class="font-slogan text-sage mt-1">1h15</p>
+          <p class="mt-4 font-slogan text-ebony/88 leading-relaxed">
+            Un accompagnement complet unissant santé naturelle et lecture intuitive.
+          </p>
+
+          <ul class="mt-8 space-y-6 font-slogan">
+            <li class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-6 border-b border-sage/10">
+              <div>
+                <span class="font-heading text-ebony">À domicile</span>
+                <p class="text-sm text-ebony/65 mt-1">
+                  Rayon de {rayonKm}&nbsp;km autour de {ville} (déplacements Gard, Ardèche, Vaucluse, Drôme,
+                  Bouches-du-Rhône)
+                </p>
+              </div>
+              <span class="font-heading text-2xl text-eucalyptus shrink-0">{prixDomicile}&nbsp;€</span>
+            </li>
+            <li class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <div>
+                <span class="font-heading text-ebony">En visio</span>
+                <p class="text-sm text-ebony/65 mt-1">La communication et l'énergétique n'ont pas de distance</p>
+              </div>
+              <span class="font-heading text-2xl text-eucalyptus shrink-0">{prixVisio}&nbsp;€</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="mt-10">
+          <Button href="/accompagnements/reservation" variant="primary" size="lg" class="w-full sm:w-auto min-w-[240px]">
+            Offrir ce soin à mon compagnon
+          </Button>
+        </div>
+      </div>
+    </section>
+  </div>
+</MainLayout>

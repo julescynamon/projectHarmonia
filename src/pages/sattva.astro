@@ -1,0 +1,338 @@
+---
+// src/pages/sattva.astro — SATTVA : L'Offre Humaine
+export const prerender = false;
+
+import MainLayout from '../layouts/MainLayout.astro';
+import Button from '../components/ui/Button.astro';
+
+const breadcrumbItems = [
+  { name: 'Accueil', url: '/' },
+  { name: "SATTVA : L'Offre Humaine", url: '/sattva' },
+];
+
+const seo = {
+  title: "SATTVA : L'Offre Humaine — Santé naturelle, bio-nutrition, soins vibratoires | Maison Sattvaïa",
+  description:
+    "SATTVA : bilan de terrain, magnétisme, MTC, lecture vibratoire. À domicile (70 km autour de Salazac) ou en visio. Prenez rendez-vous à la Maison Sattvaïa.",
+  keywords:
+    'SATTVA, offre humaine, naturopathie humaine, bio-nutrition, soins vibratoires, magnétisme, MTC, Maison Sattvaïa, Salazac',
+};
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: "SATTVA : L'Offre Humaine",
+  description:
+    'Accompagnement complet unissant bilan de terrain, soins énergétiques et lecture vibratoire. Durée environ 1h30.',
+  provider: {
+    '@type': 'Person',
+    name: 'Aïa',
+    jobTitle: 'Naturopathe',
+  },
+  areaServed: 'France',
+  serviceType: 'Naturopathie et soins vibratoires',
+  offers: {
+    '@type': 'Offer',
+    price: '150',
+    priceCurrency: 'EUR',
+    description: 'Soin individuel SATTVA (environ 1h30)',
+  },
+};
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbItems.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+        item: new URL(item.url, Astro.site).toString(),
+      })),
+    })}
+  />
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <div>
+    <!-- Hero — photo d'origine + texte SATTVA par-dessus -->
+    <section
+      class="relative min-h-[85vh] flex items-center justify-center overflow-hidden hero-section"
+      aria-labelledby="hero-sattva-heading"
+    >
+      <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-b from-ebony/55 via-ebony/45 to-ebony/65 z-10"></div>
+        <img
+          src="/images/naturopathie-humaine.webp"
+          alt=""
+          class="w-full h-full object-cover object-center"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+
+      <div class="container relative z-20 mx-auto px-4 py-24 md:py-28 text-center max-w-3xl">
+        <p class="font-slogan text-sm md:text-base uppercase tracking-[0.28em] text-white/85 mb-6 drop-shadow-md">
+          Maison Sattvaïa
+        </p>
+        <h1
+          id="hero-sattva-heading"
+          class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]"
+        >
+          SATTVA : L'Offre Humaine
+        </h1>
+        <p class="mt-6 font-heading text-2xl md:text-3xl text-white/95 italic leading-snug drop-shadow-md">
+          Retrouver votre axe originel.
+        </p>
+        <p class="mt-6 font-slogan text-base md:text-lg text-sage drop-shadow-md tracking-wide">
+          Santé naturelle <span class="text-gold/90 mx-1" aria-hidden="true">•</span> Bio-nutrition
+          <span class="text-gold/90 mx-1" aria-hidden="true">•</span> Soins vibratoires
+        </p>
+        <div class="mt-10 md:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center items-center">
+          <Button href="/accompagnements/reservation" variant="primary" size="lg" class="w-full sm:w-auto shadow-lg shadow-black/20">
+            Prendre rendez-vous
+          </Button>
+          <a
+            href="#accroche"
+            class="inline-block text-center font-slogan rounded-full transition-all duration-300 px-8 py-3 text-base md:text-lg border-2 border-white/90 text-white hover:bg-white/10 w-full sm:w-auto"
+          >
+            Lire la suite
+          </a>
+        </div>
+      </div>
+
+      <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent z-[15] pointer-events-none" aria-hidden="true"></div>
+    </section>
+
+    <!-- 1. Accroche -->
+    <section
+      id="accroche"
+      class="py-16 md:py-24 bg-white"
+      aria-labelledby="accroche-heading"
+    >
+      <div class="container mx-auto px-4 max-w-3xl">
+        <h2 id="accroche-heading" class="sr-only">Introduction</h2>
+        <p class="font-heading text-xl md:text-2xl text-eucalyptus mb-8 leading-snug">
+          «&nbsp;Votre corps ne se trompe jamais, il résonne.&nbsp;»
+        </p>
+        <div class="space-y-6 font-slogan text-lg text-ebony/90 leading-relaxed">
+          <p>
+            Fatigue persistante, troubles digestifs, stress chronique ou sensation d'être «&nbsp;à côté de ses
+            pompes&nbsp;»… Ces signaux ne sont pas des ennemis, mais des messages. À la Maison Sattvaïa, nous ne nous
+            contentons pas de faire taire le symptôme. Nous cherchons la fréquence qui s'est désaccordée dans votre
+            système biologique et énergétique.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Méthode SATTVA -->
+    <section
+      id="methode-sattva"
+      class="py-16 md:py-24 bg-gradient-to-b from-cream via-white to-cream/40 relative overflow-hidden"
+      aria-labelledby="methode-heading"
+    >
+      <div class="absolute inset-0 opacity-3 pointer-events-none" aria-hidden="true">
+        <img
+          src="/images/sacred-geometry.svg"
+          alt=""
+          class="w-full h-full object-cover bg-gradient-to-r from-sage/20 to-gold/20 bg-clip-content"
+          loading="lazy"
+        />
+      </div>
+      <div class="absolute top-20 left-8 w-56 h-56 bg-sage/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+      <div class="absolute bottom-32 right-8 w-72 h-72 bg-gold/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+      <div class="container mx-auto px-4 max-w-5xl relative z-10">
+        <div class="text-center max-w-2xl mx-auto mb-12 md:mb-16">
+          <h2 id="methode-heading" class="font-heading text-2xl md:text-3xl lg:text-4xl text-ebony">
+            La méthode SATTVA
+          </h2>
+          <p class="mt-3 font-slogan text-eucalyptus">L'expertise 360°</p>
+          <p class="mt-4 font-slogan text-lg text-ebony/85">
+            Une séance, trois dimensions. Pour vous ramener à votre état de pureté originelle (<span lang="sa"
+              >Sattva</span
+            > en sanskrit), j'interviens simultanément sur trois piliers&nbsp;:
+          </p>
+          <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <article class="rounded-2xl border border-sage/15 bg-white/95 p-8 shadow-sm">
+            <h3 class="font-heading text-xl text-ebony mb-1">Le pilier biologique</h3>
+            <p class="font-slogan text-xs uppercase tracking-wider text-sage mb-4">Le terrain</p>
+            <p class="font-slogan text-ebony/90 leading-relaxed">
+              Bilan de vitalité, réglage alimentaire, micronutrition et phytothérapie. On redonne au corps les briques
+              nécessaires pour s'autoguérir.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/15 bg-white/95 p-8 shadow-sm">
+            <h3 class="font-heading text-xl text-ebony mb-1">Le pilier énergétique</h3>
+            <p class="font-slogan text-xs uppercase tracking-wider text-sage mb-4">Le flux</p>
+            <p class="font-slogan text-ebony/90 leading-relaxed">
+              Magnétisme et médecine traditionnelle chinoise pour relancer la circulation de la vie et lever les
+              blocages physiques.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/15 bg-white/95 p-8 shadow-sm">
+            <h3 class="font-heading text-xl text-ebony mb-1">Le pilier vibratoire</h3>
+            <p class="font-slogan text-xs uppercase tracking-wider text-sage mb-4">La source</p>
+            <p class="font-slogan text-ebony/90 leading-relaxed">
+              Lecture directe de votre champ informationnel pour identifier la racine émotionnelle ou
+              transgénérationnelle de vos maux.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Pour quels besoins -->
+    <section id="besoins" class="py-16 md:py-24 bg-white border-t border-sage/10" aria-labelledby="besoins-heading">
+      <div class="container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-12">
+          <h2 id="besoins-heading" class="font-heading text-2xl md:text-3xl lg:text-4xl text-ebony">
+            Pour quels besoins&nbsp;?
+          </h2>
+          <p class="mt-3 font-slogan text-eucalyptus">Vous vous reconnaîtrez ici si…</p>
+          <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <article class="rounded-2xl border border-sage/12 bg-cream/50 p-6 md:p-8">
+            <h3 class="font-heading text-lg text-ebony mb-3">Énergie &amp; vitalité</h3>
+            <p class="font-slogan text-ebony/88 leading-relaxed">
+              Vous vous sentez épuisé(e), sans ressort, avec un sommeil non récupérateur.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/12 bg-cream/50 p-6 md:p-8">
+            <h3 class="font-heading text-lg text-ebony mb-3">Équilibre digestif &amp; hormonal</h3>
+            <p class="font-slogan text-ebony/88 leading-relaxed">
+              Vous voulez retrouver un confort durable par des méthodes naturelles et concrètes.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/12 bg-cream/50 p-6 md:p-8">
+            <h3 class="font-heading text-lg text-ebony mb-3">Libération émotionnelle</h3>
+            <p class="font-slogan text-ebony/88 leading-relaxed">
+              Vous portez un poids, une anxiété ou des schémas répétitifs dont vous voulez vous défaire.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/12 bg-cream/50 p-6 md:p-8">
+            <h3 class="font-heading text-lg text-ebony mb-3">Transition de vie</h3>
+            <p class="font-slogan text-ebony/88 leading-relaxed">
+              Vous avez besoin de clarté et d'un réalignement profond pour entamer un nouveau chapitre.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Déroulement -->
+    <section
+      id="deroulement"
+      class="py-16 md:py-24 bg-cream/70 border-t border-sage/15"
+      aria-labelledby="deroulement-heading"
+    >
+      <div class="container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-12">
+          <h2 id="deroulement-heading" class="font-heading text-2xl md:text-3xl lg:text-4xl text-ebony">
+            Le déroulement d'une séance
+          </h2>
+          <p class="mt-3 font-slogan text-ebony/80 max-w-xl mx-auto">
+            Une parenthèse hors du temps, chez vous ou en ligne.
+          </p>
+          <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
+        </div>
+        <ol class="space-y-10 max-w-2xl mx-auto list-none p-0 m-0">
+          <li class="flex gap-4 md:gap-6">
+            <span
+              class="flex-shrink-0 w-10 h-10 rounded-full bg-sage text-white font-heading flex items-center justify-center text-lg"
+              >1</span
+            >
+            <div>
+              <h3 class="font-heading text-lg text-ebony mb-2">L'écoute &amp; la lecture</h3>
+              <p class="font-slogan text-ebony/88 leading-relaxed">
+                Nous commençons par un échange sur votre histoire et vos besoins. C'est ici que ma lecture vibratoire
+                commence à capter les zones de tension invisibles.
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4 md:gap-6">
+            <span
+              class="flex-shrink-0 w-10 h-10 rounded-full bg-eucalyptus text-white font-heading flex items-center justify-center text-lg"
+              >2</span
+            >
+            <div>
+              <h3 class="font-heading text-lg text-ebony mb-2">Le soin</h3>
+              <p class="font-slogan text-ebony/88 leading-relaxed">
+                Selon vos besoins, j'utilise le magnétisme, l'acupression ou la réflexologie pour libérer les points de
+                blocage.
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4 md:gap-6">
+            <span
+              class="flex-shrink-0 w-10 h-10 rounded-full bg-gold text-ebony font-heading flex items-center justify-center text-lg"
+              >3</span
+            >
+            <div>
+              <h3 class="font-heading text-lg text-ebony mb-2">La feuille de route</h3>
+              <p class="font-slogan text-ebony/88 leading-relaxed">
+                Vous repartez avec des conseils concrets (alimentation, plantes, rituels d'hygiène de vie) pour ancrer
+                le soin dans la durée.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 5. Tarifs & réservation -->
+    <section id="details" class="py-16 md:py-28 bg-white border-t border-sage/15" aria-labelledby="tarifs-heading">
+      <div class="container mx-auto px-4 max-w-3xl text-center">
+        <h2 id="tarifs-heading" class="font-heading text-2xl md:text-3xl lg:text-4xl text-ebony mb-3">
+          Tarifs &amp; réservation
+        </h2>
+        <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mb-10 rounded-full"></div>
+
+        <div class="rounded-3xl border border-sage/15 bg-white p-8 md:p-10 text-left shadow-sm">
+          <h3 class="font-heading text-xl md:text-2xl text-ebony">Soin individuel SATTVA</h3>
+          <p class="font-slogan text-sage mt-1">Environ 1h30</p>
+          <p class="mt-4 font-slogan text-ebony/88 leading-relaxed">
+            Un accompagnement complet unissant bilan de terrain et soin vibratoire.
+          </p>
+
+          <ul class="mt-8 space-y-6 font-slogan">
+            <li class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-6 border-b border-sage/10">
+              <div>
+                <span class="font-heading text-ebony">À domicile</span>
+                <p class="text-sm text-ebony/65 mt-1">Rayon de 70&nbsp;km autour de Salazac (déplacements Gard, Ardèche, Vaucluse, Drôme, Bouches-du-Rhône)</p>
+              </div>
+              <span class="font-heading text-2xl text-eucalyptus shrink-0">150&nbsp;€</span>
+            </li>
+            <li class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <div>
+                <span class="font-heading text-ebony">En visio</span>
+                <p class="text-sm text-ebony/65 mt-1">Aussi puissant qu'en présentiel — visioconférence sécurisée</p>
+              </div>
+              <span class="font-heading text-2xl text-eucalyptus shrink-0">150&nbsp;€</span>
+            </li>
+          </ul>
+
+          <p class="mt-8 text-sm text-ebony/70 font-slogan text-center">
+            Séances de suivi (environ 45&nbsp;min à 1&nbsp;h)&nbsp;: à partir de 60&nbsp;€ — réservation sur la même
+            plateforme.
+          </p>
+        </div>
+
+        <div class="mt-10">
+          <Button href="/accompagnements/reservation" variant="primary" size="lg" class="w-full sm:w-auto min-w-[240px]">
+            Prendre rendez-vous
+          </Button>
+        </div>
+      </div>
+    </section>
+
+
+  </div>
+</MainLayout>

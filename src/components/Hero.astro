@@ -1,4 +1,5 @@
 ---
+// src/components/Hero.astro
 import Button from './ui/Button.astro';
 ---
 
@@ -7,23 +8,9 @@ import Button from './ui/Button.astro';
   <div class="absolute inset-0 z-0">
     <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/10 z-10"></div>
     <picture class="w-full h-full">
-      <!-- Version mobile (max-width: 768px) -->
-      <source 
-        media="(max-width: 768px)" 
-        srcset="/images/herobg-mobile.webp" 
-        type="image/webp"
-      />
-      
-      <!-- Version desktop (min-width: 769px) -->
-      <source 
-        media="(min-width: 769px)" 
-        srcset="/images/herobg.webp" 
-        type="image/webp"
-      />
-      
-      <!-- Fallback image -->
+      <source srcset="/images/herobg_resultat.webp" type="image/webp" />
       <img
-        src="/images/herobg.webp"
+        src="/images/herobg_resultat.webp"
         alt="Background Nature"
         class="w-full h-full object-cover"
         loading="eager"
@@ -36,33 +23,54 @@ import Button from './ui/Button.astro';
   <!-- Élément géométrie sacrée -->
   <div class="absolute inset-0 z-10 pointer-events-none overflow-hidden">
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] opacity-30 motion-safe:animate-slow-spin">
-      <img
-        src="/images/sacred-geometry.svg"
-        alt=""
-        class="w-full h-full"
-        loading="eager"
-      />
+      <img src="/images/sacred-geometry.svg" alt="" class="w-full h-full" loading="eager" />
     </div>
   </div>
 
   <!-- Contenu principal -->
-  <div class="container mx-auto px-4 relative z-20">
-    <div class="max-w-6xl mx-auto">
-      <!-- En-tête -->
-      <div class="text-center mb-16">
-        <h1 class="font-heading text-4xl md:text-6xl text-white mb-16 tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)] animate-title-fade-in">
-          <div class="block">Maison SATTVAÏA,</div>
-          <div class="block mt-6 text-2xl md:text-3xl italic opacity-90">Un espace d'harmonie et de guérison</div>
-        </h1>
-        
+  <div class="container mx-auto px-4 relative z-20 pb-24">
+    <div class="max-w-4xl mx-auto text-center">
+      <p
+        class="font-slogan text-white/85 text-sm md:text-base uppercase tracking-[0.28em] mb-6 md:mb-8 drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] animate-title-fade-in"
+      >
+        Maison Sattvaïa
+      </p>
+      <h1
+        class="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-wide leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)] animate-subtitle-fade-in delay-hero-h1 px-2"
+      >
+        L'Harmonie en Résonance
+      </h1>
+      <p
+        class="mt-6 md:mt-8 text-lg md:text-xl lg:text-2xl text-white/95 font-slogan font-light leading-relaxed max-w-3xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] animate-subtitle-fade-in delay-hero-line1 px-2"
+      >
+        L'art de l'équilibre pour l'Humain, l'Animal et leur Lien.
+      </p>
+      <p
+        class="mt-4 md:mt-5 text-base md:text-lg text-white/85 font-slogan tracking-wide max-w-2xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] animate-subtitle-fade-in delay-hero-line2"
+      >
+        Soins Vibratoires &amp; Santé Naturelle.
+      </p>
+
+      <div
+        class="mt-10 md:mt-12 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-4 sm:gap-5 animate-subtitle-fade-in delay-hero-cta"
+      >
+        <a
+          href="#piliers"
+          class="inline-block text-center font-slogan rounded-full transition-all duration-300 transform hover:-translate-y-1 px-8 py-3 text-base md:text-lg border-2 border-white/90 text-white hover:bg-white/10"
+        >
+          Découvrir l'approche
+        </a>
+        <Button href="/accompagnements/reservation" variant="primary" size="lg" class="text-center w-full sm:w-auto">
+          Prendre rendez-vous
+        </Button>
       </div>
     </div>
   </div>
   <!-- Transition brush effect -->
-  <div class="absolute bottom-0 left-0 w-full z-30 transition-divider">
+  <div class="absolute bottom-0 left-0 w-full z-30 transition-divider pointer-events-none">
     <div class="absolute inset-0 bg-gradient-to-b from-transparent to-cream"></div>
-    <img 
-      src="/images/brush-divider.svg" 
+    <img
+      src="/images/brush-divider.svg"
       alt=""
       class="w-full h-auto min-h-[80px] object-cover transform motion-safe:animate-wave"
       loading="lazy"
@@ -71,52 +79,47 @@ import Button from './ui/Button.astro';
 </section>
 
 <style>
-  @keyframes subtle-zoom {
-    0% { transform: scale(1.1); }
-    50% { transform: scale(1.15); }
-    100% { transform: scale(1.1); }
-  }
-
   @keyframes slow-spin {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
   }
 
   @keyframes title-fade-in {
-    0% { 
-      opacity: 0; 
-      transform: translateY(30px) scale(0.95); 
+    0% {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
     }
-    100% { 
-      opacity: 1; 
-      transform: translateY(0) scale(1); 
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
   }
 
   @keyframes subtitle-fade-in {
-    0% { 
-      opacity: 0; 
-      transform: translateY(25px) scale(0.98); 
+    0% {
+      opacity: 0;
+      transform: translateY(25px) scale(0.98);
     }
-    100% { 
-      opacity: 1; 
-      transform: translateY(0) scale(1); 
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
   }
-
 
   @keyframes wave {
-    0% { transform: translateX(0) translateY(0); }
-    50% { transform: translateX(-1%) translateY(2px); }
-    100% { transform: translateX(0) translateY(0); }
-  }
-
-  .animate-subtle-zoom {
-    animation: subtle-zoom 20s infinite alternate ease-in-out;
-  }
-
-  .animate-slow-spin {
-    animation: slow-spin 60s infinite linear;
+    0% {
+      transform: translateX(0) translateY(0);
+    }
+    50% {
+      transform: translateX(-1%) translateY(2px);
+    }
+    100% {
+      transform: translateX(0) translateY(0);
+    }
   }
 
   .motion-safe\:animate-slow-spin {
@@ -130,33 +133,49 @@ import Button from './ui/Button.astro';
 
   .animate-subtitle-fade-in {
     opacity: 0;
-    animation: subtitle-fade-in 1.2s ease-out 0.8s forwards;
+    animation: subtitle-fade-in 1.2s ease-out forwards;
   }
 
+  .delay-hero-h1 {
+    animation-delay: 0.35s;
+    animation-fill-mode: forwards;
+  }
+
+  .delay-hero-line1 {
+    animation-delay: 0.5s;
+    animation-fill-mode: forwards;
+  }
+
+  .delay-hero-line2 {
+    animation-delay: 0.65s;
+    animation-fill-mode: forwards;
+  }
+
+  .delay-hero-cta {
+    animation-delay: 0.9s;
+    animation-fill-mode: forwards;
+  }
 
   .animate-wave {
     animation: wave 8s ease-in-out infinite;
   }
 
   .transition-divider {
-    filter: drop-shadow(0 -10px 15px rgba(0,0,0,0.1));
+    filter: drop-shadow(0 -10px 15px rgba(0, 0, 0, 0.1));
   }
 
-  /* Optimisation responsive pour l'image hero avec art direction */
   .hero-section picture {
     display: block;
     width: 100%;
     height: 100%;
   }
 
-  /* Mobile : image parfaitement cadrée, pas d'object-position nécessaire */
   @media (max-width: 768px) {
     .hero-section picture img {
       object-position: center center;
     }
   }
 
-  /* Desktop : maintien du cadrage existant */
   @media (min-width: 769px) {
     .hero-section picture img {
       object-position: center 20%;

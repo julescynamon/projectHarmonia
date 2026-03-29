@@ -17,9 +17,7 @@ const frontendServices = [
   'naturopathie-humaine-suivi',
   'naturopathie-animale-premiere',
   'naturopathie-animale-suivi',
-  'soins-energetiques-humains',
   'soins-energetiques-animaux',
-  'accompagnement-personnalise'
 ];
 
 async function testServicesSync() {
@@ -63,7 +61,7 @@ async function testServicesSync() {
     // 3. Afficher les détails des services
     console.log('\n3️⃣ Détails des services par catégorie:');
     
-    const categories = ['naturopathie-humaine', 'naturopathie-animale', 'soins-energetiques', 'accompagnement'];
+    const categories = ['naturopathie-humaine', 'naturopathie-animale', 'soins-energetiques', 'accompagnement'] as const;
     
     categories.forEach(category => {
       const categoryServices = dbServices?.filter(s => s.category === category) || [];

@@ -2,81 +2,70 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Navigation générale', () => {
   test('navigation vers les pages principales', async ({ page }) => {
-    // Aller à la page d'accueil
     await page.goto('/');
-    
-    // Vérifier le titre de la page d'accueil
+
     await expect(page).toHaveTitle(/Aïa/);
-    
-    // Vérifier la présence du logo
-    await expect(page.locator('img[alt="Aïa"]')).toBeVisible();
-    
-    // Navigation vers À propos
+
+    await expect(page.locator('img[alt="Maison Sattvaïa"]').first()).toBeVisible();
+
     await page.click('a[href="/a-propos"]');
     await expect(page).toHaveURL('/a-propos');
     await expect(page).toHaveTitle(/À propos/);
-    
-    // Navigation vers Contact
+
     await page.click('a[href="/contact"]');
     await expect(page).toHaveURL('/contact');
     await expect(page).toHaveTitle(/Contact/);
-    
-    // Navigation vers Services
-    await page.click('a[href="/services"]');
-    await expect(page).toHaveURL('/services');
-    await expect(page).toHaveTitle(/Services/);
-    
-    // Retour à l'accueil
+
     await page.click('a[href="/"]');
     await expect(page).toHaveURL('/');
   });
 
   test('navigation mobile', async ({ page }) => {
-    // Définir une taille d'écran mobile
     await page.setViewportSize({ width: 375, height: 667 });
-    
+
     await page.goto('/');
-    
-    // Vérifier que le menu mobile est caché par défaut
+
     await expect(page.locator('#mobileMenu')).toHaveClass(/translate-x-full/);
-    
-    // Ouvrir le menu mobile
+
     await page.click('#menuButton');
-    
-    // Vérifier que le menu mobile est visible
+
     await expect(page.locator('#mobileMenu')).not.toHaveClass(/translate-x-full/);
-    
-    // Fermer le menu mobile
+
     await page.click('#closeMenuButton');
-    
-    // Vérifier que le menu mobile est caché
+
     await expect(page.locator('#mobileMenu')).toHaveClass(/translate-x-full/);
   });
 
-  test('navigation vers les services', async ({ page }) => {
+  test('navigation vers les offres MAISON, SATTVA et AÏA', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/');
-    
-    // Navigation vers Naturopathie humaine
-    await page.click('a[href="/naturopathie-humaine"]');
-    await expect(page).toHaveURL('/naturopathie-humaine');
-    await expect(page).toHaveTitle(/Naturopathie humaine/);
-    
-    // Navigation vers Naturopathie animale
-    await page.click('a[href="/naturopathie-animale"]');
-    await expect(page).toHaveURL('/naturopathie-animale');
-    await expect(page).toHaveTitle(/Naturopathie animale/);
+
+    const openAccompagnements = () =>
+      page.locator('#mainNav').getByRole('link', { name: 'Accompagnements' }).hover();
+
+    await openAccompagnements();
+    await page.locator('#mainNav .hidden.xl\\:flex a[href="/maison"]').click();
+    await expect(page).toHaveURL('/maison');
+    await expect(page).toHaveTitle(/MAISON/);
 
     await page.goto('/');
-    // Navigation vers Naturopathie humaine (chemin accompagnements)
-    await page.click('a[href="/accompagnements/naturopathie-humaine"]');
-    await expect(page).toHaveURL('/accompagnements/naturopathie-humaine');
-    await expect(page).toHaveTitle(/Naturopathie humaine/);
+
+    await openAccompagnements();
+    await page.locator('#mainNav .hidden.xl\\:flex a[href="/sattva"]').click();
+    await expect(page).toHaveURL('/sattva');
+    await expect(page).toHaveTitle(/SATTVA/);
+
+    await page.goto('/');
+
+    await openAccompagnements();
+    await page.locator('#mainNav .hidden.xl\\:flex a[href="/aia"]').click();
+    await expect(page).toHaveURL('/aia');
+    await expect(page).toHaveTitle(/AÏA/);
   });
 
   test('navigation vers la boutique', async ({ page }) => {
     await page.goto('/');
-    
-    // Navigation vers la boutique
+
     await page.click('a[href="/boutique"]');
     await expect(page).toHaveURL('/boutique');
     await expect(page).toHaveTitle(/Boutique/);
@@ -84,19 +73,9 @@ test.describe('Navigation générale', () => {
 
   test('navigation vers le blog', async ({ page }) => {
     await page.goto('/');
-    
-    // Navigation vers le blog
+
     await page.click('a[href="/blog"]');
     await expect(page).toHaveURL('/blog');
     await expect(page).toHaveTitle(/Blog/);
   });
-
-  test('navigation vers les rendez-vous', async ({ page }) => {
-    await page.goto('/');
-    
-    // Navigation vers les rendez-vous
-    await page.click('a[href="/rendez-vous"]');
-    await expect(page).toHaveURL('/rendez-vous');
-    await expect(page).toHaveTitle(/Rendez-vous/);
-  });
-}); 
+});

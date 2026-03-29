@@ -1,0 +1,78 @@
+---
+// src/components/HomeClosing.astro
+import Button from './ui/Button.astro';
+---
+
+<section
+  class="relative min-h-[72vh] md:min-h-[78vh] flex items-center justify-center overflow-hidden"
+  aria-labelledby="closing-heading"
+>
+  <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/45 via-black/35 to-black/50 z-10"></div>
+    <picture class="block w-full h-full">
+      <source media="(max-width: 768px)" srcset="/images/final-cta-bg-mobile.webp" type="image/webp" />
+      <source media="(min-width: 769px)" srcset="/images/final-cta-bg.webp" type="image/webp" />
+      <img
+        src="/images/final-cta-bg.webp"
+        alt=""
+        class="w-full h-full object-cover"
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
+  </div>
+
+  <div class="container mx-auto px-4 relative z-20 py-16 md:py-20">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2
+        id="closing-heading"
+        class="font-heading text-3xl md:text-4xl lg:text-[2.35rem] !text-white leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]"
+        data-aos="fade-up"
+        data-aos-duration="900"
+      >
+        Prêt(e) à écouter votre propre résonance&nbsp;?
+      </h2>
+      <p
+        class="closing-cta-lede mt-8 md:mt-10 font-slogan text-lg md:text-xl !text-white leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)]"
+        data-aos="fade-up"
+        data-aos-duration="900"
+        data-aos-delay="80"
+      >
+        Ne laissez plus le déséquilibre s'installer. Faites le premier pas vers une harmonie durable pour vous,
+        votre compagnon, ou votre foyer.
+      </p>
+      <div class="mt-10 md:mt-12 flex justify-center" data-aos="fade-up" data-aos-duration="900" data-aos-delay="140">
+        <Button href="/accompagnements/reservation" variant="primary" size="lg" class="shadow-lg shadow-black/20">
+          Prendre rendez-vous maintenant
+        </Button>
+      </div>
+    </div>
+  </div>
+
+  <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-cream to-transparent z-[15] pointer-events-none" aria-hidden="true"></div>
+</section>
+
+<style>
+  /* body impose color: ebony — forcer le blanc sur le texte du CTA */
+  .closing-cta-lede {
+    color: #fafaf9 !important;
+  }
+
+  picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 768px) {
+    picture img {
+      object-position: center center;
+    }
+  }
+
+  @media (min-width: 769px) {
+    picture img {
+      object-position: center 20%;
+    }
+  }
+</style>

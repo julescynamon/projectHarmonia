@@ -138,7 +138,7 @@ export function getLocalBusinessData(): LocalBusinessData {
       }
     ],
     image: "https://www.maisonsattvaia.fr/images/og-image.webp",
-    logo: "https://www.maisonsattvaia.fr/favicon.svg",
+    logo: "https://www.maisonsattvaia.fr/favicon/favicon.svg",
     sameAs: [
       "https://www.facebook.com/maisonsattvaia",
       "https://www.instagram.com/maisonsattvaia"
@@ -156,8 +156,8 @@ export function getServicesData(): ServiceData[] {
   return [
     {
       "@type": "Service",
-      name: "Naturopathie Humaine",
-      description: "Accompagnement naturopathique personnalisé pour retrouver l'équilibre naturel de votre corps et de votre esprit.",
+      name: "MAISON : L'Offre Signature en Duo",
+      description: "Lecture systémique du binôme humain-animal, harmonisation et soin vibratoire en duo, à domicile ou en visio.",
       provider: {
         "@type": "Person",
         name: "Aïa"
@@ -176,8 +176,8 @@ export function getServicesData(): ServiceData[] {
     },
     {
       "@type": "Service",
-      name: "Naturopathie Animale",
-      description: "Soins naturopathiques spécialisés pour le bien-être et la santé naturelle de vos animaux de compagnie.",
+      name: "SATTVA : L'Offre Humaine",
+      description: "Bilan de terrain, magnétisme, MTC et lecture vibratoire pour retrouver votre axe originel.",
       provider: {
         "@type": "Person",
         name: "Aïa"
@@ -189,35 +189,15 @@ export function getServicesData(): ServiceData[] {
       },
       offers: {
         "@type": "Offer",
-        price: "70",
+        price: "150",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock"
       }
     },
     {
       "@type": "Service",
-      name: "Soins Énergétiques Humains",
-      description: "Soins énergétiques pour rééquilibrer vos corps subtils et libérer les blocages énergétiques.",
-      provider: {
-        "@type": "Person",
-        name: "Aïa"
-      },
-      areaServed: "Gard, Vaucluse, Drôme, Ardèche",
-      availableChannel: {
-        "@type": "ServiceChannel",
-        serviceType: "Consultation en présentiel ou à distance"
-      },
-      offers: {
-        "@type": "Offer",
-        price: "90",
-        priceCurrency: "EUR",
-        availability: "https://schema.org/InStock"
-      }
-    },
-    {
-      "@type": "Service",
-      name: "Soins Énergétiques Animaux",
-      description: "Soins énergétiques spécialisés pour animaux, communication intuitive et rééquilibrage des corps subtils.",
+      name: "AÏA : L'Offre Animale",
+      description: "Santé naturelle, communication intuitive et soins vibratoires pour le bien-être de vos compagnons.",
       provider: {
         "@type": "Person",
         name: "Aïa"
@@ -394,7 +374,7 @@ export function getArticleData(article: {
       name: "La Maison Sattvaïa",
       logo: {
         "@type": "ImageObject",
-        url: "https://www.maisonsattvaia.fr/favicon.svg"
+        url: "https://www.maisonsattvaia.fr/favicon/favicon.svg"
       }
     },
     datePublished: article.datePublished,

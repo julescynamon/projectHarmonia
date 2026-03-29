@@ -11,11 +11,9 @@ const pages = [
   'mentions-legales',
   'politique-confidentialite',
   'cgv',
-  'accompagnements/naturopathie-humaine',
-  'accompagnements/naturopathie-animale',
-  'accompagnements/soins-energetiques-humains',
-  'accompagnements/soins-energetiques-animaux',
-  'accompagnements/accompagnement-personalise',
+  'maison',
+  'sattva',
+  'aia',
   'accompagnements/reservation'
 ];
 
@@ -55,6 +53,9 @@ export const GET: APIRoute = async ({ site }) => {
             priority = '0.9';
             changefreq = 'weekly';
           } else if (page === 'a-propos') {
+            priority = '0.8';
+            changefreq = 'monthly';
+          } else if (page === 'maison' || page === 'sattva' || page === 'aia') {
             priority = '0.8';
             changefreq = 'monthly';
           } else if (page.startsWith('accompagnements/')) {

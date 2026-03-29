@@ -1,0 +1,345 @@
+---
+// src/pages/maison.astro — MAISON : L'Offre Signature en Duo
+export const prerender = false;
+
+import MainLayout from '../layouts/MainLayout.astro';
+import Button from '../components/ui/Button.astro';
+
+const prixDomicile = 80;
+const prixVisio = 80;
+const rayonKm = 70;
+const ville = 'Salazac';
+
+const breadcrumbItems = [
+  { name: 'Accueil', url: '/' },
+  { name: "MAISON : L'Offre Signature en Duo", url: '/maison' },
+];
+
+const seo = {
+  title: "MAISON : L'Offre Signature en Duo — Binôme humain-animal | Maison Sattvaïa",
+  description:
+    "MAISON : lecture systémique, libération du lien miroir, équilibre du foyer. Séance pour humain et animal à domicile ou en visio. Réservez à la Maison Sattvaïa.",
+  keywords:
+    'MAISON, offre signature duo, binôme humain animal, lien miroir, lecture systémique, Maison Sattvaïa, Salazac',
+};
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: "MAISON : L'Offre Signature en Duo",
+  description:
+    'Immersion de 2h : analyse systémique du binôme, harmonisation biologique croisée et soin vibratoire en duo, à domicile ou en visio.',
+  provider: {
+    '@type': 'Person',
+    name: 'Aïa',
+    jobTitle: 'Naturopathe',
+  },
+  areaServed: 'France',
+  serviceType: 'Soin énergétique binôme humain-animal',
+  offers: {
+    '@type': 'Offer',
+    price: String(prixDomicile),
+    priceCurrency: 'EUR',
+    description: 'Accompagnement signature MAISON (2h00)',
+  },
+};
+---
+
+<MainLayout title={seo.title} description={seo.description}>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbItems.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+        item: new URL(item.url, Astro.site).toString(),
+      })),
+    })}
+  />
+  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
+  <div>
+    <section
+      class="relative min-h-[85vh] flex items-center justify-center overflow-hidden hero-section"
+      aria-labelledby="hero-maison-heading"
+    >
+      <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-b from-ebony/55 via-ebony/45 to-ebony/65 z-10"></div>
+        <img
+          src="/images/soin-energetique-animaux-la-maison-sattvaia.webp"
+          alt="MAISON — harmonie du binôme humain-animal à la Maison Sattvaïa"
+          class="w-full h-full object-cover object-center"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+
+      <div class="container relative z-20 mx-auto px-4 py-24 md:py-28 text-center max-w-3xl">
+        <p class="font-slogan text-sm md:text-base uppercase tracking-[0.28em] text-white/85 mb-6 drop-shadow-md">
+          Maison Sattvaïa
+        </p>
+        <h1
+          id="hero-maison-heading"
+          class="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)] leading-tight"
+        >
+          MAISON : L'Offre Signature en Duo
+        </h1>
+        <p class="mt-4 font-heading text-lg md:text-xl text-white/95 italic leading-snug drop-shadow-md">
+          L'harmonie du binôme
+        </p>
+        <p class="mt-6 font-slogan text-base md:text-lg text-sage drop-shadow-md tracking-wide">
+          Lecture systémique <span class="text-gold/90 mx-1" aria-hidden="true">•</span> Libération du lien miroir
+          <span class="text-gold/90 mx-1" aria-hidden="true">•</span> Équilibre du foyer
+        </p>
+        <div class="mt-10 md:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center items-center">
+          <Button href="/accompagnements/reservation" variant="primary" size="lg" class="w-full sm:w-auto shadow-lg shadow-black/20">
+            Prendre rendez-vous
+          </Button>
+          <a
+            href="#accroche"
+            class="inline-block text-center font-slogan rounded-full transition-all duration-300 px-8 py-3 text-base md:text-lg border-2 border-white/90 text-white hover:bg-white/10 w-full sm:w-auto"
+          >
+            Lire la suite
+          </a>
+        </div>
+      </div>
+
+      <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent z-[15] pointer-events-none" aria-hidden="true"></div>
+    </section>
+
+    <section id="accroche" class="py-16 md:py-24 bg-white" aria-labelledby="accroche-heading">
+      <div class="container mx-auto px-4 max-w-3xl">
+        <h2 id="accroche-heading" class="sr-only">L'accroche</h2>
+        <p class="font-heading text-xl md:text-2xl text-eucalyptus mb-8 leading-snug">
+          «&nbsp;Vous ne vivez pas l'un à côté de l'autre, vous résonnez l'un avec l'autre.&nbsp;»
+        </p>
+        <div class="space-y-6 font-slogan text-lg text-ebony/90 leading-relaxed">
+          <p>
+            Avez-vous remarqué que votre stress semble peser sur les épaules de votre chien ? Que les problèmes digestifs
+            de votre chat font écho aux vôtres ? Votre animal n'est pas seulement un compagnon, c'est une éponge
+            émotionnelle et un baromètre biologique de votre propre état.
+          </p>
+          <p>
+            À la Maison Sattvaïa, je traite le binôme comme une seule entité vibratoire. Si l'un porte inconsciemment le
+            blocage de l'autre, soigner isolément ne suffit pas. Il faut libérer la structure du lien pour que chacun
+            retrouve sa juste place.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="concept-miroir"
+      class="py-16 md:py-24 bg-gradient-to-b from-cream via-white to-cream/40 relative overflow-hidden"
+      aria-labelledby="concept-heading"
+    >
+      <div class="absolute inset-0 opacity-3 pointer-events-none" aria-hidden="true">
+        <img
+          src="/images/sacred-geometry.svg"
+          alt=""
+          class="w-full h-full object-cover bg-gradient-to-r from-sage/20 to-gold/20 bg-clip-content"
+          loading="lazy"
+        />
+      </div>
+      <div class="absolute top-20 left-8 w-56 h-56 bg-sage/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+      <div class="absolute bottom-32 right-8 w-72 h-72 bg-gold/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+      <div class="container mx-auto px-4 max-w-5xl relative z-10">
+        <div class="text-center max-w-2xl mx-auto mb-12 md:mb-16">
+          <h2 id="concept-heading" class="font-heading text-2xl md:text-3xl lg:text-4xl text-ebony">
+            Le concept «&nbsp;miroir&nbsp;»
+          </h2>
+          <p class="mt-3 font-slogan text-eucalyptus">Pourquoi ça marche&nbsp;?</p>
+          <p class="mt-4 font-slogan text-lg text-ebony/85">
+            Une séance double pour une libération totale.
+          </p>
+          <p class="mt-4 font-slogan text-lg text-ebony/85">
+            Dans l'offre MAISON, je décode l'invisible pour soigner le visible&nbsp;:
+          </p>
+          <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <article class="rounded-2xl border border-sage/15 bg-white/95 p-8 shadow-sm">
+            <h3 class="font-heading text-xl text-ebony mb-4">L'effet miroir somatique</h3>
+            <p class="font-slogan text-ebony/90 leading-relaxed">
+              L'animal manifeste physiquement une pathologie pour «&nbsp;décharger&nbsp;» son gardien ou attirer son
+              attention sur un déséquilibre commun.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/15 bg-white/95 p-8 shadow-sm">
+            <h3 class="font-heading text-xl text-ebony mb-4">Le transfert émotionnel</h3>
+            <p class="font-slogan text-ebony/90 leading-relaxed">
+              Nous identifions quel traumatisme ou quelle peur n'appartient pas à l'animal, mais à l'histoire du foyer.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/15 bg-white/95 p-8 shadow-sm">
+            <h3 class="font-heading text-xl text-ebony mb-4">La libération croisée</h3>
+            <p class="font-slogan text-ebony/90 leading-relaxed">
+              En travaillant simultanément sur vos deux fréquences, nous brisons les cercles vicieux pour laisser place
+              à une relation saine, légère et alignée.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="besoins" class="py-16 md:py-24 bg-white border-t border-sage/10" aria-labelledby="besoins-heading">
+      <div class="container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-12">
+          <h2 id="besoins-heading" class="font-heading text-2xl md:text-3xl lg:text-4xl text-ebony">
+            Pour quels besoins&nbsp;?
+          </h2>
+          <p class="mt-3 font-slogan text-eucalyptus">La profondeur du soin</p>
+          <p class="mt-4 font-slogan text-lg text-ebony/85 max-w-2xl mx-auto">
+            Cette offre intervient là où les approches classiques s'arrêtent&nbsp;:
+          </p>
+          <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-6">
+          <article class="rounded-2xl border border-sage/12 bg-cream/50 p-6 md:p-8">
+            <h3 class="font-heading text-lg text-ebony mb-3">Troubles du comportement &amp; réactivité</h3>
+            <p class="font-slogan text-ebony/88 leading-relaxed">
+              Agressivité inexpliquée, anxiété de séparation, destructions ou aboiements compulsifs qui cachent souvent
+              une tension systémique.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/12 bg-cream/50 p-6 md:p-8">
+            <h3 class="font-heading text-lg text-ebony mb-3">Pathologies miroirs &amp; chroniques</h3>
+            <p class="font-slogan text-ebony/88 leading-relaxed">
+              Troubles digestifs simultanés, problèmes de peau récurrents, allergies ou maladies auto-immunes qui
+              résonnent entre vous.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/12 bg-cream/50 p-6 md:p-8">
+            <h3 class="font-heading text-lg text-ebony mb-3">Blocages relationnels</h3>
+            <p class="font-slogan text-ebony/88 leading-relaxed">
+              Incompréhension, hyper-attachement étouffant ou perte de confiance après un incident.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/12 bg-cream/50 p-6 md:p-8">
+            <h3 class="font-heading text-lg text-ebony mb-3">Changements de vie &amp; transitions</h3>
+            <p class="font-slogan text-ebony/88 leading-relaxed">
+              Deuil d'un autre animal, séparation, déménagement ou arrivée d'un enfant qui déstabilise l'équilibre du
+              foyer.
+            </p>
+          </article>
+          <article class="rounded-2xl border border-sage/12 bg-cream/50 p-6 md:p-8 sm:col-span-2 max-w-2xl mx-auto w-full">
+            <h3 class="font-heading text-lg text-ebony mb-3">Accompagnement de fin de vie</h3>
+            <p class="font-slogan text-ebony/88 leading-relaxed">
+              Libérer le gardien du poids émotionnel pour permettre à l'animal de partir dans une paix totale et une
+              résonance apaisée.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="protocole-maison"
+      class="py-16 md:py-24 bg-cream/70 border-t border-sage/15"
+      aria-labelledby="protocole-heading"
+    >
+      <div class="container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-12">
+          <h2 id="protocole-heading" class="font-heading text-2xl md:text-3xl lg:text-4xl text-ebony">
+            Le protocole signature «&nbsp;MAISON&nbsp;»
+          </h2>
+          <p class="mt-3 font-slogan text-ebony/80 max-w-xl mx-auto">
+            Une immersion de 2 à 3h pour transformer votre quotidien.
+          </p>
+          <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
+        </div>
+        <ol class="space-y-10 max-w-2xl mx-auto list-none p-0 m-0">
+          <li class="flex gap-4 md:gap-6">
+            <span
+              class="flex-shrink-0 w-10 h-10 rounded-full bg-sage text-white font-heading flex items-center justify-center text-lg"
+              >1</span
+            >
+            <div>
+              <h3 class="font-heading text-lg text-ebony mb-2">Analyse systémique</h3>
+              <p class="font-slogan text-ebony/88 leading-relaxed">
+                Je lis la dynamique de votre binôme. Qui porte quoi ? Quelle est la source réelle du déséquilibre dans
+                le foyer ?
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4 md:gap-6">
+            <span
+              class="flex-shrink-0 w-10 h-10 rounded-full bg-eucalyptus text-white font-heading flex items-center justify-center text-lg"
+              >2</span
+            >
+            <div>
+              <h3 class="font-heading text-lg text-ebony mb-2">Harmonisation biologique</h3>
+              <p class="font-slogan text-ebony/88 leading-relaxed">
+                Conseils en naturopathie croisée (nutrition, plantes adaptogènes, hygiène de vie pour vous deux) pour
+                ancrer le changement dans le corps.
+              </p>
+            </div>
+          </li>
+          <li class="flex gap-4 md:gap-6">
+            <span
+              class="flex-shrink-0 w-10 h-10 rounded-full bg-gold text-ebony font-heading flex items-center justify-center text-lg"
+              >3</span
+            >
+            <div>
+              <h3 class="font-heading text-lg text-ebony mb-2">Soin vibratoire en duo</h3>
+              <p class="font-slogan text-ebony/88 leading-relaxed">
+                Un travail énergétique profond où je réaligne vos deux fréquences pour dissoudre les mémoires cellulaires
+                partagées.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="details" class="py-16 md:py-28 bg-white border-t border-sage/15" aria-labelledby="tarifs-heading">
+      <div class="container mx-auto px-4 max-w-3xl text-center">
+        <h2 id="tarifs-heading" class="font-heading text-2xl md:text-3xl lg:text-4xl text-ebony mb-3">
+          Tarifs &amp; réservation
+        </h2>
+        <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mb-10 rounded-full"></div>
+
+        <div class="rounded-3xl border border-sage/15 bg-white p-8 md:p-10 text-left shadow-sm">
+          <h3 class="font-heading text-xl md:text-2xl text-ebony">Accompagnement signature MAISON</h3>
+          <p class="font-slogan text-sage mt-1">2 à 3h00</p>
+          <p class="mt-4 font-slogan text-ebony/88 leading-relaxed">
+            Le soin complet pour le binôme Humain + Animal.
+          </p>
+
+          <ul class="mt-8 space-y-6 font-slogan">
+            <li class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-6 border-b border-sage/10">
+              <div>
+                <span class="font-heading text-ebony">À domicile</span>
+                <p class="text-sm text-ebony/65 mt-1">
+                  Rayon de {rayonKm}&nbsp;km autour de {ville} (déplacements Gard, Ardèche, Vaucluse, Drôme,
+                  Bouches-du-Rhône)
+                </p>
+              </div>
+              <span class="font-heading text-2xl text-eucalyptus shrink-0">{prixDomicile}&nbsp;€</span>
+            </li>
+            <li class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <div>
+                <span class="font-heading text-ebony">En visio</span>
+                <p class="text-sm text-ebony/65 mt-1">
+                  Aussi puissant qu'en présentiel grâce à la résonance informationnelle
+                </p>
+              </div>
+              <span class="font-heading text-2xl text-eucalyptus shrink-0">{prixVisio}&nbsp;€</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="mt-10">
+          <Button href="/accompagnements/reservation" variant="primary" size="lg" class="w-full sm:w-auto min-w-[240px]">
+            Rétablir l'harmonie dans mon foyer
+          </Button>
+        </div>
+      </div>
+    </section>
+  </div>
+</MainLayout>

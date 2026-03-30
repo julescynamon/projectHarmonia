@@ -10,6 +10,7 @@ export function getAppointmentConfirmationEmailHtml({
     time: string;
     client_name: string;
     client_email: string;
+    client_phone?: string | null;
     reason?: string;
   };
   service: {
@@ -26,6 +27,8 @@ export function getAppointmentConfirmationEmailHtml({
     month: 'long',
     day: 'numeric'
   });
+
+  const isFree = service.price === 0;
 
   return `
     <!DOCTYPE html>
@@ -106,8 +109,9 @@ export function getAppointmentConfirmationEmailHtml({
           <p><strong>Service :</strong> ${service.title}</p>
           <p><strong>Date souhaitée :</strong> ${formattedDate}</p>
           <p><strong>Heure souhaitée :</strong> ${appointment.time}</p>
+          <p><strong>Téléphone :</strong> ${appointment.client_phone || '—'}</p>
           <p><strong>Durée :</strong> ${service.duration}</p>
-          <p><strong>Prix :</strong> ${service.price}€</p>
+          <p><strong>Prix :</strong> ${isFree ? 'Gratuit' : `${service.price}€`}</p>
           
           ${appointment.reason ? `
           <h3>Motif de consultation</h3>
@@ -119,12 +123,20 @@ export function getAppointmentConfirmationEmailHtml({
         
         <div class="contact-info">
           <h3>📧 Prochaines étapes</h3>
+          ${
+            isFree
+              ? `
+          <p>Une fois votre demande validée par l’équipe, vous recevrez un email de confirmation avec le rappel de votre créneau. <strong>Aucun paiement</strong> n’est demandé pour ce bilan téléphonique.</p>
+          `
+              : `
           <p>Une fois votre demande validée, vous recevrez :</p>
           <ul>
             <li>Une confirmation de votre rendez-vous</li>
             <li>Un lien de paiement sécurisé</li>
             <li>Les informations pratiques pour votre séance</li>
           </ul>
+          `
+          }
         </div>
         
         <h3>Questions ou modifications ?</h3>

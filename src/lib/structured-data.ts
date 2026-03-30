@@ -157,7 +157,7 @@ export function getServicesData(): ServiceData[] {
     {
       "@type": "Service",
       name: "MAISON : L'Offre Signature en Duo",
-      description: "Lecture systémique du binôme humain-animal, harmonisation et soin vibratoire en duo, à domicile ou en visio.",
+      description: "Lecture systémique du binôme humain-animal, harmonisation et soin vibratoire en duo (3h-4h), à domicile ou en visio.",
       provider: {
         "@type": "Person",
         name: "Aïa"
@@ -169,7 +169,7 @@ export function getServicesData(): ServiceData[] {
       },
       offers: {
         "@type": "Offer",
-        price: "80",
+        price: "180",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock"
       }
@@ -189,7 +189,7 @@ export function getServicesData(): ServiceData[] {
       },
       offers: {
         "@type": "Offer",
-        price: "150",
+        price: "120",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock"
       }

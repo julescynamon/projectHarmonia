@@ -13,11 +13,13 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // IDs des services du frontend
 const frontendServices = [
+  'bilan-telephonique-gratuit',
   'naturopathie-humaine-premiere',
   'naturopathie-humaine-suivi',
   'naturopathie-animale-premiere',
   'naturopathie-animale-suivi',
   'soins-energetiques-animaux',
+  'soins-energetiques-maison-suivi',
 ];
 
 async function testServicesSync() {

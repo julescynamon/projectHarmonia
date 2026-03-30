@@ -23,7 +23,7 @@ DROP CONSTRAINT IF EXISTS services_category_check;
 
 ALTER TABLE services 
 ADD CONSTRAINT services_category_check 
-CHECK (category IN ('naturopathie-humaine', 'naturopathie-animale', 'soins-energetiques', 'accompagnement'));
+CHECK (category IN ('naturopathie-humaine', 'naturopathie-animale', 'soins-energetiques', 'accompagnement', 'offre-gratuite'));
 
 -- 5. Vérifier la structure finale
 SELECT column_name, data_type, is_nullable 

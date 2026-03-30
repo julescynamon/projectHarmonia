@@ -92,6 +92,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         service: appointment.services.title,
         clientName: appointment.client_name,
         clientEmail: appointment.client_email,
+        clientPhone: appointment.client_phone,
         reason: appointment.reason
       });
     } catch (error) {

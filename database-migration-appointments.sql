@@ -5,7 +5,8 @@
 ALTER TABLE appointments 
 ADD COLUMN IF NOT EXISTS approved_at TIMESTAMP WITH TIME ZONE,
 ADD COLUMN IF NOT EXISTS rejected_at TIMESTAMP WITH TIME ZONE,
-ADD COLUMN IF NOT EXISTS rejection_reason TEXT;
+ADD COLUMN IF NOT EXISTS rejection_reason TEXT,
+ADD COLUMN IF NOT EXISTS client_phone TEXT;
 
 -- Mettre à jour la contrainte CHECK pour inclure les nouveaux statuts
 ALTER TABLE appointments DROP CONSTRAINT IF EXISTS appointments_status_check;
@@ -24,3 +25,4 @@ COMMENT ON COLUMN appointments.status IS 'Statuts: pending_approval (en attente 
 COMMENT ON COLUMN appointments.approved_at IS 'Date et heure d''approbation de la réservation';
 COMMENT ON COLUMN appointments.rejected_at IS 'Date et heure de refus de la réservation';
 COMMENT ON COLUMN appointments.rejection_reason IS 'Motif du refus de la réservation';
+COMMENT ON COLUMN appointments.client_phone IS 'Téléphone fourni à la réservation';

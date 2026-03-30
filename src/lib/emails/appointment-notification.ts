@@ -10,6 +10,7 @@ export function getAppointmentNotificationEmailHtml({
     time: string;
     client_name: string;
     client_email: string;
+    client_phone?: string | null;
     reason?: string;
   };
   service: {
@@ -26,6 +27,8 @@ export function getAppointmentNotificationEmailHtml({
     month: 'long',
     day: 'numeric'
   });
+
+  const isFree = service.price === 0;
 
   return `
     <!DOCTYPE html>
@@ -96,13 +99,14 @@ export function getAppointmentNotificationEmailHtml({
           <h3>Informations client</h3>
           <p><strong>Nom :</strong> ${appointment.client_name}</p>
           <p><strong>Email :</strong> ${appointment.client_email}</p>
+          <p><strong>Téléphone :</strong> ${appointment.client_phone || '—'}</p>
           
           <h3>Détails du rendez-vous</h3>
           <p><strong>Service :</strong> ${service.title}</p>
           <p><strong>Date :</strong> ${formattedDate}</p>
           <p><strong>Heure :</strong> ${appointment.time}</p>
           <p><strong>Durée :</strong> ${service.duration}</p>
-          <p><strong>Prix :</strong> ${service.price}€</p>
+          <p><strong>Prix :</strong> ${isFree ? 'Gratuit (aucun paiement Stripe)' : `${service.price}€`}</p>
           
           ${appointment.reason ? `
           <h3>Motif de consultation</h3>

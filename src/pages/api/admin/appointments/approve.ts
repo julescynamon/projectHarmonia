@@ -73,7 +73,57 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    // Création de la session Stripe
+    const rawPrice = appointment.services?.price;
+    const servicePrice =
+      typeof rawPrice === 'number' ? rawPrice : Number(rawPrice);
+    const isFreeService =
+      !Number.isNaN(servicePrice) && servicePrice === 0;
+
+    if (isFreeService) {
+      const { error: freeUpdateError } = await locals.supabase
+        .from('appointments')
+        .update({
+          status: 'confirmed',
+          approved_at: new Date().toISOString(),
+        })
+        .eq('id', appointmentId);
+
+      if (freeUpdateError) {
+        console.error('Erreur lors de la mise à jour (offre gratuite):', freeUpdateError);
+        return new Response(
+          JSON.stringify({ error: 'Erreur lors de la mise à jour de la réservation' }),
+          { status: 500 }
+        );
+      }
+
+      try {
+        await sendAppointmentApprovalEmail({
+          clientName: appointment.client_name,
+          clientEmail: appointment.client_email,
+          clientPhone: appointment.client_phone,
+          date: appointment.date,
+          time: appointment.time,
+          service: appointment.services?.title || 'Consultation',
+          paymentUrl: '',
+          price: 0,
+          isFree: true,
+        });
+      } catch (emailError) {
+        console.error("Erreur lors de l'envoi de l'email:", emailError);
+      }
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: 'Réservation gratuite confirmée (sans paiement)',
+          paymentUrl: null,
+          isFreeBooking: true,
+        }),
+        { status: 200 }
+      );
+    }
+
+    // Création de la session Stripe (prestations payantes)
     const sessionStripe = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -84,7 +134,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
               name: appointment.services?.title || 'Consultation',
               description: `Réservation du ${appointment.date} à ${appointment.time}`,
             },
-            unit_amount: Math.round((appointment.services?.price || 0) * 100), // Conversion en centimes
+            unit_amount: Math.round(servicePrice * 100),
           },
           quantity: 1,
         },
@@ -99,13 +149,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
       },
     });
 
-    // Mise à jour du statut de la réservation
     const { error: updateError } = await locals.supabase
       .from('appointments')
-      .update({ 
+      .update({
         status: 'pending',
         stripe_session_id: sessionStripe.id,
-        approved_at: new Date().toISOString()
+        approved_at: new Date().toISOString(),
       })
       .eq('id', appointmentId);
 
@@ -117,27 +166,27 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    // Envoi de l'email d'approbation
     try {
       await sendAppointmentApprovalEmail({
         clientName: appointment.client_name,
         clientEmail: appointment.client_email,
+        clientPhone: appointment.client_phone,
         date: appointment.date,
         time: appointment.time,
         service: appointment.services?.title || 'Consultation',
         paymentUrl: sessionStripe.url,
-        price: appointment.services?.price || 0
+        price: servicePrice,
+        isFree: false,
       });
     } catch (emailError) {
-      console.error('Erreur lors de l\'envoi de l\'email:', emailError);
-      // On continue même si l'email échoue
+      console.error("Erreur lors de l'envoi de l'email:", emailError);
     }
 
     return new Response(
       JSON.stringify({
         success: true,
         message: 'Réservation approuvée avec succès',
-        paymentUrl: sessionStripe.url
+        paymentUrl: sessionStripe.url,
       }),
       { status: 200 }
     );

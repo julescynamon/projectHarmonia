@@ -132,6 +132,7 @@ export async function sendAppointmentNotification(
     service: string;
     clientName: string;
     clientEmail: string;
+    clientPhone?: string | null;
   }
 ) {
   try {
@@ -149,6 +150,7 @@ export async function sendAppointmentNotification(
           <li>Service : ${appointment.service}</li>
           <li>Client : ${appointment.clientName}</li>
           <li>Email : ${appointment.clientEmail}</li>
+          ${appointment.clientPhone ? `<li>Téléphone : ${appointment.clientPhone}</li>` : ''}
         </ul>
       `,
     });

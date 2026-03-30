@@ -2,6 +2,7 @@
 export function getAppointmentApprovalEmailHtml({
   appointment,
   paymentUrl,
+  isFree = false,
   websiteUrl = 'https://la-maison-sattvaia.com'
 }: {
   appointment: {
@@ -11,8 +12,10 @@ export function getAppointmentApprovalEmailHtml({
     service: string;
     clientName: string;
     clientEmail: string;
+    clientPhone?: string | null;
   };
   paymentUrl: string;
+  isFree?: boolean;
   websiteUrl?: string;
 }) {
   const formattedDate = new Date(appointment.date).toLocaleDateString('fr-FR', {
@@ -21,6 +24,18 @@ export function getAppointmentApprovalEmailHtml({
     month: 'long',
     day: 'numeric'
   });
+
+  const phoneRaw = appointment.clientPhone?.trim() || '';
+  const escapeHtml = (s: string) =>
+    s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  const safePhone = phoneRaw ? escapeHtml(phoneRaw) : '';
+  const freeCallText = safePhone
+    ? `Nous vous appellerons à l’heure convenue au numéro suivant : <strong>${safePhone}</strong>. Prévoyez environ <strong>30 minutes</strong> d’échange.`
+    : `Nous vous appellerons à l’heure convenue au numéro indiqué dans votre dossier. Prévoyez environ <strong>30 minutes</strong> d’échange.`;
 
   return `
     <!DOCTYPE html>
@@ -38,11 +53,11 @@ export function getAppointmentApprovalEmailHtml({
         </tr>
         <tr>
           <td style="background-color: #ffffff; padding: 30px;">
-            <h2 style="color: #748c69; font-size: 22px; margin: 0 0 20px 0; font-weight: 600;">Réservation Approuvée !</h2>
+            <h2 style="color: #748c69; font-size: 22px; margin: 0 0 20px 0; font-weight: 600;">${isFree ? 'Votre créneau est confirmé !' : 'Réservation Approuvée !'}</h2>
             
             <p style="color: #131212; margin-bottom: 20px;">Bonjour ${appointment.clientName},</p>
             
-            <p style="color: #131212; margin-bottom: 20px;">Nous avons le plaisir de vous confirmer que votre demande de réservation a été <strong>approuvée</strong> !</p>
+            <p style="color: #131212; margin-bottom: 20px;">${isFree ? 'Nous avons le plaisir de confirmer votre <strong>bilan téléphonique gratuit</strong>. Aucun paiement n’est nécessaire.' : 'Nous avons le plaisir de vous confirmer que votre demande de réservation a été <strong>approuvée</strong> !'}</p>
             
             <table width="100%" style="background-color: #f4f1ed; border-radius: 6px; padding: 20px; margin-bottom: 20px;">
               <tr>
@@ -57,8 +72,25 @@ export function getAppointmentApprovalEmailHtml({
                 <td style="color: #748c69; padding: 5px 10px; font-weight: 600;">Heure :</td>
                 <td style="color: #131212; padding: 5px 10px;">${appointment.time}</td>
               </tr>
+              <tr>
+                <td style="color: #748c69; padding: 5px 10px; font-weight: 600;">Téléphone :</td>
+                <td style="color: #131212; padding: 5px 10px;">${safePhone || '—'}</td>
+              </tr>
             </table>
             
+            ${
+              isFree
+                ? `
+            <table width="100%" style="background-color: #e8f5e9; border-radius: 6px; padding: 20px; margin-bottom: 20px; border: 1px solid #c3e6c3;">
+              <tr>
+                <td style="text-align: center;">
+                  <p style="color: #2e4a32; margin: 0 0 10px 0; font-weight: 600;">📞 À prévoir le jour J</p>
+                  <p style="color: #131212; margin: 0; font-size: 14px;">${freeCallText}</p>
+                </td>
+              </tr>
+            </table>
+            `
+                : `
             <table width="100%" style="background-color: #748c69; border-radius: 6px; padding: 20px; margin-bottom: 20px;">
               <tr>
                 <td style="text-align: center;">
@@ -69,6 +101,8 @@ export function getAppointmentApprovalEmailHtml({
             </table>
             
             <p style="color: #131212; margin-bottom: 20px; font-size: 14px;"><strong>Important :</strong> Votre réservation ne sera confirmée qu'après réception du paiement. En cas de non-paiement dans les 24 heures, le créneau sera libéré pour d'autres clients.</p>
+            `
+            }
           </td>
         </tr>
         <tr>

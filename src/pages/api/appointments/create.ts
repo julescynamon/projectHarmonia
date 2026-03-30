@@ -6,8 +6,27 @@ import { sendAppointmentNotificationEmail, sendAppointmentConfirmationEmail } fr
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
-    const { date, time, serviceId, email, name, reason } = body;
+    const { date, time, serviceId, email, name, phone, reason } = body;
     const supabase = locals.supabase;
+
+    const clientPhone =
+      typeof phone === 'string' ? phone.trim().replace(/\s+/g, ' ') : '';
+    if (!clientPhone || clientPhone.length < 8 || clientPhone.length > 32) {
+      return new Response(
+        JSON.stringify({
+          error: 'Numéro de téléphone invalide (8 à 32 caractères)',
+        }),
+        { status: 400 }
+      );
+    }
+    if (!/^[\d+().\s-]+$/.test(clientPhone)) {
+      return new Response(
+        JSON.stringify({
+          error: 'Le téléphone ne doit contenir que des chiffres et les signes + ( ) . - espaces',
+        }),
+        { status: 400 }
+      );
+    }
     // Vérifier à nouveau la disponibilité (pending_approval, pending ou confirmed)
     const { data: existingAppointments, error: availabilityError } = await supabase
       .from('appointments')
@@ -57,6 +76,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       service_id: serviceId,
       client_email: email,
       client_name: name,
+      client_phone: clientPhone,
       reason: reason || null,
       status: 'pending_approval'
     };
@@ -79,6 +99,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
+    const servicePriceNum = Number(service.price);
+    const priceForEmail = Number.isFinite(servicePriceNum) ? servicePriceNum : 0;
+
     // Envoyer l'email de notification à l'administrateur
     try {
       await sendAppointmentNotificationEmail({
@@ -88,11 +111,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
           time: appointment.time,
           client_name: appointment.client_name,
           client_email: appointment.client_email,
+          client_phone: appointment.client_phone,
           reason: appointment.reason
         },
         service: {
           title: service.title,
-          price: service.price,
+          price: priceForEmail,
           duration: service.duration || '1h'
         }
       });
@@ -110,11 +134,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
           time: appointment.time,
           client_name: appointment.client_name,
           client_email: appointment.client_email,
+          client_phone: appointment.client_phone,
           reason: appointment.reason
         },
         service: {
           title: service.title,
-          price: service.price,
+          price: priceForEmail,
           duration: service.duration || '1h'
         }
       });

@@ -1,0 +1,103 @@
+---
+// Bandeau d'accueil — bilan téléphonique gratuit (Appel Découverte)
+const ctaHref = '/accompagnements/reservation?service=bilan-telephonique-gratuit#reservation-form';
+---
+
+<section
+  id="bilan-resonance"
+  class="py-16 md:py-24 bg-gradient-to-b from-white via-cream/40 to-cream/20 relative overflow-hidden"
+  aria-labelledby="bilan-resonance-heading"
+>
+  <div class="absolute top-16 right-0 w-72 h-72 bg-gold/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute bottom-10 left-10 w-56 h-56 bg-sage/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+  <div class="container mx-auto px-4 relative z-10">
+    <div
+      class="max-w-3xl mx-auto rounded-3xl border-2 border-gold/55 ring-2 ring-gold/20 bg-white/95 backdrop-blur-sm shadow-xl p-8 md:p-12 lg:p-14"
+      data-aos="fade-up"
+      data-aos-duration="900"
+    >
+      <p class="font-slogan text-xs md:text-sm uppercase tracking-[0.2em] text-eucalyptus text-center mb-5">
+        Pour commencer en douceur
+      </p>
+
+      <h2
+        id="bilan-resonance-heading"
+        class="font-heading text-2xl sm:text-3xl md:text-4xl text-ebony text-center leading-tight mb-2"
+      >
+        <span class="block uppercase tracking-[0.08em] text-lg sm:text-xl md:text-2xl text-sage font-slogan mb-2"
+          >Le bilan de résonance</span
+        >
+        <span class="block">Appel Découverte</span>
+      </h2>
+
+      <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto rounded-full my-8" aria-hidden="true"></div>
+
+      <p class="font-slogan text-ebony/90 text-base md:text-lg leading-relaxed text-center mb-10">
+        30 minutes d’échange pour analyser vos besoins, identifier vos blocages prioritaires et définir
+        l’accompagnement le plus juste pour vous ou votre animal.
+      </p>
+
+      <div class="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-8 mb-10">
+        <div class="home-bilan-pill">
+          <span class="font-slogan text-sm uppercase tracking-wider text-ebony/70 mr-2">Tarif : OFFERT</span>
+          
+        </div>
+        <div class="flex items-center gap-2 font-slogan text-ebony/90">
+          <span class="material-icons text-eucalyptus text-xl" aria-hidden="true">schedule</span>
+          <span><span class="text-ebony/60">Durée</span> : 30&nbsp;min</span>
+        </div>
+      </div>
+
+      <div class="text-center mb-10">
+        <a href={ctaHref} class="home-bilan-cta inline-flex items-center justify-center gap-2">
+          <span class="material-icons text-base" aria-hidden="true">calendar_today</span>
+          Réserver mon créneau
+        </a>
+      </div>
+
+      <p
+        class="font-slogan text-sm md:text-base text-ebony/70 leading-relaxed text-center border-t border-sage/15 pt-8 max-w-2xl mx-auto"
+      >
+        Cet échange ne remplace pas une consultation, mais permet de mettre des mots sur vos maux et de choisir
+        la porte d’entrée ( <strong class="text-ebony/85">MAISON</strong>, <strong class="text-ebony/85">SATTVA</strong>, ou <strong class="text-ebony/85">AÏA</strong>
+        ) la plus adaptée à votre situation actuelle.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-bilan-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 1.1rem;
+    border-radius: 9999px;
+    background: linear-gradient(45deg, #d4a373, #f4f1ed);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  .home-bilan-cta {
+    font-family: 'Lora', serif;
+    letter-spacing: 0.06em;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    background: linear-gradient(45deg, #d4a373, #f4f1ed);
+    color: #131212;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .home-bilan-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  }
+
+  .home-bilan-cta:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px #a8b5a3, 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+</style>

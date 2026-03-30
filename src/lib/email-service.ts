@@ -228,6 +228,7 @@ export async function sendAppointmentNotificationEmail({
     time: string;
     client_name: string;
     client_email: string;
+    client_phone?: string | null;
     reason?: string;
   };
   service: {
@@ -309,6 +310,7 @@ export async function sendAppointmentConfirmationEmail({
     time: string;
     client_name: string;
     client_email: string;
+    client_phone?: string | null;
     reason?: string;
   };
   service: {
@@ -459,43 +461,50 @@ ${sanitizedData.message}
 export async function sendAppointmentApprovalEmail({
   clientName,
   clientEmail,
+  clientPhone,
   date,
   time,
   service,
   paymentUrl,
-  price
+  price,
+  isFree = false
 }: {
   clientName: string;
   clientEmail: string;
+  clientPhone?: string | null;
   date: string;
   time: string;
   service: string;
   paymentUrl: string;
   price: number;
+  isFree?: boolean;
 }) {
   try {
     if (!RESEND_API_KEY) {
       throw new EmailServiceError('RESEND_API_KEY non configurée', 'CONFIG_ERROR');
     }
 
-    // Génération du template HTML via la fonction TypeScript
     const emailHtml = getAppointmentApprovalEmailHtml({
       appointment: {
-        id: 'temp-id', // ID temporaire pour la fonction
+        id: 'temp-id',
         date: date,
         time: time,
         service: service,
         clientName: clientName,
-        clientEmail: clientEmail
+        clientEmail: clientEmail,
+        clientPhone: clientPhone || null
       },
       paymentUrl: paymentUrl,
+      isFree,
       websiteUrl: 'https://la-maison-sattvaia.com'
     });
 
     const emailData = {
       from: FROM_EMAIL,
       to: [clientEmail],
-      subject: 'Réservation approuvée - Procédez au paiement - La Maison Sattvaïa',
+      subject: isFree
+        ? 'Votre bilan téléphonique gratuit est confirmé - La Maison Sattvaïa'
+        : 'Réservation approuvée - Procédez au paiement - La Maison Sattvaïa',
       html: emailHtml
     };
 
@@ -503,7 +512,7 @@ export async function sendAppointmentApprovalEmail({
     if (IS_DEVELOPMENT) {
       console.log('Mode développement : Email d\'approbation client simulé');
       console.log('Destinataire:', clientEmail);
-      console.log('Lien de paiement:', paymentUrl);
+      console.log('Lien de paiement:', paymentUrl || '(offre gratuite)');
       return {
         success: true,
         message: 'Email d\'approbation client simulé (mode développement)',

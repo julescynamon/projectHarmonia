@@ -5,8 +5,8 @@ export const prerender = false;
 import MainLayout from '../layouts/MainLayout.astro';
 import Button from '../components/ui/Button.astro';
 
-const prixDomicile = 80;
-const prixVisio = 80;
+const prixDomicile = 180;
+const prixVisio = 180;
 const rayonKm = 70;
 const ville = 'Salazac';
 
@@ -28,7 +28,7 @@ const structuredData = {
   '@type': 'Service',
   name: "MAISON : L'Offre Signature en Duo",
   description:
-    'Immersion de 2h : analyse systémique du binôme, harmonisation biologique croisée et soin vibratoire en duo, à domicile ou en visio.',
+    'Immersion de 3h-4h : analyse systémique du binôme, harmonisation biologique croisée et soin vibratoire en duo, à domicile ou en visio.',
   provider: {
     '@type': 'Person',
     name: 'Aïa',
@@ -40,7 +40,7 @@ const structuredData = {
     '@type': 'Offer',
     price: String(prixDomicile),
     priceCurrency: 'EUR',
-    description: 'Accompagnement signature MAISON (2h00)',
+    description: 'Accompagnement signature MAISON (3h-4h)',
   },
 };
 ---
@@ -69,7 +69,7 @@ const structuredData = {
       <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-b from-ebony/55 via-ebony/45 to-ebony/65 z-10"></div>
         <img
-          src="/images/soin-energetique-animaux-la-maison-sattvaia.webp"
+          src="/images/maison.webp"
           alt="MAISON — harmonie du binôme humain-animal à la Maison Sattvaïa"
           class="w-full h-full object-cover object-center"
           loading="eager"
@@ -249,7 +249,7 @@ const structuredData = {
             Le protocole signature «&nbsp;MAISON&nbsp;»
           </h2>
           <p class="mt-3 font-slogan text-ebony/80 max-w-xl mx-auto">
-            Une immersion de 2 à 3h pour transformer votre quotidien.
+            Une immersion de 3h-4h pour transformer votre quotidien.
           </p>
           <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mt-8 rounded-full"></div>
         </div>
@@ -306,7 +306,7 @@ const structuredData = {
 
         <div class="rounded-3xl border border-sage/15 bg-white p-8 md:p-10 text-left shadow-sm">
           <h3 class="font-heading text-xl md:text-2xl text-ebony">Accompagnement signature MAISON</h3>
-          <p class="font-slogan text-sage mt-1">2 à 3h00</p>
+          <p class="font-slogan text-sage mt-1">3h-4h</p>
           <p class="mt-4 font-slogan text-ebony/88 leading-relaxed">
             Le soin complet pour le binôme Humain + Animal.
           </p>

@@ -49,6 +49,11 @@ if (sessionId) {
                   <p>
                     <span class="font-semibold">Heure :</span> {appointment.time}
                   </p>
+                  {appointment.client_phone ? (
+                    <p>
+                      <span class="font-semibold">Téléphone :</span> {appointment.client_phone}
+                    </p>
+                  ) : null}
                   <p>
                     <span class="font-semibold">Prix :</span> {service.price}€
                   </p>

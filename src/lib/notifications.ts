@@ -15,6 +15,7 @@ function generateCalendarLinks(appointment: {
   service: string;
   clientName: string;
   clientEmail: string;
+  clientPhone?: string | null;
   reason?: string;
 }) {
   const startDate = new Date(`${appointment.date}T${appointment.time}`);
@@ -27,7 +28,7 @@ function generateCalendarLinks(appointment: {
 
 
   const text = `RDV ${appointment.service} - ${appointment.clientName}`;
-  const details = `Rendez-vous avec ${appointment.clientName}\nEmail: ${appointment.clientEmail}${appointment.reason ? '\nMotif: ' + appointment.reason : ''}`;
+  const details = `Rendez-vous avec ${appointment.clientName}\nEmail: ${appointment.clientEmail}${appointment.clientPhone ? '\nTél: ' + appointment.clientPhone : ''}${appointment.reason ? '\nMotif: ' + appointment.reason : ''}`;
   const location = 'Cabinet La Maison Sattvaïa';
 
   // Lien Google Calendar
@@ -52,6 +53,7 @@ export async function sendAppointmentNotification(
     service: string;
     clientName: string;
     clientEmail: string;
+    clientPhone?: string | null;
     reason?: string;
   }
 ) {
@@ -76,6 +78,7 @@ export async function sendAppointmentNotification(
           <li>Service : ${appointment.service}</li>
           <li>Client : ${appointment.clientName}</li>
           <li>Email : ${appointment.clientEmail}</li>
+          ${appointment.clientPhone ? `<li>Téléphone : ${appointment.clientPhone}</li>` : ''}
         </ul>
         ${appointment.reason ? `
         <h3>Motif de la consultation :</h3>
@@ -133,6 +136,12 @@ export async function sendAppointmentNotification(
                     <td style="color: #748c69; padding: 5px 10px; font-weight: 600;">Heure :</td>
                     <td style="color: #131212; padding: 5px 10px;">${appointment.time}</td>
                   </tr>
+                  ${appointment.clientPhone ? `
+                  <tr>
+                    <td style="color: #748c69; padding: 5px 10px; font-weight: 600;">Téléphone :</td>
+                    <td style="color: #131212; padding: 5px 10px;">${appointment.clientPhone}</td>
+                  </tr>
+                  ` : ''}
                 </table>
                 
                 <table width="100%" style="background-color: #748c69; border-radius: 6px; padding: 20px; margin-bottom: 20px;">

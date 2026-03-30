@@ -42,7 +42,7 @@ export function getAppointmentRejectionEmailHtml({
             
             <p style="color: #131212; margin-bottom: 20px;">Bonjour ${appointment.clientName},</p>
             
-            <p style="color: #131212; margin-bottom: 20px;">Nous vous remercions pour votre demande de réservation. Après avoir examiné votre demande, nous devons vous informer que nous ne pouvons malheureusement pas confirmer ce créneau.</p>
+            <p style="color: #131212; margin-bottom: 20px;">Je vous remercie pour votre demande de réservation. Après examen, je dois malheureusement vous informer que je ne peux pas confirmer ce créneau.</p>
             
             <table width="100%" style="background-color: #f4f1ed; border-radius: 6px; padding: 20px; margin-bottom: 20px;">
               <tr>
@@ -77,12 +77,12 @@ export function getAppointmentRejectionEmailHtml({
               </tr>
             </table>
             
-            <p style="color: #131212; margin-bottom: 20px; font-size: 14px;">Nous nous excusons pour ce désagrément et espérons pouvoir vous accompagner prochainement dans votre parcours de bien-être.</p>
+            <p style="color: #131212; margin-bottom: 20px; font-size: 14px;">Je m'excuse pour ce désagrément et espère pouvoir vous accompagner prochainement dans votre parcours de bien-être.</p>
           </td>
         </tr>
         <tr>
           <td style="background-color: #ffffff; padding: 20px; text-align: center; border-top: 1px solid #f4f1ed;">
-            <p style="color: #131212; margin: 5px 0; font-size: 14px;">Pour toute question ou modification, n'hésitez pas à nous contacter.</p>
+            <p style="color: #131212; margin: 5px 0; font-size: 14px;">Pour toute question ou modification, n'hésitez pas à me contacter.</p>
             <p style="color: #131212; margin: 5px 0; font-size: 14px;">Au plaisir de vous recevoir,<br>La Maison Sattvaïa</p>
           </td>
         </tr>

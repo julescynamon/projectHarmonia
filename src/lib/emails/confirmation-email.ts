@@ -123,7 +123,7 @@ export function getConfirmationEmailHtml({
               </h2>
               
               <p style="color:#131212;font-family:'Lora',serif;font-size:18px;line-height:28px;margin:0 0 32px;text-align:center;" class="mobile-text">
-                Merci de votre inscription à la newsletter de ${websiteName}. Pour finaliser votre inscription et commencer à recevoir nos conseils bien-être, veuillez confirmer votre adresse email.
+                Merci de votre inscription à la newsletter de ${websiteName}. Pour finaliser votre inscription et commencer à recevoir mes conseils bien-être, veuillez confirmer votre adresse email.
               </p>
 
               <div style="text-align:center;margin:40px 0;">
@@ -168,7 +168,7 @@ export function getConfirmationEmailHtml({
                 <a href="${websiteUrl}" 
                    style="color:#748C69;font-family:'Raleway',sans-serif;font-size:12px;text-decoration:underline;font-weight:400;"
                    target="_blank">
-                  Visiter notre site web
+                  Visiter mon site web
                 </a>
               </div>
             </div>
@@ -181,7 +181,7 @@ export function getConfirmationEmailHtml({
           
           <!-- Preview Text -->
           <div style="display:none;font-size:1px;color:#F4F1ED;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
-            Confirmez votre inscription à la newsletter ${websiteName} pour recevoir nos conseils bien-être naturel
+            Confirmez votre inscription à la newsletter ${websiteName} pour recevoir mes conseils bien-être naturel
           </div>
         </div>
       </body>

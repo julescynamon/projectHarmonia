@@ -121,7 +121,7 @@ export async function sendAppointmentNotification(
                 
                 <p style="color: #131212; margin-bottom: 20px;">Bonjour ${appointment.clientName},</p>
                 
-                <p style="color: #131212; margin-bottom: 20px;">Nous sommes ravis de vous confirmer votre rendez-vous. Voici les détails :</p>
+                <p style="color: #131212; margin-bottom: 20px;">Je suis ravie de vous confirmer votre rendez-vous. Voici les détails :</p>
                 
                 <table width="100%" style="background-color: #f4f1ed; border-radius: 6px; padding: 20px; margin-bottom: 20px;">
                   <tr>
@@ -156,7 +156,7 @@ export async function sendAppointmentNotification(
             </tr>
             <tr>
               <td style="background-color: #ffffff; padding: 20px; text-align: center; border-top: 1px solid #f4f1ed;">
-                <p style="color: #131212; margin: 5px 0; font-size: 14px;">Pour toute question ou modification, n'hésitez pas à nous contacter.</p>
+                <p style="color: #131212; margin: 5px 0; font-size: 14px;">Pour toute question ou modification, n'hésitez pas à me contacter.</p>
                 <p style="color: #131212; margin: 5px 0; font-size: 14px;">Au plaisir de vous recevoir,<br>La Maison Sattvaïa</p>
               </td>
             </tr>

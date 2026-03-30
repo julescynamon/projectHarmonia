@@ -39,7 +39,7 @@ export const pageSEO: Record<string, SEOProps> = {
   },
   shop: {
     title: 'Boutique | Maison Sattvaïa - Guides & Ressources Holistiques',
-    description: 'Découvrez nos guides spirituels, ressources de développement personnel et outils d\'accompagnement pour votre cheminement holistique.',
+    description: 'Découvrez mes guides spirituels, ressources de développement personnel et outils d\'accompagnement pour votre cheminement holistique.',
   },
   contact: {
     title: 'Contact | Prendre Rendez-vous Naturopathe - Maison Sattvaïa',

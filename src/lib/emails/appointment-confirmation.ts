@@ -101,7 +101,7 @@ export function getAppointmentConfirmationEmailHtml({
         <div class="status-pending">
           <h3>⏳ Statut : En attente de validation</h3>
           <p>Votre demande de réservation a été reçue et est actuellement en cours d'examen. 
-          Nous vous contacterons dans les plus brefs délais pour confirmer votre rendez-vous.</p>
+          Je vous contacterai dans les plus brefs délais pour confirmer votre rendez-vous.</p>
         </div>
         
         <div class="appointment-details">
@@ -126,7 +126,7 @@ export function getAppointmentConfirmationEmailHtml({
           ${
             isFree
               ? `
-          <p>Une fois votre demande validée par l’équipe, vous recevrez un email de confirmation avec le rappel de votre créneau. <strong>Aucun paiement</strong> n’est demandé pour ce bilan téléphonique.</p>
+          <p>Une fois votre demande validée, vous recevrez un email de confirmation avec le rappel de votre créneau. <strong>Aucun paiement</strong> n’est demandé pour ce bilan téléphonique.</p>
           `
               : `
           <p>Une fois votre demande validée, vous recevrez :</p>
@@ -140,7 +140,7 @@ export function getAppointmentConfirmationEmailHtml({
         </div>
         
         <h3>Questions ou modifications ?</h3>
-        <p>Si vous souhaitez modifier votre demande ou avez des questions, n'hésitez pas à nous contacter :</p>
+        <p>Si vous souhaitez modifier votre demande ou avez des questions, n'hésitez pas à me contacter :</p>
         <p><strong>Email :</strong> <a href="mailto:${contactEmail}">${contactEmail}</a></p>
         <p><strong>Site web :</strong> <a href="${websiteUrl}">${websiteUrl}</a></p>
         

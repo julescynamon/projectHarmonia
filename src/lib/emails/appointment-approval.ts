@@ -34,8 +34,8 @@ export function getAppointmentApprovalEmailHtml({
       .replace(/"/g, '&quot;');
   const safePhone = phoneRaw ? escapeHtml(phoneRaw) : '';
   const freeCallText = safePhone
-    ? `Nous vous appellerons à l’heure convenue au numéro suivant : <strong>${safePhone}</strong>. Prévoyez environ <strong>30 minutes</strong> d’échange.`
-    : `Nous vous appellerons à l’heure convenue au numéro indiqué dans votre dossier. Prévoyez environ <strong>30 minutes</strong> d’échange.`;
+    ? `Je vous appellerai à l’heure convenue au numéro suivant : <strong>${safePhone}</strong>. Prévoyez environ <strong>30 minutes</strong> d’échange.`
+    : `Je vous appellerai à l’heure convenue au numéro indiqué dans votre dossier. Prévoyez environ <strong>30 minutes</strong> d’échange.`;
 
   return `
     <!DOCTYPE html>
@@ -57,7 +57,7 @@ export function getAppointmentApprovalEmailHtml({
             
             <p style="color: #131212; margin-bottom: 20px;">Bonjour ${appointment.clientName},</p>
             
-            <p style="color: #131212; margin-bottom: 20px;">${isFree ? 'Nous avons le plaisir de confirmer votre <strong>bilan téléphonique gratuit</strong>. Aucun paiement n’est nécessaire.' : 'Nous avons le plaisir de vous confirmer que votre demande de réservation a été <strong>approuvée</strong> !'}</p>
+            <p style="color: #131212; margin-bottom: 20px;">${isFree ? 'J’ai le plaisir de confirmer votre <strong>bilan téléphonique gratuit</strong>. Aucun paiement n’est nécessaire.' : 'J’ai le plaisir de vous confirmer que votre demande de réservation a été <strong>approuvée</strong> !'}</p>
             
             <table width="100%" style="background-color: #f4f1ed; border-radius: 6px; padding: 20px; margin-bottom: 20px;">
               <tr>
@@ -107,7 +107,7 @@ export function getAppointmentApprovalEmailHtml({
         </tr>
         <tr>
           <td style="background-color: #ffffff; padding: 20px; text-align: center; border-top: 1px solid #f4f1ed;">
-            <p style="color: #131212; margin: 5px 0; font-size: 14px;">Pour toute question ou modification, n'hésitez pas à nous contacter.</p>
+            <p style="color: #131212; margin: 5px 0; font-size: 14px;">Pour toute question ou modification, n'hésitez pas à me contacter.</p>
             <p style="color: #131212; margin: 5px 0; font-size: 14px;">Au plaisir de vous recevoir,<br>La Maison Sattvaïa</p>
           </td>
         </tr>

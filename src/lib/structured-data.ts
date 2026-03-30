@@ -289,7 +289,7 @@ export function getFAQData(): FAQData {
         name: "Qu'est-ce que la naturopathie et comment peut-elle m'aider ?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "La naturopathie est une médecine naturelle qui vise à stimuler les mécanismes naturels d'auto-guérison du corps. Elle utilise des méthodes naturelles comme l'alimentation, les plantes, l'exercice physique et la gestion du stress. Nous proposons des consultations personnalisées pour retrouver votre équilibre naturel dans le Gard, Vaucluse, Drôme et Ardèche."
+          text: "La naturopathie est une médecine naturelle qui vise à stimuler les mécanismes naturels d'auto-guérison du corps. Elle utilise des méthodes naturelles comme l'alimentation, les plantes, l'exercice physique et la gestion du stress. Je propose des consultations personnalisées pour retrouver votre équilibre naturel dans le Gard, Vaucluse, Drôme et Ardèche."
         }
       },
       {
@@ -297,7 +297,7 @@ export function getFAQData(): FAQData {
         name: "Les consultations naturopathie peuvent-elles se faire à distance ?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Oui, la plupart de nos accompagnements peuvent se faire à distance via visioconférence. Cela inclut la naturopathie humaine et animale et les soins énergétiques. Nous servons le Gard, Vaucluse, Drôme et Ardèche avec des consultations en présentiel et à distance."
+          text: "Oui, la plupart de mes accompagnements peuvent se faire à distance via visioconférence. Cela inclut la naturopathie humaine et animale et les soins énergétiques. J'interviens dans le Gard, Vaucluse, Drôme et Ardèche avec des consultations en présentiel et à distance."
         }
       },
       {
@@ -305,7 +305,7 @@ export function getFAQData(): FAQData {
         name: "Proposez-vous des soins énergétiques pour les animaux ?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Absolument ! Nous proposons des soins naturopathiques et énergétiques spécialisés pour les animaux de compagnie, avec une approche douce et respectueuse de leur nature. Communication animale, soins énergétiques et naturopathie vétérinaire naturelle."
+          text: "Absolument ! Je propose des soins naturopathiques et énergétiques spécialisés pour les animaux de compagnie, avec une approche douce et respectueuse de leur nature. Communication animale, soins énergétiques et naturopathie vétérinaire naturelle."
         }
       },
       {
@@ -313,7 +313,7 @@ export function getFAQData(): FAQData {
         name: "Combien de séances de naturopathie sont nécessaires ?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Le nombre de séances varie selon chaque situation. Nous proposons généralement un premier bilan suivi de 2-3 séances de suivi, mais chaque accompagnement est personnalisé selon vos besoins. Pour les soins énergétiques, 1 à 3 séances suffisent souvent."
+          text: "Le nombre de séances varie selon chaque situation. Je propose généralement un premier bilan suivi de 2-3 séances de suivi, mais chaque accompagnement est personnalisé selon vos besoins. Pour les soins énergétiques, 1 à 3 séances suffisent souvent."
         }
       },
       {
@@ -321,7 +321,7 @@ export function getFAQData(): FAQData {
         name: "Quelle est la différence entre naturopathie et soins énergétiques ?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "La naturopathie s'occupe du corps physique (alimentation, hygiène de vie, plantes), tandis que les soins énergétiques travaillent sur les corps subtils et les blocages énergétiques. Nous combinons les deux approches pour un accompagnement holistique complet."
+          text: "La naturopathie s'occupe du corps physique (alimentation, hygiène de vie, plantes), tandis que les soins énergétiques travaillent sur les corps subtils et les blocages énergétiques. Je combine les deux approches pour un accompagnement holistique complet."
         }
       },
       {
@@ -329,7 +329,7 @@ export function getFAQData(): FAQData {
         name: "Comment prendre rendez-vous avec La Maison Sattvaïa ?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Vous pouvez prendre rendez-vous facilement via notre site internet ou nous contacter directement. Nous proposons des consultations en présentiel dans le Gard, Vaucluse, Drôme et Ardèche, ou à distance pour toute la France. Horaires : du lundi au vendredi 9h-18h, samedi 9h-17h."
+          text: "Vous pouvez prendre rendez-vous facilement via mon site internet ou me contacter directement. Je propose des consultations en présentiel dans le Gard, Vaucluse, Drôme et Ardèche, ou à distance pour toute la France. Horaires : du lundi au vendredi 9h-18h, samedi 9h-17h."
         }
       }
     ]

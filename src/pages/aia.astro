@@ -4,6 +4,7 @@ export const prerender = false;
 
 import MainLayout from '../layouts/MainLayout.astro';
 import Button from '../components/ui/Button.astro';
+import TravelFeesNote from '../components/TravelFeesNote.astro';
 
 const prixDomicile = 80;
 const prixVisio = 80;
@@ -308,7 +309,7 @@ const structuredData = {
           </p>
 
           <ul class="mt-8 space-y-6 font-slogan">
-            <li class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-6 border-b border-sage/10">
+            <li class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 pb-6 border-b border-sage/10">
               <div>
                 <span class="font-heading text-ebony">À domicile</span>
                 <p class="text-sm text-ebony/65 mt-1">
@@ -316,14 +317,20 @@ const structuredData = {
                   Bouches-du-Rhône)
                 </p>
               </div>
-              <span class="font-heading text-2xl text-eucalyptus shrink-0">{prixDomicile}&nbsp;€</span>
+              <div class="flex flex-col items-end sm:items-end gap-1 shrink-0 text-right">
+                <span class="font-heading text-2xl text-eucalyptus">{prixDomicile}&nbsp;€</span>
+                <TravelFeesNote variant="domicile" class="max-w-[14rem]" />
+              </div>
             </li>
-            <li class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <li class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
               <div>
                 <span class="font-heading text-ebony">En visio</span>
                 <p class="text-sm text-ebony/65 mt-1">La communication et l'énergétique n'ont pas de distance</p>
               </div>
-              <span class="font-heading text-2xl text-eucalyptus shrink-0">{prixVisio}&nbsp;€</span>
+              <div class="flex flex-col items-end sm:items-end gap-1 shrink-0 text-right">
+                <span class="font-heading text-2xl text-eucalyptus">{prixVisio}&nbsp;€</span>
+                <TravelFeesNote variant="visio" class="max-w-[14rem]" />
+              </div>
             </li>
           </ul>
         </div>

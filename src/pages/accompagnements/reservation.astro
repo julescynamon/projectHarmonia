@@ -4,7 +4,8 @@ export const prerender = false;
 import MainLayout from '../../layouts/MainLayout.astro';
 import { pageSEO } from '../../lib/seo';
 import Button from '../../components/ui/Button.astro';
-import Card from '../../components/ui/Card.astro';
+import TravelFeesNote from '../../components/TravelFeesNote.astro';
+import TravelFeesInfos from '../../components/TravelFeesInfos.astro';
 
 const breadcrumbItems = [
   { name: 'Accueil', url: '/' },
@@ -124,89 +125,54 @@ const steps = [
     }))
   })} />
   <div>
-    <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pb-16 hero-section">
-      <!-- Background avec image et overlay -->
-      <div class="absolute inset-0">
-        <img 
-          src="/images/heroResa.webp" 
+    <!-- Hero Section — même rythme que MAISON / SATTVA -->
+    <section
+      class="relative min-h-[85vh] flex items-center justify-center overflow-hidden hero-section"
+      aria-labelledby="hero-reservation-heading"
+    >
+      <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-b from-ebony/55 via-ebony/45 to-ebony/65 z-10"></div>
+        <img
+          src="/images/heroResa.webp"
           alt=""
-          class="w-full h-full object-cover"
+          class="w-full h-full object-cover object-center"
+          loading="eager"
+          decoding="async"
         />
-        <div class="absolute inset-0 bg-gradient-to-r from-ebony/70 via-ebony/50 to-ebony/30"></div>
       </div>
-      
-      <!-- Contenu principal centré -->
-      <div class="container mx-auto px-4 relative z-10 flex flex-col justify-center min-h-screen">
-        <div class="max-w-4xl mx-auto text-center">
-          <!-- En-tête centré -->
-          <div class="motion-safe:animate-fade-in">
-            <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
-              Réserver votre
-              <span class="block text-sage mt-10 typewriter-text text-2xl md:text-3xl lg:text-4xl" id="hero-typewriter">accompagnement personnalisé</span>
-            </h1>
-            
-            <p class="font-body text-xl mb-10 text-white/90 leading-relaxed max-w-3xl mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] italic" data-aos="fade-up" data-aos-duration="800" data-aos-delay="800">
-              "Prenez le temps de vous occuper de vous, c'est le moment de transformer votre vie"
-            </p>
-          </div>
-          
-          <!-- Informations pratiques en petites bulles -->
-          <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12" data-aos="fade-up" data-aos-duration="800" data-aos-delay="1000">
-            <!-- Bulle 1: Format -->
-            <div class="group relative overflow-hidden rounded-xl backdrop-blur-sm transition-all duration-500 hover:transform hover:scale-105 w-44 h-32">
-              <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 border border-white/20 rounded-xl"></div>
-              <div class="relative p-6 text-center flex flex-col justify-center items-center h-full">
-                <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mb-4">
-                  <span class="material-icons text-white text-lg">video_call</span>
-                </div>
-                <p class="font-heading text-lg text-white mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] leading-tight">
-                  À distance
-                </p>
-                <p class="text-white/90 text-xs uppercase tracking-wider font-medium leading-tight px-1">
-                  Visioconférence
-                </p>
-              </div>
-            </div>
-            
-            <!-- Bulle 2: Accompagnement -->
-            <div class="group relative overflow-hidden rounded-xl backdrop-blur-sm transition-all duration-500 hover:transform hover:scale-105 w-44 h-32">
-              <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 border border-white/20 rounded-xl"></div>
-              <div class="relative p-6 text-center flex flex-col justify-center items-center h-full">
-                <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mb-4">
-                  <span class="material-icons text-white text-lg">psychology</span>
-                </div>
-                <p class="font-heading text-lg text-white mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] leading-tight">
-                  Personnalisé
-                </p>
-                <p class="text-white/90 text-xs uppercase tracking-wider font-medium leading-tight px-1">
-                  Sur mesure
-                </p>
-              </div>
-            </div>
-            
-            <!-- Bulle 3: Réservation -->
-            <div class="group relative overflow-hidden rounded-xl backdrop-blur-sm transition-all duration-500 hover:transform hover:scale-105 w-44 h-32">
-              <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 border border-white/20 rounded-xl"></div>
-              <div class="relative p-6 text-center flex flex-col justify-center items-center h-full">
-                <div class="bg-white/20 rounded-full w-8 h-8 flex items-center justify-center mb-4">
-                  <span class="material-icons text-white text-lg">schedule</span>
-                </div>
-                <p class="font-heading text-lg text-white mb-3 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] leading-tight">
-                  Simple
-                </p>
-                <p class="text-white/90 text-xs uppercase tracking-wider font-medium leading-tight px-1">
-                  En quelques clics
-                </p>
-              </div>
-            </div>
-          </div>
+
+      <div class="container relative z-20 mx-auto px-4 py-24 md:py-28 text-center max-w-3xl">
+        <p class="font-slogan text-sm md:text-base uppercase tracking-[0.28em] text-white/85 mb-6 drop-shadow-md">
+          Maison Sattvaïa
+        </p>
+        <h1
+          id="hero-reservation-heading"
+          class="font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white tracking-wide drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)] leading-tight"
+        >
+          Réserver votre accompagnement sur mesure
+        </h1>
+        <p class="mt-6 md:mt-8 font-heading text-base md:text-lg lg:text-xl text-white/95 italic leading-relaxed drop-shadow-md max-w-2xl mx-auto">
+          La santé est une symphonie : elle commence par soi, s'épanouit chez l'autre et s'ancre dans le foyer.
+        </p>
+        
+        <div class="mt-10 md:mt-12 flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center items-center">
+          <Button href="#reservation-form" variant="primary" size="lg" class="w-full sm:w-auto shadow-lg shadow-black/20">
+            Choisir mon créneau
+          </Button>
+          <a
+            href="#etapes-reservation"
+            class="inline-block text-center font-slogan rounded-full transition-all duration-300 px-8 py-3 text-base md:text-lg border-2 border-white/90 text-white hover:bg-white/10 w-full sm:w-auto"
+          >
+            Voir les étapes
+          </a>
         </div>
       </div>
+
+      <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent z-[15] pointer-events-none" aria-hidden="true"></div>
     </section>
 
     <!-- Étapes de réservation -->
-    <section class="py-28 bg-gradient-to-br from-white via-cream to-sage/5 relative overflow-hidden">
+    <section id="etapes-reservation" class="py-28 bg-gradient-to-br from-white via-cream to-sage/5 relative overflow-hidden">
       <!-- Éléments décoratifs en arrière-plan -->
       <div class="absolute inset-0 opacity-10">
         <div class="absolute top-20 right-10 w-2 h-2 bg-sage rounded-full animate-pulse"></div>
@@ -338,7 +304,10 @@ const steps = [
                     ]}
                   >
                     {service.id !== 'bilan-telephonique-gratuit' && (
-                      <span class="text-gold font-bold text-xl">{service.price}</span>
+                      <div class="flex flex-col gap-0.5 items-start">
+                        <span class="text-gold font-bold text-xl">{service.price}</span>
+                        <TravelFeesNote variant="domicile" />
+                      </div>
                     )}
                     <span class="text-eucalyptus text-sm font-medium">⏱️ {service.duration}</span>
                   </div>
@@ -410,6 +379,9 @@ const steps = [
                         <div>
                           <div class="font-heading text-lg text-ebony mb-1">{service.title}</div>
                           <div class="text-sm text-eucalyptus font-medium">{service.price} - {service.duration}</div>
+                          {service.id !== 'bilan-telephonique-gratuit' && (
+                            <TravelFeesNote variant="domicile" class="mt-1" />
+                          )}
                         </div>
                       </div>
                     </label>
@@ -512,6 +484,8 @@ const steps = [
         </div>
       </div>
     </section>
+
+    <TravelFeesInfos />
   </div>
 
   <!-- Même dégradé que le bouton Connexion (AuthButton) : icône + badge GRATUIT + bouton Réserver -->
@@ -606,30 +580,6 @@ const steps = [
     }
   });
 
-  // Animation typewriter pour le hero
-  function typeWriterHero(element, text, speed = 80) {
-    let i = 0;
-    element.innerHTML = '';
-    
-    function type() {
-      if (i < text.length) {
-        element.innerHTML += text.charAt(i);
-        i++;
-        setTimeout(type, speed);
-      }
-    }
-    
-    type();
-  }
-
-  // Démarrer l'animation typewriter pour le hero
-  setTimeout(() => {
-    const heroElement = document.getElementById('hero-typewriter');
-    if (heroElement) {
-      const originalText = heroElement.textContent;
-      typeWriterHero(heroElement, originalText, 80);
-    }
-  }, 1500);
   // Script de gestion du formulaire (similaire à la page rendez-vous existante)
   const form = document.getElementById('appointmentForm');
   const dateInput = document.getElementById('date');

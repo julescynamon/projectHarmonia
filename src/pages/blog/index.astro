@@ -4,7 +4,6 @@ import { pageSEO } from '../../lib/seo';
 import Button from '../../components/ui/Button.astro';
 import Card from '../../components/ui/Card.astro';
 import NewsletterForm from '../../components/NewsletterForm.astro';
-import InternalLink from '../../components/InternalLink.astro';
 import RelatedLinks from '../../components/RelatedLinks.astro';
 import { supabase } from '../../lib/supabase';
 import { BLOG_CATEGORIES } from '../../lib/constants';
@@ -53,6 +52,7 @@ function formatDate(dateStr: string) {
     day: 'numeric'
   });
 }
+
 ---
 
 <MainLayout title={seo.title} description={seo.description}>
@@ -107,9 +107,19 @@ function formatDate(dateStr: string) {
             <span class="block text-sage mt-4 text-3xl md:text-4xl lg:text-5xl">Articles & Conseils</span>
           </h1>
           
-          <p class="font-slogan text-xl md:text-2xl mb-12 text-ebony/80 leading-relaxed max-w-4xl mx-auto drop-shadow-[0_2px_4px_rgba(255,255,255,0.2)] italic" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
-            "Des conseils pour prendre soin de l'humain, de l'animal et de l'âme, au naturel et en profondeur. Découvrez nos offres <InternalLink href="/sattva" label="SATTVA" />, <InternalLink href="/aia" label="AÏA" /> et <InternalLink href="/maison" label="MAISON" /> pour un bien-être complet."
+          <p class="font-slogan text-xl md:text-2xl mb-0 text-ebony/80 leading-relaxed max-w-4xl mx-auto drop-shadow-[0_2px_4px_rgba(255,255,255,0.2)] italic" data-aos="fade-up" data-aos-duration="800" data-aos-delay="600">
+            Des conseils pour prendre soin de l'humain, de l'animal et de l'âme, au naturel et en profondeur.
           </p>
+          <div class="mt-8 mb-12 flex justify-center" data-aos="fade-up" data-aos-duration="800" data-aos-delay="650">
+            <Button
+              href="/#piliers"
+              variant="primary"
+              size="lg"
+              class="shadow-lg shadow-ebony/25 text-center min-w-[min(100%,280px)]"
+            >
+              Découvrir nos offres
+            </Button>
+          </div>
         </div>
         
       </div>
@@ -251,21 +261,6 @@ function formatDate(dateStr: string) {
     </div>
   </section>
 
-  <!-- Bloc "Pour aller plus loin" -->
-  <section class="py-16 bg-gradient-to-br from-cream via-white to-sage/5">
-    <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto">
-        <RelatedLinks 
-          title="Découvrir nos accompagnements"
-          links={[
-            { href: "/maison", label: "MAISON", desc: "L'offre signature en duo humain-animal" },
-            { href: "/sattva", label: "SATTVA", desc: "L'offre humaine — santé naturelle et soins vibratoires" },
-            { href: "/aia", label: "AÏA", desc: "L'offre animale — naturopathie et communication intuitive" },
-          ]}
-        />
-      </div>
-    </div>
-  </section>
 </MainLayout>
 
 <script>

@@ -1,0 +1,66 @@
+---
+const ZONES = [
+  { zone: 'Zone 1 (0 à 15 km)', forfait: 'Offerts' },
+  { zone: 'Zone 2 (16 à 40 km)', forfait: '15 €' },
+  { zone: 'Zone 3 (41 à 70 km)', forfait: '25 €' },
+] as const;
+---
+
+<section
+  class="py-20 bg-gradient-to-br from-white via-cream/80 to-sage/5 border-t border-sage/15"
+  aria-labelledby="frais-deplacement-heading"
+>
+  <div class="container mx-auto px-4 max-w-3xl">
+    <h2
+      id="frais-deplacement-heading"
+      class="font-heading text-2xl md:text-3xl text-ebony text-center mb-2"
+    >
+      Infos pratiques — Frais de déplacement
+    </h2>
+    <div class="w-20 h-1 bg-gradient-to-r from-sage to-gold mx-auto mb-8 rounded-full"></div>
+
+    <div
+      class="rounded-2xl border border-sage/15 bg-white/90 backdrop-blur-sm p-6 md:p-8 shadow-lg"
+    >
+      <p class="font-slogan text-ebony/80 text-sm md:text-base mb-6 text-center leading-relaxed">
+        Forfaits selon la distance depuis le lieu de référence — pas besoin de calculatrice.
+      </p>
+
+      <div class="overflow-x-auto rounded-xl border border-sage/10">
+        <table class="w-full text-left text-sm md:text-base font-slogan">
+          <thead>
+            <tr class="bg-sage/10 border-b border-sage/15">
+              <th scope="col" class="px-4 py-3 font-heading text-ebony">Zone de déplacement</th>
+              <th scope="col" class="px-4 py-3 font-heading text-ebony text-right md:text-left">
+                Frais forfaitaires
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              ZONES.map((row, i) => (
+                <tr
+                  class:list={[
+                    'border-b border-sage/10 last:border-b-0',
+                    i % 2 === 1 && 'bg-cream/40',
+                  ]}
+                >
+                  <td class="px-4 py-3 text-ebony/90">{row.zone}</td>
+                  <td class="px-4 py-3 text-eucalyptus font-medium text-right md:text-left whitespace-nowrap">
+                    {row.forfait}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <p class="mt-6 font-slogan text-sm text-ebony/75 leading-relaxed">
+        Le règlement de votre séance s'effectue en ligne ; les frais de déplacement forfaitaires,
+        lorsqu'ils s'appliquent (séance à domicile), sont à régler sur place le jour du rendez-vous :
+        espèces, Lydia, Wero ou PayPal.
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,18 @@
+---
+interface Props {
+  variant?: 'domicile' | 'visio';
+  class?: string;
+}
+
+const { variant = 'domicile', class: className } = Astro.props;
+---
+
+<p class:list={['text-xs text-ebony/60 italic font-slogan leading-snug', className]}>
+  {
+    variant === 'domicile' ? (
+      <>Tarif hors frais de déplacement (calculés selon la zone).</>
+    ) : (
+      <>Aucun frais de déplacement (séance à distance).</>
+    )
+  }
+</p>

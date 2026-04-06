@@ -24,6 +24,16 @@ if (error || !post) {
 
 // Utiliser l'image de couverture si disponible
 const imageUrl = post.cover_url || null;
+
+let viewsCount: number | null = null;
+const { count: postViewsCount, error: viewsError } = await supabase
+  .from('post_views')
+  .select('id', { count: 'exact', head: true })
+  .eq('post_id', post.id);
+
+if (!viewsError) {
+  viewsCount = postViewsCount ?? 0;
+}
 ---
 
 <BlogPostLayout 
@@ -32,21 +42,8 @@ const imageUrl = post.cover_url || null;
   image={imageUrl}
   category={post.tags?.[0] || 'Article'}
   date={post.published_at || post.created_at}
-  author="Naïma"
+  viewsCount={viewsCount}
 >
-  <!-- Tags de l'article (optionnel) -->
-  {post.tags && post.tags.length > 0 && (
-    <div class="mb-8 text-center">
-      <div class="flex justify-center space-x-2">
-        {post.tags.map((tag) => (
-          <span class="px-3 py-1 bg-sage-100 text-sage-800 rounded-full text-sm">
-            {tag}
-          </span>
-        ))}
-      </div>
-    </div>
-  )}
-
   <!-- Contenu de l'article -->
   <div class="prose prose-lg max-w-none prose-headings:font-serif prose-headings:font-bold prose-h2:text-3xl prose-h3:text-2xl prose-p:text-gray-600 prose-a:text-sage hover:prose-a:text-sage-600 prose-img:rounded-xl prose-img:shadow-soft">
     <div id="article-content" class="tip-tap-content article-display-content"></div>
@@ -277,7 +274,7 @@ const imageUrl = post.cover_url || null;
   </style>
 
   <!-- Script pour rendre le contenu TipTap -->
-  <script define:vars={{ postContent: JSON.stringify(post.content) }}>
+  <script define:vars={{ postContent: JSON.stringify(post.content), postSlug: post.slug }}>
     // Fonction pour rendre le contenu TipTap en HTML
     function renderTipTapContent(content) {
       const container = document.getElementById('article-content');
@@ -416,6 +413,30 @@ const imageUrl = post.cover_url || null;
       const content = JSON.parse(postContent);
       console.log('Contenu TipTap reçu:', content);
       renderTipTapContent(content);
+      updateArticleViews(postSlug);
     });
+
+    async function updateArticleViews(slug) {
+      const viewCountElement = document.querySelector('[data-views-count]');
+
+      try {
+        const response = await fetch('/api/blog/views', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ slug })
+        });
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+        if (viewCountElement && typeof data.views === 'number') {
+          viewCountElement.textContent = `${data.views} vues`;
+        }
+      } catch {
+        // Garde l'affichage initial discret en cas d'erreur réseau.
+      }
+    }
   </script>
 </BlogPostLayout>

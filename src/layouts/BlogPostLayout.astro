@@ -9,10 +9,10 @@ interface Props {
   category: string;
   date: string;
   readingTime?: string;
-  author: string;
+  viewsCount?: number | null;
 }
 
-const { title, description, image, category = 'Non catégorisé', date, readingTime, author } = Astro.props;
+const { title, description, image, category = 'Non catégorisé', date, readingTime, viewsCount = null } = Astro.props;
 const formattedDate = formatDate(date);
 const categorySlug = category?.toLowerCase() || 'non-categorise';
 ---
@@ -39,7 +39,10 @@ const categorySlug = category?.toLowerCase() || 'non-categorise';
               </span>
             }
             <span class="text-gray-600">
-              Écrit par {author}
+              écris par Aïa
+            </span>
+            <span id="article-view-count" class="view-count text-gray-400" data-views-count>
+              {viewsCount === null ? '— vues' : `${viewsCount} vues`}
             </span>
           </div>
 
@@ -109,6 +112,12 @@ const categorySlug = category?.toLowerCase() || 'non-categorise';
 
   .article-content {
     @apply leading-relaxed;
+  }
+
+  .view-count {
+    font-size: 0.75rem;
+    letter-spacing: 0.01em;
+    opacity: 0.85;
   }
 
   .article-content :global(h2) {

@@ -108,7 +108,7 @@ const Toolbar = ({
   console.log("Barre d'outils: Éditeur disponible, rendu de la barre d'outils");
 
   return (
-    <div className="border-b border-gray-200 bg-gradient-to-r from-sage/10 to-gold/10 p-4 sticky top-0 z-10 shadow-sm">
+    <div className="border-b border-gray-200 bg-gradient-to-r from-sage/10 to-gold/10 p-4 shadow-sm">
       <div className="flex flex-wrap items-center gap-2">
         {/* Titres */}
         <div className="flex items-center space-x-1">

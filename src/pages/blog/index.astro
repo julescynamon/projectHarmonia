@@ -40,6 +40,25 @@ if (error) {
   console.error('Erreur lors de la récupération des articles:', error);
 }
 
+const postIds = (posts ?? []).map((post) => post.id).filter(Boolean);
+const viewsCountByPostId: Record<string, number> = {};
+
+if (postIds.length > 0) {
+  const { data: postViews, error: postViewsError } = await supabase
+    .from('post_views')
+    .select('post_id')
+    .in('post_id', postIds);
+
+  if (postViewsError) {
+    console.error('Erreur lors de la récupération des vues:', postViewsError);
+  } else {
+    for (const row of postViews ?? []) {
+      const postId = row.post_id as string;
+      viewsCountByPostId[postId] = (viewsCountByPostId[postId] ?? 0) + 1;
+    }
+  }
+}
+
 // Catégories uniques pour le filtre
 // Utilisation des constantes centralisées
 const categories = BLOG_CATEGORIES;
@@ -51,6 +70,18 @@ function formatDate(dateStr: string) {
     month: 'long',
     day: 'numeric'
   });
+}
+
+function getPostCategory(post: any) {
+  const directCategory = typeof post?.category === 'string' ? post.category.trim() : '';
+  if (directCategory) return directCategory;
+
+  if (Array.isArray(post?.tags) && post.tags.length > 0) {
+    const firstTag = typeof post.tags[0] === 'string' ? post.tags[0].trim() : '';
+    if (firstTag) return firstTag;
+  }
+
+  return 'Article';
 }
 
 ---
@@ -204,8 +235,9 @@ function formatDate(dateStr: string) {
                 description={post.excerpt}
                 image={post.cover_url}
                 date={formatDate(post.created_at)}
-                category={post.category}
+                category={getPostCategory(post)}
                 url={`/blog/${post.slug}`}
+                viewsCount={viewsCountByPostId[post.id] ?? 0}
               />
             </div>
           ))}

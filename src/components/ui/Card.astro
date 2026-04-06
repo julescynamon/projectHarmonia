@@ -9,6 +9,7 @@ interface Props {
   date?: string;
   category?: string;
   url?: string;
+  viewsCount?: number | null;
 }
 
 const { 
@@ -19,11 +20,13 @@ const {
   image,
   date,
   category,
-  url
+  url,
+  viewsCount = null
 } = Astro.props;
 
 // Utiliser directement l'URL de l'image (déjà complète pour Supabase)
 const imageUrl = image;
+const displayCategory = typeof category === 'string' ? category.trim() : '';
 
 const variants = {
   default: 'bg-white shadow-soft border-sage/10',
@@ -48,10 +51,10 @@ const classes = `${baseClasses} ${variants[variant]} ${className}`;
         loading="lazy"
       />
       
-      {category && (
+      {displayCategory && (
         <div class="absolute top-4 left-4 z-20">
           <span class="bg-gradient-to-r from-sage to-gold text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg shadow-sage/25 backdrop-blur-sm">
-            {category}
+            {displayCategory}
           </span>
         </div>
       )}
@@ -68,11 +71,18 @@ const classes = `${baseClasses} ${variants[variant]} ${className}`;
   )}
   
   <div class="p-8">
-    {date && (
-      <div class="mb-4">
-        <time datetime={date} class="text-sm text-eucalyptus/70 font-slogan uppercase tracking-wider">
-          {date}
-        </time>
+    {(date || viewsCount !== null) && (
+      <div class="mb-4 flex items-center gap-3">
+        {date && (
+          <time datetime={date} class="text-sm text-eucalyptus/70 font-slogan uppercase tracking-wider">
+            {date}
+          </time>
+        )}
+        {viewsCount !== null && (
+          <span class="card-views text-[11px] text-eucalyptus/50 font-slogan whitespace-nowrap">
+            {viewsCount} vues
+          </span>
+        )}
       </div>
     )}
     

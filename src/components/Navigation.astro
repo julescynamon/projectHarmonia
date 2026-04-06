@@ -204,14 +204,49 @@ const navLinks: NavLink[] = [
   const mobileMenu = document.getElementById('mobileMenu');
   const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
 
+  function closeMobileMenu() {
+    if (!mobileMenu || !menuButton) return;
+    menuButton.setAttribute('aria-expanded', 'false');
+    mobileMenu.classList.add('translate-x-full');
+
+    mobileNavItems.forEach(item => {
+      const link = item.querySelector('a[aria-haspopup="true"]');
+      const submenu = item.querySelector('.mobile-submenu') as HTMLElement | null;
+      const arrow = link?.querySelector('svg');
+      if (link) link.setAttribute('aria-expanded', 'false');
+      if (submenu) submenu.style.maxHeight = '0';
+      arrow?.classList.remove('rotate-180');
+    });
+  }
+
+  function openMobileMenu() {
+    if (!mobileMenu || !menuButton) return;
+    menuButton.setAttribute('aria-expanded', 'true');
+    mobileMenu.classList.remove('translate-x-full');
+  }
+
   function toggleMenu() {
     const isExpanded = menuButton?.getAttribute('aria-expanded') === 'true';
-    menuButton?.setAttribute('aria-expanded', (!isExpanded).toString());
-    mobileMenu?.classList.toggle('translate-x-full');
+    if (isExpanded) {
+      closeMobileMenu();
+    } else {
+      openMobileMenu();
+    }
   }
 
   menuButton?.addEventListener('click', toggleMenu);
-  closeMenuButton?.addEventListener('click', toggleMenu);
+  closeMenuButton?.addEventListener('click', closeMobileMenu);
+
+  // Fermer le menu mobile lorsqu'un lien de navigation est activé
+  const mobileMenuLinks = mobileMenu?.querySelectorAll('a[href]');
+  mobileMenuLinks?.forEach((link) => {
+    link.addEventListener('click', () => {
+      const href = link.getAttribute('href') || '';
+      if (href && href !== '#') {
+        closeMobileMenu();
+      }
+    });
+  });
 
   // Gestion des sous-menus mobiles
   mobileNavItems.forEach(item => {
@@ -237,7 +272,10 @@ const navLinks: NavLink[] = [
     });
   });
 
- 
+  // Réinitialisation défensive après navigation/historique
+  window.addEventListener('pageshow', closeMobileMenu);
+  document.addEventListener('astro:after-swap', closeMobileMenu);
+  closeMobileMenu();
 
 </script>
 

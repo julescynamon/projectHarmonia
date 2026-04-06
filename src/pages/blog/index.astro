@@ -26,8 +26,7 @@ const category = Astro.url.searchParams.get('category');
 let query = supabase
   .from('posts')
   .select('*')
-  .eq('status', 'published')
-  .order('published_at', { ascending: false });
+  .eq('status', 'published');
 
 // Filtrer par catégorie si spécifiée
 if (category) {
@@ -82,6 +81,21 @@ function getPostCategory(post: any) {
   }
 
   return 'Article';
+}
+
+const sortedPosts = (posts ?? []).slice().sort((postA, postB) => {
+  const dateA = postA?.published_at || postA?.created_at || null;
+  const dateB = postB?.published_at || postB?.created_at || null;
+
+  if (!dateA && !dateB) return 0;
+  if (!dateA) return 1;
+  if (!dateB) return -1;
+
+  return new Date(dateB).getTime() - new Date(dateA).getTime();
+});
+
+function getPostDisplayDate(post: any) {
+  return post?.published_at || post?.created_at;
 }
 
 ---
@@ -225,16 +239,16 @@ function getPostCategory(post: any) {
       </div>
 
       <!-- Grille d'articles premium -->
-      {posts && posts.length > 0 ? (
+      {sortedPosts.length > 0 ? (
         <div id="posts-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-          {posts?.map((post, index) => (
+          {sortedPosts.map((post, index) => (
             <div class="post-card opacity-0 transition-all duration-700 transform translate-y-8 hover:-translate-y-2" data-aos="fade-up" data-aos-duration="800" data-aos-delay={index * 100}>
               <Card
                 variant="hover"
                 title={post.title}
                 description={post.excerpt}
                 image={post.cover_url}
-                date={formatDate(post.created_at)}
+                date={formatDate(getPostDisplayDate(post))}
                 category={getPostCategory(post)}
                 url={`/blog/${post.slug}`}
                 viewsCount={viewsCountByPostId[post.id] ?? 0}

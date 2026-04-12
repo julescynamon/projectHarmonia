@@ -12,7 +12,7 @@ const cartItems = await getCartItems(user.id);
 const total = cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
 ---
 
-<MainLayout title="Votre panier" description="Gérez les articles de votre panier">
+<MainLayout title="Votre panier" description="Gérez les articles de votre panier" noindex>
   <div class="container mx-auto px-4 py-24">
     <h1 class="text-4xl font-medium mb-8">Votre panier</h1>
 

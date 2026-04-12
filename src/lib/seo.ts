@@ -70,5 +70,10 @@ export const pageSEO: Record<string, SEOProps> = {
   cgv: {
     title: 'Conditions Générales de Vente | Maison Sattvaïa - Aïa',
     description: 'Conditions générales de vente et d\'utilisation des services de naturopathie, soins énergétiques et accompagnement holistique de La Maison Sattvaïa.',
-  }
+  },
+  stripeConfirmation: {
+    title: 'Confirmation de réservation | Maison Sattvaïa',
+    description:
+      "Votre paiement a été pris en compte et votre rendez-vous est en cours de confirmation. Retour à l'accueil ou à la prise de rendez-vous.",
+  },
 };

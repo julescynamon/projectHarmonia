@@ -6,7 +6,7 @@ import Card from '../../components/ui/Card.astro';
 import NewsletterForm from '../../components/NewsletterForm.astro';
 import RelatedLinks from '../../components/RelatedLinks.astro';
 import { supabase } from '../../lib/supabase';
-import { BLOG_CATEGORIES } from '../../lib/constants';
+import { BLOG_CATEGORIES, getPostCategory } from '../../lib/constants';
 
 // Désactiver le prerendering pour une mise à jour dynamique
 export const prerender = false;
@@ -69,18 +69,6 @@ function formatDate(dateStr: string) {
     month: 'long',
     day: 'numeric'
   });
-}
-
-function getPostCategory(post: any) {
-  const directCategory = typeof post?.category === 'string' ? post.category.trim() : '';
-  if (directCategory) return directCategory;
-
-  if (Array.isArray(post?.tags) && post.tags.length > 0) {
-    const firstTag = typeof post.tags[0] === 'string' ? post.tags[0].trim() : '';
-    if (firstTag) return firstTag;
-  }
-
-  return 'Article';
 }
 
 const sortedPosts = (posts ?? []).slice().sort((postA, postB) => {

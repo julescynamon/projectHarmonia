@@ -2,6 +2,7 @@
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 import { supabase } from '../../lib/supabase';
 import { ImageUploadService } from '../../lib/image-upload-service';
+import { getBlogCategoryListUrl, getPostCategory } from '../../lib/constants';
 
 // Désactiver le prerendering pour permettre l'envoi de notifications
 export const prerender = false;
@@ -34,13 +35,17 @@ const { count: postViewsCount, error: viewsError } = await supabase
 if (!viewsError) {
   viewsCount = postViewsCount ?? 0;
 }
+
+const displayCategory = getPostCategory(post);
+const categoryListHref = getBlogCategoryListUrl(displayCategory, post);
 ---
 
 <BlogPostLayout 
   title={post.seo_title || post.title}
   description={post.seo_description || post.excerpt}
   image={imageUrl}
-  category={post.tags?.[0] || 'Article'}
+  category={displayCategory}
+  categoryHref={categoryListHref}
   date={post.published_at || post.created_at}
   viewsCount={viewsCount}
 >

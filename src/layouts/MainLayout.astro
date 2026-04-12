@@ -23,15 +23,31 @@ interface Props {
   title: string;
   description: string;
   image?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  twitterImageAlt?: string;
+  articlePublishedTime?: string;
+  /** Page pleine largeur sans header/footer/panier (ex. retour Stripe). */
+  bare?: boolean;
 }
 
-const { 
-  title, 
-  description, 
-  image = '/images/social-share.webp'
+const {
+  title,
+  description,
+  image = '/images/social-share.webp',
+  ogType = 'website',
+  noindex = false,
+  twitterImageAlt,
+  articlePublishedTime,
+  bare = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const resolvedImage =
+  typeof image === 'string' && image.trim() !== '' ? image.trim() : '/images/social-share.webp';
+const ogImageAbs = new URL(resolvedImage, Astro.site);
+const twitterAlt =
+  (twitterImageAlt && twitterImageAlt.trim()) || `${title} — La Maison Sattvaïa`;
 ---
 
 <!doctype html>
@@ -53,13 +69,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="canonical" href={canonicalURL} />
     
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:image" content={ogImageAbs} />
     <meta property="og:site_name" content="Aïa - Naturopathe" />
     <meta property="og:locale" content="fr_FR" />
+    {ogType === 'article' && articlePublishedTime && (
+      <meta property="article:published_time" content={articlePublishedTime} />
+    )}
+    {ogType === 'article' && (
+      <meta property="article:author" content="Aïa" />
+    )}
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -67,13 +89,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:creator" content="@maisonsattvaia" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(image, Astro.site)} />
-    <meta name="twitter:image:alt" content="La Maison Sattvaïa - Naturopathie & Soins Énergétiques à Salazac" />
+    <meta name="twitter:image" content={ogImageAbs} />
+    <meta name="twitter:image:alt" content={twitterAlt} />
     <meta name="twitter:domain" content="maisonsattvaia.fr" />
 
     <!-- Other meta tags -->
     <meta name="author" content="Aïa" />
-    <meta name="robots" content="index, follow" />
+    {noindex ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      <meta name="robots" content="index, follow" />
+    )}
     <meta name="keywords" content="naturopathie, santé naturelle, bien-être, soins énergétiques, accompagnement holistique, naturopathie animale" />
     <meta name="theme-color" content="#4A6741" />
     <meta name="geo.region" content="FR" />
@@ -99,12 +125,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       "@type": "WebSite",
       "name": "La Maison Sattvaïa",
       "description": description,
-      "url": Astro.site,
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": `${Astro.site}/search?q={search_term_string}`,
-        "query-input": "required name=search_term_string"
-      }
+      "url": Astro.site ? Astro.site.href.replace(/\/$/, '') : '',
     })} />
     
     <!-- Local Business Structured Data -->
@@ -118,7 +139,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       "email": "contact@maisonsattvaia.fr",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "30760 Salazac",
         "addressLocality": "Salazac",
         "addressRegion": "Gard",
         "postalCode": "30760",
@@ -180,43 +200,53 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }
     })} />
   </head>
-  <body class="min-h-screen flex flex-col  text-ebony overflow-x-hidden">
-    <Navigation />
-    <main class="w-full overflow-x-hidden">
+  <body
+    class:list={[
+      'min-h-screen flex flex-col text-ebony overflow-x-hidden',
+      bare && 'bg-[#f5f5f5]',
+    ]}
+  >
+    {!bare && <Navigation />}
+    <main
+      class:list={[
+        'w-full overflow-x-hidden',
+        bare && 'flex flex-1 flex-col justify-center',
+      ]}
+    >
       <slot />
     </main>
-    <Footer />
-    <Cart />
-    <script>
-      import AOS from 'aos';
-      
-      // Fonction pour ajuster l'offset en fonction de la taille de l'écran
-      const getResponsiveOffset = () => {
-        const width = window.innerWidth;
-        if (width < 768) return 20; // Mobile
-        if (width < 1024) return 20; // Tablette
-        return 60; // Desktop
-      };
+    {!bare && <Footer />}
+    {!bare && <Cart />}
+    {!bare && (
+      <script>
+        import AOS from 'aos';
 
-      document.addEventListener('DOMContentLoaded', () => {
-        AOS.init({
-          duration: 800, // Animation plus douce et lente
-          once: true,
-          offset: getResponsiveOffset(), // Offset dynamique
-          disable: false, // Activer sur tous les écrans
-          startEvent: 'load',
-          disableMutationObserver: true,
-          mirror: false,
-          anchorPlacement: 'top-center', // Déclencher quand l'élément est à 50% de la vue
-          easing: 'ease-out-cubic', // Animation plus naturelle
-        });
+        const getResponsiveOffset = () => {
+          const width = window.innerWidth;
+          if (width < 768) return 20;
+          if (width < 1024) return 20;
+          return 60;
+        };
 
-        // Ajuster l'offset lors du redimensionnement
-        window.addEventListener('resize', () => {
-          AOS.refresh();
+        document.addEventListener('DOMContentLoaded', () => {
+          AOS.init({
+            duration: 800,
+            once: true,
+            offset: getResponsiveOffset(),
+            disable: false,
+            startEvent: 'load',
+            disableMutationObserver: true,
+            mirror: false,
+            anchorPlacement: 'top-center',
+            easing: 'ease-out-cubic',
+          });
+
+          window.addEventListener('resize', () => {
+            AOS.refresh();
+          });
         });
-      });
-    </script>
+      </script>
+    )}
   </body>
 </html>
 

@@ -1,30 +1,58 @@
 ---
 import MainLayout from './MainLayout.astro';
 import { formatDate } from '../utils/dateUtils';
+import { getBlogCategoryListUrl } from '../lib/constants';
 
 interface Props {
   title: string;
   description: string;
-  image: string;
+  image?: string | null;
   category: string;
+  /** Si absent, dérivé de `category` (filtre blog /blog?category=…). */
+  categoryHref?: string;
   date: string;
   readingTime?: string;
   viewsCount?: number | null;
+  noindex?: boolean;
 }
 
-const { title, description, image, category = 'Non catégorisé', date, readingTime, viewsCount = null } = Astro.props;
+const {
+  title,
+  description,
+  image = null,
+  category = 'Non catégorisé',
+  categoryHref,
+  date,
+  readingTime,
+  viewsCount = null,
+  noindex = false,
+} = Astro.props;
 const formattedDate = formatDate(date);
-const categorySlug = category?.toLowerCase() || 'non-categorise';
+const categoryListHref = categoryHref ?? getBlogCategoryListUrl(category);
+
+const articlePublishedIso = (() => {
+  const d = new Date(date);
+  if (Number.isNaN(d.getTime())) return undefined;
+  return d.toISOString();
+})();
 ---
 
-<MainLayout title={title} description={description}>
+<MainLayout
+  title={title}
+  description={description}
+  image={image ?? undefined}
+  ogType="article"
+  noindex={noindex}
+  twitterImageAlt={title}
+  articlePublishedTime={articlePublishedIso}
+>
   <article class="article-container" itemscope itemtype="https://schema.org/BlogPosting">
     <div class="container mx-auto px-4 py-12 lg:py-20 padding-article">
       <div class="max-w-4xl mx-auto">
         <!-- En-tête de l'article -->
         <header class="article-header mb-12">
           <div class="article-meta flex items-center gap-4 mb-6 text-sm" data-aos="fade-up">
-            <a href={`/categories/${categorySlug}`} class="category-tag">
+            <a href={categoryListHref} class="category-tag">
               {category}
             </a>
             <time datetime={date} itemprop="datePublished" class="text-gray-600">

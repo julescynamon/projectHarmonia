@@ -78,7 +78,7 @@ const canonicalURL = canonical ? new URL(canonical, siteConfig.site) : new URL(A
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, siteConfig.site)} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:site_name" content="Harmonia" />
+    <meta property="og:site_name" content="La Maison Sattvaïa" />
     
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -91,7 +91,7 @@ const canonicalURL = canonical ? new URL(canonical, siteConfig.site) : new URL(A
     <meta name="twitter:domain" content="maisonsattvaia.fr" />
     
     <!-- Meta tags de performance -->
-    <meta name="theme-color" content="#4F46E5" />
+    <meta name="theme-color" content="#4A6741" />
     <meta name="color-scheme" content="light dark" />
     
     <!-- Noindex si demandé -->
@@ -103,12 +103,7 @@ const canonicalURL = canonical ? new URL(canonical, siteConfig.site) : new URL(A
       "@type": "WebSite",
       "name": "La Maison Sattvaïa",
       "description": description,
-      "url": siteConfig.site,
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": `${siteConfig.site}/search?q={search_term_string}`,
-        "query-input": "required name=search_term_string"
-      }
+      "url": typeof siteConfig.site === 'string' ? siteConfig.site.replace(/\/$/, '') : siteConfig.site,
     })} />
     
     <!-- Local Business Structured Data -->

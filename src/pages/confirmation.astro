@@ -11,7 +11,7 @@ const supabase = createClient(
   import.meta.env.PUBLIC_SUPABASE_ANON_KEY
 );
 
-const seo = pageSEO.confirmation;
+const seo = pageSEO.stripeConfirmation;
 
 // Récupérer l'ID de session Stripe
 const sessionId = Astro.url.searchParams.get('session_id');
@@ -108,34 +108,40 @@ if (!error) {
 }
 ---
 
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Confirmation de réservation - La Maison Sattvaïa</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f5f5f5; }
-    .container { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 10px; text-align: center; }
-    .success { color: #28a745; }
-    .error { color: #dc3545; }
-    .btn { display: inline-block; padding: 12px 24px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    {success ? (
-      <>
-        <h1 class="success">Merci pour votre réservation !</h1>
-        <p>Votre rendez-vous a été confirmé. Vous recevrez bientôt un email de confirmation avec tous les détails.</p>
-        <a href="/" class="btn">Retour à l'accueil</a>
-      </>
-    ) : (
-      <>
-        <h1 class="error">Une erreur est survenue</h1>
-        <p>{error ? error : 'Je n\'ai pas pu trouver votre rendez-vous. Veuillez réessayer ou me contacter.'}</p>
-        <a href="/rendez-vous" class="btn">Retour à la prise de rendez-vous</a>
-      </>
-    )}
+<MainLayout title={seo.title} description={seo.description} noindex bare>
+  <div class="container mx-auto px-4 py-16 max-w-lg text-center">
+    <div class="rounded-xl bg-white p-10 shadow-lg border border-eucalyptus/10">
+      {success ? (
+        <>
+          <h1 class="font-serif text-2xl md:text-3xl font-bold text-eucalyptus mb-4">
+            Merci pour votre réservation !
+          </h1>
+          <p class="text-ebony/80 mb-8 leading-relaxed">
+            Votre rendez-vous a été confirmé. Vous recevrez bientôt un email de confirmation avec tous les détails.
+          </p>
+          <a
+            href="/"
+            class="inline-block px-6 py-3 rounded-full bg-eucalyptus text-white font-medium hover:bg-sage transition-colors"
+          >
+            Retour à l'accueil
+          </a>
+        </>
+      ) : (
+        <>
+          <h1 class="font-serif text-2xl md:text-3xl font-bold text-red-700 mb-4">
+            Une erreur est survenue
+          </h1>
+          <p class="text-ebony/80 mb-8 leading-relaxed">
+            {error ? error : "Je n'ai pas pu trouver votre rendez-vous. Veuillez réessayer ou me contacter."}
+          </p>
+          <a
+            href="/rendez-vous"
+            class="inline-block px-6 py-3 rounded-full bg-eucalyptus text-white font-medium hover:bg-sage transition-colors"
+          >
+            Retour à la prise de rendez-vous
+          </a>
+        </>
+      )}
+    </div>
   </div>
-</body>
-</html>
+</MainLayout>

@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_SUPABASE_URL: string;
   readonly PUBLIC_SUPABASE_ANON_KEY: string;
   readonly PUBLIC_SITE_URL: string;
+  readonly PUBLIC_GOOGLE_TAG_MANAGER_ID?: string;
   
   // Variables privées (serveur uniquement)
   readonly SUPABASE_SERVICE_KEY: string;

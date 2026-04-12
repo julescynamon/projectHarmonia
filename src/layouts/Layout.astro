@@ -7,6 +7,7 @@ import { getSiteConfig } from '../lib/site-config';
 import { initSEOMetrics } from '../lib/analytics';
 import Analytics from '@vercel/analytics/astro';
 import  SpeedInsights  from "@vercel/speed-insights/astro";
+import GoogleTagManager from '../components/GoogleTagManager.astro';
 
 export interface Props {
   title?: string;
@@ -33,6 +34,7 @@ const canonicalURL = canonical ? new URL(canonical, siteConfig.site) : new URL(A
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
   <head>
+    <GoogleTagManager placement="head" />
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SM770CEFD5"></script>
     <script is:inline>
@@ -139,6 +141,7 @@ const canonicalURL = canonical ? new URL(canonical, siteConfig.site) : new URL(A
     <title>{title}</title>
   </head>
   <body>
+    <GoogleTagManager placement="body" />
     <slot />
     
     <!-- Analytics chargés de manière asynchrone -->

@@ -3,6 +3,7 @@ export const prerender = false;
 
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
+import GoogleTagManager from '../components/GoogleTagManager.astro';
 import Cart from '../components/shop/Cart.astro';
 import '../styles/theme.css';
 
@@ -53,6 +54,7 @@ const twitterAlt =
 <!doctype html>
 <html lang="fr" class="scroll-smooth">
   <head>
+    <GoogleTagManager placement="head" />
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SM770CEFD5"></script>
     <script is:inline>
@@ -206,6 +208,7 @@ const twitterAlt =
       bare && 'bg-[#f5f5f5]',
     ]}
   >
+    <GoogleTagManager placement="body" />
     {!bare && <Navigation />}
     <main
       class:list={[

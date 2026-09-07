@@ -16,7 +16,7 @@ const testAppointment = {
 
 const testService = {
   title: 'Naturopathie Humaine – Première consultation',
-  price: 120,
+  price: 70,
   duration: '1h30-2h'
 };
 

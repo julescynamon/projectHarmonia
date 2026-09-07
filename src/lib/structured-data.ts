@@ -189,7 +189,7 @@ export function getServicesData(): ServiceData[] {
       },
       offers: {
         "@type": "Offer",
-        price: "120",
+        price: "70",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock"
       }
@@ -209,7 +209,7 @@ export function getServicesData(): ServiceData[] {
       },
       offers: {
         "@type": "Offer",
-        price: "80",
+        price: "70",
         priceCurrency: "EUR",
         availability: "https://schema.org/InStock"
       }

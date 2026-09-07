@@ -13,11 +13,11 @@ INSERT INTO services (id, title, price, duration, description, icon, category) V
 ('bilan-telephonique-gratuit', 'Bilan téléphonique gratuit', 0, '30min', 'Échange téléphonique gratuit : faire le point sur vos besoins et vous orienter, sans engagement.', 'phone_in_talk', 'offre-gratuite'),
 
 -- Naturopathie Humaine
-('naturopathie-humaine-premiere', 'Naturopathie Humaine – Première consultation', 120, '1h30-2h', 'Bilan complet et plan personnalisé pour rééquilibrer votre santé de façon naturelle et durable.', 'eco', 'naturopathie-humaine'),
-('naturopathie-humaine-suivi', 'Naturopathie Humaine – Suivi', 60, '1h', 'Accompagnement régulier pour ajuster votre hygiène de vie et maintenir vos progrès.', 'trending_up', 'naturopathie-humaine'),
+('naturopathie-humaine-premiere', 'Naturopathie Humaine – Première consultation', 70, '1h30-2h', 'Bilan complet et plan personnalisé pour rééquilibrer votre santé de façon naturelle et durable.', 'eco', 'naturopathie-humaine'),
+('naturopathie-humaine-suivi', 'Naturopathie Humaine – Suivi', 50, '1h', 'Accompagnement régulier pour ajuster votre hygiène de vie et maintenir vos progrès.', 'trending_up', 'naturopathie-humaine'),
 
 -- Naturopathie Animale
-('naturopathie-animale-premiere', 'Naturopathie Animale – Première consultation', 80, '1h-2h', 'Bilan global et solutions naturelles adaptées pour améliorer la vitalité et le bien-être de votre compagnon.', 'pets', 'naturopathie-animale'),
+('naturopathie-animale-premiere', 'Naturopathie Animale – Première consultation', 70, '1h-2h', 'Bilan global et solutions naturelles adaptées pour améliorer la vitalité et le bien-être de votre compagnon.', 'pets', 'naturopathie-animale'),
 ('naturopathie-animale-suivi', 'Naturopathie Animale – Suivi', 50, '45 min', 'Suivi personnalisé pour accompagner votre animal dans la durée et ajuster son équilibre naturel.', 'healing', 'naturopathie-animale'),
 
 -- Soins Énergétiques
